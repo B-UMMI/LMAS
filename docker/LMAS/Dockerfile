@@ -1,9 +1,11 @@
-FROM python:3.9
+FROM python:3.8.0-slim-buster
 MAINTAINER Inês Mendes <cimendes@medicina.ulisboa.pt>
 
 WORKDIR /data
 
+RUN apt-get update && apt-get install -y build-essential
 RUN pip install --upgrade pip setuptools wheel
+#RUN apt-get install libxml2-dev libxmlsec1-dev
 
 # Install requirements
 COPY requirements.txt ./
