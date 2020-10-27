@@ -109,11 +109,11 @@ def main(sample_id, assembler, assembly):
                      "table": "assembly_global_stats",
                      "sample": sample_id},
                     {"header": "contigs>1000bp (%)",
-                     "value": len(contigs_over_1000bp) if len(contigs_over_1000bp) > 0 else 0,
+                     "value": len(contigs_over_1000bp),
                      "table": "assembly_global_stats",
                      "sample": sample_id},
                     {"header": "Basepairs in contigs>1000bp (%)",
-                     "value": sum(contigs_over_1000bp) if len(contigs_over_1000bp) > 0 else 0,
+                     "value": sum(contigs_over_1000bp),
                      "table": "assembly_global_stats",
                      "sample": sample_id},
                     {"header": "N50 in contigs>1000bp",
@@ -127,7 +127,8 @@ def main(sample_id, assembler, assembly):
         json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
     with open(sample_id + '_' + assembler + "_global_assembly_stats_global.csv", "w") as cvs_file:
-        cvs_file.write(','.join([assembler, f'{len(contigs)}', f'{sum(contigs)}', f'{max(contigs)}', f'{n50_contigs}',
+        cvs_file.write(','.join([assembler, f'{len(contigs)}', f'{sum(contigs)}',
+                                 f'{max(contigs)if len(contigs) > 0 else 0 }', f'{n50_contigs}',
                                  f'{len(contigs_over_1000bp)} ({(len(contigs_over_1000bp) / len(contigs)) * 100:.2f}%)',
                                  f'{sum(contigs_over_1000bp)} ({(sum(contigs_over_1000bp) / sum(contigs)) * 100:.2f}%)',
                                  f'{n50_contigs_over_1000bp}']))
