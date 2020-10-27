@@ -26,6 +26,7 @@ if (params.containsKey("reference")){
     } else {
         infoMap.put("fasta", 1)
     }
+}
 
 Help.start_info(infoMap, "$workflow.start", "$workflow.profile", version)
 CollectInitialMetadata.print_metadata(workflow)
