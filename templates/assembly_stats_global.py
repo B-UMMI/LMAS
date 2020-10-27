@@ -126,7 +126,7 @@ def main(sample_id, assembler, assembly):
 
         json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
-    with open(sample_id + '_' + assembler + "_global_assembly_stats.csv", "w") as cvs_file:
+    with open(sample_id + '_' + assembler + "_global_assembly_stats_global.csv", "w") as cvs_file:
         cvs_file.write(','.join([assembler, f'{len(contigs)}', f'{sum(contigs)}', f'{max(contigs)}', f'{n50_contigs}',
                                  f'{len(contigs_over_1000bp)} ({(len(contigs_over_1000bp) / len(contigs)) * 100:.2f}%)',
                                  f'{sum(contigs_over_1000bp)} ({(sum(contigs_over_1000bp) / sum(contigs)) * 100:.2f}%)',
