@@ -278,11 +278,10 @@ process SPADES {
 
     output:
     set sample_id, val("SPAdes"), file('*_spades.fasta') into OUT_SPADES
-    file('*_spades.fastg')
 
     script:
     """
-    }
+    {
         spades.py --only-assembler --threads $task.cpus -k $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} -o spades
         mv spades/contigs.fasta ${sample_id}_spades.fasta
     } || {
