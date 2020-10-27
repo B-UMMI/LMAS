@@ -405,8 +405,8 @@ process IDBA {
 }
 
 // ASSEMBLY COLLECTION
-TO_GLOBAL_STATS = Channel.create()
-TO_GLOBAL_STATS = TO_GLOBAL_STATS.mix(OUT_BCALM2,
+ALL_ASSEMBLERS = Channel.create()
+ASSEMBLERS = ASSEMBLERS.mix(OUT_BCALM2,
                                       OUT_GATB,
                                       OUT_MINIA,
                                       OUT_MEGAHIT,
@@ -419,17 +419,8 @@ TO_GLOBAL_STATS = TO_GLOBAL_STATS.mix(OUT_BCALM2,
                                       OUT_IDBA)
 
 TO_FILTER = Channel.create()
-IN_FILTER = TO_FILTER.mix(OUT_BCALM2,
-                          OUT_GATB,
-                          OUT_MINIA,
-                          OUT_MEGAHIT,
-                          OUT_METASPADES,
-                          OUT_UNICYCLER,
-                          OUT_SPADES,
-                          OUT_SKESA,
-                          OUT_PANDASEQ,
-                          OUT_VELVETOPTIMIZER,
-                          OUT_IDBA)
+TO_GLOBAL_STATS = Channel.create()
+ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS}
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
