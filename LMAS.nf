@@ -450,7 +450,12 @@ process CONCATENATE_ASSEMBLY_STATS_GLOBAL {
 
     publishDir 'results/stats/$sample_id'
 
-    input assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
+    input:
+    file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
+
+    script:
+    template "process_assembly_stats_global.py
+
 }
 
 // FILTER ASSEMBLY
