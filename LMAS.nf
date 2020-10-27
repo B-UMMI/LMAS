@@ -454,7 +454,7 @@ process CONCATENATE_ASSEMBLY_STATS_GLOBAL {
     file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
 
     script:
-    template "process_assembly_stats_global.py
+    template "process_assembly_stats_global.py"
 
 }
 
