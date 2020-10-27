@@ -458,7 +458,7 @@ process FILTER_ASSEMBLY {
     publishDir 'results/filtered/'
 
     input:
-    set sample_id, assembler, file(assembly) from IN_FILTER
+    set sample_id, assembler, file(assembly) from TO_FILTER
     val minLen from IN_minLen
 
     output:
