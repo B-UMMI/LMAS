@@ -406,7 +406,7 @@ process IDBA {
 
 // ASSEMBLY COLLECTION
 ALL_ASSEMBLERS = Channel.create()
-ASSEMBLERS = ASSEMBLERS.mix(OUT_BCALM2,
+ALL_ASSEMBLERS = ASSEMBLERS.mix(OUT_BCALM2,
                                       OUT_GATB,
                                       OUT_MINIA,
                                       OUT_MEGAHIT,
@@ -420,7 +420,7 @@ ASSEMBLERS = ASSEMBLERS.mix(OUT_BCALM2,
 
 TO_FILTER = Channel.create()
 TO_GLOBAL_STATS = Channel.create()
-ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS}
+ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS}
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
