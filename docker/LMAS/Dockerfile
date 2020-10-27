@@ -3,7 +3,7 @@ MAINTAINER Inês Mendes <cimendes@medicina.ulisboa.pt>
 
 WORKDIR /data
 
-RUN apt-get update && apt-get install -y build-essential
+RUN apt-get update && apt-get install -y build-essential procps
 RUN pip install --upgrade pip setuptools wheel
 #RUN apt-get install libxml2-dev libxmlsec1-dev
 

@@ -424,7 +424,7 @@ ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS}
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
-    tag { sample_id }
+    tag { sample_id, assembler }
 
     input:
     set sample_id, assembler, file(assembly) from TO_GLOBAL_STATS
