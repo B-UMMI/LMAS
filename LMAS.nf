@@ -97,10 +97,7 @@ process BCALM2 {
         echo fail > .status
     }
     # remove temp files
-    {
-        rm list_reads *.fa
-    } || {
-    }
+    rm list_reads *.fa || true
     """
 }
 
@@ -142,8 +139,8 @@ process GATBMINIAPIPELINE {
     } || {
         echo fail > .status
     }
-    rm -r *_GATBMiniaPipeline.lib* *_GATBMiniaPipeline_besst *.unitigs* *contigs.fa *.h5
-    rm *list_reads*
+    rm -r *_GATBMiniaPipeline.lib* *_GATBMiniaPipeline_besst *.unitigs* *contigs.fa *.h5 || true
+    rm *list_reads* || true
     """
 }
 
@@ -172,7 +169,7 @@ process MINIA {
     } || {
         echo fail > .status
     }
-    rm list_reads *.unitigs.* *.h5
+    rm list_reads *.unitigs.* *.h5 || true
     """
 }
 
@@ -200,7 +197,7 @@ process MEGAHIT {
     } || {
         echo fail > .status
     }
-    rm -r megahit
+    rm -r megahit || true
     """
 
 }
@@ -234,7 +231,7 @@ process METASPADES {
     } || {
         echo fail > .status
     }
-    rm -r metaspades
+    rm -r metaspades || true
     """
 }
 
@@ -259,7 +256,7 @@ process UNICYCLER {
     } || {
         echo fail > .status
     }
-    rm *best_spades_graph* *overlaps_removed* *bridges_applied* *final_clean*
+    rm *best_spades_graph* *overlaps_removed* *bridges_applied* *final_clean* || true
     """
 }
 
@@ -291,7 +288,7 @@ process SPADES {
     } || {
         echo fail > .status
     }
-    rm -r spades
+    rm -r spades || true
     """
 }
 
@@ -339,7 +336,7 @@ process PANDASEQ {
     } || {
         echo fail > .status
     }
-    rm -r pandaseq
+    rm -r pandaseq || true
     """
 }
 
@@ -365,7 +362,7 @@ process VELVETOPTIMIZER {
     } || {
         echo fail > .status
     }
-    rm -r auto_data*
+    rm -r auto_data* || true
     """
 }
 
@@ -403,7 +400,7 @@ process IDBA {
     } || {
         echo fail > .status
     }
-    rm begin align-* contig-* graph-* kmer local-*
+    rm begin align-* contig-* graph-* kmer local-* || true
     """
 }
 
