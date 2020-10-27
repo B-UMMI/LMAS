@@ -56,8 +56,7 @@ IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {
 
 // SET CHANNELS FOR ASSEMBLERS
 IN_fastq_raw.into{
-
-IN_BCALM2;
+    IN_BCALM2;
     IN_GATB_MINIA_PIPELINE;
     IN_MINIA;
     IN_MEGAHIT;
@@ -113,7 +112,7 @@ process GATBMINIAPIPELINE {
     publishDir 'results/assembly/GATBMiniaPipeline/'
 
     input:
-    set sample_id, file(fastq_pair) from IN_GATB_MINIA
+    set sample_id, file(fastq_pair) from IN_GATB_MINIA_PIPELINE
     val kmer_list from IN_GATB_kmers
     val do_error_correction from GATB_error_correction
     val besst_iter from IN_GATB_besst_iter
