@@ -96,7 +96,11 @@ process BCALM2 {
     } || {
         echo fail > .status
     }
-    rm list_reads *.fa
+    # remove temp files
+    {
+        rm list_reads *.fa
+    } || {
+    }
     """
 }
 
