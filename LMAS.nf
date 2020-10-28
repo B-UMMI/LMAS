@@ -439,7 +439,7 @@ process ASSEMBLY_STATS_GLOBAL {
 
 process CONCATENATE_ASSEMBLY_STATS_GLOBAL {
 
-    publishDir 'results/stats/$sample_id'
+    publishDir 'results/stats'
 
     input:
     file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
@@ -462,8 +462,41 @@ process FILTER_ASSEMBLY {
     val minLen from IN_minLen
 
     output:
-    file('filtered_*')
+    set sample_id, assembler, file('filtered_*') into OUT_FILTERED
 
     script:
     "reformat.sh in=${assembly} out=filtered_${assembly} minlength=${minLen}"
+}
+
+// ASSEMBLY MAPPING
+process ASSEMBLY_MAPPING{
+
+    tag { sample_id; assembler }
+
+    input:
+    set sample_id, assembler, file(assembly) from OUT_FILTERED
+    reference from IN_reference_raw
+
+    output:
+    set, sample_id, assembler, file(assembly), file(*.paf) into OUT_ASSEMBLY_MAPPING
+
+    script:
+    "minimap2 --cs -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_{assembler}.paf"
+
+}
+
+process ASSEMBLY_STATS_MAPPING {
+
+    tag { sample_id; assembler }
+
+    input:
+    set sample_id, assembler, file(assembly), file(mapping) from OUT_ASSEMBLY_MAPPING
+
+    output:
+    file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
+    file("*assembly_stats_per_ref.csv") into OUT_ASSEMBLY_STATS_GLOBAL_TSV
+
+    script:
+    template "assembly_stats_mapping.py"
+
 }

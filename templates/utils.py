@@ -115,29 +115,26 @@ def get_mapped_contigs_with_ref(paf_file):
     return mapped_contigs
 
 
-def parse_assemblies(assemblies, mappings):
+def parse_assemblies(assembler, assembly, mapping):
     """
     Parses fastas and paf files and returns info on 'Assembler','Contig', 'Contig Len', 'Mapped' as dataframe
-    :param assemblies: list of assembly files
-    :param mappings: list of paf files
+    :param assembly: assembly files
+    :param mapping: paf files
     :return: pandas dataframe
     """
     df = pd.DataFrame(columns=COLUMNS)
 
-    for fasta_file in assemblies:
+    mapped_contigs = get_mapped_contigs_with_ref(mapping)
 
-        filename = get_assember_name(fasta_file)
-        mapped_contigs = get_mapped_contigs(fnmatch.filter(mappings, '*_' + filename + '.*')[0])
+    fasta = fasta_iter(assembly)
+    for header, seq in fasta:
+        if header in mapped_contigs.keys():
+            is_mapped = mapped_contigs[header]
+        else:
+            is_mapped = 'Unmapped'
 
-        fasta = fasta_iter(fasta_file)
-        for header, seq in fasta:
-            if header in mapped_contigs:
-                is_mapped = 'Mapped'
-            else:
-                is_mapped = 'Unmapped'
-
-            df = df.append({'Assembler': filename, 'Contig': header, 'Contig Len': len(seq), 'Mapped': is_mapped},
-                           ignore_index=True)
+        df = df.append({'Assembler': assembler, 'Contig': header, 'Contig Len': len(seq), 'Mapped': is_mapped},
+                       ignore_index=True)
 
     df = df.reset_index()
 
