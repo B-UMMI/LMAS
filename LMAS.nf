@@ -481,7 +481,7 @@ process ASSEMBLY_MAPPING{
     reference from IN_MAPPING_CONTIGS
 
     output:
-    set sample_id, assembler, file(assembly), file(*.paf) into OUT_ASSEMBLY_MAPPING
+    set sample_id, assembler, file(assembly), file("*.paf") into OUT_ASSEMBLY_MAPPING
 
     script:
     "minimap2 --cs -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_{assembler}.paf"
