@@ -158,10 +158,11 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     n_identity = []
 
+    longest_alignment_cigar = ''
     longest_alignment = 0
 
-    alignment_dict = {'Reference': utils.REFERENCE_DIC[ref_name], 'Reference_Length': ref_length, 'Longest_Alignment': 0,
-                     'Longest_Alignment_Cigar': '', 'Contigs': {}}
+    alignment_dict = {'Reference': utils.REFERENCE_DIC[ref_name], 'Reference_Length': ref_length,
+                      'Longest_Alignment': 0, 'Longest_Alignment_Cigar': '', 'Contigs': {}}
 
     with open(paf_filename) as paf:
         for line in paf:
@@ -177,7 +178,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
                 if contig_name not in alignment_dict['Contigs'].keys():
                     alignment_dict['Contigs'][contig_name] = {'Length': contig_length, 'Base_Matches': matching_bases,
-                                                             'Identity': None, 'Phred': None}
+                                                              'Identity': None, 'Phred': None}
                 else:
                     alignment_dict['Contigs'][contig_name]['Base_Matches'] += matching_bases
 
@@ -190,7 +191,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     # Calculate identity for all the contigs:
     for contig in alignment_dict['Contigs'].keys():
         alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
-                                                       alignment_dict['Contigs'][contig]['Length']
+                                                        alignment_dict['Contigs'][contig]['Length']
         n_identity.append(alignment_dict['Contigs'][contig]['Base_Matches'])
 
         alignment_dict['Contigs'][contig]['Phred'] = get_phred_quality_score(alignment_dict['Contigs'][contig]['Identity'])
