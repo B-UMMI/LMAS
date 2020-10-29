@@ -474,7 +474,7 @@ process FILTER_ASSEMBLY {
 // ASSEMBLY MAPPING
 process ASSEMBLY_MAPPING{
 
-    tag { sample_id; assembler }
+    tag { sample_id }
 
     input:
     set sample_id, assembler, file(assembly) from OUT_FILTERED
