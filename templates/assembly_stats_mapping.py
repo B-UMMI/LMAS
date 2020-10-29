@@ -326,7 +326,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
                              'sample': sample_id}
                             ]
 
-        mapping_stats_dict['tableRow']['data'].append(mapping_ref_dict)
+        mapping_stats_dict['tableRow'][0]['data'].append(mapping_ref_dict)
 
         fh.close()
 
@@ -345,6 +345,7 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
     to_plot_c90.to_csv(sample_id + '_' + assembler + '_c90.csv')
     to_plot_phred.to_csv(sample_id + '_' + assembler + '_phred.csv')
+
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE)
