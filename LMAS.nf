@@ -496,7 +496,7 @@ process ASSEMBLY_STATS_MAPPING {
 
     input:
     set sample_id, assembler, file(assembly), file(mapping) from OUT_ASSEMBLY_MAPPING
-    file reference from IN_ASSEMBLY_STATS_MAPPING
+    each reference from IN_ASSEMBLY_STATS_MAPPING
 
     output:
     file(".report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
