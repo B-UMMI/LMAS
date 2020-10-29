@@ -281,7 +281,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
                                                                                         len(seq)/3,
                                                                                         df_phred)
 
-        fh.write(','.join([reference_name, str(coverage), str(len(mapped_contigs))]) + '\n')
+        fh.write(','.join([reference_name, str(coverage), str(len(mapped_contigs))]) + '\\n')
 
         # Mapping stats dict
         mapping_ref_dict = {{'header': 'Reference',
