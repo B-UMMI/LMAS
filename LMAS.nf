@@ -478,7 +478,7 @@ process ASSEMBLY_MAPPING{
 
     input:
     set sample_id, assembler, file(assembly) from OUT_FILTERED
-    each file reference from IN_MAPPING_CONTIGS
+    each reference from IN_MAPPING_CONTIGS
 
     output:
     set sample_id, assembler, file(assembly), file("*.paf") into OUT_ASSEMBLY_MAPPING
