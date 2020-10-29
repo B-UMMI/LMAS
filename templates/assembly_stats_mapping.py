@@ -284,7 +284,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
         fh.write(','.join([reference_name, str(coverage), str(len(mapped_contigs))]) + '\\n')
 
         # Mapping stats dict
-        mapping_ref_dict = {{'header': 'Reference',
+        mapping_ref_dict = [{'header': 'Reference',
                              'value': reference_name,
                              'table': 'assembly_mapping_stats',
                              'sample': sample_id},
@@ -324,7 +324,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
                              'value': sum(mapped_contigs),
                              'table': 'assembly_mapping_stats',
                              'sample': sample_id}
-                            }
+                            ]
 
         mapping_stats_dict['data'].append(mapping_ref_dict)
 
