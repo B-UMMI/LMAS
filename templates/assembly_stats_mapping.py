@@ -207,7 +207,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     coverage = get_covered_bases(covered_bases, ref_length)
 
-    identity = sum(n_identity)/len(n_identity)
+    identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
 
     return contiguity, coverage, lowest_identity, identity, df_phred
 
