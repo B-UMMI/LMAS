@@ -326,7 +326,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
                              'sample': sample_id}
                             ]
 
-        mapping_stats_dict['data'].append(mapping_ref_dict)
+        mapping_stats_dict['tableRow']['data'].append(mapping_ref_dict)
 
         fh.close()
 
