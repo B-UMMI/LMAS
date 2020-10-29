@@ -484,7 +484,7 @@ process ASSEMBLY_MAPPING{
     set sample_id, assembler, file(assembly), file("*.paf") into OUT_ASSEMBLY_MAPPING
 
     script:
-    "minimap2 --cs -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_{assembler}.paf"
+    "minimap2 --cs -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_${assembler}.paf"
 
 }
 
@@ -500,7 +500,6 @@ process ASSEMBLY_STATS_MAPPING {
 
     output:
     file(".report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
-    file("*assembly_stats_per_ref.csv") into OUT_ASSEMBLY_STATS_MAPPING_TSV
     file("*_breadth_of_coverage_contigs.csv") OUT_COVERAGE_PER_CONTIG
 
     script:
