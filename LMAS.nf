@@ -478,7 +478,7 @@ process ASSEMBLY_MAPPING{
 
     input:
     set sample_id, assembler, file(assembly) from OUT_FILTERED
-    reference from IN_MAPPING_CONTIGS
+    file reference from IN_MAPPING_CONTIGS
 
     output:
     set sample_id, assembler, file(assembly), file("*.paf") into OUT_ASSEMBLY_MAPPING
@@ -496,7 +496,7 @@ process ASSEMBLY_STATS_MAPPING {
 
     input:
     set sample_id, assembler, file(assembly), file(mapping) from OUT_ASSEMBLY_MAPPING
-    reference from IN_ASSEMBLY_STATS_MAPPING
+    file reference from IN_ASSEMBLY_STATS_MAPPING
 
     output:
     file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
