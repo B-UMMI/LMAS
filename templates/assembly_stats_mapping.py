@@ -100,7 +100,7 @@ def get_expanded_cigar(cigar):
     :return: string with expanded cigar values for alignment
     """
     expanded_cigar = []
-    cigar_parts = re.findall(r'\d+[IDX=]', cigar)
+    cigar_parts = re.findall(r'\\d+[IDX=]', cigar)
     for cigar_part in cigar_parts:
         num = int(cigar_part[:-1])
         letter = cigar_part[-1]
@@ -145,6 +145,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     :param paf_filename: tabular file with alignment information for an assembler
     :param ref_name: reference name to filter from the paf_filename
     :param ref_length: expected reference length
+    :param df_phred:
     :return:
         - contiguity: largest % of reference covered by a single contig
         - coverage:  % of the reference genome covered by the contigs (breadth of coverage)
