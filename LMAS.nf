@@ -69,6 +69,9 @@ IN_fastq_raw.into{
     IN_PANDASEQ;
     IN_TO_MAP} //mapping channel - minimap2
 
+// SET CHANNELS FOR REFERENCE
+IN_reference_raw.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING}
+
 // ASSEMBLERS
 //      BCALM 2
 if ( !params.bcalmKmerSize.toString().isNumber() ){
@@ -439,7 +442,7 @@ process ASSEMBLY_STATS_GLOBAL {
 
 process CONCATENATE_ASSEMBLY_STATS_GLOBAL {
 
-    publishDir 'results/stats'
+    publishDir 'results/stats/'
 
     input:
     file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
@@ -475,7 +478,7 @@ process ASSEMBLY_MAPPING{
 
     input:
     set sample_id, assembler, file(assembly) from OUT_FILTERED
-    reference from IN_reference_raw
+    reference from IN_MAPPING_CONTIGS
 
     output:
     set, sample_id, assembler, file(assembly), file(*.paf) into OUT_ASSEMBLY_MAPPING
@@ -489,12 +492,16 @@ process ASSEMBLY_STATS_MAPPING {
 
     tag { sample_id; assembler }
 
+    publishDir 'results/stats/'
+
     input:
     set sample_id, assembler, file(assembly), file(mapping) from OUT_ASSEMBLY_MAPPING
+    reference from IN_ASSEMBLY_STATS_MAPPING
 
     output:
     file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
     file("*assembly_stats_per_ref.csv") into OUT_ASSEMBLY_STATS_GLOBAL_TSV
+    file("*_breadth_of_coverage_contigs.csv") OUT_COVERAGE_PER_CONTIG
 
     script:
     template "assembly_stats_mapping.py"

@@ -40,6 +40,7 @@ https://github.com/cimendes
 import os
 import math
 import re
+import json
 import pandas as pd
 from itertools import groupby
 import utils
@@ -158,7 +159,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     longest_alignment = 0
 
-    aligment_dict = {'Reference': utils.REFERENCE_DIC[ref_name], 'Reference_Length': ref_length, 'Longest_Alignment': 0,
+    alignment_dict = {'Reference': utils.REFERENCE_DIC[ref_name], 'Reference_Length': ref_length, 'Longest_Alignment': 0,
                      'Longest_Alignment_Cigar': '', 'Contigs': {}}
 
     with open(paf_filename) as paf:
@@ -173,11 +174,11 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
                 matching_bases, total_bases = int(parts[9]), int(parts[10])
                 cigar = parts[-1]
 
-                if contig_name not in aligment_dict['Contigs'].keys():
-                    aligment_dict['Contigs'][contig_name] = {'Length': contig_length, 'Base_Matches': matching_bases,
+                if contig_name not in alignment_dict['Contigs'].keys():
+                    alignment_dict['Contigs'][contig_name] = {'Length': contig_length, 'Base_Matches': matching_bases,
                                                              'Identity': None, 'Phred': None}
                 else:
-                    aligment_dict['Contigs'][contig_name]['Base_Matches'] += matching_bases
+                    alignment_dict['Contigs'][contig_name]['Base_Matches'] += matching_bases
 
                 if end - start > longest_alignment:
                     longest_alignment = end - start
@@ -186,17 +187,17 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
                 covered_bases.append([start, end])
 
     # Calculate identity for all the contigs:
-    for contig in aligment_dict['Contigs'].keys():
-        aligment_dict['Contigs'][contig]['Identity'] = aligment_dict['Contigs'][contig]['Base_Matches'] / \
-                                                       aligment_dict['Contigs'][contig]['Length']
-        n_identity.append(aligment_dict['Contigs'][contig]['Base_Matches'])
+    for contig in alignment_dict['Contigs'].keys():
+        alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
+                                                       alignment_dict['Contigs'][contig]['Length']
+        n_identity.append(alignment_dict['Contigs'][contig]['Base_Matches'])
 
-        aligment_dict['Contigs'][contig]['Phred'] = get_phred_quality_score(aligment_dict['Contigs'][contig]['Identity'])
+        alignment_dict['Contigs'][contig]['Phred'] = get_phred_quality_score(alignment_dict['Contigs'][contig]['Identity'])
         df_phred = df_phred.append({'Assembler': os.path.basename(paf_filename).split('.')[0].rsplit('_')[-1],
-                                    'Reference': aligment_dict['Reference'],
+                                    'Reference': alignment_dict['Reference'],
                                     'Contig': contig,
-                                    'Contig Length': aligment_dict['Contigs'][contig]['Length'],
-                                    'Phred Quality Score': aligment_dict['Contigs'][contig]['Phred']
+                                    'Contig Length': alignment_dict['Contigs'][contig]['Length'],
+                                    'Phred Quality Score': alignment_dict['Contigs'][contig]['Phred']
                                     }, ignore_index=True)
 
     contiguity = longest_alignment / ref_length
@@ -228,32 +229,14 @@ def get_c90(alignment_lengths, ref_len):
     return c90
 
 
-def get_c95(alignment_lengths, ref_len):
-    """
-    Returns the number of contigs, ordered by length, that cover at least 95% of the reference sequence.
-    :param alignment_lengths: list with length of mapped contigs for the reference
-    :param ref_len: int with the expected reference length
-    :return: int with the number of contigs that represent
-    """
-    sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
-    target_length = ref_len * 0.95
-
-    length_so_far = 0
-    c95 = 0
-    for contig_length in sorted_lengths:
-        length_so_far += contig_length
-        if length_so_far >= target_length:
-            c95 += 1
-    return c95
-
-
-def parse_paf_files(df, mapping, reference, print_csv=False):
+def parse_paf_files(sample_id, df, mapping, reference, assembler):
     """
     Parses fasta, paf files references and returns info in dataframe.
+    :param sample_id: string with sample identifier
     :param df: pandas DataFrame with assembly stats
-    :param mappings: paf file
-    :param reference:
-    :param print_csv: Bool to print csv with breadth of coverage values per reference for each assembler
+    :param mapping: paf file
+    :param reference: path triple reference fasta file
+    :param assembler: string with assembler name
     :return: pandas Dataframe with columns Reference, Assembler and C90
     """
 
@@ -263,62 +246,104 @@ def parse_paf_files(df, mapping, reference, print_csv=False):
     # Dataframe for Phred Score plot
     df_phred = pd.DataFrame(columns=['Assembler', 'Reference', 'Contig', 'Contig Length', 'Phred Quality Score'])
 
-    for assembler in sorted(df['Assembler'].unique()):
+    # Mapping stats dict
+    mapping_stats_dict = {'tableRow': [{
+        "sample": sample_id,
+        "assembler": assembler,
+        "data": []
+    }]}
 
-        print('\n\n------' + assembler + '------\n')
+    # filter dataframe for the assembler
+    df_assembler = df[df['Assembler'] == assembler]
 
-        # filter dataframe for the assembler
-        df_assembler = df[df['Assembler'] == assembler]
+    # iterator for reference files (sequence length is needed)
+    references = (x[1] for x in groupby(open(reference, "r"), lambda line: line[0] == ">"))
 
-        # iterator for reference files (sequence length is needed)
-        references = (x[1] for x in groupby(open(reference, "r"), lambda line: line[0] == ">"))
+    fh = open(sample_id + '_' + assembler + "_breadth_of_coverage_contigs.csv", "w")
+    fh.write("Reference, Breadth of Coverage, Contigs\n")
 
-        #print(','.join(["Reference", "Reference Length", "Contiguity", "Identity", "Lowest Identity",
-        #                "Breadth of Coverage", "C90", "C95", "Aligned Contigs", "NA50", "Aligned Bp"]))
+    for header in references:
+        header_str = header.__next__()[1:].strip().split()[0]
+        reference_name = utils.REFERENCE_DIC[header_str]
+        seq = "".join(s.strip() for s in references.__next__())
 
-        #if print_csv:
-        #    fh = open(assembler + "_breadth_of_coverage_contigs.csv", "w")
-        #    fh.write("Reference, Breadth of Coverage, Contigs\n")
+        df_assembler_reference = df_assembler[df_assembler['Mapped'] == header_str]
 
-        for header in references:
-            header_str = header.__next__()[1:].strip().split()[0]
-            reference_name = utils.REFERENCE_DIC[header_str]
-            seq = "".join(s.strip() for s in references.__next__())
+        mapped_contigs = df_assembler_reference['Contig Len'].astype('int').tolist()
 
-            df_assembler_reference = df_assembler[df_assembler['Mapped'] == header_str]
+        na50 = utils.get_N50(mapped_contigs)
+        c90 = get_c90(mapped_contigs, len(seq)/3)  # adjust for triple reference
+        df_c90 = df_c90.append({'Reference': reference_name, 'Assembler': assembler, 'C90': c90}, ignore_index=True)
 
-            mapped_contigs = df_assembler_reference['Contig Len'].astype('int').tolist()
+        contiguity, coverage, lowest_identity, identity, df_phred = get_alignment_stats(mapping,
+                                                                                        header_str,
+                                                                                        len(seq)/3,
+                                                                                        df_phred)
 
-            na50 = utils.get_N50(mapped_contigs)
-            c90 = get_c90(mapped_contigs, len(seq)/3)  # adjust for triple reference
-            df_c90 = df_c90.append({'Reference': reference_name, 'Assembler': assembler, 'C90': c90}, ignore_index=True)
-            c95 = get_c95(mapped_contigs, len(seq)/3)  # adjust for triple reference
+        fh.write(','.join([reference_name, str(coverage), str(len(mapped_contigs))]) + '\n')
 
-            contiguity, coverage, lowest_identity, identity, df_phred = get_alignment_stats(mapping,
-                                                                                            header_str,
-                                                                                            len(seq)/3,
-                                                                                            df_phred)
+        # Mapping stats dict
+        mapping_ref_dict = {{'header': 'Reference',
+                             'value': reference_name,
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'Reference length',
+                             'value': len(seq)/3,
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'Contiguity',
+                             'value': contiguity,
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'Identity',
+                             'value': identity,
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'Lowest identity',
+                             'value': lowest_identity,
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'Breadth of coverage',
+                             'value': coverage,
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'C90',
+                             'value': c90,
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'Aligned contigs',
+                             'value': len(mapped_contigs),
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'NA50',
+                             'value': na50,
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id},
+                            {'header': 'Aligned basepairs',
+                             'value': sum(mapped_contigs),
+                             'table': 'assembly_mapping_stats',
+                             'sample': sample_id}
+                            }
 
-            #if print_csv:
-            #    fh.write(','.join([reference_name, str(coverage), str(len(mapped_contigs))]) + '\n')
+        mapping_stats_dict['data'].append(mapping_ref_dict)
 
-            print(','.join([reference_name, f'{len(seq)/3}', f'{contiguity:.2f}', f'{identity:.6f}',
-                            f'{lowest_identity:.6f}', f'{coverage:.2f}', f'{c90}', f'{c95}',
-                            f'{len(mapped_contigs)}', f'{na50}', f'{sum(mapped_contigs)}']))
+        fh.close()
 
-        #if print_csv:
-        #    fh.close()
-
-    return df_c90, df_phred
+    return df_c90, df_phred, mapping_stats_dict
 
 
-def main(sample_id, assembler, assembly, mapping):
+def main(sample_id, assembler, assembly, mapping, reference):
 
     # Dataframe with assembly info
     df = utils.parse_assemblies(assembler, assembly, mapping)
 
-    to_plot_c90, to_plot_phred = parse_paf_files(df, mapping, False)
+    to_plot_c90, to_plot_phred, json_dic = parse_paf_files(sample_id, df, mapping, reference, assembler)
 
+    with open(".report.json", "w") as json_report:
+        json_report.write(json.dumps(json_dic, separators=(",", ":")))
+
+    to_plot_c90.to_csv(sample_id + '_' + assembler + '_c90.csv')
+    to_plot_phred.to_csv(sample_id + '_' + assembler + '_phred.csv')
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE)
