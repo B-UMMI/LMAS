@@ -261,7 +261,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
     references = (x[1] for x in groupby(open(reference, "r"), lambda line: line[0] == ">"))
 
     fh = open(sample_id + '_' + assembler + "_breadth_of_coverage_contigs.csv", "w")
-    fh.write("Reference, Breadth of Coverage, Contigs\n")
+    fh.write("Reference, Breadth of Coverage, Contigs\\n")
 
     for header in references:
         header_str = header.__next__()[1:].strip().split()[0]
