@@ -500,7 +500,7 @@ process ASSEMBLY_STATS_MAPPING {
 
     output:
     file(".report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
-    file("*assembly_stats_per_ref.csv") into OUT_ASSEMBLY_STATS_GLOBAL_TSV
+    file("*assembly_stats_per_ref.csv") into OUT_ASSEMBLY_STATS_MAPPING_TSV
     file("*_breadth_of_coverage_contigs.csv") OUT_COVERAGE_PER_CONTIG
 
     script:
