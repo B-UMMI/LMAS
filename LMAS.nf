@@ -500,7 +500,7 @@ process ASSEMBLY_STATS_MAPPING {
 
     output:
     file(".report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
-    file("*_breadth_of_coverage_contigs.csv") OUT_COVERAGE_PER_CONTIG
+    file("*_breadth_of_coverage_contigs.csv") into OUT_COVERAGE_PER_CONTIG
 
     script:
     template "assembly_stats_mapping.py"
