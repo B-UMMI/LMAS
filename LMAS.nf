@@ -506,3 +506,17 @@ process ASSEMBLY_STATS_MAPPING {
     template "assembly_stats_mapping.py"
 
 }
+
+process PROCESS_COMPLETNESS {
+
+    publishDir 'results/plots/'
+
+    input:
+    file coverage_files from OUT_COVERAGE_PER_CONTIG.collect()
+
+    output:
+    file("*.html")
+
+    script:
+    template "completness_plot.py"
+}
