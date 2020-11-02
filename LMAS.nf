@@ -510,7 +510,7 @@ process READ_MAPPING{
 
     script:
     """
-    minimap2 minimap2 -x sr --secondary=no ${assembly} ${fastq[0]} ${fastq[1]} > ${sample_id}_${assembler}_read_mapping.paf
+    minimap2 minimap2 -x sr ${assembly} ${fastq[0]} ${fastq[1]} > ${sample_id}_${assembler}_read_mapping.paf
     cat *_read_mapping.paf | wc -l > ${sample_id}_${assembler}_read_mapping.txt
     """
 
