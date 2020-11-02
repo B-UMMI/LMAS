@@ -423,7 +423,8 @@ ALL_ASSEMBLERS = ALL_ASSEMBLERS.mix(OUT_BCALM2,
 
 TO_FILTER = Channel.create()
 TO_GLOBAL_STATS = Channel.create()
-ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS}
+TO_READ_MAPPING = Channel.create()
+ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
@@ -440,12 +441,18 @@ process ASSEMBLY_STATS_GLOBAL {
     template "assembly_stats_global.py"
 }
 
-process CONCATENATE_ASSEMBLY_STATS_GLOBAL {
+// move the collect out of the process to avoid halt error
+OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect().set{IN_PROCESS_ASSEMBLY_STATS_GLOBAL}
+
+process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
     publishDir 'results/stats/'
 
     input:
-    file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
+    file(assembly_stats_global_files) from IN_PROCESS_ASSEMBLY_STATS_GLOBAL
+
+    output:
+    file("*.csv")
 
     script:
     template "process_assembly_stats_global.py"
@@ -488,6 +495,27 @@ process ASSEMBLY_MAPPING{
 
 }
 
+// READ MAPPING
+process READ_MAPPING{
+
+    tag { sample_id; assembler }
+
+    publishDir 'results/stats/'
+
+    input:
+    set sample_id, assembler, assembly, fastq from TO_READ_MAPPING.join(IN_TO_MAP)
+
+    output:
+    file("*mapping_stats.tsv)
+
+    script:
+    """
+    minimap2 minimap2 -x sr --secondary=no ${assembly} ${fastq}[0] ${fastq}[1] > ${sample_id}_${assembler}_read_mapping.paf
+    cat *_read_mapping.paf | wc -l > ${sample_id}_${assembler}_read_mapping.txt
+    """
+
+}
+
 process ASSEMBLY_STATS_MAPPING {
 
     tag { sample_id; assembler }
@@ -507,12 +535,15 @@ process ASSEMBLY_STATS_MAPPING {
 
 }
 
+// move the collect out of the process to avoid halt error
+OUT_COVERAGE_PER_CONTIG.collect().set{IN_PROCESS_COMPLETNESS}
+
 process PROCESS_COMPLETNESS {
 
     publishDir 'results/plots/'
 
     input:
-    file coverage_files from OUT_COVERAGE_PER_CONTIG.collect()
+    file(coverage_files) from IN_PROCESS_COMPLETNESS
 
     output:
     file("*.html")
