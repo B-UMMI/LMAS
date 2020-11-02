@@ -510,7 +510,7 @@ process READ_MAPPING{
 
     script:
     """
-    minimap2 minimap2 -x sr --secondary=no ${assembly} ${fastq}[0] ${fastq}[1] > ${sample_id}_${assembler}_read_mapping.paf
+    minimap2 minimap2 -x sr --secondary=no ${assembly} ${fastq[0]} ${fastq[1]} > ${sample_id}_${assembler}_read_mapping.paf
     cat *_read_mapping.paf | wc -l > ${sample_id}_${assembler}_read_mapping.txt
     """
 
@@ -538,12 +538,16 @@ process ASSEMBLY_STATS_MAPPING {
 // move the collect out of the process to avoid halt error
 OUT_COVERAGE_PER_CONTIG.collect().set{IN_PROCESS_COMPLETNESS}
 
+IN_PROCESS_COMPLETNESS.into{print_lala; IN_PROCESS_COMPLETNESS_2}
+
+print_lala.subscribe{print it}
+
 process PROCESS_COMPLETNESS {
 
     publishDir 'results/plots/'
 
     input:
-    file(coverage_files) from IN_PROCESS_COMPLETNESS
+    file(coverage_files) from IN_PROCESS_COMPLETNESS_2
 
     output:
     file("*.html")
