@@ -503,7 +503,7 @@ process READ_MAPPING{
     publishDir 'results/stats/'
 
     input:
-    each set sample_id, assembler, assembly, fastq from TO_READ_MAPPING.join(IN_TO_MAP)
+    each sample_id, assembler, assembly, fastq from TO_READ_MAPPING.join(IN_TO_MAP)
 
     output:
     file("*_read_mapping.txt")
