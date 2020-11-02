@@ -506,7 +506,7 @@ process READ_MAPPING{
     set sample_id, assembler, assembly, fastq from TO_READ_MAPPING.join(IN_TO_MAP)
 
     output:
-    file("*mapping_stats.tsv")
+    file("*_read_mapping.txt")
 
     script:
     """
