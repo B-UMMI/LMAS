@@ -49,13 +49,6 @@ if __file__.endswith(".command.sh"):
 
 
 def main(sample_id, assembler, assembly, reference, fastq):
-    """
-    echo ${fastq}
-    minimap2 -x sr ${assembly} ${fastq[0]} ${fastq[1]} > ${sample_id}_${assembler}_read_mapping.paf
-    cat *_read_mapping.paf | wc -l > ${sample_id}_${assembler}_read_mapping.txt
-    readnumber = zcat my.fastq.gz | echo $((`wc -l`/4))
-    echo $readnumber
-    """
     print(fastq)
 
 
