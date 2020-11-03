@@ -73,6 +73,8 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         "{}_{}_read_mapping.paf".format(sample_id, assembler)
     ]
 
+    logger.debug(' '.join(cli))
+
     logger.debug("Running minimap2 subprocess with command: {}".format(cli))
 
     p = subprocess.Popen(cli, stdout=PIPE, stderr=PIPE)
