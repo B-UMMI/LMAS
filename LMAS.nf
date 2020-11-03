@@ -511,7 +511,6 @@ process READ_MAPPING{
 
     script:
     template "read_mapping.py"
-
 }
 
 process ASSEMBLY_STATS_MAPPING {

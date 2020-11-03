@@ -39,7 +39,6 @@ if __file__.endswith(".command.sh"):
     SAMPLE_ID = '$sample_id'
     ASSEMBLER = '$assembler'
     ASSEMBLY = '$assembly'
-    MAPPING = '$mapping'
     REFERENCE = '$reference'
     FASTQ = '$params.fastq'
     logger.debug("Running {} with parameters:".format(
@@ -47,14 +46,20 @@ if __file__.endswith(".command.sh"):
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
     logger.debug("ASSEMBLER: {}".format(ASSEMBLER))
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
-    logger.debug("MAPPING: {}".format(MAPPING))
     logger.debug("REFERENCE: {}".format(REFERENCE))
     logger.debug("FASTQ: {}".format(FASTQ))
 
 
-def main(sample_id, assembler, assembly, mapping, reference, fastq):
+def main(sample_id, assembler, assembly, reference, fastq):
+    """
+    echo ${fastq}
+    minimap2 -x sr ${assembly} ${fastq[0]} ${fastq[1]} > ${sample_id}_${assembler}_read_mapping.paf
+    cat *_read_mapping.paf | wc -l > ${sample_id}_${assembler}_read_mapping.txt
+    readnumber = zcat my.fastq.gz | echo $((`wc -l`/4))
+    echo $readnumber
+    """
     print(fastq)
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, FASTQ)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, REFERENCE, FASTQ)
