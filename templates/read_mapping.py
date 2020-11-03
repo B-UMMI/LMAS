@@ -14,8 +14,6 @@ The following variables are expected whether using NextFlow or the
     - e.g.: ``'SPAdes'``
 - ``assembly``: fasta file from the assembler (filtered for minimum length size)
     - e.g.: ``'spades.fasta'``
-- ``mapping``: paf file of the assembly mapped to the complete triple reference genomes
-    - e.g.: ``'spades.paf'``
 - ``fastq``: glob path file to read files for matching with sample_id
     - e.g.: ``'data/fastq/*_{1,2}.*'``
 
@@ -30,8 +28,8 @@ import subprocess
 import utils
 
 __version__ = "0.0.1"
-__build__ = "28.10.2020"
-__template__ = "ASSEMBLY_STATS_MAPPING-nf"
+__build__ = "03.11.2020"
+__template__ = "READ_MAPPING-nf"
 
 logger = utils.get_logger(__file__)
 
