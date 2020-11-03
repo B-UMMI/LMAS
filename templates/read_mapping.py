@@ -37,20 +37,18 @@ if __file__.endswith(".command.sh"):
     SAMPLE_ID = '$sample_id'
     ASSEMBLER = '$assembler'
     ASSEMBLY = '$assembly'
-    REFERENCE = '$reference'
     FASTQ = '$params.fastq'
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
     logger.debug("ASSEMBLER: {}".format(ASSEMBLER))
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
-    logger.debug("REFERENCE: {}".format(REFERENCE))
     logger.debug("FASTQ: {}".format(FASTQ))
 
 
-def main(sample_id, assembler, assembly, reference, fastq):
+def main(sample_id, assembler, assembly, fastq):
     print(fastq)
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, REFERENCE, FASTQ)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ)
