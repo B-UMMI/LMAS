@@ -99,9 +99,11 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         # get number of reads
         n_reads = 0
         with gzip.open(reads[0], 'rb') as read:
-            for line in read:
-                if line.startswith("@"):
-                    n_reads += 1
+            for id in read:
+                seq = next(read)
+                reads += 1
+                next(read)
+                next(read)
 
         with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
             try:
