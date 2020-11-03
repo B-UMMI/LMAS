@@ -73,9 +73,9 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         "{}_{}_read_mapping.paf".format(sample_id, assembler)
     ]
 
-    logger.debug("Running minimap2 subprocess with command: {}".format(''.join(cli)))
+    logger.debug("Running minimap2 subprocess with command: {}".format(' '.join(cli)))
 
-    p = subprocess.Popen(''.join(cli), shell=True, stdout=PIPE, stderr=PIPE)
+    p = subprocess.Popen(' '.join(cli), shell=True, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
 
     try:
