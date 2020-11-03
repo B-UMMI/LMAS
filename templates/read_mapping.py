@@ -52,12 +52,12 @@ if __file__.endswith(".command.sh"):
 
 def main(sample_id, assembler, assembly, fastq, basedir):
     # get correct fastq files from directory
-    all_readfiles = glob.glob(os.path.join(basedir, fastq))
+    all_readfiles = glob.glob(os.path.join(basedir, '/'.join(fastq.split('/')[:-1]), '*'))
     logger.debug(all_readfiles)
 
-    read1, read2 = fnmatch.filter(all_readfiles, sample_id)
+    reads = fnmatch.filter(all_readfiles, sample_id + '*')
 
-    logger.debug(read1, read2)
+    logger.debug(reads)
 
 
 if __name__ == '__main__':
