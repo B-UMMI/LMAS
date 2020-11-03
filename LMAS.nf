@@ -504,7 +504,7 @@ process READ_MAPPING{
 
     input:
     set sample_id, assembler, assembly from TO_READ_MAPPING
-    readfiles from IN_TO_MAP.collect()
+    each readfiles from IN_TO_MAP.collect()
 
     output:
     file("*_read_mapping.txt")
