@@ -51,7 +51,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("REFERENCE: {}".format(REFERENCE))
     logger.debug("FASTQ: {}".format(FASTQ))
 
-    
+
 def main(sample_id, assembler, assembly, mapping, reference, fastq):
     print(fastq)
 
