@@ -64,7 +64,8 @@ def main(sample_id, assembler, assembly, fastq, basedir):
     # call minimap2
     cli = [
         "minimap2",
-        "-x sr",
+        "-x",
+        "sr",
         assembly,
         reads[0],
         reads[1],
