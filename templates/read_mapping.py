@@ -77,22 +77,37 @@ def main(sample_id, assembler, assembly, fastq, basedir):
     p = subprocess.Popen(cli, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
 
-    # count number of reads mapping
-    n_reads_mapping = sum(1 for line in open("{}_{}_read_mapping.paf".format(sample_id, assembler)))
+    try:
+        stderr = stderr.decode("utf8")
+        stdout = stdout.decode("utf8")
+    except (UnicodeDecodeError, AttributeError):
+        stderr = str(stderr)
+        stdout = str(stdout)
 
-    # get number of reads
-    n_reads = 0
-    with gzip.open('your.fastq.gz', 'rb') as read:
-        for id in reads[0]:
-            seq = next(read)
-            reads += 1
-            next(read)
-            next(read)
-    n_reads = n_reads * 2
+    logger.info("Finished minimap2 subprocess with STDOUT:\\n"
+                "======================================\\n{}".format(stdout))
+    logger.info("Fished minimap2 subprocesswith STDERR:\\n"
+                "======================================\\n{}".format(stderr))
+    logger.info("Finished minimap2 with return code: {}".format(
+        p.returncode))
 
-    with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
-        mapped_reads = n_reads_mapping/n_reads
-        fh.write(str(mapped_reads))
+    if p.returncode == 0:
+        # count number of reads mapping
+        n_reads_mapping = sum(1 for line in open("{}_{}_read_mapping.paf".format(sample_id, assembler)))
+
+        # get number of reads
+        n_reads = 0
+        with gzip.open('your.fastq.gz', 'rb') as read:
+            for id in reads[0]:
+                seq = next(read)
+                reads += 1
+                next(read)
+                next(read)
+        n_reads = n_reads * 2
+
+        with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
+            mapped_reads = n_reads_mapping/n_reads
+            fh.write(str(mapped_reads))
 
 
 if __name__ == '__main__':
