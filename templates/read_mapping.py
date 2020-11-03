@@ -40,7 +40,7 @@ if __file__.endswith(".command.sh"):
     ASSEMBLER = '$assembler'
     ASSEMBLY = '$assembly'
     FASTQ = '$params.fastq'
-    BASEDIR = '$$baseDir'
+    BASEDIR = '$baseDir'
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
