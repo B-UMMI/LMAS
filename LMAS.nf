@@ -512,8 +512,6 @@ process READ_MAPPING{
     script:
     """
     echo ${readfiles}
-    #minimap2 -x sr ${assembly} ${fastq[0]} ${fastq[1]} > ${sample_id}_${assembler}_read_mapping.paf
-    #cat *_read_mapping.paf | wc -l > ${sample_id}_${assembler}_read_mapping.txt
     """
 
 }
