@@ -503,15 +503,18 @@ process READ_MAPPING{
     publishDir 'results/stats/'
 
     input:
-    set sample_id, assembler, assembly from TO_READ_MAPPING
-    each readfiles from IN_TO_MAP.map{it -> it[1]}.collect()
+    each sample_id, assembler, assembly, fastq from TO_READ_MAPPING.join(IN_TO_MAP)
 
     output:
     file("*_read_mapping.txt")
 
     script:
     """
-    echo ${readfiles}
+    echo ${fastq}
+    minimap2 -x sr ${assembly} ${fastq[0]} ${fastq[1]} > ${sample_id}_${assembler}_read_mapping.paf
+    cat *_read_mapping.paf | wc -l > ${sample_id}_${assembler}_read_mapping.txt
+    readnumber = zcat my.fastq.gz | echo $((`wc -l`/4))
+    echo $readnumber
     """
 
 }
