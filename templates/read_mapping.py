@@ -99,15 +99,15 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         # get number of reads
         n_reads = 0
         with gzip.open(reads[0], 'rb') as read:
-            for id in read:
-                seq = next(read)
-                reads += 1
-                next(read)
-                next(read)
-        n_reads = n_reads * 2
+            for line in read:
+                if line.startswith("@"):
+                    n_reads += 1
 
         with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
-            mapped_reads = n_reads_mapping/n_reads
+            try:
+                mapped_reads = n_reads_mapping/(n_reads * 2)
+            except ZeroDivisionError:
+                mapped_reads = 0
             fh.write(str(mapped_reads))
 
 
