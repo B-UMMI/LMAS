@@ -118,6 +118,7 @@ def get_mapped_contigs_with_ref(paf_file):
 def parse_assemblies(assembler, assembly, mapping):
     """
     Parses fastas and paf files and returns info on 'Assembler','Contig', 'Contig Len', 'Mapped' as dataframe
+    :param assembler: str with assembler name
     :param assembly: assembly files
     :param mapping: paf files
     :return: pandas dataframe
@@ -143,7 +144,7 @@ def parse_assemblies(assembler, assembly, mapping):
 
 def get_N50(alignment_lengths):
     """
-    Callculate n50 form a list of contig lenghts
+    Calculate n50 form a list of contig lenghts
     :param alignment_lengths: list of aligned contig length sizes (unordered)
     :return: n50 of the aligned contigs (also called NA50
     """

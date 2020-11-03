@@ -25,7 +25,9 @@ https://github.com/cimendes
 
 import os
 import subprocess
+import glob
 import utils
+import fnmatch
 
 __version__ = "0.0.1"
 __build__ = "03.11.2020"
@@ -38,17 +40,24 @@ if __file__.endswith(".command.sh"):
     ASSEMBLER = '$assembler'
     ASSEMBLY = '$assembly'
     FASTQ = '$params.fastq'
+    BASEDIR = '$$baseDir'
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
     logger.debug("ASSEMBLER: {}".format(ASSEMBLER))
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
     logger.debug("FASTQ: {}".format(FASTQ))
+    logger.debug("BASEDIR: {}".format(BASEDIR))
 
 
-def main(sample_id, assembler, assembly, fastq):
-    print(fastq)
+def main(sample_id, assembler, assembly, fastq, basedir):
+    # get correct fastq files from directory
+    all_readfiles = glob.glob(os.path.join(basedir, fastq))
+
+    read1, read2 = fnmatch.filter(all_readfiles, sample_id + '*')
+
+    logger.debug(read1, read2)
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ, BASEDIR)
