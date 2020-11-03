@@ -98,8 +98,8 @@ def main(sample_id, assembler, assembly, fastq, basedir):
 
         # get number of reads
         n_reads = 0
-        with gzip.open('your.fastq.gz', 'rb') as read:
-            for id in reads[0]:
+        with gzip.open(reads[0], 'rb') as read:
+            for id in read:
                 seq = next(read)
                 reads += 1
                 next(read)
