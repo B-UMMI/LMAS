@@ -25,9 +25,10 @@ https://github.com/cimendes
 
 import os
 import subprocess
+from subprocess import PIPE
 import glob
+import gzip
 import utils
-import fnmatch
 
 __version__ = "0.0.1"
 __build__ = "03.11.2020"
@@ -59,6 +60,39 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         if sample_id in file:
             reads.append(file)
     logger.debug("Matching read files: {}".format(reads))
+
+    # call minimap2
+    cli = [
+        "minimap2",
+        "-x sr",
+        assembly,
+        reads[0],
+        reads[1],
+        '>',
+        "{}_{}_read_mapping.paf".format(sample_id, assembler)
+    ]
+
+    logger.debug("Running minimap2 subprocess with command: {}".format(cli))
+
+    p = subprocess.Popen(cli, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = p.communicate()
+
+    # count number of reads mapping
+    n_reads_mapping = sum(1 for line in open("{}_{}_read_mapping.paf".format(sample_id, assembler)))
+
+    # get number of reads
+    n_reads = 0
+    with gzip.open('your.fastq.gz', 'rb') as read:
+        for id in reads[0]:
+            seq = next(read)
+            reads += 1
+            next(read)
+            next(read)
+    n_reads = n_reads * 2
+
+    with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
+        mapped_reads = n_reads_mapping/n_reads
+        fh.write(str(mapped_reads))
 
 
 if __name__ == '__main__':
