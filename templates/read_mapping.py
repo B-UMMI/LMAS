@@ -97,13 +97,7 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         n_reads_mapping = sum(1 for line in open("{}_{}_read_mapping.paf".format(sample_id, assembler)))
 
         # get number of reads
-        n_reads = 0
-        with gzip.open(reads[0], 'rb') as read:
-            for id in read:
-                seq = next(read)
-                reads += 1
-                next(read)
-                next(read)
+        n_reads = sum(1 for line in gzip.open(reads[0], 'rb'))/4
 
         with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
             try:
