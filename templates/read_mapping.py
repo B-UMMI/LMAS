@@ -96,9 +96,11 @@ def main(sample_id, assembler, assembly, fastq, basedir):
     if p.returncode == 0:
         # count number of reads mapping
         n_reads_mapping = sum(1 for line in open("{}_{}_read_mapping.paf".format(sample_id, assembler)))
+        logger.debug("Number of reads mapping: {}".format(n_reads_mapping))
 
         # get number of reads
         n_reads = sum(1 for line in gzip.open(reads[0], 'rb'))/4
+        logger.debug("Number of reads in fastq file: {}".format(n_reads*2))
 
         with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
             try:
