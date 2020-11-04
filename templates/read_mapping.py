@@ -28,6 +28,7 @@ import subprocess
 from subprocess import PIPE
 import glob
 import gzip
+import json
 import utils
 
 __version__ = "0.0.1"
@@ -105,6 +106,20 @@ def main(sample_id, assembler, assembly, fastq, basedir):
             except ZeroDivisionError:
                 mapped_reads = 0
             fh.write(str(mapped_reads))
+
+        with open(".report.json", "w") as json_report:
+            json_dic = {
+                "tableRow": [{
+                    "sample": sample_id,
+                    "data": [
+                        {"header": "Mapped reads (%)",
+                         "value": mapped_reads * 100,
+                         "table": "assembly_global_stats",
+                         "assembler": assembler},
+                    ]
+                }]
+            }
+            json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
 
 if __name__ == '__main__':
