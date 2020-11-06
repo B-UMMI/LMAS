@@ -421,9 +421,6 @@ ALL_ASSEMBLERS = ALL_ASSEMBLERS.mix(OUT_BCALM2,
                                       OUT_VELVETOPTIMIZER,
                                       OUT_IDBA)
 
-TO_FILTER = Channel.create()
-TO_GLOBAL_STATS = Channel.create()
-TO_READ_MAPPING = Channel.create()
 ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
 
 // ASSEMBLY STATS GLOBAL
@@ -441,16 +438,12 @@ process ASSEMBLY_STATS_GLOBAL {
     template "assembly_stats_global.py"
 }
 
-// move the collect out of the process to avoid halt error
-IN_PROCESS_ASSEMBLY_STATS_GLOBAL = Channel.create()
-OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect().set{IN_PROCESS_ASSEMBLY_STATS_GLOBAL}
-
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
     publishDir 'results/stats/'
 
     input:
-    file(assembly_stats_global_files) from IN_PROCESS_ASSEMBLY_STATS_GLOBAL
+    file(assembly_stats_global_files) from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
 
     output:
     file("*.csv")
@@ -533,20 +526,12 @@ process ASSEMBLY_STATS_MAPPING {
 
 }
 
-// move the collect out of the process to avoid halt error
-IN_PROCESS_COMPLETNESS = Channel.create()
-OUT_COVERAGE_PER_CONTIG.collect().set{IN_PROCESS_COMPLETNESS}
-
-IN_PROCESS_COMPLETNESS.into{print_lala; IN_PROCESS_COMPLETNESS_2}
-
-print_lala.subscribe{print it}
-
 process PROCESS_COMPLETNESS {
 
     publishDir 'results/plots/'
 
     input:
-    file(coverage_files) from IN_PROCESS_COMPLETNESS_2
+    file(coverage_files) from OUT_COVERAGE_PER_CONTIG.collect()
 
     output:
     file("*.html")
