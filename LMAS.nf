@@ -442,6 +442,7 @@ process ASSEMBLY_STATS_GLOBAL {
 }
 
 // move the collect out of the process to avoid halt error
+IN_PROCESS_ASSEMBLY_STATS_GLOBAL = Channel.create()
 OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect().set{IN_PROCESS_ASSEMBLY_STATS_GLOBAL}
 
 process PROCESS_ASSEMBLY_STATS_GLOBAL {

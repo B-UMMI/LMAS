@@ -29,6 +29,8 @@ The following variables are expected whether using NextFlow or the
     - e.g.: ``'SPAdes'``
 - ``assembly``: fasta file from the assembler
     - e.g.: ``'spades.fasta'``
+- ``min_len``: value for minimum contig length
+    - e.g.: ``'1000'``
 
 Generated output
 ----------------
@@ -42,7 +44,10 @@ https://github.com/cimendes
 
 import os
 import json
-import utils
+try:
+    import utils
+except ImportError:
+    from templates import utils
 
 __version__ = "0.0.1"
 __build__ = "22.10.2020"
@@ -54,17 +59,20 @@ if __file__.endswith(".command.sh"):
     SAMPLE_ID = '$sample_id'
     ASSEMBLER = '$assembler'
     ASSEMBLY = '$assembly'
+    MIN_LEN = "$params.minLength"
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
     logger.debug("ASSEMBLER: {}".format(ASSEMBLER))
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
+    logger.debug("MIN_LEN: {}".format(MIN_LEN))
 
 
-def get_contig_lists(fasta):
+def get_contig_lists(fasta, min_len):
     """
     From a fasta iterator, get lists with contig lengths
     :param fasta: yield tuples of header, sequence
+    :param min_len: minimum contig lenght
     :return:
         - contig_len: list with all contig lenghts in the assembly
         - contigs_len_over_1000: list with contig lenghts filtered for a minimum of 1000 nucleotides
@@ -73,19 +81,19 @@ def get_contig_lists(fasta):
     contigs_len = []
 
     for header, seq in fasta:
-        if len(seq) > 1000:
+        if len(seq) > int(min_len):
             contigs_len_over_1000.append(len(seq))
         contigs_len.append(len(seq))
 
     return contigs_len, contigs_len_over_1000
 
 
-def main(sample_id, assembler, assembly):
+def main(sample_id, assembler, assembly, min_len):
 
-    contigs, contigs_over_1000bp = get_contig_lists(utils.fasta_iter(assembly))
+    contigs, contigs_over_min_len = get_contig_lists(utils.fasta_iter(assembly), min_len)
 
     n50_contigs = utils.get_N50(contigs)
-    n50_contigs_over_1000bp = utils.get_N50(contigs_over_1000bp)
+    n50_contigs_over_min_len = utils.get_N50(contigs_over_min_len)
 
     with open(".report.json", "w") as json_report:
         json_dic = {
@@ -109,15 +117,15 @@ def main(sample_id, assembler, assembly):
                      "table": "assembly_global_stats",
                      "sample": sample_id},
                     {"header": "contigs>1000bp (%)",
-                     "value": len(contigs_over_1000bp),
+                     "value": len(contigs_over_min_len),
                      "table": "assembly_global_stats",
                      "sample": sample_id},
                     {"header": "Basepairs in contigs>1000bp (%)",
-                     "value": sum(contigs_over_1000bp),
+                     "value": sum(contigs_over_min_len),
                      "table": "assembly_global_stats",
                      "sample": sample_id},
                     {"header": "N50 in contigs>1000bp",
-                     "value": n50_contigs_over_1000bp,
+                     "value": n50_contigs_over_min_len,
                      "table": "assembly_global_stats",
                      "sample": sample_id}
                 ]
@@ -129,9 +137,9 @@ def main(sample_id, assembler, assembly):
     with open(sample_id + '_' + assembler + "_global_assembly_stats_global.csv", "w") as cvs_file:
         cvs_file.write(','.join([assembler, f'{len(contigs)}', f'{sum(contigs)}',
                                  f'{max(contigs)if len(contigs) > 0 else 0 }', f'{n50_contigs}',
-                                 f'{len(contigs_over_1000bp)}', f'{sum(contigs_over_1000bp)}',
-                                 f'{n50_contigs_over_1000bp}']))
+                                 f'{len(contigs_over_min_len)}', f'{sum(contigs_over_min_len)}',
+                                 f'{n50_contigs_over_min_len}']))
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MIN_LEN)

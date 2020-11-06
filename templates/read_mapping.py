@@ -29,7 +29,10 @@ from subprocess import PIPE
 import glob
 import gzip
 import json
-import utils
+try:
+    import utils
+except ImportError:
+    from templates import utils
 
 __version__ = "0.0.1"
 __build__ = "03.11.2020"

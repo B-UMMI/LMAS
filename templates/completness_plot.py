@@ -24,7 +24,10 @@ from plotly import subplots
 from scipy import interpolate
 import plotly.graph_objs as go
 from plotly.offline import plot
-import utils
+try:
+    import utils
+except ImportError:
+    from templates import utils
 
 
 __version__ = "0.0.1"
