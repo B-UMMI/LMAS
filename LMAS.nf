@@ -464,7 +464,7 @@ IN_minLen = Channel.value(params.minLength)
 
 process FILTER_ASSEMBLY {
 
-    tag {sample_id}
+    tag {sample_id; assembler}
     publishDir 'results/filtered/'
 
     input:
