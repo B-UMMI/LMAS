@@ -524,8 +524,8 @@ process ASSEMBLY_STATS_MAPPING {
     each reference from IN_ASSEMBLY_STATS_MAPPING
 
     output:
-    file(".report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
-    file("*_breadth_of_coverage_contigs.csv") into OUT_COVERAGE_PER_CONTIG
+    //file(".report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
+    file("*breadth_of_coverage_contigs.csv") into OUT_COVERAGE_PER_CONTIG
 
     script:
     template "assembly_stats_mapping.py"
@@ -533,6 +533,7 @@ process ASSEMBLY_STATS_MAPPING {
 }
 
 // move the collect out of the process to avoid halt error
+IN_PROCESS_COMPLETNESS = Channel.create()
 OUT_COVERAGE_PER_CONTIG.collect().set{IN_PROCESS_COMPLETNESS}
 
 IN_PROCESS_COMPLETNESS.into{print_lala; IN_PROCESS_COMPLETNESS_2}
