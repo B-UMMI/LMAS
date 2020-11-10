@@ -531,10 +531,11 @@ process PROCESS_COMPLETNESS {
     publishDir 'results/plots/'
 
     input:
-    file(coverage_files) from OUT_COVERAGE_PER_CONTIG.collect()
+    file(coverage_files) from OUT_COVERAGE_PER_CONTIG
 
     output:
     file("*.html")
+    file("*.json")
 
     script:
     template "completness_plot.py"
