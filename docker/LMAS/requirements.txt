@@ -92,3 +92,4 @@ wcwidth
 webencodings==0.5.1
 widgetsnbextension
 zipp
+scipy
