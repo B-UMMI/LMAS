@@ -24,7 +24,6 @@ import numpy as np
 import pandas as pd
 from scipy import interpolate
 import plotly.graph_objs as go
-from plotly import to_json
 from plotly.offline import plot
 try:
     import utils
