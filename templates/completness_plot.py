@@ -105,10 +105,10 @@ def plot_data(species_data):
                              tickvals=[0, 0.2, 0.4, 0.6, 0.8, 1])
 
         # add xaxis title
-        xaxis_title = dict(x=0.5, y=-0.1, xref='paper', yref='paper', text='Number of Contigs', showarrow=False)
-        yaxis_title = dict(x=-0.07, y=0.5, xref='paper', yref='paper', text='Breadth of Coverage (%)', textangle=-90,
-                           showarrow=False)
-        to_plot.layout.annotations = plot.layout.annotations + (xaxis_title, yaxis_title)
+        #xaxis_title = dict(x=0.5, y=-0.1, xref='paper', yref='paper', text='Number of Contigs', showarrow=False)
+        #yaxis_title = dict(x=-0.07, y=0.5, xref='paper', yref='paper', text='Breadth of Coverage (%)', textangle=-90,
+        #                   showarrow=False)
+        #to_plot.layout.annotations = plot.layout.annotations + (xaxis_title, yaxis_title)
 
         # change background color for all subplots
         to_plot['layout']['plot_bgcolor'] = 'rgb(255,255,255)'
