@@ -24,6 +24,7 @@ import numpy as np
 import pandas as pd
 from scipy import interpolate
 import plotly.graph_objs as go
+from plotly import to_json
 from plotly.offline import plot
 try:
     import utils
@@ -126,7 +127,7 @@ def plot_data(species_data):
             i['font']['size'] = 16
 
         plot(to_plot, filename='{0}_{1}_breadth_of_coverage_plot.html'.format(sample_id, text), auto_open=False)
-        to_plot.to_json(filename='{0}_{1}_breadth_of_coverage_plot.json'.format(sample_id, text), auto_open=False)
+        to_plot.write_json(file='{0}_{1}_breadth_of_coverage_plot.json'.format(sample_id, text))
         i += 1  # update counter
 
 
