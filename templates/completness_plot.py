@@ -63,20 +63,21 @@ def plot_data(species_data):
     i = 0
 
     for sample_id in species_data.keys():
+        to_plot = go.Figure()
         for a, d in species_data[sample_id].items():
             text = str(d[1]) + '<br>' + a
-            to_plot = go.Scatter(x=list(interpolation_function([d[1]])),
-                                 y=[d[0]],
-                                 name=a,
-                                 showlegend=True,
-                                 opacity=1,
-                                 mode='markers',
-                                 marker=dict(color=colors[i],
-                                             size=7,
-                                             line=dict(width=1, color='black')),
-                                 text=text,
-                                 hoverinfo='y+text'
-                                 )
+            to_plot.add_trace(go.Scatter(x=list(interpolation_function([d[1]])),
+                                         y=[d[0]],
+                                         name=a,
+                                         showlegend=True,
+                                         opacity=1,
+                                         mode='markers',
+                                         marker=dict(color=colors[i],
+                                                     size=7,
+                                                     line=dict(width=1, color='black')),
+                                         text=text,
+                                         hoverinfo='y+text'
+                                         ))
 
         # define xaxes attributes
         xaxis_range = list(interpolation_function(interpolation_xvalues))
