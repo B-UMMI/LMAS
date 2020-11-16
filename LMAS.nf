@@ -433,7 +433,7 @@ process ASSEMBLY_STATS_GLOBAL {
     set sample_id, assembler, file(assembly) from TO_GLOBAL_STATS
 
     output:
-    file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
+    //file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
     file("*assembly_stats_global.csv") into OUT_ASSEMBLY_STATS_GLOBAL_TSV
 
     script:
