@@ -38,13 +38,13 @@ __template__ = "PROCESS_COMPLETNESS-nf"
 logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
-    COVERAGE_FILE = '$coverage_file'
+    COVERAGE_FILES = '$coverage_files'
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
-    logger.debug("COVERAGE_FILE: {}".format(COVERAGE_FILE))
+    logger.debug("COVERAGE_FILE: {}".format(COVERAGE_FILES))
 
 
-def plot_data(species_data):
+def plot_data(species_data, sample_id):
     """
 
     :param sample_id: string
@@ -60,11 +60,11 @@ def plot_data(species_data):
     # create a tracer for each assembler data point
     # simpler to manage colors and legends
 
-    i = 0
 
-    for sample_id in species_data.keys():
+    for species in species_data.keys():
+        i = 0
         to_plot = go.Figure()
-        for a, d in species_data[sample_id].items():
+        for a, d in species_data[species].items():
             text = str(d[1]) + '<br>' + a
             to_plot.add_trace(go.Scatter(x=list(interpolation_function([d[1]])),
                                          y=[d[0]],
@@ -73,11 +73,16 @@ def plot_data(species_data):
                                          opacity=1,
                                          mode='markers',
                                          marker=dict(color=colors[i],
-                                                     size=7,
+                                                     size=12,
                                                      line=dict(width=1, color='black')),
                                          text=text,
                                          hoverinfo='y+text'
                                          ))
+            i += 1
+
+        #add title
+        to_plot.update_layout(title_text="<br>Needs beteer title here for.. {} ".format(species), title_x=0.5,
+                              xaxis_title="Number of contigs", yaxis_title="Breadth of coverage")
 
         # define xaxes attributes
         xaxis_range = list(interpolation_function(interpolation_xvalues))
@@ -104,12 +109,6 @@ def plot_data(species_data):
                              range=[0, 1.05],
                              tickvals=[0, 0.2, 0.4, 0.6, 0.8, 1])
 
-        # add xaxis title
-        #xaxis_title = dict(x=0.5, y=-0.1, xref='paper', yref='paper', text='Number of Contigs', showarrow=False)
-        #yaxis_title = dict(x=-0.07, y=0.5, xref='paper', yref='paper', text='Breadth of Coverage (%)', textangle=-90,
-        #                   showarrow=False)
-        #to_plot.layout.annotations = plot.layout.annotations + (xaxis_title, yaxis_title)
-
         # change background color for all subplots
         to_plot['layout']['plot_bgcolor'] = 'rgb(255,255,255)'
 
@@ -125,34 +124,36 @@ def plot_data(species_data):
             i['font']['color'] = 'black'
             i['font']['size'] = 16
 
-        plot(to_plot, filename='{0}_{1}_breadth_of_coverage_plot.html'.format(sample_id, text), auto_open=False)
-        to_plot.write_json(file='{0}_{1}_breadth_of_coverage_plot.json'.format(sample_id, text))
-        i += 1  # update counter
+        plot(to_plot, filename='{0}_{1}_breadth_of_coverage_plot.html'.format(sample_id, species.replace(' ', '_')),
+             auto_open=False)
+        to_plot.write_json(file='{0}_{1}_breadth_of_coverage_plot.json'.format(sample_id, species.replace(' ', '_')))
 
 
-def main(coverage_file):
+def main(coverage_files):
 
     all_data = {}
-
     species_data = {}
-    sample_name = os.path.basename(coverage_file).split('_')[0]
-    assembler_name = os.path.basename(coverage_file).split('_')[1]
-    logger.debug('Processing {0} {1} data...'.format(sample_name, assembler_name))
+    for coverage_file in coverage_files:
+        sample_name = os.path.basename(coverage_file).split('_')[0]
+        assembler_name = os.path.basename(coverage_file).split('_')[1]
+        logger.debug('Processing {0} {1} data...'.format(sample_name, assembler_name))
 
-    # import table with data
-    data = pd.read_csv(coverage_file)
-    species = list(data['Reference'])
-    coverage = list(data['Breadth of Coverage'])
-    contigs = list(data['Contigs'])
+        # import table with data
+        data = pd.read_csv(coverage_file)
+        species = list(data['Reference'])
+        coverage = list(data['Breadth of Coverage'])
+        contigs = list(data['Contigs'])
 
-    for i, s in enumerate(species):
-        species_data.setdefault(s, {})[assembler_name] = (coverage[i], contigs[i])
+        for i, s in enumerate(species):
+            if i not in species_data.keys():
+                species_data.setdefault(s, {})[assembler_name] = (coverage[i], contigs[i])
 
     all_data[sample_name] = species_data
+    print(all_data)
 
     for sample_id in all_data.keys():
-        plot_data(all_data[sample_id])
+        plot_data(all_data[sample_id], sample_id)
 
 
 if __name__ == '__main__':
-    main(COVERAGE_FILE)
+    main(COVERAGE_FILES)

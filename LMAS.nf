@@ -531,7 +531,7 @@ process PROCESS_COMPLETNESS {
     publishDir 'results/plots/'
 
     input:
-    file(coverage_file) from OUT_COVERAGE_PER_CONTIG.collect()
+    file(coverage_files) from OUT_COVERAGE_PER_CONTIG.collect()
 
     output:
     file("*.html")
