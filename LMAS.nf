@@ -427,6 +427,8 @@ ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
 process ASSEMBLY_STATS_GLOBAL {
     tag { sample_id; assembler }
 
+    publishDir 'results/stats/assembly/'
+
     input:
     set sample_id, assembler, file(assembly) from TO_GLOBAL_STATS
 
