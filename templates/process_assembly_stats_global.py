@@ -58,6 +58,4 @@ def main(assembly_stats_global_file):
 
 
 if __name__ == '__main__':
-    #main(ASSEMBLY_STATS_GLOBAL_FILE)
-    import glob
-    main(glob.glob("/home/cimendes/Temp/LMAS/assembly_stats/*"))
+    main(ASSEMBLY_STATS_GLOBAL_FILE)
