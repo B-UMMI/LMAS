@@ -461,7 +461,7 @@ IN_minLen = Channel.value(params.minLength)
 process FILTER_ASSEMBLY {
 
     tag {sample_id; assembler}
-    publishDir 'results/filtered/'
+    publishDir 'results/assembly/filtered/'
 
     input:
     set sample_id, assembler, file(assembly) from TO_FILTER
@@ -478,6 +478,8 @@ process FILTER_ASSEMBLY {
 process ASSEMBLY_MAPPING{
 
     tag { sample_id; assembler }
+
+    publishDir 'results/mapping/${sample_id}/'
 
     input:
     set sample_id, assembler, file(assembly) from OUT_FILTERED
@@ -496,7 +498,7 @@ process READ_MAPPING{
 
     tag { sample_id; assembler }
 
-    publishDir 'results/stats/'
+    publishDir 'results/stats/${sample_id}/'
 
     input:
     set sample_id, assembler, assembly from TO_READ_MAPPING
