@@ -38,20 +38,26 @@ def main(assembly_stats_global_file):
 
     data = {}
     for file in assembly_stats_global_file:
-        sample = file.split('_')[0]
+        sample = os.path.basename(file).split('_')[0]
 
         if sample not in data.keys():
             data[sample] = [{"data": file}]
         else:
             data[sample].append({"data": file})
-
+    print(data)
     for sample in data.keys():
-        with open(sample + 'csv') as csv_file:
+        with open(sample + '.csv', "w") as csv_file:
             csv_file.write(','.join(['Assembler', 'Contigs', 'Basepairs', 'Max contig size', 'N50',
-                                     'contigs>1000bp (%)', 'Basepairs in contigs>1000bp (%)', 'N50 in contigs>1000bp']))
+                                     'contigs>1000bp (%)', 'Basepairs in contigs>1000bp (%)', 'N50 in contigs>1000bp'])
+                           + '\\n')
             for item in data[sample]:
-                csv_file.write(item['data'])
+                with open(item['data'], 'r') as stats_file:
+                    data = stats_file.read().replace('\\n', '')
+                    print(data)
+                    csv_file.write(data + '\\n')
 
 
 if __name__ == '__main__':
-    main(ASSEMBLY_STATS_GLOBAL_FILE)
+    #main(ASSEMBLY_STATS_GLOBAL_FILE)
+    import glob
+    main(glob.glob("/home/cimendes/Temp/LMAS/assembly_stats/*"))
