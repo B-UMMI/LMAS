@@ -440,10 +440,10 @@ process ASSEMBLY_STATS_GLOBAL {
     template "assembly_stats_global.py"
 }
 
-OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect().subscribe onNext: { println it }
+OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect().subscribe onComplete: { println it }
 //.set{COLLECTED_OUT_ASSEMBLY_STATS_GLOBAL_TSV}
 
-process PROCESS_ASSEMBLY_STATS_GLOBAL {
+/*process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
     publishDir 'results/stats/'
 
@@ -456,7 +456,7 @@ process PROCESS_ASSEMBLY_STATS_GLOBAL {
     script:
     template "process_assembly_stats_global.py"
 
-}
+}*/
 
 // FILTER ASSEMBLY
 IN_minLen = Channel.value(params.minLength)
