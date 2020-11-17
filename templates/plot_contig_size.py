@@ -51,7 +51,7 @@ def main(dataframe_files):
     df = pd.concat((pd.read_csv(f) for f in dataframe_files))
 
     print(df)
-    sample_id = sample_id_list[0]
+    sample_id =  list(sample_id_list)[0]
 
     fig = go.Figure()
 
