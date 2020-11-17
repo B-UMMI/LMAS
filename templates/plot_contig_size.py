@@ -61,7 +61,7 @@ def main(dataframe_files):
                             f'{sum(mapped_contigs)} ({(sum(mapped_contigs) / sum(contigs)) * 100:.2f}%)']))
 
             # mapped contigs as boxplots
-            fig.add_trace(go.Box(x=df['Contig Len'][(df['Mapped'] == 'Mapped') & (df['Assembler'] == assembler)],
+            fig.add_trace(go.Box(x=df['Contig Len'][(df['Mapped'] != 'Unmapped') & (df['Assembler'] == assembler)],
                                  name=assembler, boxpoints='outliers',
                                  boxmean=False, fillcolor='#D3D3D3', line=dict(color='#000000')))
             # unmapped contigs as scatter-like plot (boxplot showing only the underlying data)
