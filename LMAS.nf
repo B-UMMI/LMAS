@@ -408,8 +408,7 @@ process IDBA {
 }
 
 // ASSEMBLY COLLECTION
-ALL_ASSEMBLERS.mix(OUT_BCALM2,
-                  OUT_GATB,
+OUT_BCALM2.mix(OUT_GATB,
                   OUT_MINIA,
                   OUT_MEGAHIT,
                   OUT_METASPADES,
@@ -418,7 +417,7 @@ ALL_ASSEMBLERS.mix(OUT_BCALM2,
                   OUT_SKESA,
                   OUT_PANDASEQ,
                   OUT_VELVETOPTIMIZER,
-                  OUT_IDBA)
+                  OUT_IDBA).set{ALL_ASSEMBLERS} 
 
 ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING; TO_PRINT}
 
