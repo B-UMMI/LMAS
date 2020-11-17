@@ -38,7 +38,7 @@ __template__ = "PROCESS_COMPLETNESS-nf"
 logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
-    COVERAGE_FILES = '$coverage_files'
+    COVERAGE_FILES = '$coverage_files'.split()
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("COVERAGE_FILE: {}".format(COVERAGE_FILES))
