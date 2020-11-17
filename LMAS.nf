@@ -440,7 +440,7 @@ process ASSEMBLY_STATS_GLOBAL {
     template "assembly_stats_global.py"
 }
 
-OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect().set{COLLECTED_OUT_ASSEMBLY_STATS_GLOBAL_TSV}
+OUT_ASSEMBLY_STATS_GLOBAL_TSV.toList().subscribe onNext: { println it }, onComplete: 'Done'.set{COLLECTED_OUT_ASSEMBLY_STATS_GLOBAL_TSV}
 
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
