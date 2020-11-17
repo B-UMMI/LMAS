@@ -34,7 +34,7 @@ __template__ = "PLOT_CONTIG_DISTRIBUTION-nf"
 logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
-    DATAFRAME_FILES = 'dataframes'.split()
+    DATAFRAME_FILES = '$dataframes'.split()
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("COVERAGE_FILE: {}".format(DATAFRAME_FILES))
