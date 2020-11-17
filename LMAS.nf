@@ -434,7 +434,7 @@ process ASSEMBLY_STATS_GLOBAL {
 
     output:
     //file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
-    file "*assembly_stats_global.csv" into OUT_ASSEMBLY_STATS_GLOBAL_TSV
+    file "*.csv" into OUT_ASSEMBLY_STATS_GLOBAL_TSV
 
     script:
     template "assembly_stats_global.py"
