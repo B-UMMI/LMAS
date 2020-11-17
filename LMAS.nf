@@ -425,7 +425,7 @@ ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
-    tag { sample_id; assembler }
+    tag { assembler }
 
     publishDir 'results/stats/assembly/'
 
@@ -440,15 +440,17 @@ process ASSEMBLY_STATS_GLOBAL {
     template "assembly_stats_global.py"
 }
 
+OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect().set{COLLECTED_OUT_ASSEMBLY_STATS_GLOBAL_TSV}
+
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
     publishDir 'results/stats/'
 
     input:
-    file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
+    file assembly_stats_global_files from COLLECTED_OUT_ASSEMBLY_STATS_GLOBAL_TSV
 
     output:
-    file("*.csv")
+    file "*.csv"
 
     script:
     template "process_assembly_stats_global.py"
