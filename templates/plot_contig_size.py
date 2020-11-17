@@ -48,35 +48,35 @@ def main(dataframe_files):
         sample_name = os.path.basename(dataframe).split('_')[0]
         sample_id_list.add(sample_name)
 
-    for sample_id in sample_id_list:
-        df = pd.concat((pd.read_csv(f) for f in dataframe_files if sample_id in f))
+    df = pd.concat((pd.read_csv(f) for f in dataframe_files))
 
-        print(df)
+    print(df)
+    sample_id = sample_id_list[0]
 
-        fig = go.Figure()
+    fig = go.Figure()
 
-        for assembler in sorted(df['Assembler'].unique()):
-            contigs = df['Contig Len'][df['Assembler'] == assembler]
-            mapped_contigs = df['Contig Len'][(df['Mapped'] == 'Mapped') & (df['Assembler'] == assembler)]
+    for assembler in sorted(df['Assembler'].unique()):
+        contigs = df['Contig Len'][df['Assembler'] == assembler]
+        mapped_contigs = df['Contig Len'][(df['Mapped'] == 'Mapped') & (df['Assembler'] == assembler)]
 
-            print(','.join([assembler, f'{len(mapped_contigs)} ({(len(mapped_contigs) / len(contigs)) * 100:.2f}%)',
-                            f'{sum(mapped_contigs)} ({(sum(mapped_contigs) / sum(contigs)) * 100:.2f}%)']))
+        print(','.join([assembler, f'{len(mapped_contigs)} ({(len(mapped_contigs) / len(contigs)) * 100:.2f}%)',
+                        f'{sum(mapped_contigs)} ({(sum(mapped_contigs) / sum(contigs)) * 100:.2f}%)']))
 
-            # mapped contigs as boxplots
-            fig.add_trace(go.Box(x=df['Contig Len'][(df['Mapped'] != 'Unmapped') & (df['Assembler'] == assembler)],
-                                 name=assembler, boxpoints='outliers',
-                                 boxmean=False, fillcolor='#D3D3D3', line=dict(color='#000000')))
-            # unmapped contigs as scatter-like plot (boxplot showing only the underlying data)
-            fig.add_trace(go.Box(x=df['Contig Len'][(df['Mapped'] == 'Unmapped') & (df['Assembler'] == assembler)],
-                                 name=assembler, boxpoints='all', pointpos=0, marker=dict(color='rgba(178,37,34,0.7)'),
-                                 line=dict(color='rgba(0,0,0,0)'), fillcolor='rgba(0,0,0,0)'))
+        # mapped contigs as boxplots
+        fig.add_trace(go.Box(x=df['Contig Len'][(df['Mapped'] != 'Unmapped') & (df['Assembler'] == assembler)],
+                             name=assembler, boxpoints='outliers',
+                             boxmean=False, fillcolor='#D3D3D3', line=dict(color='#000000')))
+        # unmapped contigs as scatter-like plot (boxplot showing only the underlying data)
+        fig.add_trace(go.Box(x=df['Contig Len'][(df['Mapped'] == 'Unmapped') & (df['Assembler'] == assembler)],
+                             name=assembler, boxpoints='all', pointpos=0, marker=dict(color='rgba(178,37,34,0.7)'),
+                             line=dict(color='rgba(0,0,0,0)'), fillcolor='rgba(0,0,0,0)'))
 
-        fig.update_layout(showlegend=False, xaxis_type="log", xaxis_title="Contig size (Log bp)",
-                          title="Contig size distribution per assembler (contigs over 1000 bp)",
-                          plot_bgcolor='rgb(255,255,255)', xaxis=dict(zeroline=False, gridcolor='#DCDCDC'))
+    fig.update_layout(showlegend=False, xaxis_type="log", xaxis_title="Contig size (Log bp)",
+                      title="Contig size distribution per assembler (contigs over 1000 bp)",
+                      plot_bgcolor='rgb(255,255,255)', xaxis=dict(zeroline=False, gridcolor='#DCDCDC'))
 
-        plot(fig, filename='{}_contig_size_distribution.html'.format(sample_id), auto_open=False)
-        fig.write_json(file='{}_contig_size_distribution.json'.format(sample_id))
+    plot(fig, filename='{}_contig_size_distribution.html'.format(sample_id), auto_open=False)
+    fig.write_json(file='{}_contig_size_distribution.json'.format(sample_id))
 
 
 if __name__ == '__main__':
