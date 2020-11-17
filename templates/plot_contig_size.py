@@ -42,6 +42,8 @@ if __file__.endswith(".command.sh"):
 
 def main(dataframe_files):
 
+    # TODO - ADJUST DF TO INCLUDE SAMPLE_ID INFO
+
     sample_id_list = set()
 
     for dataframe in dataframe_files:
@@ -51,7 +53,7 @@ def main(dataframe_files):
     df = pd.concat((pd.read_csv(f) for f in dataframe_files))
 
     print(df)
-    sample_id =  list(sample_id_list)[0]
+    sample_id = list(sample_id_list)[0]
 
     fig = go.Figure()
 
