@@ -51,6 +51,8 @@ def main(dataframe_files):
     for sample_id in sample_id_list:
         df = pd.concat((pd.read_csv(f) for f in dataframe_files if sample_id in f))
 
+        print(df)
+
         fig = go.Figure()
 
         for assembler in sorted(df['Assembler'].unique()):
