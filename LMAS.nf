@@ -408,17 +408,17 @@ process IDBA {
 }
 
 // ASSEMBLY COLLECTION
-ALL_ASSEMBLERS = ALL_ASSEMBLERS.mix(OUT_BCALM2,
-                                      OUT_GATB,
-                                      OUT_MINIA,
-                                      OUT_MEGAHIT,
-                                      OUT_METASPADES,
-                                      OUT_UNICYCLER,
-                                      OUT_SPADES,
-                                      OUT_SKESA,
-                                      OUT_PANDASEQ,
-                                      OUT_VELVETOPTIMIZER,
-                                      OUT_IDBA)
+ALL_ASSEMBLERS.mix(OUT_BCALM2,
+                  OUT_GATB,
+                  OUT_MINIA,
+                  OUT_MEGAHIT,
+                  OUT_METASPADES,
+                  OUT_UNICYCLER,
+                  OUT_SPADES,
+                  OUT_SKESA,
+                  OUT_PANDASEQ,
+                  OUT_VELVETOPTIMIZER,
+                  OUT_IDBA)
 
 ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING; TO_PRINT}
 
