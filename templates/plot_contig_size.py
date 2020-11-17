@@ -57,7 +57,7 @@ def main(dataframe_files):
 
     for assembler in sorted(df['Assembler'].unique()):
         contigs = df['Contig Len'][df['Assembler'] == assembler]
-        mapped_contigs = df['Contig Len'][(df['Mapped'] == 'Mapped') & (df['Assembler'] == assembler)]
+        mapped_contigs = df['Contig Len'][(df['Mapped'] != 'Unmapped') & (df['Assembler'] == assembler)]
 
         print(','.join([assembler, f'{len(mapped_contigs)} ({(len(mapped_contigs) / len(contigs)) * 100:.2f}%)',
                         f'{sum(mapped_contigs)} ({(sum(mapped_contigs) / sum(contigs)) * 100:.2f}%)']))
