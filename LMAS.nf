@@ -408,7 +408,6 @@ process IDBA {
 }
 
 // ASSEMBLY COLLECTION
-ALL_ASSEMBLERS = Channel.create()
 ALL_ASSEMBLERS = ALL_ASSEMBLERS.mix(OUT_BCALM2,
                                       OUT_GATB,
                                       OUT_MINIA,
