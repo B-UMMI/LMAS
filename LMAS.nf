@@ -524,6 +524,7 @@ process ASSEMBLY_STATS_MAPPING {
     output:
     //file(".report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
     file("*breadth_of_coverage_contigs.csv") into OUT_COVERAGE_PER_CONTIG
+    file "_df.csv" into OUT_DF_ASSEMBLY_STATS_MAPPING
 
     script:
     template "assembly_stats_mapping.py"
@@ -543,4 +544,19 @@ process PROCESS_COMPLETNESS {
 
     script:
     template "completness_plot.py"
+}
+
+process PLOT_CONTIG_DISTRIBUTION {
+
+    publishDir 'results/plots/'
+
+    input:
+    file dataframes from OUT_DF_ASSEMBLY_STATS_MAPPING.collect()
+
+    output:
+    file("*.html")
+    file("*.json")
+
+    scipt:
+    template "plot_contig_size.py"
 }

@@ -347,6 +347,9 @@ def main(sample_id, assembler, assembly, mapping, reference):
     to_plot_c90.to_csv(sample_id + '_' + assembler + '_c90.csv')
     to_plot_phred.to_csv(sample_id + '_' + assembler + '_phred.csv')
 
+    #save dataframe
+    df.to_csv(sample_id + '_' + assembler + '_df.csv')
+
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE)
