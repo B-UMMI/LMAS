@@ -557,6 +557,6 @@ process PLOT_CONTIG_DISTRIBUTION {
     file("*.html")
     file("*.json")
 
-    scipt:
+    script:
     template "plot_contig_size.py"
 }
