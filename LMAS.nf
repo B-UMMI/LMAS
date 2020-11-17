@@ -440,14 +440,14 @@ process ASSEMBLY_STATS_GLOBAL {
     template "assembly_stats_global.py"
 }
 
-OUT_ASSEMBLY_STATS_GLOBAL_TSV.toList().subscribe onNext: { println it }, onComplete: 'Done'
+OUT_ASSEMBLY_STATS_GLOBAL_TSV.toList().set{COLLECTED_OUT_ASSEMBLY_STATS_GLOBAL_TSV}
 
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
     publishDir 'results/stats/'
 
     input:
-    //file assembly_stats_global_files from COLLECTED_OUT_ASSEMBLY_STATS_GLOBAL_TSV
+    file assembly_stats_global_files from COLLECTED_OUT_ASSEMBLY_STATS_GLOBAL_TSV
 
     output:
     file "*.csv"
