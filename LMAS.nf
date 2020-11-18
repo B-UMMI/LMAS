@@ -432,7 +432,7 @@ process ASSEMBLY_STATS_GLOBAL {
     set sample_id, assembler, file(assembly) from TO_GLOBAL_STATS
 
     output:
-    //file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
+    file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
     file "*.csv" into OUT_ASSEMBLY_STATS_GLOBAL_TSV
 
     script:
@@ -540,7 +540,7 @@ process PROCESS_COMPLETNESS {
 
     output:
     file("*.html")
-    file("*.json")
+    file("*.json") into PLOT_PROCESS_COMPLETNESS
 
     script:
     template "completness_plot.py"
@@ -555,8 +555,67 @@ process PLOT_CONTIG_DISTRIBUTION {
 
     output:
     file("*.html")
-    file("*.json")
+    file("*.json") into PLOT_CONTIG_DISTRIBUTION
 
     script:
     template "plot_contig_size.py"
+}
+
+/** Reports
+Compiles the reports from every process
+*/
+/*
+process report {
+
+    input:
+    set sample_id,
+            task_name,
+            pid,
+            report_json,
+            version_json,
+            trace from REPORT_integrity_coverage_1_1.mix(REPORT_fastqc_1_2,REPORT_fastqc_report_1_2,REPORT_trimmomatic_1_2,REPORT_filter_poly_1_3,REPORT_bowtie_1_4,REPORT_report_bowtie_1_4,REPORT_retrieve_mapped_1_5,REPORT_renamePE_1_5,REPORT_check_coverage_1_6,REPORT_va_spades_1_7,REPORT_va_megahit_1_7,REPORT_report_viral_assembly_1_7,REPORT_assembly_mapping_1_8,REPORT_process_am_1_8,REPORT_pilon_1_9,REPORT_pilon_report_1_9,REPORT_split_assembly_1_10,REPORT_dengue_typing_assembly_1_11,REPORT_dengue_typing_reads_1_11,REPORT_mafft_1_12,REPORT_raxml_1_13,REPORT_report_raxml_1_13)
+
+    output:
+    file "*" optional true into master_report
+
+    """
+    prepare_reports.py $report_json $version_json $trace $sample_id $task_name 1 $pid $workflow.scriptId $workflow.runName
+    """
+
+}
+*/
+
+// to change!!!!
+OUT_ASSEMBLY_STATS_GLOBAL_JSON.set{master_report}
+
+process compile_reports {
+
+    publishDir "pipeline_report/", mode: "copy"
+
+    input:
+    file report from master_report.collect()
+    file pipeline_stats from Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
+    file js from Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
+
+    output:
+    file "pipeline_report.json"
+    file "pipeline_report.html"
+    file "src/main.js"
+
+    script:
+    template "compile_reports.py"
+}
+
+workflow.onComplete {
+  // Display complete message
+  log.info "Completed at: " + workflow.complete
+  log.info "Duration    : " + workflow.duration
+  log.info "Success     : " + workflow.success
+  log.info "Exit status : " + workflow.exitStatus
+}
+
+workflow.onError {
+  // Display error message
+  log.info "Workflow execution stopped with the following message:"
+  log.info "  " + workflow.errorMessage
 }
