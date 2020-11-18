@@ -183,6 +183,7 @@ def main(reports, main_js, pipeline_stats):
                     performance[row[2]]["wchar"].append(get_max_mem(row[20]))
 
     performance_metadata = []
+    id = 1
     for process_id in performance.keys():
         time_list = performance[process_id]["realtime"]
         avg_time = str(timedelta(seconds=sum(map(lambda f: int(f[0])*3600 + int(f[1])*60 + int(f[2]),
@@ -191,14 +192,11 @@ def main(reports, main_js, pipeline_stats):
         max_rss = max(performance[process_id]["rss"])
         avg_read = average(performance[process_id]["rchar"])
         avg_write = average(performance[process_id]["wchar"])
-        performance_metadata.append({"assembler": process_id, "avgTime": avg_time, "cpus": max_cpus, "max_rss": max_rss,
-                                     "avgRead": avg_read, "avgWrite": avg_write})
+        performance_metadata.append({"id": id, "assembler": process_id, "avgTime": avg_time, "cpus": max_cpus,
+                                     "max_rss": max_rss, "avgRead": avg_read, "avgWrite": avg_write})
+        id += 1
 
     print(performance_metadata)
-    # Write metadata information to dotfile. This dotfile is then sent to the
-    # ReportHTTP, when available in the afterScript process directive.
-    with open(".metadata.json", "w") as fh:
-        fh.write(json.dumps(metadata, separators=(",", ":")))
 
     for r in reports:
         with open(r) as fh:
