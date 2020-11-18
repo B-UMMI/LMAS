@@ -119,7 +119,7 @@ def _hms(s):
 
 def _cpu_load_parser(cpus, cpu_per, t):
     """Parses the cpu load from the number of cpus and its usage
-    percentage and returnsde cpu/hour measure
+    percentage and returns the cpu/hour measure
     Parameters
     ----------
     cpus : str
@@ -129,7 +129,6 @@ def _cpu_load_parser(cpus, cpu_per, t):
     t : str
         The time string can be something like '20s', '1m30s' or '300ms'.
     """
-
     try:
         _cpus = float(cpus)
         _cpu_per = float(cpu_per.replace(",", ".").replace("%", ""))
@@ -137,7 +136,7 @@ def _cpu_load_parser(cpus, cpu_per, t):
 
         return ((_cpu_per / (100 * _cpus)) * _cpus) * hours
 
-    except ValueError:
+    except ValueError as e:
         return 0
 
 
@@ -171,13 +170,13 @@ def main(reports, main_js, pipeline_stats):
         for row in csvreader:
             if row[2] in ASSEMBLER_PROCESS_LIST:
                 if row[2] not in performance.keys():
-                    performance[row[2]] = {"cpus": [_cpu_load_parser(row[7], row[14], row[13])],
+                    performance[row[2]] = {"cpus": [_cpu_load_parser(row[8], row[15], row[13])],
                                            "realtime": [detect_time(row[13])],
                                            "rss": [get_max_mem(row[17])],
                                            "rchar": [get_max_mem(row[19])],
                                            "wchar": [get_max_mem(row[20])]}
                 else:
-                    performance[row[2]]["cpus"].append(_cpu_load_parser(row[7], row[14], row[13]))
+                    performance[row[2]]["cpus"].append(_cpu_load_parser(row[8], row[15], row[13]))
                     performance[row[2]]["realtime"].append(detect_time(row[13]))
                     performance[row[2]]["rss"].append(get_max_mem(row[17]))
                     performance[row[2]]["rchar"].append(get_max_mem(row[19]))
@@ -209,8 +208,8 @@ def main(reports, main_js, pipeline_stats):
                                   sys.getsizeof(json.dumps(rjson))))
 
     with open("pipeline_report.html", "w") as html_fh:
-        html_fh.write(html_template.format(
-            json.dumps({"data": {"results": storage}}, separators=(",", ":"))))
+        html_fh.write(html_template.format(performance_metadata))
+
     """
     with zipfile.ZipFile(main_js) as zf:
         os.mkdir("src")
