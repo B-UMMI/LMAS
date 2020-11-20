@@ -337,7 +337,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
 def main(sample_id, assembler, assembly, mapping, reference):
 
     # Dataframe with assembly info
-    df = utils.parse_assemblies(assembler, assembly, mapping)
+    df = utils.parse_assemblies(sample_id, assembler, assembly, mapping)
 
     print(df)
 

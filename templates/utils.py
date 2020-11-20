@@ -6,7 +6,7 @@ import pandas as pd
 import re
 import logging
 
-COLUMNS = ['Assembler', 'Contig', 'Contig Len', 'Mapped']  # columns for dataframe
+COLUMNS = ['Sample', 'Assembler', 'Contig', 'Contig Len', 'Mapped']  # columns for dataframe
 
 # Dic for pretty print of reference names
 REFERENCE_DIC = {
@@ -115,9 +115,10 @@ def get_mapped_contigs_with_ref(paf_file):
     return mapped_contigs
 
 
-def parse_assemblies(assembler, assembly, mapping):
+def parse_assemblies(sample_id, assembler, assembly, mapping):
     """
     Parses fastas and paf files and returns info on 'Assembler','Contig', 'Contig Len', 'Mapped' as dataframe
+    :param sample_id, str with sample id
     :param assembler: str with assembler name
     :param assembly: assembly files
     :param mapping: paf files
@@ -134,8 +135,8 @@ def parse_assemblies(assembler, assembly, mapping):
         else:
             is_mapped = 'Unmapped'
 
-        df = df.append({'Assembler': assembler, 'Contig': header, 'Contig Len': len(seq), 'Mapped': is_mapped},
-                       ignore_index=True)
+        df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Contig': header, 'Contig Len': len(seq),
+                        'Mapped': is_mapped}, ignore_index=True)
 
     df = df.reset_index()
 
