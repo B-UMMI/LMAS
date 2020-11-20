@@ -1,11 +1,16 @@
 #!/usr/bin/python3
+
 import os
 import sys
 import json
 import zipfile
 import csv
 import re
-from datetime import time, timedelta
+from time import gmtime, strftime
+try:
+    import utils
+except ImportError:
+    from templates import utils
 
 REPORTS = "${report}".split()
 MAIN_JS = "${js}"
@@ -33,58 +38,38 @@ html_template = """
 
 #<script> const _fileReportData = {1} </script>
 
-def detect_time(str):
+logger = utils.get_logger(__file__)
+
+
+def _size_coverter(s):
+    """Converts size string into megabytes
+    Parameters
+    ----------
+    s : str
+        The size string can be '30KB', '20MB' or '1GB'
+    Returns
+    -------
+    float
+        With the size in bytes
     """
 
-    :param str:
-    :return:
-    """
-    seconds = re.findall(r"(\d*.\d*)s", str)
-    if len(seconds) > 0:
-        seconds = int(seconds[0].strip())
+    if s.upper().endswith("KB"):
+        return float(s.rstrip("KB")) / 1024
+
+    elif s.upper().endswith(" B"):
+        return float(s.rstrip("B")) / 1024 / 1024
+
+    elif s.upper().endswith("MB"):
+        return float(s.rstrip("MB"))
+
+    elif s.upper().endswith("GB"):
+        return float(s.rstrip("GB")) * 1024
+
+    elif s.upper().endswith("TB"):
+        return float(s.rstrip("TB")) * 1024 * 1024
+
     else:
-        seconds = 0
-
-    minutes = re.findall(r"(\d*.\d*)m", str)
-    if len(minutes) > 0:
-        minutes = int(minutes[0].strip())
-    else:
-        minutes = 0
-
-    hours = re.findall(r"(\d*.\d*)h", str)
-    if len(hours) > 0:
-        hours = int(hours[0].strip())
-    else:
-        hours = 0
-
-    return time(hour=hours, minute=minutes, second=seconds)
-
-
-def conv_MB_to_GB(input_megabyte):
-    """
-
-    :param input_megabyte:
-    :return:
-    """
-    gigabyte = float(9.5367431640625E-7)
-    convert_gb = gigabyte * input_megabyte
-    return convert_gb
-
-
-def get_max_mem(str):
-    """
-
-    :param str:
-    :return:
-    """
-    if 'GB' in str:
-        return float(str.replace('GB', '').strip())
-    else:
-        return conv_MB_to_GB(float(str.replace('MB', '').strip()))
-
-
-def average(lst):
-    return sum(lst) / len(lst)
+        return float(s)
 
 
 def _hms(s):
@@ -140,6 +125,74 @@ def _cpu_load_parser(cpus, cpu_per, t):
         return 0
 
 
+def _size_compress(s):
+    """Shortens a megabytes string.
+    """
+
+    if s / 1024 > 1:
+        return "{}GB".format(round(s / 1024, 1))
+    else:
+        return "{}MB".format(s)
+
+
+def process_performance_data(pipeline_stats):
+    """
+
+    :param pipeline_stats:
+    :return:
+    """
+    # Parse performance data
+    performance = {}
+    with open(pipeline_stats, "r") as pipeline_stats_file:
+        csvreader = csv.reader(pipeline_stats_file, delimiter='\t')
+        for row in csvreader:
+            if row[2] in ASSEMBLER_PROCESS_LIST:
+                if row[2] not in performance.keys():
+                    performance[row[2]] = {"cpus": [_cpu_load_parser(row[8], row[15], row[13])],
+                                           "realtime": [_hms(row[13])],
+                                           "rss": [_size_coverter(row[17])],
+                                           "rchar": [_size_coverter(row[19])],
+                                           "wchar": [_size_coverter(row[20])]}
+                else:
+                    performance[row[2]]["cpus"].append(_cpu_load_parser(row[8], row[15], row[13]))
+                    performance[row[2]]["realtime"].append(_hms(row[13]))
+                    performance[row[2]]["rss"].append(_size_coverter(row[17]))
+                    performance[row[2]]["rchar"].append(_size_coverter(row[19]))
+                    performance[row[2]]["wchar"].append(_size_coverter(row[20]))
+
+    performance_metadata = []
+
+    id_int = 1
+    for process_id in performance.keys():
+        # time
+        time_array = performance[process_id]["realtime"]
+        mean_time = round(sum(time_array) / len(time_array), 1)
+        mean_time_str = strftime('%H:%M:%S', gmtime(mean_time))
+
+        # cumulative cpu / hours
+        cpu_hour = round(sum(performance[process_id]["cpus"]), 2)
+
+        # maximum memory
+        max_rss = round(max(performance[process_id]["rss"]))
+        rss_str = _size_compress(max_rss)
+
+        # average read size
+        avg_rchar = round(sum(performance[process_id]["rchar"]) / len(performance[process_id]["rchar"]))
+        rchar_str = _size_compress(avg_rchar)
+
+        # average write size
+        avg_wchar = round(sum(performance[process_id]["wchar"]) / len(performance[process_id]["wchar"]))
+        wchar_str = _size_compress(avg_wchar)
+
+        performance_metadata.append({"id": id_int, "assembler": process_id, "avgTime": mean_time_str, "cpus": cpu_hour,
+                                     "max_rss": rss_str, "avgRead": rchar_str, "avgWrite": wchar_str})
+        id_int += 1
+
+    logger.debug("Performance dictionary: {}".format(performance_metadata))
+
+    return performance_metadata
+
+
 def main(reports, main_js, pipeline_stats):
 
     metadata = {
@@ -163,40 +216,8 @@ def main(reports, main_js, pipeline_stats):
 
     storage.append(metadata)
 
-    # Add performance data
-    performance = {}
-    with open(pipeline_stats, "r") as pipeline_stats_file:
-        csvreader = csv.reader(pipeline_stats_file, delimiter='\t')
-        for row in csvreader:
-            if row[2] in ASSEMBLER_PROCESS_LIST:
-                if row[2] not in performance.keys():
-                    performance[row[2]] = {"cpus": [_cpu_load_parser(row[8], row[15], row[13])],
-                                           "realtime": [detect_time(row[13])],
-                                           "rss": [get_max_mem(row[17])],
-                                           "rchar": [get_max_mem(row[19])],
-                                           "wchar": [get_max_mem(row[20])]}
-                else:
-                    performance[row[2]]["cpus"].append(_cpu_load_parser(row[8], row[15], row[13]))
-                    performance[row[2]]["realtime"].append(detect_time(row[13]))
-                    performance[row[2]]["rss"].append(get_max_mem(row[17]))
-                    performance[row[2]]["rchar"].append(get_max_mem(row[19]))
-                    performance[row[2]]["wchar"].append(get_max_mem(row[20]))
-
-    performance_metadata = []
-    id = 1
-    for process_id in performance.keys():
-        time_list = performance[process_id]["realtime"]
-        avg_time = str(timedelta(seconds=sum(map(lambda f: int(f[0])*3600 + int(f[1])*60 + int(f[2]),
-                                                 map(lambda f: str(f).split(':'), time_list)))/len(time_list)))
-        max_cpus = max(performance[process_id]["cpus"])
-        max_rss = max(performance[process_id]["rss"])
-        avg_read = average(performance[process_id]["rchar"])
-        avg_write = average(performance[process_id]["wchar"])
-        performance_metadata.append({"id": id, "assembler": process_id, "avgTime": avg_time, "cpus": max_cpus,
-                                     "max_rss": max_rss, "avgRead": avg_read, "avgWrite": avg_write})
-        id += 1
-
-    print(performance_metadata)
+    # Assembler performance data:
+    performance_metadata = process_performance_data(pipeline_stats)
 
     for r in reports:
         with open(r) as fh:
@@ -221,5 +242,5 @@ def main(reports, main_js, pipeline_stats):
 
 
 if __name__ == "__main__":
-    #main(REPORTS, MAIN_JS, PIPELINE_STATS)
-    main("", "", "/home/cimendes/Temp/LMAS/pipeline_stats.txt")
+    main(REPORTS, MAIN_JS, PIPELINE_STATS)
+    #main("", "", "/home/cimendes/Temp/LMAS/pipeline_stats.txt")
