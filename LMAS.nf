@@ -548,7 +548,7 @@ process PROCESS_COMPLETNESS {
 
 process PLOT_CONTIG_DISTRIBUTION {
 
-    publishDir 'results/plots/'
+    publishDir 'results/plots/', pattern: "*.html"
 
     input:
     file dataframes from OUT_DF_ASSEMBLY_STATS_MAPPING.collect()
