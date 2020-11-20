@@ -586,6 +586,8 @@ process report {
 */
 
 // to change!!!!
+
+/*
 OUT_ASSEMBLY_STATS_GLOBAL_JSON.set{master_report}
 
 process compile_reports {
@@ -605,6 +607,7 @@ process compile_reports {
     script:
     template "compile_reports.py"
 }
+*/
 
 workflow.onComplete {
   // Display complete message
