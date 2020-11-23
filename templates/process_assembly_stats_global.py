@@ -40,7 +40,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("ASSEMBLY_STATS_GLOBAL_FILE_JSON: {}".format(ASSEMBLY_STATS_GLOBAL_FILE_JSON))
 
 
-def main(assembly_stats_global_file, stats_json, read_mapping_stats):
+def main(assembly_stats_global_file, stats_json):
 
     # Write CSV file report
     data = {}
