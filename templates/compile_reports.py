@@ -12,7 +12,7 @@ try:
 except ImportError:
     from templates import utils
 
-REPORTS = "${report}".split()
+ASSEMBLY_STATS_REPORT = "$global_assembly_stats"
 MAIN_JS = "${js}"
 PIPELINE_STATS = "${pipeline_stats}"
 
@@ -30,6 +30,7 @@ html_template = """
   <body style="background-color: #666666">
     <div id="root"></div>
     <script> const _assemblerPerformanceData = {0} </script>
+    <script> const _mainData = {1} </script>
     <script src="./main.js"></script>
   </body>
 </html>
@@ -192,7 +193,7 @@ def process_performance_data(pipeline_stats):
     return performance_metadata
 
 
-def main(reports, main_js, pipeline_stats):
+def main(main_js, pipeline_stats, assembly_stats_report):
 
     metadata = {
         "nfMetadata": {
@@ -212,34 +213,28 @@ def main(reports, main_js, pipeline_stats):
 
     # Add nextflow metadata
     storage = []
-
     storage.append(metadata)
 
     # Assembler performance data:
     performance_metadata = process_performance_data(pipeline_stats)
 
-    for r in reports:
-        with open(r) as fh:
-            rjson = json.load(fh)
-            storage.append(rjson)
-            print("{}: {}".format(rjson["processName"],
-                                  sys.getsizeof(json.dumps(rjson))))
+    # LMAS report
+    main_data_js = {}
+    with open(assembly_stats_report) as f:
+        assembly_stats_json = json.load(f)
+        for sample_id in assembly_stats_json.keys():
+            main_data_js[sample_id] = main_data_js[sample_id]
+
+    print(main_data_js)
 
     with open("pipeline_report.html", "w") as html_fh:
-        html_fh.write(html_template.format(performance_metadata))
+        html_fh.write(html_template.format(performance_metadata, main_data_js))
 
-    """
     with zipfile.ZipFile(main_js) as zf:
         os.mkdir("src")
         zf.extractall("./src")
-    """
-    """
-    with open("pipeline_report.json", "w") as rep_fh:
-        rep_fh.write(json.dumps({"data": {"results": storage}},
-                                separators=(",", ":")))
-    """
 
 
 if __name__ == "__main__":
-    main(REPORTS, MAIN_JS, PIPELINE_STATS)
+    main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT)
     #main("", "", "/home/cimendes/Temp/LMAS/pipeline_stats.txt")

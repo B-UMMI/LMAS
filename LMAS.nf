@@ -450,7 +450,7 @@ process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
     output:
     file "*.csv"
-    file "global_assembly_stats.json"
+    file "global_assembly_stats.json" INTO PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
 
     script:
     template "process_assembly_stats_global.py"
@@ -565,31 +565,10 @@ process PLOT_CONTIG_DISTRIBUTION {
 
 /** Reports
 Compiles the reports from every process
-*/
-/*
-process report {
+**/
 
-    input:
-    set sample_id,
-            task_name,
-            pid,
-            report_json,
-            version_json,
-            trace from REPORT_integrity_coverage_1_1.mix(REPORT_fastqc_1_2,REPORT_fastqc_report_1_2,REPORT_trimmomatic_1_2,REPORT_filter_poly_1_3,REPORT_bowtie_1_4,REPORT_report_bowtie_1_4,REPORT_retrieve_mapped_1_5,REPORT_renamePE_1_5,REPORT_check_coverage_1_6,REPORT_va_spades_1_7,REPORT_va_megahit_1_7,REPORT_report_viral_assembly_1_7,REPORT_assembly_mapping_1_8,REPORT_process_am_1_8,REPORT_pilon_1_9,REPORT_pilon_report_1_9,REPORT_split_assembly_1_10,REPORT_dengue_typing_assembly_1_11,REPORT_dengue_typing_reads_1_11,REPORT_mafft_1_12,REPORT_raxml_1_13,REPORT_report_raxml_1_13)
+// WORK IN PROGRESS!
 
-    output:
-    file "*" optional true into master_report
-
-    """
-    prepare_reports.py $report_json $version_json $trace $sample_id $task_name 1 $pid $workflow.scriptId $workflow.runName
-    """
-
-}
-*/
-
-// to change!!!!
-
-/*
 OUT_ASSEMBLY_STATS_GLOBAL_JSON.set{master_report}
 
 process compile_reports {
@@ -597,7 +576,7 @@ process compile_reports {
     publishDir "pipeline_report/", mode: "copy"
 
     input:
-    file report from master_report.collect()
+    file global_assembly_stats from PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
     file pipeline_stats from Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
     file js from Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
 
@@ -609,7 +588,6 @@ process compile_reports {
     script:
     template "compile_reports.py"
 }
-*/
 
 workflow.onComplete {
   // Display complete message
