@@ -66,6 +66,7 @@ def main(assembly_stats_global_file, stats_json):
     with open("global_assembly_stats.json", "w") as json_report:
         main_json = {}
         for data_report in stats_json:
+            print(data_report)
             assembler = data_report["assembler"]
             sample_id = data_report["sample_id"]
             data_global = data_report["global"]
