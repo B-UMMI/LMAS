@@ -114,7 +114,7 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len):
                     "basepairs": sum(contigs),
                     "max_contig_size": max(contigs) if len(contigs) > 0 else 0,
                     "N50": n50_contigs,
-                    "mapped_reads": mapped_reads}
+                    "mapped_reads": mapped_reads},
                 "filtered": {
                         "min_len": min_len,
                         "contigs": len(contigs_over_min_len),
