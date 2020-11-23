@@ -429,7 +429,7 @@ process ASSEMBLY_STATS_GLOBAL {
     publishDir 'results/stats/assembly/'
 
     input:
-    set sample_id, assembler, file(assembly) file(read_mapping) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING, by: [0,1])
+    set sample_id, assembler, file(assembly), file(read_mapping) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING, by: [0,1])
 
     output:
     file "*report.json" into OUT_ASSEMBLY_STATS_GLOBAL_JSON
