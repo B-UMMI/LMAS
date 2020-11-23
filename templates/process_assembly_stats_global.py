@@ -66,11 +66,13 @@ def main(assembly_stats_global_file, stats_json):
     with open("global_assembly_stats.json", "w") as json_report:
         main_json = {}
         for data_report in stats_json:
-            print(data_report)
-            assembler = data_report["assembler"]
-            sample_id = data_report["sample_id"]
-            data_global = data_report["global"]
-            data_filtered = data_report["filtered"]
+            with open(data_report) as f:
+                json_data = json.load(f)
+                print(json_data)
+                assembler = json_data["assembler"]
+                sample_id = json_data["sample_id"]
+                data_global = json_data["global"]
+                data_filtered = json_data["filtered"]
 
             if sample_id not in main_json.keys():
                 main_json[sample_id] = {"GlobalTable": [{
