@@ -450,7 +450,7 @@ process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
     output:
     file "*.csv"
-    file "global_assembly_stats.json" INTO PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
+    file "global_assembly_stats.json" into PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
 
     script:
     template "process_assembly_stats_global.py"
