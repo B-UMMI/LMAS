@@ -221,11 +221,13 @@ def main(main_js, pipeline_stats, assembly_stats_report):
     main_data_js = {}
     with open(assembly_stats_report) as f:
         assembly_stats_json = json.load(f)
-        logger.debug("Global assembly stats dictionary: {}".format(assembly_stats_json))
         for sample_id in assembly_stats_json.keys():
             main_data_js[sample_id] = assembly_stats_json[sample_id]
 
-    print(main_data_js)
+    logger.debug("Report data dictionary: {}".format(main_data_js))
+
+    with open("pipeline_report.json", "w") as json_fh:
+        json_fh.write(json.dumps(main_data_js, separators=(",", ":")))
 
     with open("pipeline_report.html", "w") as html_fh:
         html_fh.write(html_template.format(performance_metadata, main_data_js))
