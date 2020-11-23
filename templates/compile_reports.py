@@ -239,4 +239,3 @@ def main(main_js, pipeline_stats, assembly_stats_report):
 
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT)
-    #main("", "", "/home/cimendes/Temp/LMAS/pipeline_stats.txt")

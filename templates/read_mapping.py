@@ -113,18 +113,12 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
             fh.write(str(mapped_reads * 100))
 
-        with open(".report.json", "w") as json_report:
+        with open("{}_{}_read_mapping_report.json".format(sample_id, assembler), "w") as json_report:
             json_dic = {
-                "tableRow": [{
-                    "sample": sample_id,
-                    "data": [
-                        {"header": "Mapped reads (%)",
-                         "value": mapped_reads * 100,
-                         "table": "assembly_global_stats",
-                         "assembler": assembler},
-                    ]
-                }]
-            }
+                sample_id: {
+                    "assembler": assembler,
+                    "mapped_reads": mapped_reads * 100
+            }}
             json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
 

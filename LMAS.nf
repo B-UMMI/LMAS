@@ -429,7 +429,7 @@ process ASSEMBLY_STATS_GLOBAL {
     publishDir 'results/stats/assembly/'
 
     input:
-    set sample_id, assembler, file(assembly) from TO_GLOBAL_STATS
+    set sample_id, assembler, file(assembly) file(read_mapping) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING, by: [0,1])
 
     output:
     file "*report.json" into OUT_ASSEMBLY_STATS_GLOBAL_JSON
@@ -508,6 +508,7 @@ process READ_MAPPING{
 
     output:
     file("*_read_mapping.txt")
+    set sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING
 
     script:
     template "read_mapping.py"
