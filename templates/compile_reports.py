@@ -21,18 +21,17 @@ ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "ME
 
 html_template = """
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <title>FlowCraft App</title>
-</head>
-<body style="background-color: #f2f2f2">
-    <div id="app"><!-- React --></div>
-</body>
-<script> const _assemblerPerformanceData = {0} </script>
-<script src="./src/main.js"></script>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LMAS Report</title>
+  </head>
+  <body style="background-color: #666666">
+    <div id="root"></div>
+    <script> const _assemblerPerformanceData = {0} </script>
+    <script src="./main.js"></script>
+  </body>
 </html>
 """
 

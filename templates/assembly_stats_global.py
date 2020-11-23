@@ -95,42 +95,22 @@ def main(sample_id, assembler, assembly, min_len):
     n50_contigs = utils.get_N50(contigs)
     n50_contigs_over_min_len = utils.get_N50(contigs_over_min_len)
 
-    with open(".report.json", "w") as json_report:
+    with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
         json_dic = {
-            "tableRow": [{
                 "assembler": assembler,
-                "data": [
-                    {"header": "Contigs",
-                     "value": len(contigs),
-                     "table": "assembly_global_stats",
-                     "sample": sample_id},
-                    {"header": "Basepairs",
-                     "value": sum(contigs),
-                     "table": "assembly_global_stats",
-                     "sample": sample_id},
-                    {"header": "Max contig size",
-                     "value": max(contigs) if len(contigs) > 0 else 0,
-                     "table": "assembly_global_stats",
-                     "sample": sample_id},
-                    {"header": "N50",
-                     "value": n50_contigs,
-                     "table": "assembly_global_stats",
-                     "sample": sample_id},
-                    {"header": "contigs>1000bp (%)",
-                     "value": len(contigs_over_min_len),
-                     "table": "assembly_global_stats",
-                     "sample": sample_id},
-                    {"header": "Basepairs in contigs>1000bp (%)",
-                     "value": sum(contigs_over_min_len),
-                     "table": "assembly_global_stats",
-                     "sample": sample_id},
-                    {"header": "N50 in contigs>1000bp",
-                     "value": n50_contigs_over_min_len,
-                     "table": "assembly_global_stats",
-                     "sample": sample_id}
-                ]
-            }]
-        }
+                "sample_id": sample_id,
+                "global": {
+                    "contigs": len(contigs),
+                    "basepairs": sum(contigs),
+                    "max_contig_size": max(contigs) if len(contigs) > 0 else 0,
+                    "N50": n50_contigs},
+                "filtered": {
+                        "min_len": min_len,
+                        "contigs": len(contigs_over_min_len),
+                        "basepairs": sum(contigs_over_min_len),
+                        "max_contig_size": max(contigs_over_min_len) if len(contigs_over_min_len) > 0 else 0,
+                        "N50": n50_contigs_over_min_len}
+                }
 
         json_report.write(json.dumps(json_dic, separators=(",", ":")))
 

@@ -432,7 +432,7 @@ process ASSEMBLY_STATS_GLOBAL {
     set sample_id, assembler, file(assembly) from TO_GLOBAL_STATS
 
     output:
-    file(".report.json") into OUT_ASSEMBLY_STATS_GLOBAL_JSON
+    file "*report.json" into OUT_ASSEMBLY_STATS_GLOBAL_JSON
     file "*.csv" into OUT_ASSEMBLY_STATS_GLOBAL_TSV
 
     script:
@@ -446,9 +446,11 @@ process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
     input:
     file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
+    file json_report from OUT_ASSEMBLY_STATS_GLOBAL_JSON.collect()
 
     output:
     file "*.csv"
+    file "global_assembly_stats.json"
 
     script:
     template "process_assembly_stats_global.py"

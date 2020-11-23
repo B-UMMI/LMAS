@@ -19,23 +19,30 @@ None
 """
 
 import os
-import utils
+import json
+try:
+    import utils
+except ImportError:
+    from templates import utils
 
-__version__ = "0.0.1"
-__build__ = "22.10.2020"
-__template__ = "ASSEMBLY_STATS_GLOBAL-nf"
+__version__ = "0.0.2"
+__build__ = "23.11.2020"
+__template__ = "PROCESS_ASSEMBLY_STATS_GLOBAL-nf"
 
 logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
     ASSEMBLY_STATS_GLOBAL_FILE = '$assembly_stats_global_files'.split()
+    ASSEMBLY_STATS_GLOBAL_FILE_JSON = "$json_report".split()
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("ASSEMBLY_STATS_GLOBAL_FILE: {}".format(ASSEMBLY_STATS_GLOBAL_FILE))
+    logger.debug("ASSEMBLY_STATS_GLOBAL_FILE_JSON: {}".format(ASSEMBLY_STATS_GLOBAL_FILE_JSON))
 
 
-def main(assembly_stats_global_file):
+def main(assembly_stats_global_file, stats_json):
 
+    # Write CSV file report
     data = {}
     for file in assembly_stats_global_file:
         sample = os.path.basename(file).split('_')[0]
@@ -44,7 +51,6 @@ def main(assembly_stats_global_file):
             data[sample] = [{"data": file}]
         else:
             data[sample].append({"data": file})
-    print(data)
     for sample in data.keys():
         with open(sample + '.csv', "w") as csv_file:
             csv_file.write(','.join(['Assembler', 'Contigs', 'Basepairs', 'Max contig size', 'N50',
@@ -56,6 +62,29 @@ def main(assembly_stats_global_file):
                     print(data)
                     csv_file.write(data + '\\n')
 
+    # Write JSON file report
+    with open("global_assembly_stats.json", "w") as json_report:
+        main_json = {}
+        for data_report in stats_json:
+            assembler = data_report["assembler"]
+            sample_id = data_report["sample_id"]
+            data_global = data_report["global"]
+            data_filtered = data_report["filtered"]
+
+            if sample_id not in main_json.keys():
+                main_json[sample_id] = {"GlobalTable": [{
+                    "assembler": assembler,
+                    "original": data_global,
+                    "filtered": data_filtered
+                }]}
+            else:
+                main_json[sample_id]["GlobalTable"].append({
+                    "assembler": assembler,
+                    "original": data_global,
+                    "filtered": data_filtered
+                })
+        json_report.write(json.dumps(main_json, separators=(",", ":")))
+
 
 if __name__ == '__main__':
-    main(ASSEMBLY_STATS_GLOBAL_FILE)
+    main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON)
