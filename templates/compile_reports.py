@@ -221,8 +221,9 @@ def main(main_js, pipeline_stats, assembly_stats_report):
     main_data_js = {}
     with open(assembly_stats_report) as f:
         assembly_stats_json = json.load(f)
+        logger.debug("Global assembly stats dictionary: {}".format(assembly_stats_json))
         for sample_id in assembly_stats_json.keys():
-            main_data_js[sample_id] = main_data_js[sample_id]
+            main_data_js[sample_id] = assembly_stats_json[sample_id]
 
     print(main_data_js)
 
