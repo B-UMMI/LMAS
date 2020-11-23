@@ -421,6 +421,24 @@ OUT_BCALM2.mix(OUT_GATB,
 
 ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
 
+// READ MAPPING
+process READ_MAPPING{
+
+    tag { sample_id; assembler }
+
+    publishDir 'results/stats/${sample_id}/'
+
+    input:
+    set sample_id, assembler, assembly from TO_READ_MAPPING
+    each fastq from IN_TO_MAP.collect()
+
+    output:
+    file("*_read_mapping.txt")
+    set sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING
+
+    script:
+    template "read_mapping.py"
+}
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
@@ -495,24 +513,6 @@ process ASSEMBLY_MAPPING{
 
 }
 
-// READ MAPPING
-process READ_MAPPING{
-
-    tag { sample_id; assembler }
-
-    publishDir 'results/stats/${sample_id}/'
-
-    input:
-    set sample_id, assembler, assembly from TO_READ_MAPPING
-    each fastq from IN_TO_MAP.collect()
-
-    output:
-    file("*_read_mapping.txt")
-    set sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING
-
-    script:
-    template "read_mapping.py"
-}
 
 process ASSEMBLY_STATS_MAPPING {
 
