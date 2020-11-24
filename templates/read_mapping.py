@@ -94,8 +94,7 @@ def main(sample_id, assembler, assembly, fastq, basedir):
                 "======================================\\n{}".format(stdout))
     logger.info("Fished minimap2 subprocesswith STDERR:\\n"
                 "======================================\\n{}".format(stderr))
-    logger.info("Finished minimap2 with return code: {}".format(
-        p.returncode))
+    logger.info("Finished minimap2 with return code: {}".format(p.returncode))
 
     if p.returncode == 0:
         # count number of reads mapping
