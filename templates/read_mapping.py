@@ -102,7 +102,7 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         #n_reads_mapping = sum(1 for line in open("{}_{}_read_mapping.paf".format(sample_id, assembler)))
         with open("{}_{}_read_mapping.paf".format(sample_id, assembler)) as fh:
             csv_paf_file = csv.reader(fh)
-            n_reads_mapping = set([row[0] for row in csv_paf_file])
+            n_reads_mapping = len(set([row[0] for row in csv_paf_file]))
         logger.debug("Number of reads mapping: {}".format(n_reads_mapping))
 
         # get number of reads
