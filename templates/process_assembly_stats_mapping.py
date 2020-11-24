@@ -47,7 +47,6 @@ def main(stats_json):
         for data_report in stats_json:
             with open(data_report) as f:
                 json_data = json.load(f)
-                print(json_data)
                 sample_id = json_data["sample_id"]
                 reference_table_data = json_data["ReferenceTables"]
 

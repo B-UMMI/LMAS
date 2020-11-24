@@ -16,6 +16,7 @@ ASSEMBLY_STATS_REPORT = "$global_assembly_stats"
 MAIN_JS = "${js}"
 PIPELINE_STATS = "${pipeline_stats}"
 CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}".split()
+MAPPING_STATS_REPORT = "$mapping_assembly_stats"
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -194,7 +195,7 @@ def process_performance_data(pipeline_stats):
     return performance_metadata
 
 
-def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
+def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report):
 
     metadata = {
         "nfMetadata": {
@@ -224,15 +225,19 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
     # main report skeleton
     main_data_js = {}
 
-    #add global stats
+    # add global stats
     with open(assembly_stats_report) as f:
         assembly_stats_json = json.load(f)
         for sample_id in assembly_stats_json.keys():
             main_data_js[sample_id] = assembly_stats_json[sample_id]
 
-    print(main_data_js)
+    # add mapping stats
+    with open(mapping_stats_report) as f:
+        mapping_stats_json = json.load(f)
+        for sample_id in assembly_stats_json.keys():
+            main_data_js[sample_id]["ReferenceTables"] = assembly_stats_json[sample_id]["ReferenceTables"]
 
-    #add global plots
+    # add global plots
     for sample_id in main_data_js.keys():
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
         with open(contig_distribution_plot) as plot_fh:
@@ -253,4 +258,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
 
 
 if __name__ == "__main__":
-    main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION)
+    main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT)

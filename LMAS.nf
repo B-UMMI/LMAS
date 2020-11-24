@@ -596,6 +596,7 @@ process compile_reports {
     file pipeline_stats from Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
     file js from Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
     file contig_size_distribution from PLOT_CONTIG_DISTRIBUTION
+    file mapping_assembly_stats from PROCESS_ASSEMBLY_STATS_MAPPING_OUT
 
     output:
     file "pipeline_report.json"
