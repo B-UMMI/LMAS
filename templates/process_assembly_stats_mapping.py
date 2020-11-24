@@ -55,7 +55,7 @@ def main(stats_json):
                 main_json[sample_id] = {"ReferenceTable": [reference_table_data]}
             else:
                 main_json[sample_id]["ReferenceTable"].append(reference_table_data)
-                
+
         json_report.write(json.dumps(main_json, separators=(",", ":")))
 
 
