@@ -14,7 +14,7 @@ except ImportError:
 ASSEMBLY_STATS_REPORT = "$global_assembly_stats"
 MAIN_JS = "${js}"
 PIPELINE_STATS = "${pipeline_stats}"
-CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}"
+CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}".split()
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -221,7 +221,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
     # LMAS report
 
     print(contig_size_plots)
-    
+
     main_data_js = {}
     with open(assembly_stats_report) as f:
         assembly_stats_json = json.load(f)
