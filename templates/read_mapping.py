@@ -29,6 +29,7 @@ from subprocess import PIPE
 import glob
 import gzip
 import json
+import csv
 try:
     import utils
 except ImportError:
@@ -98,7 +99,10 @@ def main(sample_id, assembler, assembly, fastq, basedir):
 
     if p.returncode == 0:
         # count number of reads mapping
-        n_reads_mapping = sum(1 for line in open("{}_{}_read_mapping.paf".format(sample_id, assembler)))
+        #n_reads_mapping = sum(1 for line in open("{}_{}_read_mapping.paf".format(sample_id, assembler)))
+        with open("{}_{}_read_mapping.paf".format(sample_id, assembler)) as fh:
+            csv_paf_file = csv.reader(fh)
+            n_reads_mapping = set([row[0] for row in csv_paf_file])
         logger.debug("Number of reads mapping: {}".format(n_reads_mapping))
 
         # get number of reads
