@@ -73,14 +73,12 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         "--secondary=no",
         assembly,
         reads[0],
-        reads[1],
-        '>',
-        "{}_{}_read_mapping.paf".format(sample_id, assembler)
+        reads[1]
     ]
 
     logger.debug("Running minimap2 subprocess with command: {}".format(' '.join(cli)))
 
-    p = subprocess.Popen(' '.join(cli), shell=True, stdout=PIPE, stderr=PIPE)
+    p = subprocess.Popen(' '.join(cli), stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
 
     try:
