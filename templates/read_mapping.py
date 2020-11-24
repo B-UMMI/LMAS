@@ -80,7 +80,7 @@ def main(sample_id, assembler, assembly, fastq, basedir):
 
     logger.debug("Running minimap2 subprocess with command: {}".format(' '.join(cli)))
 
-    p = subprocess.Popen(cli, stdout=PIPE, stderr=PIPE)
+    p = subprocess.Popen(' '.join(cli), shell=True, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
 
     try:
