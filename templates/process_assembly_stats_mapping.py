@@ -50,10 +50,14 @@ def main(stats_json):
                 sample_id = json_data["sample_id"]
                 reference_table_data = json_data["ReferenceTables"]
 
-            if sample_id not in main_json.keys():
-                main_json[sample_id] = {"ReferenceTable": [reference_table_data]}
-            else:
-                main_json[sample_id]["ReferenceTable"].append(reference_table_data)
+            for reference_id, reference_mapping_stats in reference_table_data.items():
+                if sample_id not in main_json.keys():
+                    main_json[sample_id] = {"ReferenceTable": {reference_id: [reference_mapping_stats]}}
+                else:
+                    if reference_id not in main_json[sample_id]["ReferenceTable"].keys():
+                        main_json[sample_id]["ReferenceTable"][reference_id] = [reference_mapping_stats]
+                    else:
+                        main_json[sample_id]["ReferenceTable"][reference_id].append(reference_mapping_stats)
 
         json_report.write(json.dumps(main_json, separators=(",", ":")))
 
