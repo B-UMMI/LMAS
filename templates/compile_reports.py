@@ -234,8 +234,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     # add mapping stats
     with open(mapping_stats_report) as f:
         mapping_stats_json = json.load(f)
-        for sample_id in assembly_stats_json.keys():
-            main_data_js[sample_id]["ReferenceTables"] = assembly_stats_json[sample_id]["ReferenceTables"]
+        for sample_id in mapping_stats_json.keys():
+            main_data_js[sample_id]["ReferenceTables"] = mapping_stats_json[sample_id]["ReferenceTables"]
 
     # add global plots
     for sample_id in main_data_js.keys():
