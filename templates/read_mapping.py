@@ -102,11 +102,12 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         logger.debug("Number of reads mapping: {}".format(n_reads_mapping))
 
         # get number of reads
-        n_reads_total = sum(1 for line in gzip.open(reads[0], 'rb'))/4
-        logger.debug("Number of reads in fastq file: {}".format(n_reads_total*2))
+        n_reads_total = (sum(1 for line in gzip.open(reads[0], 'rb'))/4)*2
+        logger.debug("Number of reads in fastq file: {}".format(n_reads_total))
 
         try:
-            mapped_reads = n_reads_mapping / (n_reads_total * 2)
+            mapped_reads = n_reads_mapping / n_reads_total
+            logger.debug("Percentage of mapped reads: {}".format(mapped_reads))
         except ZeroDivisionError:
             mapped_reads = 0
 
