@@ -73,7 +73,9 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         "--secondary=no",
         assembly,
         reads[0],
-        reads[1]
+        reads[1],
+        ">",
+        "{}_{}_read_mapping.paf".format(sample_id, assembler)
     ]
 
     logger.debug("Running minimap2 subprocess with command: {}".format(' '.join(cli)))
