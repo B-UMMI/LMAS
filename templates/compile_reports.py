@@ -236,7 +236,11 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     with open(mapping_stats_report) as f:
         mapping_stats_json = json.load(f)
         for sample_id in mapping_stats_json.keys():
-            main_data_js[sample_id]["ReferenceTables"] = mapping_stats_json[sample_id]["ReferenceTable"]
+            for reference, mapping_stats_reference in mapping_stats_json[sample_id]["ReferenceTable"].items():
+                if reference not in main_data_js[sample_id]["ReferenceTables"].keys():
+                    main_data_js[sample_id]["ReferenceTables"][reference] = [mapping_stats_reference]
+                else:
+                    main_data_js[sample_id]["ReferenceTables"][reference].append(mapping_stats_reference)
 
     for sample_id in main_data_js.keys():
         # add global plots
@@ -249,7 +253,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         with open(completness_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                main_data_js[sample_id]["PlotData"][reference] = reference_plots
+                reference_plots_json = json.load(reference_plots)
+                main_data_js[sample_id]["PlotData"][reference] = reference_plots_json
 
     logger.debug("Report data dictionary: {}".format(main_data_js))
 
