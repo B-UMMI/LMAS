@@ -14,6 +14,7 @@ except ImportError:
 ASSEMBLY_STATS_REPORT = "$global_assembly_stats"
 MAIN_JS = "${js}"
 PIPELINE_STATS = "${pipeline_stats}"
+CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}"
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -192,7 +193,7 @@ def process_performance_data(pipeline_stats):
     return performance_metadata
 
 
-def main(main_js, pipeline_stats, assembly_stats_report):
+def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
 
     metadata = {
         "nfMetadata": {
@@ -218,6 +219,9 @@ def main(main_js, pipeline_stats, assembly_stats_report):
     performance_metadata = process_performance_data(pipeline_stats)
 
     # LMAS report
+
+    print(contig_size_plots)
+    
     main_data_js = {}
     with open(assembly_stats_report) as f:
         assembly_stats_json = json.load(f)
@@ -238,4 +242,4 @@ def main(main_js, pipeline_stats, assembly_stats_report):
 
 
 if __name__ == "__main__":
-    main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT)
+    main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION)

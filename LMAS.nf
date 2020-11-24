@@ -424,7 +424,7 @@ ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
 // READ MAPPING
 process READ_MAPPING{
 
-    tag { sample_id; assembler }
+    tag { assembler }
 
     publishDir 'results/stats/${sample_id}/'
 
@@ -580,6 +580,7 @@ process compile_reports {
     file global_assembly_stats from PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
     file pipeline_stats from Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
     file js from Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
+    file contig_size_distribution from PLOT_CONTIG_DISTRIBUTION
 
     output:
     file "pipeline_report.json"
