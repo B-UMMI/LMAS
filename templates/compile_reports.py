@@ -237,6 +237,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         mapping_stats_json = json.load(f)
         for sample_id in mapping_stats_json.keys():
             for reference, mapping_stats_reference in mapping_stats_json[sample_id]["ReferenceTable"].items():
+                if "ReferenceTables" not in main_data_js[sample_id]:
+                    main_data_js[sample_id]["ReferenceTables"] = {}
                 if reference not in main_data_js[sample_id]["ReferenceTables"].keys():
                     main_data_js[sample_id]["ReferenceTables"][reference] = [mapping_stats_reference]
                 else:
