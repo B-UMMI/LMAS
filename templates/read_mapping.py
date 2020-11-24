@@ -70,6 +70,7 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         "minimap2",
         "-x",
         "sr",
+        "--secondary=no",
         assembly,
         reads[0],
         reads[1],
