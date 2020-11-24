@@ -255,6 +255,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         with open(completness_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                print(reference_plots)
                 reference_plots_json = [json.load(x) for x in reference_plots]
                 main_data_js[sample_id]["PlotData"][reference] = reference_plots_json
 
