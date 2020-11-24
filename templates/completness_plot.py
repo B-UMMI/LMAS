@@ -22,6 +22,7 @@ https://github.com/cimendes
 import os
 import numpy as np
 import pandas as pd
+import json
 from scipy import interpolate
 import plotly.graph_objs as go
 from plotly.offline import plot
@@ -60,6 +61,7 @@ def plot_data(species_data, sample_id):
     # create a tracer for each assembler data point
     # simpler to manage colors and legends
 
+    report_json = {}
 
     for species in species_data.keys():
         i = 0
@@ -126,7 +128,13 @@ def plot_data(species_data, sample_id):
 
         plot(to_plot, filename='{0}_{1}_breadth_of_coverage_plot.html'.format(sample_id, species.replace(' ', '_')),
              auto_open=False)
-        to_plot.write_json(file='{0}_{1}_breadth_of_coverage_plot.json'.format(sample_id, species.replace(' ', '_')))
+
+        if sample_id not in report_json.keys():
+            report_json[sample_id] = {species: to_plot.to_json()}
+        else:
+            report_json[sample_id][species] = to_plot.to_json()
+
+    return report_json
 
 
 def main(coverage_files):
@@ -151,8 +159,21 @@ def main(coverage_files):
     all_data[sample_name] = species_data
     print(all_data)
 
-    for sample_id in all_data.keys():
-        plot_data(all_data[sample_id], sample_id)
+    with open("completness_plots.json", "w") as json_report:
+        report_dict = {}
+        for sample_id in all_data.keys():
+            report_json = plot_data(all_data[sample_id], sample_id)
+
+            for species, plot_species in report_json[sample_id].items():
+                if sample_id not in report_dict.keys():
+                    report_dict[sample_id] = {"PlotData": {species: [plot_species]}}
+                else:
+                    if species not in report_dict[sample_id]["PlotData"].keys():
+                        report_dict[sample_id]["PlotData"][species] = [plot_species]
+                    else:
+                        report_dict[sample_id]["PlotData"][species].append(plot_species)
+
+        json_report.write(json.dumps(report_dict, separators=(",", ":")))
 
 
 if __name__ == '__main__':

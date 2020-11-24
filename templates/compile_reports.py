@@ -17,6 +17,7 @@ MAIN_JS = "${js}"
 PIPELINE_STATS = "${pipeline_stats}"
 CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}".split()
 MAPPING_STATS_REPORT = "$mapping_assembly_stats"
+COMPLETNESS_JSON = "$completness_plots"
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -195,7 +196,7 @@ def process_performance_data(pipeline_stats):
     return performance_metadata
 
 
-def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report):
+def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot):
 
     metadata = {
         "nfMetadata": {
@@ -237,12 +238,18 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         for sample_id in mapping_stats_json.keys():
             main_data_js[sample_id]["ReferenceTables"] = mapping_stats_json[sample_id]["ReferenceTable"]
 
-    # add global plots
     for sample_id in main_data_js.keys():
+        # add global plots
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
         with open(contig_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_js[sample_id]["PlotData"] = {"Global": [plot_json]}
+
+        # add reference plots
+        with open(completness_plot) as plot_fh:
+            plot_json = json.load(plot_fh)
+            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                main_data_js[sample_id]["PlotData"][reference] = reference_plots
 
     logger.debug("Report data dictionary: {}".format(main_data_js))
 
@@ -258,4 +265,5 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 
 if __name__ == "__main__":
-    main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT)
+    main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
+         COMPLETNESS_JSON)
