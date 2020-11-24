@@ -5,6 +5,7 @@ import json
 import zipfile
 import csv
 import re
+import fnmatch
 from time import gmtime, strftime
 try:
     import utils
@@ -220,13 +221,18 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
 
     # LMAS report
 
-    print(contig_size_plots)
-
     main_data_js = {}
+
+    #add global stats
     with open(assembly_stats_report) as f:
         assembly_stats_json = json.load(f)
         for sample_id in assembly_stats_json.keys():
             main_data_js[sample_id] = assembly_stats_json[sample_id]
+
+    #add global plots
+    for sample_id in main_data_js.keys():
+        contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
+        print(contig_distribution_plot)
 
     logger.debug("Report data dictionary: {}".format(main_data_js))
 
