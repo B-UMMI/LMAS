@@ -232,7 +232,9 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
     #add global plots
     for sample_id in main_data_js.keys():
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
-        print(contig_distribution_plot)
+        with open(contig_distribution_plot) as plot_fh:
+            plot_json = json.load(plot_fh)
+            main_data_js[sample_id]["PlotData"]["Global"] = [plot_json]
 
     logger.debug("Report data dictionary: {}".format(main_data_js))
 
