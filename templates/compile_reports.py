@@ -221,6 +221,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
 
     # LMAS report
 
+    # main report skeleton
     main_data_js = {}
 
     #add global stats
@@ -229,12 +230,14 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots):
         for sample_id in assembly_stats_json.keys():
             main_data_js[sample_id] = assembly_stats_json[sample_id]
 
+    print(main_data_js)
+
     #add global plots
     for sample_id in main_data_js.keys():
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
         with open(contig_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            main_data_js[sample_id]["PlotData"]["Global"] = [plot_json]
+            main_data_js[sample_id]["PlotData"] = {"Global": [plot_json]}
 
     logger.debug("Report data dictionary: {}".format(main_data_js))
 
