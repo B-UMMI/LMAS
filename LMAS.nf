@@ -516,7 +516,7 @@ process ASSEMBLY_MAPPING{
 
 process ASSEMBLY_STATS_MAPPING {
 
-    tag { sample_id; assembler }
+    tag { assembler }
 
     publishDir 'results/stats/'
 
@@ -525,12 +525,27 @@ process ASSEMBLY_STATS_MAPPING {
     each reference from IN_ASSEMBLY_STATS_MAPPING
 
     output:
-    //file(".report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
+    file("*_report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
     file("*breadth_of_coverage_contigs.csv") into OUT_COVERAGE_PER_CONTIG
     file "*_df.csv" into OUT_DF_ASSEMBLY_STATS_MAPPING
 
     script:
     template "assembly_stats_mapping.py"
+
+}
+
+process PROCESS_ASSEMBLY_STATS_MAPPING {
+
+    publishDir 'results/stats/'
+
+    input:
+    file json_report from OUT_ASSEMBLY_STATS_MAPPING_JSON.collect()
+
+    output:
+    file "global_assembly_mapping_stats.json" into PROCESS_ASSEMBLY_STATS_MAPPING_OUT
+
+    script:
+    template "process_assembly_stats_mapping.py"
 
 }
 

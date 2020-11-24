@@ -249,11 +249,10 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
     df_phred = pd.DataFrame(columns=['Assembler', 'Reference', 'Contig', 'Contig Length', 'Phred Quality Score'])
 
     # Mapping stats dict
-    mapping_stats_dict = {'tableRow': [{
-        "sample": sample_id,
-        "assembler": assembler,
-        "data": []
-    }]}
+    mapping_stats_dict = {
+                "sample_id": sample_id,
+                "ReferenceTables": {}}
+
 
     # filter dataframe for the assembler
     df_assembler = df[df['Assembler'] == assembler]
@@ -285,49 +284,18 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
         fh.write(','.join([reference_name, str(coverage), str(len(mapped_contigs))]) + '\\n')
 
         # Mapping stats dict
-        mapping_ref_dict = [{'header': 'Reference',
-                             'value': reference_name,
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'Reference length',
-                             'value': len(seq)/3,
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'Contiguity',
-                             'value': contiguity,
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'Identity',
-                             'value': identity,
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'Lowest identity',
-                             'value': lowest_identity,
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'Breadth of coverage',
-                             'value': coverage,
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'C90',
-                             'value': c90,
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'Aligned contigs',
-                             'value': len(mapped_contigs),
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'NA50',
-                             'value': na50,
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id},
-                            {'header': 'Aligned basepairs',
-                             'value': sum(mapped_contigs),
-                             'table': 'assembly_mapping_stats',
-                             'sample': sample_id}
-                            ]
-
-        mapping_stats_dict['tableRow'][0]['data'].append(mapping_ref_dict)
+        mapping_stats_dict["ReferenceTables"][reference_name] = {
+            "assembler": assembler,
+            "reference_length": len(seq)/3,
+            "contiguity": contiguity,
+            "identity": identity,
+            "lowest_identity": lowest_identity,
+            "breadth_of_coverage": coverage,
+            "C90": c90,
+            "aligned_contigs": len(mapped_contigs),
+            "NA50": na50,
+            "aligned_basepairs": sum(mapped_contigs)
+        }
 
     fh.close()
 
@@ -346,7 +314,7 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
     to_plot_c90, to_plot_phred, json_dic = parse_paf_files(sample_id, df, mapping, reference, assembler)
 
-    with open(".report.json", "w") as json_report:
+    with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
         json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
     to_plot_c90.to_csv(sample_id + '_' + assembler + '_c90.csv')
