@@ -70,7 +70,8 @@ def main(sample_id, assembler, assembly, fastq, basedir):
     cli = [
         "minimap2",
         "--sr",
-        "-k21"
+        "-k21",
+        "-N0"
         "--secondary=no",
         assembly,
         reads[0],
