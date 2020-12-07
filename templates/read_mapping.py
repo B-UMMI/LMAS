@@ -102,10 +102,14 @@ def main(sample_id, assembler, assembly, fastq, basedir):
         # count number of reads mapping
         with open("{}_{}_read_mapping.paf".format(sample_id, assembler)) as fh:
             csv_paf_file = csv.reader(fh)
-            n_reads_mapping = len(set([row[0] for row in csv_paf_file]))
+            n_reads_mapping = 0
+            for row in csv_paf_file:
+                if row[12] >= (row[1] * 0.9):  # check if the read is at least 90% mapped
+                    n_reads_mapping += 1
+            #n_reads_mapping = len(set([row[0] for row in csv_paf_file]))
         logger.debug("Number of reads mapping: {}".format(n_reads_mapping))
 
-        # get number of reads
+        # get total number of reads
         n_reads_total = (sum(1 for line in gzip.open(reads[0], 'rb'))/4)+(sum(1 for line in gzip.open(reads[1], 'rb'))/4)
         logger.debug("Number of reads in fastq file: {}".format(n_reads_total))
 
