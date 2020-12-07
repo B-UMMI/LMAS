@@ -597,7 +597,7 @@ process compile_reports {
     file global_assembly_stats from PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
     file pipeline_stats from Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
     file js from Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
-    file lmas_png from Channel.fromPath("${workflow.projectDir}/resources/lmas.png")
+    file lmas_png from Channel.fromPath("${workflow.projectDir}/resources/lmas.zip")
     file contig_size_distribution from PLOT_CONTIG_DISTRIBUTION
     file mapping_assembly_stats from PROCESS_ASSEMBLY_STATS_MAPPING_OUT
     file completness_plots from PLOT_PROCESS_COMPLETNESS
@@ -605,7 +605,8 @@ process compile_reports {
     output:
     file "pipeline_report.json"
     file "pipeline_report.html"
-    file "src/main.js"
+    file "main.js"
+    file "lmas.png"
 
     script:
     template "compile_reports.py"

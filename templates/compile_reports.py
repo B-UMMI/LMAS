@@ -272,7 +272,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     with zipfile.ZipFile(main_js) as zf:
         zf.extractall(".")
 
-    copyfile(lmas_logo, ".")
+    with zipfile.ZipFile(lmas_logo) as zf:
+        zf.extractall(".")
 
 
 if __name__ == "__main__":
