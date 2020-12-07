@@ -47,6 +47,7 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY = '$assembly'
     FASTQ = '$params.fastq'
     BASEDIR = '$baseDir'
+    THRESHOLD = '$THRESHOLD'
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
@@ -54,9 +55,10 @@ if __file__.endswith(".command.sh"):
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
     logger.debug("FASTQ: {}".format(FASTQ))
     logger.debug("BASEDIR: {}".format(BASEDIR))
+    logger.debug("THRESHOLD: {}".format(THRESHOLD))
 
 
-def main(sample_id, assembler, assembly, fastq, basedir):
+def main(sample_id, assembler, assembly, fastq, basedir, threshold):
     # get correct fastq files from directory
     all_readfiles = glob.glob(os.path.join(basedir, '/'.join(fastq.split('/')[:-1]), '*'))
     logger.debug("Read files found: {}".format(all_readfiles))
@@ -104,7 +106,7 @@ def main(sample_id, assembler, assembly, fastq, basedir):
             csv_paf_file = csv.reader(fh, delimiter='\t')
             n_reads_mapping = 0
             for row in csv_paf_file:
-                if int(row[10]) >= (int(row[1]) * 0.85):
+                if int(row[10]) >= (int(row[1]) * float(threshold)):
                     n_reads_mapping += 1
         logger.debug("Number of reads mapping: {}".format(n_reads_mapping))
 
@@ -131,4 +133,4 @@ def main(sample_id, assembler, assembly, fastq, basedir):
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ, BASEDIR)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ, BASEDIR, THRESHOLD)

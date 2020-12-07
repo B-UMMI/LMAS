@@ -421,6 +421,7 @@ OUT_BCALM2.mix(OUT_GATB,
 
 ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
 
+THRESHOLD = Channel.value(params.mapped_reads_threshold)
 // READ MAPPING
 process READ_MAPPING{
 
@@ -430,6 +431,7 @@ process READ_MAPPING{
 
     input:
     set sample_id, assembler, assembly from TO_READ_MAPPING
+    each THRESHOLD
 
     output:
     file("*_read_mapping.txt")
