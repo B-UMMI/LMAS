@@ -7,6 +7,7 @@ import csv
 import re
 import fnmatch
 from time import gmtime, strftime
+from shutil import copyfile
 try:
     import utils
 except ImportError:
@@ -14,6 +15,7 @@ except ImportError:
 
 ASSEMBLY_STATS_REPORT = "$global_assembly_stats"
 MAIN_JS = "${js}"
+LMAS_LOGO = "$lmas_png"
 PIPELINE_STATS = "${pipeline_stats}"
 CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}".split()
 MAPPING_STATS_REPORT = "$mapping_assembly_stats"
@@ -196,7 +198,8 @@ def process_performance_data(pipeline_stats):
     return performance_metadata
 
 
-def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot):
+def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
+         lmas_logo):
 
     metadata = {
         "nfMetadata": {
@@ -267,10 +270,11 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         html_fh.write(html_template.format(performance_metadata, main_data_js))
 
     with zipfile.ZipFile(main_js) as zf:
-        os.mkdir("src")
-        zf.extractall("./src")
+        zf.extractall(".")
+
+    copyfile(lmas_logo, ".")
 
 
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
-         COMPLETNESS_JSON)
+         COMPLETNESS_JSON, LMAS_LOGO)
