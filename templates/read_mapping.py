@@ -104,6 +104,7 @@ def main(sample_id, assembler, assembly, fastq, basedir):
             csv_paf_file = csv.reader(fh)
             n_reads_mapping = 0
             for row in csv_paf_file:
+                print(row)
                 if row[12] >= (row[1] * 0.9):  # check if the read is at least 90% mapped
                     n_reads_mapping += 1
             #n_reads_mapping = len(set([row[0] for row in csv_paf_file]))
