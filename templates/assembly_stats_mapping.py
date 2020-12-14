@@ -286,7 +286,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
         # Mapping stats dict
         mapping_stats_dict["ReferenceTables"][reference_name] = {
             "assembler": assembler,
-            "reference_length": len(seq)/3,
             "contiguity": contiguity,
             "identity": identity,
             "lowest_identity": lowest_identity,
