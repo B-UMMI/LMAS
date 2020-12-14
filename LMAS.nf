@@ -591,7 +591,7 @@ OUT_ASSEMBLY_STATS_GLOBAL_JSON.set{master_report}
 
 process compile_reports {
 
-    publishDir "pipeline_report/", mode: "copy"
+    publishDir "report/", mode: "copy"
 
     input:
     file global_assembly_stats from PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
