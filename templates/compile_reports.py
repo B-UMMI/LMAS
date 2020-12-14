@@ -7,7 +7,7 @@ import csv
 import re
 import fnmatch
 from time import gmtime, strftime
-from shutil import copyfile
+from itertools import groupby
 try:
     import utils
 except ImportError:
@@ -20,6 +20,7 @@ PIPELINE_STATS = "${pipeline_stats}"
 CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}".split()
 MAPPING_STATS_REPORT = "$mapping_assembly_stats"
 COMPLETNESS_JSON = "$completness_plots"
+REFERENCE_FILE = "$reference_file"
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -35,13 +36,12 @@ html_template = """
   <body style="background-color: #666666">
     <div id="root"></div>
     <script> const _assemblerPerformanceData = {0} </script>
-    <script> const _mainData = {1} </script>
+    <script> const _referenceData = {1} </script>
+    <script> const _mainData = {2} </script>
     <script src="./main.js"></script>
   </body>
 </html>
 """
-
-#<script> const _fileReportData = {1} </script>
 
 logger = utils.get_logger(__file__)
 
@@ -198,8 +198,27 @@ def process_performance_data(pipeline_stats):
     return performance_metadata
 
 
+def process_reference_data(reference_file):
+
+    reference_file_name = os.path.splitext(os.path.basename(reference_file))[0]
+
+    ref_sequences_header = {}
+
+    with open(reference_file) as fh:
+        faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
+        for header in faiter:
+            headerStr = header.__next__()[1:].strip().split()[0]
+            seq = "".join(s.strip() for s in faiter.__next__())
+            gc_content = float((seq.count('G') + seq.count('C'))) / len(seq) * 100
+            ref_sequences_header[headerStr] = {"size": len(seq)/3, "GC": gc_content}
+
+    return_dict = {reference_file_name: ref_sequences_header}
+
+    return return_dict
+
+
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
-         lmas_logo):
+         lmas_logo, reference_file):
 
     metadata = {
         "nfMetadata": {
@@ -224,6 +243,10 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     # Assembler performance data:
     performance_metadata = process_performance_data(pipeline_stats)
 
+    # Reference info
+    refence_info = process_reference_data(reference_file)
+
+    ################
     # LMAS report
 
     # main report skeleton
@@ -267,7 +290,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         json_fh.write(json.dumps(main_data_js, separators=(",", ":")))
 
     with open("index.html", "w") as html_fh:
-        html_fh.write(html_template.format(performance_metadata, main_data_js))
+        html_fh.write(html_template.format(performance_metadata, refence_info, main_data_js))
 
     with zipfile.ZipFile(main_js) as zf:
         zf.extractall(".")
@@ -278,4 +301,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
-         COMPLETNESS_JSON, LMAS_LOGO)
+         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE)
