@@ -514,7 +514,7 @@ process ASSEMBLY_MAPPING{
 
 }
 
-OUT_ASSEMBLY_MAPPING.into{ IN_ASSEMBLY_STATS_MAPPING; IN_GAP_ASSESSMENT}
+OUT_ASSEMBLY_MAPPING.into{ IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT}
 
 process ASSEMBLY_STATS_MAPPING {
 
@@ -523,7 +523,7 @@ process ASSEMBLY_STATS_MAPPING {
     publishDir 'results/stats/'
 
     input:
-    set sample_id, assembler, file(assembly), file(mapping) from IN_ASSEMBLY_STATS_MAPPING
+    set sample_id, assembler, file(assembly), file(mapping) from IN_ASSEMBLY_MAPPING_FOR_STATS
     each reference from IN_ASSEMBLY_STATS_MAPPING
 
     output:
