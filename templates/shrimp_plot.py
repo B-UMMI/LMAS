@@ -62,7 +62,7 @@ def main(phred_files):
             fig_phred = go.Figure()
             i = 0
 
-            for assembler in df_phred['Assembler'].unique():
+            for assembler in sorted(df_phred['Assembler'].unique()):
                 fig_phred.add_trace(go.Scatter(y=df_phred['Phred Quality Score'][(df_phred['Reference'] == reference) &
                                                                                  (df_phred['Assembler'] == assembler) &
                                                                                  (df_phred['Sample'] == sample)],
@@ -73,13 +73,14 @@ def main(phred_files):
                                     opacity=0.7,
                                     mode='markers',
                                     marker=dict(color=colours[i], size=12, line=dict(width=1, color='black'))))
+                i += 1
 
-                fig_phred.update_layout(title="Phred-like score metric for {}".format(reference),
-                                        xaxis_title="Contig size",
-                                        yaxis_title="Score",
-                                        plot_bgcolor='rgb(255,255,255)',
-                                        xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
-                                                   gridcolor='#DCDCDC'))
+            fig_phred.update_layout(title="Phred-like score metric for {}".format(reference),
+                                    xaxis_title="Contig size",
+                                    yaxis_title="Score",
+                                    plot_bgcolor='rgb(255,255,255)',
+                                    xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
+                                               gridcolor='#DCDCDC'))
 
             plot(fig_phred, filename='{0}_{1}_phred.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
 
