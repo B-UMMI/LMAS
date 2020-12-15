@@ -45,9 +45,10 @@ def main(gap_json):
             data = json.load(jfh)
             for k in data.keys():
                 if k not in all_data:
-                    all_data[k] = [data[k]]
+                    all_data[k] = data[k]
                 else:
-                    all_data[k].append(data[k])
+                    for assembler, dist_list in data[k]:
+                        all_data[k][assembler] = dist_list
 
     print(all_data)
 
