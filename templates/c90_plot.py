@@ -58,20 +58,18 @@ def main(c90files):
     for sample in sorted(df_c90['Sample'].unique()):
         for reference in sorted(df_c90['Reference'].unique()):
             fig_c90 = go.Figure()
-            i = 0
-            for assembler in sorted(df_c90['Assembler'].unique()):
-                fig_c90.add_trace(go.Scatter(x=df_c90['C90'][df_c90['Assembler'] == assembler & df_c90['Reference'] == reference],
-                                             y=reference,
-                                             mode='markers', name=assembler, opacity=0.7,
-                                             marker=dict(color=colours[i], size=24, line=dict(width=1, color='black'))))
-                i += 1
+            fig_c90.add_trace(go.Bar(x=df_c90['Assembler'][(df_c90['Sample'] == sample) &
+                                                           (df_c90['Reference'] == reference)],
+                                     y=df_c90['C90'][(df_c90['Sample'] == sample) &
+                                                     (df_c90['Reference'] == reference)],
+                                     marker_color='lightslategray'))
+
             fig_c90.update_layout(title="C90 metric for {}".format(reference),
-                                  xaxis_title="Contigs (log)",
-                                  xaxis_type="log",
+                                  yaxis_title="Contigs (log)",
+                                  yaxis_type="log",
                                   plot_bgcolor='rgb(255,255,255)',
                                   xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
-                                             gridcolor='#DCDCDC')
-                                  )
+                                             gridcolor='#DCDCDC'))
 
             plot(fig_c90, filename='{0}_{1}_c90.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_c90.to_json()
