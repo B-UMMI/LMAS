@@ -52,7 +52,7 @@ def main(gap_json):
     for sample in all_data.keys():
         fig = go.Figure()
         i = 0
-        for k, v in all_data[sample]:
+        for k, v in all_data[sample].items():
             fig.add_trace(go.Histogram(x=v, name=k, opacity=0.75, marker_color=colours[i]))
             i += 1
 
