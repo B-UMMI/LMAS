@@ -43,7 +43,10 @@ import re
 import json
 import pandas as pd
 from itertools import groupby
-import utils
+try:
+    import utils
+except ImportError:
+    from templates import utils
 
 __version__ = "0.0.1"
 __build__ = "28.10.2020"

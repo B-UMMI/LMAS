@@ -514,6 +514,7 @@ process ASSEMBLY_MAPPING{
 
 }
 
+OUT_ASSEMBLY_MAPPING.set{ IN_ASSEMBLY_STATS_MAPPING; IN_GAP_ASSESSMENT}
 
 process ASSEMBLY_STATS_MAPPING {
 
@@ -522,7 +523,7 @@ process ASSEMBLY_STATS_MAPPING {
     publishDir 'results/stats/'
 
     input:
-    set sample_id, assembler, file(assembly), file(mapping) from OUT_ASSEMBLY_MAPPING
+    set sample_id, assembler, file(assembly), file(mapping) from IN_ASSEMBLY_STATS_MAPPING
     each reference from IN_ASSEMBLY_STATS_MAPPING
 
     output:
@@ -611,6 +612,34 @@ process PLOT_CONTIG_DISTRIBUTION {
 
     script:
     template "plot_contig_size.py"
+}
+
+process GAP_ASSESSMENT {
+
+    input:
+    set sample_id, assembler, file(assembly), file(mapping) from IN_GAP_ASSESSMENT
+
+    output:
+    file("*_gap_dict.json") into OUT_GAP_DISTANCE
+
+    script:
+    template "gap_assessment.py"
+}
+
+process PLOT_GAP_HISTOGRAM {
+
+    publishDir 'results/plots/', pattern: "*.html"
+
+    input:
+    file gap_distance_json from OUT_GAP_DISTANCE.collect()
+
+    output:
+    file("*.html")
+    file("gap_distance_histogram.json") into OUT_GAP_HISTOGRAM
+
+    script:
+    template "plot_gap_distance.py"
+
 }
 
 /** Reports
