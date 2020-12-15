@@ -70,7 +70,7 @@ IN_fastq_raw.into{
     IN_TO_MAP} //mapping channel - minimap2
 
 // SET CHANNELS FOR REFERENCE
-IN_reference_raw.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING}
+IN_reference_raw.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS}
 
 // ASSEMBLERS
 //      BCALM 2
@@ -618,6 +618,7 @@ process GAP_ASSESSMENT {
 
     input:
     set sample_id, assembler, file(assembly), file(mapping) from IN_GAP_ASSESSMENT
+    each reference from IN_GAP_STATS
 
     output:
     file("*_gap_dict.json") into OUT_GAP_DISTANCE
