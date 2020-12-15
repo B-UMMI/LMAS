@@ -529,6 +529,7 @@ process ASSEMBLY_STATS_MAPPING {
     file("*_report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
     file("*breadth_of_coverage_contigs.csv") into OUT_COVERAGE_PER_CONTIG
     file "*_df.csv" into OUT_DF_ASSEMBLY_STATS_MAPPING
+    file("*._c90.csv") into OUT_C90
 
     script:
     template "assembly_stats_mapping.py"
@@ -563,6 +564,21 @@ process PROCESS_COMPLETNESS {
 
     script:
     template "completness_plot.py"
+}
+
+process PROCESS_C90 {
+
+    publishDir 'results/plots/'
+
+    input:
+    file c90files from OUT_C90.collect()
+
+    output:
+    file("*.html")
+    file("c90.json") into PLOT_C90
+
+    script:
+    template "c90_plot.py"
 }
 
 
@@ -602,6 +618,7 @@ process compile_reports {
     file contig_size_distribution from PLOT_CONTIG_DISTRIBUTION
     file mapping_assembly_stats from PROCESS_ASSEMBLY_STATS_MAPPING_OUT
     file completness_plots from PLOT_PROCESS_COMPLETNESS
+    file c90_plots from PLOT_C90
 
     output:
     file "pipeline_report.json"
