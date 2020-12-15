@@ -49,6 +49,8 @@ def main(gap_json):
                 else:
                     all_data[k].append(data[k])
 
+    print(all_data)
+
     for sample in all_data.keys():
         fig = go.Figure()
         i = 0

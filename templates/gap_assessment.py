@@ -88,7 +88,7 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
         gaps = get_gaps(mapping, header_str, len(seq) / 3)
 
-        dist_array = [y[0]-x[1] for x, y in zip(gaps[1:], gaps)]
+        dist_array = [x[0]-y[1] for x, y in zip(gaps[1:], gaps)]
         all_gap_distance.extend(dist_array)
 
     to_write = {sample_id: {assembler: sorted(all_gap_distance)}}
