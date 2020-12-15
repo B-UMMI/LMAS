@@ -4,10 +4,8 @@
 """
 
 import os
-import numpy as np
 import pandas as pd
 import json
-from scipy import interpolate
 import plotly.graph_objs as go
 from plotly.offline import plot
 try:

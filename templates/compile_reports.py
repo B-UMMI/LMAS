@@ -22,6 +22,7 @@ MAPPING_STATS_REPORT = "$mapping_assembly_stats"
 COMPLETNESS_JSON = "$completness_plots"
 REFERENCE_FILE = "$reference_file"
 C90_JSON = "$c90_plots"
+SHRIMP_JSON = "$shrimp_plots"
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -219,7 +220,7 @@ def process_reference_data(reference_file):
 
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
-         lmas_logo, reference_file, c90_json):
+         lmas_logo, reference_file, c90_json, shrimp_json):
 
     metadata = {
         "nfMetadata": {
@@ -279,15 +280,24 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             main_data_js[sample_id]["PlotData"] = {"Global": [plot_json]}
 
         # add reference plots
-        #completness
+        #    completness
         with open(completness_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
-        #c90
+        #    c90
         with open(c90_json) as c90_fh:
             plot_json = json.load(c90_fh)
+            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                reference_plots_json = [json.loads(x) for x in reference_plots]
+                if reference not in main_data_js[sample_id]["PlotData"].keys():
+                    main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                else:
+                    main_data_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+        #    phred-like plot
+        with open(shrimp_json) as phred_fh:
+            plot_json = json.load(phred_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_js[sample_id]["PlotData"].keys():
@@ -312,4 +322,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
-         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, C90_JSON)
+         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, C90_JSON, SHRIMP_JSON)

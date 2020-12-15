@@ -530,6 +530,7 @@ process ASSEMBLY_STATS_MAPPING {
     file("*breadth_of_coverage_contigs.csv") into OUT_COVERAGE_PER_CONTIG
     file "*_df.csv" into OUT_DF_ASSEMBLY_STATS_MAPPING
     file("*_c90.csv") into OUT_C90
+    file("*_phred.csv") into OUT_PHRED
 
     script:
     template "assembly_stats_mapping.py"
@@ -553,7 +554,7 @@ process PROCESS_ASSEMBLY_STATS_MAPPING {
 
 process PROCESS_COMPLETNESS {
 
-    publishDir 'results/plots/'
+    publishDir 'results/plots/', pattern: "*.html"
 
     input:
     file coverage_files from OUT_COVERAGE_PER_CONTIG.collect()
@@ -568,7 +569,7 @@ process PROCESS_COMPLETNESS {
 
 process PROCESS_C90 {
 
-    publishDir 'results/plots/'
+    publishDir 'results/plots/', pattern: "*.html"
 
     input:
     file c90_files from OUT_C90.collect()
@@ -579,6 +580,21 @@ process PROCESS_C90 {
 
     script:
     template "c90_plot.py"
+}
+
+process PROCESS_SHRIMP_PLOT {
+
+    publishDir 'results/plots/', pattern: "*.html"
+
+    input:
+    file phred_files from OUT_PHRED.collect()
+
+    output:
+    file("*.html")
+    file("phred.json") into PLOT_PHRED
+
+    script:
+    template "shrimp_plot.py"
 }
 
 
@@ -619,6 +635,7 @@ process compile_reports {
     file mapping_assembly_stats from PROCESS_ASSEMBLY_STATS_MAPPING_OUT
     file completness_plots from PLOT_PROCESS_COMPLETNESS
     file c90_plots from PLOT_C90
+    file shrimp_plots from PLOT_PHRED
 
     output:
     file "pipeline_report.json"
