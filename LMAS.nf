@@ -571,7 +571,7 @@ process PROCESS_C90 {
     publishDir 'results/plots/'
 
     input:
-    file c90files from OUT_C90.collect()
+    file c90_files from OUT_C90.collect()
 
     output:
     file("*.html")
