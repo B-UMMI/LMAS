@@ -60,8 +60,7 @@ def main(c90files):
             fig_c90 = go.Figure()
             i = 0
             for assembler in sorted(df_c90['Assembler'].unique()):
-                fig_c90.add_trace(go.Scatter(x=df_c90['C90'][df_c90['Assembler'] == assembler,
-                                                             df_c90['Reference'] == reference],
+                fig_c90.add_trace(go.Scatter(x=df_c90['C90'][df_c90['Assembler'] == assembler & df_c90['Reference'] == reference],
                                              y=reference,
                                              mode='markers', name=assembler, opacity=0.7,
                                              marker=dict(color=colours[i], size=24, line=dict(width=1, color='black'))))
