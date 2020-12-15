@@ -636,7 +636,7 @@ process PLOT_GAP_HISTOGRAM {
 
     output:
     file("*.html")
-    file("gap_distance_histogram.json") into OUT_GAP_HISTOGRAM
+    file("*gap_distance_histogram.json") into OUT_GAP_HISTOGRAM
 
     script:
     template "plot_gap_distance.py"
