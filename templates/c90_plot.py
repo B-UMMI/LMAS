@@ -58,15 +58,15 @@ def main(c90files):
     for sample in sorted(df_c90['Sample'].unique()):
         for reference in sorted(df_c90['Reference'].unique()):
             fig_c90 = go.Figure()
-            fig_c90.add_trace(go.Bar(x=df_c90['Assembler'][(df_c90['Sample'] == sample) &
+            fig_c90.add_trace(go.Bar(y=df_c90['Assembler'][(df_c90['Sample'] == sample) &
                                                            (df_c90['Reference'] == reference)],
-                                     y=df_c90['C90'][(df_c90['Sample'] == sample) &
+                                     x=df_c90['C90'][(df_c90['Sample'] == sample) &
                                                      (df_c90['Reference'] == reference)],
-                                     marker_color='lightslategray'))
+                                     marker_color='lightslategray', orientation='h'))
 
             fig_c90.update_layout(title="C90 metric for {}".format(reference),
-                                  yaxis_title="Contigs (log)",
-                                  yaxis_type="log",
+                                  xaxis_title="Contigs (log)",
+                                  xaxis_type="log",
                                   plot_bgcolor='rgb(255,255,255)',
                                   xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                              gridcolor='#DCDCDC'))
@@ -81,6 +81,8 @@ def main(c90files):
                     report_dict[sample]["PlotData"][reference] = [plot_species]
                 else:
                     report_dict[sample]["PlotData"][reference].append(plot_species)
+
+        print(report_dict[sample]['PlotData'].keys())
 
     with open("c90.json", "w") as json_report:
         json_report.write(json.dumps(report_dict, separators=(",", ":")))
