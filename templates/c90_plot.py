@@ -58,28 +58,17 @@ def main(c90files):
     report_dict = {}
     for sample in sorted(df_c90['Sample'].unique()):
         for reference in sorted(df_c90['Reference'].unique()):
-            data = [go.Bar(y=df_c90['Assembler'][(df_c90['Sample'] == sample) &
+            fig_c90 = go.Figure()
+            fig_c90.add_trace(go.Bar(y=df_c90['Assembler'][(df_c90['Sample'] == sample) &
                                                            (df_c90['Reference'] == reference)],
-                           x=df_c90['C90'][(df_c90['Sample'] == sample) & (df_c90['Reference'] == reference)],
-                           marker_color='lightslategray', orientation='h')]
-
-            updatemenus = list([
-                dict(active=1,
-                     buttons=list([
-                         dict(label='Log Scale',
-                              method='update',
-                              args=[{'visible': [True, True]},
-                                    {'title': 'Log scale',
-                                     'xaxis': {'type': 'log'}}]),
-                         dict(label='Linear Scale',
-                              method='update',
-                              args=[{'visible': [True, False]},
-                                    {'title': 'Linear scale',
-                                     'xaxis': {'type': 'linear'}}])
-                     ]),)])
-
-            layout = dict(updatemenus=updatemenus, title='Linear scale')
-            fig_c90 = go.Figure(data=data, layout=layout)
+                                     x=df_c90['C90'][(df_c90['Sample'] == sample) &
+                                                     (df_c90['Reference'] == reference)],
+                                     marker_color='lightslategray', orientation='h', textposition='auto'))
+            fig_c90.add_trace(go.Scatter(y=df_c90['Assembler'][(df_c90['Sample'] == sample) &
+                                                               (df_c90['Reference'] == reference)],
+                                         x=[1]*len(df_c90['Assembler'][(df_c90['Sample'] == sample) &
+                                                                       (df_c90['Reference'] == reference)]),
+                                         name='Gold Standard', line=dict(color='firebrick', width=4, dash='dash')))
 
             fig_c90.update_layout(title="C90 metric for {}".format(reference),
                                   xaxis_title="Contigs",
