@@ -47,7 +47,7 @@ def main(gap_json):
                 if k not in all_data:
                     all_data[k] = data[k]
                 else:
-                    for assembler, dist_list in data[k]:
+                    for assembler, dist_list in data[k].items():
                         all_data[k][assembler] = dist_list
 
     print(all_data)
