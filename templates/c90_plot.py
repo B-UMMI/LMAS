@@ -45,6 +45,7 @@ def main(c90files):
     for file_c90 in c90files:
         sample_name = os.path.basename(file_c90).split('_')[0]
         with open(file_c90) as fh:
+            next(fh)  # skip header line
             for line in fh:
                 line = line.split(',')
                 reference = line[1]
@@ -57,16 +58,31 @@ def main(c90files):
     report_dict = {}
     for sample in sorted(df_c90['Sample'].unique()):
         for reference in sorted(df_c90['Reference'].unique()):
-            fig_c90 = go.Figure()
-            fig_c90.add_trace(go.Bar(y=df_c90['Assembler'][(df_c90['Sample'] == sample) &
+            data = [go.Bar(y=df_c90['Assembler'][(df_c90['Sample'] == sample) &
                                                            (df_c90['Reference'] == reference)],
-                                     x=df_c90['C90'][(df_c90['Sample'] == sample) &
-                                                     (df_c90['Reference'] == reference)],
-                                     marker_color='lightslategray', orientation='h'))
+                           x=df_c90['C90'][(df_c90['Sample'] == sample) & (df_c90['Reference'] == reference)],
+                           marker_color='lightslategray', orientation='h')]
+
+            updatemenus = list([
+                dict(active=1,
+                     buttons=list([
+                         dict(label='Log Scale',
+                              method='update',
+                              args=[{'visible': [True, True]},
+                                    {'title': 'Log scale',
+                                     'xaxis': {'type': 'log'}}]),
+                         dict(label='Linear Scale',
+                              method='update',
+                              args=[{'visible': [True, False]},
+                                    {'title': 'Linear scale',
+                                     'xaxis': {'type': 'linear'}}])
+                     ]),)])
+
+            layout = dict(updatemenus=updatemenus, title='Linear scale')
+            fig_c90 = go.Figure(data=data, layout=layout)
 
             fig_c90.update_layout(title="C90 metric for {}".format(reference),
-                                  xaxis_title="Contigs (log)",
-                                  xaxis_type="log",
+                                  xaxis_title="Contigs",
                                   plot_bgcolor='rgb(255,255,255)',
                                   xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                              gridcolor='#DCDCDC'))
