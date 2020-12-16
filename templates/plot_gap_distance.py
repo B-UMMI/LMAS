@@ -59,7 +59,7 @@ def main(gap_json):
             fig.add_trace(go.Histogram(x=v, name=k, opacity=0.75, marker_color=colours[i]))
             i += 1
 
-        fig.update_layout(title_text='Gap Distance Distribution', xaxis_type="log",
+        fig.update_layout(title_text='Gap Distance Distribution',
                           xaxis_title_text='Distance between gaps (log)', yaxis_title_text='Count', barmode='stack',
                           plot_bgcolor='rgb(255,255,255)', xaxis=dict(zeroline=False, gridcolor='#DCDCDC'))
 
