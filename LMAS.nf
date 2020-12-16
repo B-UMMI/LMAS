@@ -616,6 +616,8 @@ process PLOT_CONTIG_DISTRIBUTION {
 
 process GAP_ASSESSMENT {
 
+    tag { assembler }
+
     input:
     set sample_id, assembler, file(assembly), file(mapping) from IN_GAP_ASSESSMENT
     each reference from IN_GAP_STATS
