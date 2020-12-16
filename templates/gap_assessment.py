@@ -91,7 +91,7 @@ def main(sample_id, assembler, assembly, mapping, reference):
         #dist_array = [gap2[0]-gap1[1] for gap2, gap1 in zip(gaps[1:], gaps)]  # this is wrong
         for i in range(1, len(gaps)):
             dist = gaps[i][0] - gaps[i-1][1]
-            all_gap_distance.extend(dist)
+            all_gap_distance.append(dist)
 
     to_write = {sample_id: {assembler: sorted(all_gap_distance)}}
 
