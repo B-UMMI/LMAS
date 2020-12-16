@@ -88,7 +88,6 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
         gaps = get_gaps(mapping, header_str, len(seq) / 3)
 
-        #dist_array = [gap2[0]-gap1[1] for gap2, gap1 in zip(gaps[1:], gaps)]  # this is wrong
         for i in range(1, len(gaps)):
             dist = gaps[i][0] - gaps[i-1][1]
             all_gap_distance.append(dist)
@@ -101,5 +100,3 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE)
-    #main("mockSample", "SKESA", "filtered_mockSample_skesa.fasta", "mockSample_SKESA.paf",
-    #     "Zymos_Genomes_triple_chromosomes.fasta")
