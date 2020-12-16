@@ -60,7 +60,7 @@ def main(gap_json):
             i += 1
 
         fig.update_layout(title_text='Gap Distance Distribution', yaxis_type="log",
-                          xaxis_title_text='Distance between gaps', yaxis_title_text='Count (log)', barmode='stack',
+                          xaxis_title_text='Distance between gaps', yaxis_title_text='Count (log)',
                           plot_bgcolor='rgb(255,255,255)', xaxis=dict(zeroline=False, gridcolor='#DCDCDC'))
 
         plot(fig, filename='gap_distance_histogram.html', auto_open=False)
