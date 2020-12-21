@@ -624,7 +624,7 @@ process GAP_ASSESSMENT {
 
     output:
     file("*_gap_dict.json") into OUT_GAP_DISTANCE
-    file("*__gaps.csv") into OUT_GAP_PLOT_REF
+    file("*_gaps.csv") into OUT_GAP_PLOT_REF
 
     script:
     template "gap_assessment.py"
@@ -651,7 +651,7 @@ process PLOT_GAP_REFERENCE {
     publishDir 'results/plots/', pattern: "*.html"
 
     input:
-    file gap_coords_dataframes OUT_GAP_PLOT_REF.collect()
+    file gap_coords_dataframes from OUT_GAP_PLOT_REF.collect()
 
     output:
     file("*.html")
