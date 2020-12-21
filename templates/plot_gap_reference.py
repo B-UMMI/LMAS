@@ -45,7 +45,7 @@ if __file__.endswith(".command.sh"):
     DATAFRAME_LIST = '$gap_coords_dataframes'.split()
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
-    logger.debug("GAP_JSON: {}".format(DATAFRAME_LIST))
+    logger.debug("DATAFRAME_LIST: {}".format(DATAFRAME_LIST))
 
 
 def main(dataframes):
@@ -56,23 +56,25 @@ def main(dataframes):
         df = pd.read_csv(filename, index_col=0, header=0)
         li.append(df)
 
-    frame = pd.concat(li, axis=0, ignore_index=True)
+    frame = pd.concat(li, ignore_index=True)
 
-    print(frame)
+    #print(frame)
 
     report_dict = {}
 
     for sample in sorted(frame['Sample'].unique()):
         for reference in sorted(frame['Reference'].unique()):
             fig = go.Figure()
+            y = 0
             for assembler in sorted(frame['Assembler'].unique()):
-                for coords in frame[(frame['Sample'] == sample) &
-                                    (frame['Reference'] == reference) &
-                                    (frame['Assembler'] == assembler)]:
-                    print(coords)
-                    for i, row in coords.iterrows():
-                        fig.add_trace(go.Scatter(x=[coords.at[i, 'Gap Start'], coords.at[i, 'Gap End']],
-                                                 y=assembler, mode='lines'))
+                coords = frame[(frame['Sample'] == sample) & (frame['Reference'] == reference) &
+                               (frame['Assembler'] == assembler)]
+                for i, row in coords.iterrows():
+                    fig.add_trace(go.Scatter(x=[coords.at[i, 'Gap Start'], coords.at[i, 'Gap End']],
+                                             y=[y, y], mode='lines', line=dict(color='#000000', width=8),
+                                             name=assembler,
+                                             showlegend=False))
+                y += 1
 
             fig.update_layout(title="Gaps for {}".format(reference),
                               xaxis_title="{} Bp".format(reference),
@@ -80,6 +82,13 @@ def main(dataframes):
                               plot_bgcolor='rgb(255,255,255)',
                               xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                          gridcolor='#DCDCDC'))
+            # fix y axis legends
+            fig.update_layout(
+                yaxis=dict(
+                    tickmode='array',
+                    tickvals=list(range(len(sorted(frame['Assembler'].unique())))),
+                    ticktext=sorted(frame['Assembler'].unique())
+                ))
 
             plot(fig, filename='{0}_{1}_gaps.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
 
@@ -99,3 +108,9 @@ def main(dataframes):
 
 if __name__ == '__main__':
     main(DATAFRAME_LIST)
+    """
+    main(["mockSample_BCALM2_gaps.csv", "mockSample_GATBMiniaPipeline_gaps.csv", "mockSample_IDBA-UD_gaps.csv",
+          "mockSample_MEGAHIT_gaps.csv", "mockSample_metaSPAdes_gaps.csv", "mockSample_MINIA_gaps.csv",
+          "mockSample_Pandaseq_gaps.csv", "mockSample_SKESA_gaps.csv", "mockSample_SPAdes_gaps.csv",
+          "mockSample_Unicycler_gaps.csv", "mockSample_VelvetOptimizer_gaps.csv"])
+    """
