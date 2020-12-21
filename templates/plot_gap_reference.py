@@ -64,9 +64,9 @@ def main(dataframes):
         for reference in sorted(frame['Reference'].unique()):
             fig = go.Figure()
             for assembler in sorted(frame['Assembler'].unique()):
-                for coords in frame[['Gap Start', 'Gap End']][(frame['Sample'] == sample) &
-                                                              (frame['Reference'] == reference) &
-                                                              (frame['Assembler'] == assembler)]:
+                for coords in frame[(frame['Sample'] == sample) &
+                                    (frame['Reference'] == reference) &
+                                    (frame['Assembler'] == assembler)]:
                     print(coords)
                     for i, row in coords.iterrows():
                         fig.add_trace(go.Scatter(x=[coords.at[i, 'Gap Start'], coords.at[i, 'Gap End']],
