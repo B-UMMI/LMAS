@@ -58,6 +58,8 @@ def main(dataframes):
 
     frame = pd.concat(li, axis=0, ignore_index=True)
 
+    print(frame)
+
     report_dict = {}
 
     for sample in sorted(frame['Sample'].unique()):
