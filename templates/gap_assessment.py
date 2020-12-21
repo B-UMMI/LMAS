@@ -109,6 +109,7 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
     for header in references:
         header_str = header.__next__()[1:].strip().split()[0]
+        reference = utils.REFERENCE_DIC[header]
         seq = "".join(s.strip() for s in references.__next__())
 
         gaps, gap_sizes = get_gaps(mapping, header_str, len(seq) / 3)
@@ -116,7 +117,7 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
         # plot gap location per reference per reference
         for coords in gaps:
-            df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Reference': utils.REFERENCE_DIC(header),
+            df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Reference': reference,
                             'Reference Length': len(seq/3), 'Gap Start': coords[0], 'Gap End': coords[1]},
                            ignore_index=True)
 
