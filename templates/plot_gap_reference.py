@@ -67,8 +67,8 @@ def main(dataframes):
                 for coords in frame[['Gap Start', 'Gap End']][(frame['Sample'] == sample) &
                                                               (frame['Reference'] == reference) &
                                                               (frame['Assembler'] == assembler)]:
-                    for index in list(coords.index):
-                        fig.add_trace(go.Scatter(x=[coords.at[index, 'Gap Start'], coords.at[index, 'Gap End']],
+                    for i, row in coords.iterrows():
+                        fig.add_trace(go.Scatter(x=[coords.at[i, 'Gap Start'], coords.at[i, 'Gap End']],
                                                  y=assembler, mode='lines'))
 
             fig.update_layout(title="Gaps for {}".format(reference),
