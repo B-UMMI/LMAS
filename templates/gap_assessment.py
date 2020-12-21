@@ -119,7 +119,7 @@ def main(sample_id, assembler, assembly, mapping, reference):
         # plot gap location per reference per reference
         for coords in gaps:
             df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Reference': reference_name,
-                            'Reference Length': len(seq/3), 'Gap Start': coords[0], 'Gap End': coords[1]},
+                            'Reference Length': len(seq)/3, 'Gap Start': coords[0], 'Gap End': coords[1]},
                            ignore_index=True)
 
     to_write = {sample_id: {assembler: sorted(all_gap_sizes)}}
