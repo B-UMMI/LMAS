@@ -624,12 +624,13 @@ process GAP_ASSESSMENT {
 
     output:
     file("*_gap_dict.json") into OUT_GAP_DISTANCE
+    file("*__gaps.csv") into OUT_GAP_PLOT_REF
 
     script:
     template "gap_assessment.py"
 }
 
-process PLOT_GAP_HISTOGRAM {
+process PLOT_GAP_BOXPLOT {
 
     publishDir 'results/plots/', pattern: "*.html"
 
@@ -641,8 +642,23 @@ process PLOT_GAP_HISTOGRAM {
     file("*gap_distance_histogram.json") into OUT_GAP_HISTOGRAM
 
     script:
-    template "plot_gap_distance.py"
+    template "plot_gap_sizes.py"
 
+}
+
+process PLOT_GAP_REFERENCE {
+
+    publishDir 'results/plots/', pattern: "*.html"
+
+    input:
+    file gap_coords_dataframes OUT_GAP_PLOT_REF.collect()
+
+    output:
+    file("*.html")
+    file("*.json") into OUT_GAP_REFERENCE
+
+    script:
+    template "plot_gap_reference.py"
 }
 
 /** Reports

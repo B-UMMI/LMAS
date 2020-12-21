@@ -2,15 +2,36 @@
 # -*- coding: utf-8 -*-
 
 """
+Purpose
+-------
+Script to obtain information on the size of gaps from the filtered assemblies  respective to the reference sequences.
+Produces a JSON file with the sample_id, the assembler, and a list of gap sized for all references.
 
+Expected input
+--------------
+The following variables are expected whether using NextFlow or the
+:py:func:`main` executor.
+- ``sample_id``: Sample Identification string.
+    - e.g.: ``'SampleA'``
+- ``assembler``: String with assembler name.
+    - e.g.: ``'SPAdes'``
+- ``assembly``: fasta file from the assembler (filtered for minimum length size)
+    - e.g.: ``'spades.fasta'``
+- ``mapping``: paf file of the assembly mapped to the complete triple reference genomes
+    - e.g.: ``'spades.paf' ``
+- ``reference``: paf file to the complete triple reference genomes
+    - e.g.: ``'references.fasta' ``
+
+Authorship
+----------
+Inês Mendes, cimendes@medicina.ulisboa.pt
+https://github.com/cimendes
 """
 
 import os
-import math
-import re
 import json
-import pandas as pd
 from itertools import groupby
+import pandas as pd
 try:
     import utils
 except ImportError:
@@ -35,6 +56,8 @@ if __file__.endswith(".command.sh"):
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
     logger.debug("MAPPING: {}".format(MAPPING))
     logger.debug("REFERENCE: {}".format(REFERENCE))
+
+COLUMNS = ['Sample', 'Assembler', 'Reference', 'Reference Length', 'Gap Start', 'Gap End']
 
 
 def get_gaps(paf_file, ref_name, ref_len):
@@ -71,13 +94,15 @@ def get_gaps(paf_file, ref_name, ref_len):
 
     covered_bases = sorted(list(covered_bases))
     gaps = [[s, e]for s, e in zip(covered_bases, covered_bases[1:]) if s+1 < e]  # get list of gap sizes coords
-    #gap_sizes = [coord[1]-coord[0]-1 for coord in gaps]
-    return gaps
+    gap_sizes = [coord[1]-coord[0]-1 for coord in gaps]  # get list of gap sizes
+    return gaps, gap_sizes
 
 
 def main(sample_id, assembler, assembly, mapping, reference):
 
-    all_gap_distance = []
+    all_gap_sizes = []
+
+    df = pd.DataFrame(columns=COLUMNS)
 
     # iterator for reference files (sequence length is needed)
     references = (x[1] for x in groupby(open(reference, "r"), lambda line: line[0] == ">"))
@@ -86,16 +111,21 @@ def main(sample_id, assembler, assembly, mapping, reference):
         header_str = header.__next__()[1:].strip().split()[0]
         seq = "".join(s.strip() for s in references.__next__())
 
-        gaps = get_gaps(mapping, header_str, len(seq) / 3)
+        gaps, gap_sizes = get_gaps(mapping, header_str, len(seq) / 3)
+        all_gap_sizes.append(gap_sizes)  # for global plot
 
-        for i in range(1, len(gaps)):
-            dist = gaps[i][0] - gaps[i-1][1]
-            all_gap_distance.append(dist)
+        # plot gap location per reference per reference
+        for coords in gaps:
+            df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Reference': utils.REFERENCE_DIC(header),
+                            'Reference Length': len(seq/3), 'Gap Start': coords[0], 'Gap End': coords[1]},
+                           ignore_index=True)
 
-    to_write = {sample_id: {assembler: sorted(all_gap_distance)}}
+    to_write = {sample_id: {assembler: sorted(all_gap_sizes)}}
 
     with open("{}_{}_gap_dict.json".format(sample_id, assembler), "w") as fh:
         fh.write(json.dumps(to_write, separators=(",", ":")))
+
+    df.to_csv(sample_id + '_' + assembler + '_gaps.csv')
 
 
 if __name__ == '__main__':
