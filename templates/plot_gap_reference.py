@@ -73,6 +73,7 @@ def main(dataframes):
 
             fig.update_layout(title="Gaps for {}".format(reference),
                               xaxis_title="{} Bp".format(reference),
+                              yaxis_type='category',
                               plot_bgcolor='rgb(255,255,255)',
                               xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                          gridcolor='#DCDCDC'))
