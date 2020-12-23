@@ -71,7 +71,7 @@ def main(dataframes):
                                (frame['Assembler'] == assembler)]
                 for i, row in coords.iterrows():
                     fig.add_trace(go.Scatter(x=[coords.at[i, 'Gap Start'], coords.at[i, 'Gap End']],
-                                             y=[y, y], mode='lines', line=dict(color='#000000', width=8),
+                                             y=[y, y], mode='lines', line=dict(color='#000000', width=12),
                                              name=assembler,
                                              showlegend=False))
                 y += 1
@@ -108,9 +108,4 @@ def main(dataframes):
 
 if __name__ == '__main__':
     main(DATAFRAME_LIST)
-    """
-    main(["mockSample_BCALM2_gaps.csv", "mockSample_GATBMiniaPipeline_gaps.csv", "mockSample_IDBA-UD_gaps.csv",
-          "mockSample_MEGAHIT_gaps.csv", "mockSample_metaSPAdes_gaps.csv", "mockSample_MINIA_gaps.csv",
-          "mockSample_Pandaseq_gaps.csv", "mockSample_SKESA_gaps.csv", "mockSample_SPAdes_gaps.csv",
-          "mockSample_Unicycler_gaps.csv", "mockSample_VelvetOptimizer_gaps.csv"])
-    """
+

@@ -23,6 +23,8 @@ COMPLETNESS_JSON = "$completness_plots"
 REFERENCE_FILE = "$reference_file"
 C90_JSON = "$c90_plots"
 SHRIMP_JSON = "$shrimp_plots"
+GAP_REFERENCE_JSON = "$gap_reference_json"
+GAP_HISTOGRAM = "$gap_histogram"
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -220,7 +222,7 @@ def process_reference_data(reference_file):
 
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
-         lmas_logo, reference_file, c90_json, shrimp_json):
+         lmas_logo, reference_file, c90_json, shrimp_json, gap_reference_json, gap_histogram):
 
     metadata = {
         "nfMetadata": {
@@ -274,10 +276,16 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     for sample_id in main_data_js.keys():
         # add global plots
+        #   contig size boxplot
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
         with open(contig_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_js[sample_id]["PlotData"] = {"Global": [plot_json]}
+        #   gap size boxplot
+        gap_distribution_plot = fnmatch.filter(gap_histogram, sample_id + '*')[0]
+        with open(gap_distribution_plot) as plot_fh:
+            plot_json = json.load(plot_fh)
+            main_data_js[sample_id]["PlotData"]["Global"].append(plot_json)
 
         # add reference plots
         #    completness
@@ -304,6 +312,15 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                     main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
                 else:
                     main_data_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+        #   gap plot
+        with open(gap_reference_json) as gap_ref_fh:
+            plot_json = json.load(gap_ref_fh)
+            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                reference_plots_json = [json.loads(x) for x in reference_plots]
+                if reference not in main_data_js[sample_id]["PlotData"].keys():
+                    main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                else:
+                    main_data_js[sample_id]["PlotData"][reference].append(reference_plots_json)
 
     logger.debug("Report data dictionary: {}".format(main_data_js))
 
@@ -322,4 +339,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
-         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, C90_JSON, SHRIMP_JSON)
+         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, C90_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM)

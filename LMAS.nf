@@ -684,6 +684,8 @@ process compile_reports {
     file completness_plots from PLOT_PROCESS_COMPLETNESS
     file c90_plots from PLOT_C90
     file shrimp_plots from PLOT_PHRED
+    file gap_reference_json from OUT_GAP_REFERENCE
+    file gap_histogram from OUT_GAP_HISTOGRAM
 
     output:
     file "pipeline_report.json"
