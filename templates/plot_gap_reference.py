@@ -28,8 +28,11 @@ https://github.com/cimendes
 import os
 import json
 import pandas as pd
+import numpy as np
 from plotly.offline import plot
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from collections import Counter
 try:
     import utils
 except ImportError:
@@ -64,31 +67,38 @@ def main(dataframes):
 
     for sample in sorted(frame['Sample'].unique()):
         for reference in sorted(frame['Reference'].unique()):
-            fig = go.Figure()
+            fig = make_subplots(rows=2, cols=1, row_heights=[0.2, 0.8], shared_xaxes=True, vertical_spacing=0.02)
             y = 0
+            indexes = np.arange(frame['Reference Length'][frame['Reference'] == reference].unique())
+            width = 1
+            _count = Counter()
+            _count.update({x: 0 for x in indexes})  # initialize all values as 0 counts
             for assembler in sorted(frame['Assembler'].unique()):
                 coords = frame[(frame['Sample'] == sample) & (frame['Reference'] == reference) &
                                (frame['Assembler'] == assembler)]
                 for i, row in coords.iterrows():
+                    # trace with gap location - one per gap
                     fig.add_trace(go.Scatter(x=[coords.at[i, 'Gap Start'], coords.at[i, 'Gap End']],
                                              y=[y, y], mode='lines', line=dict(color='#000000', width=12),
-                                             name=assembler,
-                                             showlegend=False))
+                                             name=assembler, showlegend=False), row=2, col=1)
+                    _count.update(np.arange(coords.at[i, 'Gap Start'], coords.at[i, 'Gap End']+1))
                 y += 1
 
+            # histogram-like plot for gap counts
+            labels, values = zip(*_count.items())
+            fig.add_trace(go.Scatter(x=labels, y=values, mode='lines', line=dict(color='#000000', width=2),
+                                     showlegend=False), row=1, col=1)
+
+            # style plot
+            fig.update_xaxes(title_text="{} Bp".format(reference), row=2, col=1)
+            fig.update_yaxes(type='category', tickmode='array',
+                             tickvals=list(range(len(sorted(frame['Assembler'].unique())))),
+                             ticktext=sorted(frame['Assembler'].unique()), row=2, col=1)
+
             fig.update_layout(title="Gaps for {}".format(reference),
-                              xaxis_title="{} Bp".format(reference),
-                              yaxis_type='category',
                               plot_bgcolor='rgb(255,255,255)',
                               xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                          gridcolor='#DCDCDC'))
-            # fix y axis legends
-            fig.update_layout(
-                yaxis=dict(
-                    tickmode='array',
-                    tickvals=list(range(len(sorted(frame['Assembler'].unique())))),
-                    ticktext=sorted(frame['Assembler'].unique())
-                ))
 
             plot(fig, filename='{0}_{1}_gaps.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
 
@@ -108,4 +118,5 @@ def main(dataframes):
 
 if __name__ == '__main__':
     main(DATAFRAME_LIST)
+    #main(["mockSample_IDBA-UD_gaps.csv", "mockSample_MEGAHIT_gaps.csv"])
 
