@@ -49,6 +49,9 @@ def main(c90files):
                 df_Lx = df_Lx.append({'Sample': sample_name, 'Reference': reference,
                                       'Assembler': assembler, 'Lx': Lx, 'nContigs': contigs}, ignore_index=True)
 
+    # create percentage instead of float
+    df_Lx['Lx'] = df_Lx['Lx'].apply(lambda x: x*100)
+
     # Create plot - Lx per reference for each sample
     report_dict = {}
     for sample in sorted(df_Lx['Sample'].unique()):
