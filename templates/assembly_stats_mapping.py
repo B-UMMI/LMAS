@@ -215,23 +215,25 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     return contiguity, coverage, lowest_identity, identity, df_phred
 
 
-def get_c90(alignment_lengths, ref_len):
+def get_Lx(alignment_lengths, ref_len, target):
     """
-    Returns the number of contigs, ordered by length, that cover at least 90% of the reference sequence.
+    Returns the number of contigs, ordered by length, that cover at least 'target'% of the reference sequence.
     :param alignment_lengths: list with length of mapped contigs for the reference
     :param ref_len: int with the expected reference length
+    :param target: target % of the reference sequence for Lx metric
     :return: int with the number of contigs that represent
     """
     sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
-    target_length = ref_len * 0.9
+    target_length = ref_len * target
 
     length_so_far = 0
-    c90 = 0
+    Lx = 0
+
     for contig_length in sorted_lengths:
         length_so_far += contig_length
         if length_so_far >= target_length:
-            c90 += 1
-    return c90
+            Lx += 1
+    return Lx
 
 
 def parse_paf_files(sample_id, df, mapping, reference, assembler):
@@ -245,8 +247,8 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
     :return: pandas Dataframe with columns Reference, Assembler and C90
     """
 
-    # Dataframe for C90 plot
-    df_c90 = pd.DataFrame(columns=['Reference', 'Assembler', 'C90'])
+    # Dataframe for Lx plot
+    df_Lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])  # Lx - array of values for L0 to L100
 
     # Dataframe for Phred Score plot
     df_phred = pd.DataFrame(columns=['Assembler', 'Reference', 'Contig', 'Contig Length', 'Phred Quality Score'])
@@ -276,8 +278,10 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
         mapped_contigs = df_assembler_reference['Contig Len'].astype('int').tolist()
 
         na50 = utils.get_N50(mapped_contigs)
-        c90 = get_c90(mapped_contigs, len(seq)/3)  # adjust for triple reference
-        df_c90 = df_c90.append({'Reference': reference_name, 'Assembler': assembler, 'C90': c90}, ignore_index=True)
+        for x in range(0, 11, 1):  # Lx
+            Lx = get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
+            df_Lx = df_Lx.append({'Reference': reference_name, 'Assembler': assembler,
+                                  'Lx': x, 'nContigs': Lx}, ignore_index=True)
 
         contiguity, coverage, lowest_identity, identity, df_phred = get_alignment_stats(mapping,
                                                                                         header_str,

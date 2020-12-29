@@ -568,7 +568,7 @@ process PROCESS_COMPLETNESS {
     template "completness_plot.py"
 }
 
-process PROCESS_C90 {
+process PROCESS_L_METRIC {
 
     publishDir 'results/plots/', pattern: "*.html"
 
@@ -580,7 +580,7 @@ process PROCESS_C90 {
     file("c90.json") into PLOT_C90
 
     script:
-    template "c90_plot.py"
+    template "Lx_plot.py"
 }
 
 process PROCESS_SHRIMP_PLOT {

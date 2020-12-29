@@ -26,9 +26,6 @@ if __file__.endswith(".command.sh"):
         os.path.basename(__file__)))
     logger.debug("PHRED_FILES: {}".format(PHRED_FILES))
 
-# colors for each assembler
-colours = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c',
-           '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']
 
 def main(phred_files):
     """
@@ -72,7 +69,7 @@ def main(phred_files):
                                     name=assembler,
                                     opacity=0.7,
                                     mode='markers',
-                                    marker=dict(color=colours[i], size=12, line=dict(width=1, color='black'))))
+                                    marker=dict(color=utils.COLOURS[i], size=12, line=dict(width=1, color='black'))))
                 i += 1
 
             fig_phred.update_layout(title="Phred-like score metric for {}".format(reference),
