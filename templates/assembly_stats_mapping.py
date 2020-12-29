@@ -237,6 +237,8 @@ def get_Lx(alignment_lengths, ref_len, target):
         length_so_far += contig_length
         if length_so_far >= target_length:
             Lx += 1
+        else:
+            print(length_so_far)
     return Lx
 
 
