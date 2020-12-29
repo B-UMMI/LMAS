@@ -50,7 +50,7 @@ def main(c90files):
                                       'Assembler': assembler, 'Lx': Lx, 'nContigs': contigs}, ignore_index=True)
 
     # create percentage instead of float
-    df_Lx['Lx'] = df_Lx['Lx'] * 100
+    #df_Lx['Lx'] = df_Lx['Lx'] * 100
 
     # Create plot - Lx per reference for each sample
     report_dict = {}
