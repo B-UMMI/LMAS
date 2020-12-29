@@ -231,14 +231,10 @@ def get_Lx(alignment_lengths, ref_len, target):
 
     length_so_far = 0
     Lx = 0
-    print(Lx)
     for contig_length in sorted_lengths:
-        print(Lx)
         length_so_far += contig_length
-        if length_so_far >= target_length:
+        if length_so_far <= target_length:
             Lx += 1
-        else:
-            print(length_so_far)
     return Lx
 
 
