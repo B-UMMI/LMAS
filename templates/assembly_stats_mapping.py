@@ -307,7 +307,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
 
     fh.close()
 
-    return df_c90, df_phred, mapping_stats_dict
+    return df_Lx, df_phred, mapping_stats_dict
 
 
 def main(sample_id, assembler, assembly, mapping, reference):
