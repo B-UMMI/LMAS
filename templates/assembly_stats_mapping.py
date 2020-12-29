@@ -228,7 +228,7 @@ def get_Lx(alignment_lengths, ref_len, target):
     target_length = ref_len * target
 
     if sum(sorted_lengths) < target_length:
-        return 0
+        return None
 
     length_so_far = 0
     Lx = 0
