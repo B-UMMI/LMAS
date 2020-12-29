@@ -56,13 +56,13 @@ def main(c90files):
             fig_Lx = go.Figure()
             i=0
             for assembler in sorted(df_Lx['Assembler'].unique()):
-                fig_Lx.add_trace(go.Scatter(y=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
+                fig_Lx.add_trace(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
                                                           (df_Lx['Reference'] == reference) &
                                                           (df_Lx['Assembler'] == assembler)],
-                                           x=df_Lx['nContigs'][(df_Lx['Sample'] == sample) &
-                                                               (df_Lx['Reference'] == reference) &
-                                                               (df_Lx['Assembler'] == assembler)],
-                                           name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
+                                            y=df_Lx['nContigs'][(df_Lx['Sample'] == sample) &
+                                                                (df_Lx['Reference'] == reference) &
+                                                                (df_Lx['Assembler'] == assembler)],
+                                            name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
                 i += 1
 
 
