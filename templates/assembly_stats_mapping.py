@@ -42,6 +42,7 @@ import math
 import re
 import json
 import pandas as pd
+import numpy as np
 from itertools import groupby
 try:
     import utils
@@ -278,7 +279,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
         mapped_contigs = df_assembler_reference['Contig Len'].astype('int').tolist()
 
         na50 = utils.get_N50(mapped_contigs)
-        for x in range(0, 1, 0.1):  # Lx
+        for x in np.linspace(0,1,11):  # Lx
             Lx = get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
             df_Lx = df_Lx.append({'Reference': reference_name, 'Assembler': assembler,
                                   'Lx': x, 'nContigs': Lx}, ignore_index=True)
