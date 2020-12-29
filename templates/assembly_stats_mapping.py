@@ -227,6 +227,8 @@ def get_Lx(alignment_lengths, ref_len, target):
     sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
     target_length = ref_len * target
 
+    print(target, target_length)
+
     length_so_far = 0
     Lx = 0
 
