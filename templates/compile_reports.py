@@ -262,6 +262,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     storage.append(metadata)
 
     # Assembler performance data:
+    logger.debug('Processing {0} data...'.format(pipeline_stats))
     performance_metadata = process_performance_data(pipeline_stats)
 
     # Reference info
@@ -274,12 +275,14 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     main_data_js = {}
 
     # add global stats
+    logger.debug('Processing {0} data...'.format(assembly_stats_report))
     with open(assembly_stats_report) as f:
         assembly_stats_json = json.load(f)
         for sample_id in assembly_stats_json.keys():
             main_data_js[sample_id] = assembly_stats_json[sample_id]
 
     # add mapping stats
+    logger.debug('Processing {0} data...'.format(mapping_stats_report))
     with open(mapping_stats_report) as f:
         mapping_stats_json = json.load(f)
         for sample_id in mapping_stats_json.keys():
@@ -295,11 +298,14 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         # add global plots
         #   contig size boxplot
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
+        logger.debug('Processing {0} data for {1}...'.format(contig_distribution_plot, sample_id))
         with open(contig_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_js[sample_id]["PlotData"] = {"Global": [plot_json]}
         #   gap size boxplot
+        print(gap_histogram)
         gap_distribution_plot = fnmatch.filter(gap_histogram, sample_id + '*')[0]
+        logger.debug('Processing {0} data for {1}...'.format(gap_distribution_plot, sample_id))
         with open(gap_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_js[sample_id]["PlotData"]["Global"].append(plot_json)
@@ -308,12 +314,14 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         #    completness
         with open(completness_plot) as plot_fh:
             plot_json = json.load(plot_fh)
+            logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
         #    L90
         with open(c90_json) as c90_fh:
             plot_json = json.load(c90_fh)
+            logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_js[sample_id]["PlotData"].keys():
@@ -323,6 +331,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         #    phred-like plot
         with open(shrimp_json) as phred_fh:
             plot_json = json.load(phred_fh)
+            logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_js[sample_id]["PlotData"].keys():
@@ -332,6 +341,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         #   gap plot
         with open(gap_reference_json) as gap_ref_fh:
             plot_json = json.load(gap_ref_fh)
+            logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_js[sample_id]["PlotData"].keys():
