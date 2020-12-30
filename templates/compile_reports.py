@@ -13,18 +13,35 @@ try:
 except ImportError:
     from templates import utils
 
-ASSEMBLY_STATS_REPORT = "$global_assembly_stats"
-MAIN_JS = "${js}"
-LMAS_LOGO = "$lmas_png"
-PIPELINE_STATS = "${pipeline_stats}"
-CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}".split()
-MAPPING_STATS_REPORT = "$mapping_assembly_stats"
-COMPLETNESS_JSON = "$completness_plots"
-REFERENCE_FILE = "$reference_file"
-C90_JSON = "$c90_plots"
-SHRIMP_JSON = "$shrimp_plots"
-GAP_REFERENCE_JSON = "$gap_reference_json"
-GAP_HISTOGRAM = "$gap_histogram"
+logger = utils.get_logger(__file__)
+
+if __file__.endswith(".command.sh"):
+    ASSEMBLY_STATS_REPORT = "$global_assembly_stats"
+    MAIN_JS = "${js}"
+    LMAS_LOGO = "$lmas_png"
+    PIPELINE_STATS = "${pipeline_stats}"
+    CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}".split()
+    MAPPING_STATS_REPORT = "$mapping_assembly_stats"
+    COMPLETNESS_JSON = "$completness_plots"
+    REFERENCE_FILE = "$reference_file"
+    C90_JSON = "$c90_plots"
+    SHRIMP_JSON = "$shrimp_plots"
+    GAP_REFERENCE_JSON = "$gap_reference_json"
+    GAP_HISTOGRAM = "$gap_histogram".split()
+
+    logger.debug("Running {} with parameters:".format(
+        os.path.basename(__file__)))
+    logger.debug("ASSEMBLY_STATS_REPORT: {}".format(ASSEMBLY_STATS_REPORT))
+    logger.debug("MAIN_JS: {}".format(MAIN_JS))
+    logger.debug("LMAS_LOGO: {}".format(LMAS_LOGO))
+    logger.debug("PIPELINE_STATS: {}".format(PIPELINE_STATS))
+    logger.debug("CONTIG_SIZE_DISTRIBUTION: {}".format(CONTIG_SIZE_DISTRIBUTION))
+    logger.debug("COMPLETNESS_JSON: {}".format(COMPLETNESS_JSON))
+    logger.debug("REFERENCE_FILE: {}".format(REFERENCE_FILE))
+    logger.debug("C90_JSON: {}".format(C90_JSON))
+    logger.debug("SHRIMP_JSON: {}".format(SHRIMP_JSON))
+    logger.debug("GAP_REFERENCE_JSON: {}".format(GAP_REFERENCE_JSON))
+    logger.debug("GAP_HISTOGRAM: {}".format(GAP_HISTOGRAM))
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -294,7 +311,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
-        #    c90
+        #    L90
         with open(c90_json) as c90_fh:
             plot_json = json.load(c90_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
