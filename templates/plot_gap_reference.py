@@ -23,6 +23,8 @@ Authorship
 ----------
 Inês Mendes, cimendes@medicina.ulisboa.pt
 https://github.com/cimendes
+Rafael Mamede, rmamede@medicina.ulisboa.pt
+https://github.com/rfm-targa
 """
 
 
@@ -214,4 +216,3 @@ def main(dataframes):
 
 if __name__ == '__main__':
     main(DATAFRAME_LIST)
-    # main(["mockSample_IDBA-UD_gaps.csv", "mockSample_MEGAHIT_gaps.csv"])
