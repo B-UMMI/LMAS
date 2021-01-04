@@ -75,6 +75,7 @@ def main(c90files):
                                  plot_bgcolor='rgb(255,255,255)',
                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                             gridcolor='#DCDCDC'))
+            fig_Lx.update_yaxes(type="log")
 
             plot(fig_Lx, filename='{0}_{1}_lx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_Lx.to_json()
