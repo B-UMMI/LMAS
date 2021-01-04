@@ -268,6 +268,10 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
     fh = open(sample_id + '_' + assembler + "_breadth_of_coverage_contigs.csv", "w")
     fh.write("Reference,Breadth of Coverage,Contigs\\n")
 
+    df_na = pd.DataFrame(columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
+    df_ng = pd.DataFrame(columns=['Reference', 'Assembler', 'NGx', 'Basepairs'])
+    df_lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])  # Lx - array of values for L0 to L100
+
     for header in references:
         header_str = header.__next__()[1:].strip().split()[0]
         reference_name = utils.REFERENCE_DIC[header_str]
@@ -280,7 +284,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
         # Assembly metrics
 
         #   NAx
-        df_na = pd.DataFrame(columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
         for x in np.linspace(0, 1, 11):
             nax = utils.get_Nx(mapped_contigs, x)
             df_na = df_na.append({'Reference': reference_name, 'Assembler': assembler,
@@ -288,7 +291,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
         na50 = utils.get_Nx(mapped_contigs, 0.5)
 
         #   NGx
-        df_ng = pd.DataFrame(columns=['Reference', 'Assembler', 'NGx', 'Basepairs'])
         for x in np.linspace(0, 1, 11):
             ngx = utils.get_NGx(mapped_contigs, len(seq)/3, x)
             df_ng = df_ng.append({'Reference': reference_name, 'Assembler': assembler,
@@ -296,7 +298,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
         ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, 0.5)
 
         #   Lx
-        df_lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])  # Lx - array of values for L0 to L100
         for x in np.linspace(0, 1, 11):  # Lx
             lx = get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
             df_lx = df_lx.append({'Reference': reference_name, 'Assembler': assembler,
