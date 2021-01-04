@@ -56,29 +56,47 @@ def main(c90files):
     report_dict = {}
     for sample in sorted(df_Lx['Sample'].unique()):
         for reference in sorted(df_Lx['Reference'].unique()):
-            fig_Lx = go.Figure()
-            i=0
+            fig_Lx = []
+            i = 0
             for assembler in sorted(df_Lx['Assembler'].unique()):
-                fig_Lx.add_trace(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
-                                                          (df_Lx['Reference'] == reference) &
-                                                          (df_Lx['Assembler'] == assembler)],
-                                            y=df_Lx['nContigs'][(df_Lx['Sample'] == sample) &
-                                                                (df_Lx['Reference'] == reference) &
-                                                                (df_Lx['Assembler'] == assembler)],
-                                            name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
+                fig_Lx.append(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
+                                                       (df_Lx['Reference'] == reference) &
+                                                       (df_Lx['Assembler'] == assembler)],
+                                         y=df_Lx['nContigs'][(df_Lx['Sample'] == sample) &
+                                                             (df_Lx['Reference'] == reference) &
+                                                             (df_Lx['Assembler'] == assembler)],
+                                         name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
                 i += 1
 
+            updatemenus = list([
+                dict(active=1,
+                     buttons=list([
+                         dict(label='Log Scale',
+                              method='update',
+                              args=[{'visible': [True, True]},
+                                    {'title': 'Log scale',
+                                     'yaxis': {'type': 'log'}}]),
+                         dict(label='Linear Scale',
+                              method='update',
+                              args=[{'visible': [True, False]},
+                                    {'title': 'Linear scale',
+                                     'yaxis': {'type': 'linear'}}])
+                     ]),
+                     )
+            ])
 
-            fig_Lx.update_layout(title="Lx metric for {}".format(reference),
+            layout = dict(updatemenus=updatemenus, title='Linear scale')
+            fig = go.Figure(data=fig_Lx, layout=layout)
+
+            fig.update_layout(title="Lx metric for {}".format(reference),
                                  xaxis_title="L(x) %",
                                  yaxis_title='Contigs',
                                  plot_bgcolor='rgb(255,255,255)',
                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                             gridcolor='#DCDCDC'))
-            fig_Lx.update_yaxes(type="log")
 
             plot(fig_Lx, filename='{0}_{1}_lx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
-            plot_species = fig_Lx.to_json()
+            plot_species = fig.to_json()
 
             if sample not in report_dict.keys():
                 report_dict[sample] = {"PlotData": {reference: [plot_species]}}
