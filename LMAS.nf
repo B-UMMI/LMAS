@@ -530,7 +530,9 @@ process ASSEMBLY_STATS_MAPPING {
     file("*_report.json") into OUT_ASSEMBLY_STATS_MAPPING_JSON
     file("*breadth_of_coverage_contigs.csv") into OUT_COVERAGE_PER_CONTIG
     file "*_df.csv" into OUT_DF_ASSEMBLY_STATS_MAPPING
-    file("*_c90.csv") into OUT_C90
+    file("*_lx.csv") into OUT_LX_PLOT
+    file("*_nax.csv") into OUT_NAX_PLOT
+    file("*_ngx.csv") into OUT_NGX_PLOT
     file("*_phred.csv") into OUT_PHRED
 
     script:
@@ -568,19 +570,49 @@ process PROCESS_COMPLETNESS {
     template "completness_plot.py"
 }
 
-process PROCESS_L_METRIC {
+process PLOT_LX {
 
     publishDir 'results/plots/', pattern: "*.html"
 
     input:
-    file c90_files from OUT_C90.collect()
+    file lx_files from OUT_LX_PLOT.collect()
 
     output:
     file("*.html")
-    file("c90.json") into PLOT_C90
+    file("lx.json") into PLOT_LX
 
     script:
     template "Lx_plot.py"
+}
+
+process PLOT_NAX {
+
+    publishDir 'results/plots/', pattern: "*.html"
+
+    input:
+    file nax_files from OUT_NAX_PLOT.collect()
+
+    output:
+    file("*.html")
+    file("nax.json") into PLOT_NAX
+
+    script:
+    template "nax_plot.py"
+}
+
+process PLOT_NGX {
+
+    publishDir 'results/plots/', pattern: "*.html"
+
+    input:
+    file ngx_files from OUT_NGX_PLOT.collect()
+
+    output:
+    file("*.html")
+    file("ngx.json") into PLOT_NAX
+
+    script:
+    template "ngx_plot.py"
 }
 
 process PROCESS_SHRIMP_PLOT {
@@ -682,7 +714,7 @@ process compile_reports {
     file contig_size_distribution from PLOT_CONTIG_DISTRIBUTION
     file mapping_assembly_stats from PROCESS_ASSEMBLY_STATS_MAPPING_OUT
     file completness_plots from PLOT_PROCESS_COMPLETNESS
-    file c90_plots from PLOT_C90
+    file lx_plots from PLOT_LX
     file shrimp_plots from PLOT_PHRED
     file gap_reference_json from OUT_GAP_REFERENCE
     file gap_histogram from OUT_GAP_HISTOGRAM

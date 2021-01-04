@@ -250,9 +250,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
     :return: pandas Dataframe with columns Reference, Assembler and C90
     """
 
-    # Dataframe for Lx plot
-    df_Lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])  # Lx - array of values for L0 to L100
-
     # Dataframe for Phred Score plot
     df_phred = pd.DataFrame(columns=['Assembler', 'Reference', 'Contig', 'Contig Length', 'Phred Quality Score'])
 
@@ -280,13 +277,31 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
 
         mapped_contigs = df_assembler_reference['Contig Len'].astype('int').tolist()
 
-        na50 = utils.get_N50(mapped_contigs)
-        for x in np.linspace(0,1,11):  # Lx
-            Lx = get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
-            df_Lx = df_Lx.append({'Reference': reference_name, 'Assembler': assembler,
-                                  'Lx': x, 'nContigs': Lx}, ignore_index=True)
-            if x == 0.9:
-                L90 = Lx
+        # Assembly metrics
+
+        #   NAx
+        df_na = pd.DataFrame(columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
+        for x in np.linspace(0, 1, 11):
+            nax = utils.get_Nx(mapped_contigs, x)
+            df_na = df_na.append({'Reference': reference_name, 'Assembler': assembler,
+                                  'NAx': x, 'Basepairs': nax}, ignore_index=True)
+        na50 = utils.get_Nx(mapped_contigs, 0.5)
+
+        #   NGx
+        df_ng = pd.DataFrame(columns=['Reference', 'Assembler', 'NGx', 'Basepairs'])
+        for x in np.linspace(0, 1, 11):
+            ngx = utils.get_NGx(mapped_contigs, len(seq)/3, x)
+            df_ng = df_ng.append({'Reference': reference_name, 'Assembler': assembler,
+                                  'NAx': x, 'Basepairs': ngx}, ignore_index=True)
+        ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, 0.5)
+
+        #   Lx
+        df_lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])  # Lx - array of values for L0 to L100
+        for x in np.linspace(0, 1, 11):  # Lx
+            lx = get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
+            df_lx = df_lx.append({'Reference': reference_name, 'Assembler': assembler,
+                                  'Lx': x, 'nContigs': lx}, ignore_index=True)
+        l90 = get_Lx(mapped_contigs, len(seq)/3, 0.9)
 
         contiguity, coverage, lowest_identity, identity, df_phred = get_alignment_stats(mapping,
                                                                                         header_str,
@@ -302,15 +317,16 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
             "identity": identity,
             "lowest_identity": lowest_identity,
             "breadth_of_coverage": coverage,
-            "L90": L90,
+            "L90": l90,
             "aligned_contigs": len(mapped_contigs),
             "NA50": na50,
+            "NG50": ng50,
             "aligned_basepairs": sum(mapped_contigs)
         }
 
     fh.close()
 
-    return df_Lx, df_phred, mapping_stats_dict
+    return df_na, df_ng, df_lx, df_phred, mapping_stats_dict
 
 
 def main(sample_id, assembler, assembly, mapping, reference):
@@ -323,12 +339,15 @@ def main(sample_id, assembler, assembly, mapping, reference):
     # save dataframe
     df.to_csv(sample_id + '_' + assembler + '_df.csv')
 
-    to_plot_c90, to_plot_phred, json_dic = parse_paf_files(sample_id, df, mapping, reference, assembler)
+    to_plot_nax, to_plot_ngx, to_plot_lx, to_plot_phred, json_dic = parse_paf_files(sample_id, df,
+                                                                                    mapping, reference, assembler)
 
     with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
         json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
-    to_plot_c90.to_csv(sample_id + '_' + assembler + '_c90.csv')
+    to_plot_nax.to_csv(sample_id + '_' + assembler + '_nax.csv')
+    to_plot_ngx.to_csv(sample_id + '_' + assembler + '_ngx.csv')
+    to_plot_lx.to_csv(sample_id + '_' + assembler + '_lx.csv')
     to_plot_phred.to_csv(sample_id + '_' + assembler + '_phred.csv')
 
 

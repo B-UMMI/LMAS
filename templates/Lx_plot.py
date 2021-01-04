@@ -21,10 +21,10 @@ __template__ = "PROCESS_C90-nf"
 logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
-    C90_FILES = '$c90_files'.split()
+    LX_FILES = '$lx_files '.split()
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
-    logger.debug("C90_FILES: {}".format(C90_FILES))
+    logger.debug("C90_FILES: {}".format(LX_FILES))
 
 
 def main(c90files):
@@ -76,7 +76,7 @@ def main(c90files):
                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                             gridcolor='#DCDCDC'))
 
-            plot(fig_Lx, filename='{0}_{1}_c90.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
+            plot(fig_Lx, filename='{0}_{1}_lx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_Lx.to_json()
 
             if sample not in report_dict.keys():
@@ -89,9 +89,9 @@ def main(c90files):
 
         print(report_dict[sample]['PlotData'].keys())
 
-    with open("c90.json", "w") as json_report:
+    with open("lx.json", "w") as json_report:
         json_report.write(json.dumps(report_dict, separators=(",", ":")))
 
 
 if __name__ == '__main__':
-    main(C90_FILES)
+    main(LX_FILES)

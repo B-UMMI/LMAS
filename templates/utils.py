@@ -148,15 +148,16 @@ def parse_assemblies(sample_id, assembler, assembly, mapping):
     return df
 
 
-def get_N50(alignment_lengths):
+def get_Nx(alignment_lengths, target):
     """
-    Calculate n50 form a list of contig lenghts
+    Calculate Nx (x=target) form a list of contig lenghts
     :param alignment_lengths: list of aligned contig length sizes (unordered)
+    :param target: percentage of total genome length
     :return: n50 of the aligned contigs (also called NA50
     """
     sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
     total_length = sum(sorted_lengths)
-    target_length = total_length * 0.5
+    target_length = total_length * target
     length_so_far = 0
     n50 = 0
     for contig_length in sorted_lengths:
@@ -165,6 +166,26 @@ def get_N50(alignment_lengths):
             n50 = contig_length
             break
     return n50
+
+
+def get_NGx(alignment_lengths, reference_length, target):
+    """
+    Calculate NGx (x=target) form a list of contig lenghts
+    :param alignment_lengths: list of aligned contig length sizes (unordered)
+    :param reference_length: genome gize
+    :param target: percentage of known genome size
+    :return: nx of the aligned contigs
+    """
+    sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
+    target_length = reference_length * target
+    length_so_far = 0
+    nx = 0
+    for contig_length in sorted_lengths:
+        length_so_far += contig_length
+        if length_so_far >= target_length:
+            nx = contig_length
+            break
+    return nx
 
 
 def is_number(n):

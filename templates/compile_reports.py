@@ -24,7 +24,7 @@ if __file__.endswith(".command.sh"):
     MAPPING_STATS_REPORT = "$mapping_assembly_stats"
     COMPLETNESS_JSON = "$completness_plots"
     REFERENCE_FILE = "$reference_file"
-    C90_JSON = "$c90_plots"
+    LX_JSON = "$lx_plots"
     SHRIMP_JSON = "$shrimp_plots"
     GAP_REFERENCE_JSON = "$gap_reference_json"
     GAP_HISTOGRAM = "$gap_histogram".split()
@@ -38,7 +38,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("CONTIG_SIZE_DISTRIBUTION: {}".format(CONTIG_SIZE_DISTRIBUTION))
     logger.debug("COMPLETNESS_JSON: {}".format(COMPLETNESS_JSON))
     logger.debug("REFERENCE_FILE: {}".format(REFERENCE_FILE))
-    logger.debug("C90_JSON: {}".format(C90_JSON))
+    logger.debug("LX_JSON: {}".format(LX_JSON))
     logger.debug("SHRIMP_JSON: {}".format(SHRIMP_JSON))
     logger.debug("GAP_REFERENCE_JSON: {}".format(GAP_REFERENCE_JSON))
     logger.debug("GAP_HISTOGRAM: {}".format(GAP_HISTOGRAM))
@@ -239,7 +239,7 @@ def process_reference_data(reference_file):
 
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
-         lmas_logo, reference_file, c90_json, shrimp_json, gap_reference_json, gap_histogram):
+         lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram):
 
     metadata = {
         "nfMetadata": {
@@ -296,12 +296,14 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     for sample_id in main_data_js.keys():
         # add global plots
+
         #   contig size boxplot
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
         logger.debug('Processing {0} data for {1}...'.format(contig_distribution_plot, sample_id))
         with open(contig_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_js[sample_id]["PlotData"] = {"Global": [plot_json]}
+
         #   gap size boxplot
         print(gap_histogram)
         gap_distribution_plot = fnmatch.filter(gap_histogram, sample_id + '*')[0]
@@ -318,9 +320,10 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+
         #    L90
-        with open(c90_json) as c90_fh:
-            plot_json = json.load(c90_fh)
+        with open(lx_json) as lx_fh:
+            plot_json = json.load(lx_fh)
             logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
@@ -328,6 +331,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                     main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
                 else:
                     main_data_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+
         #    phred-like plot
         with open(shrimp_json) as phred_fh:
             plot_json = json.load(phred_fh)
@@ -338,6 +342,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                     main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
                 else:
                     main_data_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+
         #   gap plot
         with open(gap_reference_json) as gap_ref_fh:
             plot_json = json.load(gap_ref_fh)
@@ -366,4 +371,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
-         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, C90_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM)
+         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM)
