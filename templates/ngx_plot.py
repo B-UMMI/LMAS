@@ -75,6 +75,19 @@ def main(ngx_files):
                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                             gridcolor='#DCDCDC'))
 
+            # add menu to control log scales
+            fig_ngx.update_layout(updatemenus=list([dict(active=1, buttons=list([
+                dict(label='Log Scale', method='update',
+                     args=[{'visible': [True, True]},
+                           {'yaxis': {'type': 'log'}}]),
+                dict(label='Linear Scale',
+                     method='update',
+                     args=[{'visible': [True, False]},
+                           {'yaxis': {'type': 'linear'}}])
+            ]),
+                                                        )
+                                                   ]))
+
             plot(fig_ngx, filename='{0}_{1}_nax.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_ngx.to_json()
 

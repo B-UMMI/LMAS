@@ -92,15 +92,14 @@ def main(c90files):
                                             gridcolor='#DCDCDC'))
 
             # add menu to control log scales
-            fig_Lx.update_layout(updatemenus = list([dict(active=1, buttons=list([
+            fig_Lx.update_layout(updatemenus=list([dict(active=1, buttons=list([
                 dict(label='Log Scale', method='update',
                      args=[{'visible': [True, True]},
-                           {'title': 'Log scale', 'yaxis': {'type': 'log'}}]),
+                           {'yaxis': {'type': 'log'}}]),
                 dict(label='Linear Scale',
                      method='update',
                      args=[{'visible': [True, False]},
-                           {'title': 'Linear scale',
-                            'yaxis': {'type': 'linear'}}])
+                           {'yaxis': {'type': 'linear'}}])
                      ]),
                      )
             ]))

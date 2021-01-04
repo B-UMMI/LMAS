@@ -75,6 +75,18 @@ def main(nax_files):
                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                             gridcolor='#DCDCDC'))
 
+            fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
+                dict(label='Log Scale', method='update',
+                     args=[{'visible': [True, True]},
+                           {'yaxis': {'type': 'log'}}]),
+                dict(label='Linear Scale',
+                     method='update',
+                     args=[{'visible': [True, False]},
+                           {'yaxis': {'type': 'linear'}}])
+            ]),
+                                                         )
+                                                    ]))
+
             plot(fig_nax, filename='{0}_{1}_nax.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_nax.to_json()
 
