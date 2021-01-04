@@ -609,7 +609,7 @@ process PLOT_NGX {
 
     output:
     file("*.html")
-    file("ngx.json") into PLOT_NAX
+    file("ngx.json") into PLOT_NGX
 
     script:
     template "ngx_plot.py"
