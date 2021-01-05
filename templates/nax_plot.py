@@ -86,7 +86,12 @@ def main(nax_files):
                                                          pad={"r": 10, "t": 10},
                                                          showactive=True,
                                                          xanchor="left",
+                                                         x=0.13,
+                                                         y=1.12,
                                                          yanchor="top")]))
+
+            fig_nax.update_layout(annotations=[dict(text="y axis<br>scale:", x=0, xref="paper", y=1.12, yref="paper",
+                                                    align="left", showarrow=False)])
 
             """
             fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
