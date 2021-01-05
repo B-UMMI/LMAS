@@ -68,12 +68,18 @@ def main(nax_files):
                                              name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
                 i += 1
 
-            fig_nax.update_layout(title="NAx metric for {}".format(reference),
-                                  xaxis_title="NA(x) %",
+            fig_nax.update_layout(xaxis_title="NA(x) %",
                                   yaxis_title='Basepairs',
                                   plot_bgcolor='rgb(255,255,255)',
                                   xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                              gridcolor='#DCDCDC'))
+
+            fig_nax.update_layout(title={
+                'text': "NAx metric for {}".format(reference),
+                'y': 1.2,
+                'x': 0.5,
+                'xanchor': 'center',
+                'yanchor': 'top'})
 
             fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
                 dict(label='Log Scale', method='update',
@@ -86,11 +92,11 @@ def main(nax_files):
                                                          pad={"r": 10, "t": 10},
                                                          showactive=True,
                                                          xanchor="left",
-                                                         x=0.13,
+                                                         x=0.05,
                                                          y=1.12,
                                                          yanchor="top")]))
 
-            fig_nax.update_layout(annotations=[dict(text="y axis<br>scale:", x=0, xref="paper", y=1.12, yref="paper",
+            fig_nax.update_layout(annotations=[dict(text="y axis scale:", x=0, xref="paper", y=1.12, yref="paper",
                                                     align="left", showarrow=False)])
 
             """
