@@ -76,7 +76,7 @@ def main(nax_files):
 
             fig_nax.update_layout(title={
                 'text': "NAx metric for {}".format(reference),
-                'y': 1.2,
+                'y': 1,
                 'x': 0.5,
                 'xanchor': 'center',
                 'yanchor': 'top'})
