@@ -69,12 +69,26 @@ def main(nax_files):
                 i += 1
 
             fig_nax.update_layout(title="NAx metric for {}".format(reference),
-                                 xaxis_title="NA(x) %",
-                                 yaxis_title='Basepairs',
-                                 plot_bgcolor='rgb(255,255,255)',
-                                 xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
-                                            gridcolor='#DCDCDC'))
+                                  xaxis_title="NA(x) %",
+                                  yaxis_title='Basepairs',
+                                  plot_bgcolor='rgb(255,255,255)',
+                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
+                                             gridcolor='#DCDCDC'))
 
+            fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
+                dict(label='Log Scale', method='update',
+                     args=[{'visible': [True, True]}, {'yaxis': {'type': 'log'}}]),
+                dict(label='Linear Scale', method='update',
+                     args=[{'visible': [True, False]}, {'yaxis': {'type': 'linear'}}])
+            ]),
+                                                         type="buttons",
+                                                         direction="right",
+                                                         pad={"r": 10, "t": 10},
+                                                         showactive=True,
+                                                         xanchor="left",
+                                                         yanchor="top")]))
+
+            """
             fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
                 dict(label='Log Scale', method='update',
                      args=[{'visible': [True, True]},
@@ -86,6 +100,7 @@ def main(nax_files):
             ]),
                                                          )
                                                     ]))
+            """
 
             plot(fig_nax, filename='{0}_{1}_nax.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_nax.to_json()
