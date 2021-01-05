@@ -94,10 +94,10 @@ def main(nax_files):
                                                          xanchor="left",
                                                          x=0.05,
                                                          y=1.12,
-                                                         yanchor="top")]))
+                                                         yanchor="middle")]))
 
             fig_nax.update_layout(annotations=[dict(text="y axis scale:", x=0, xref="paper", y=1.1, yref="paper",
-                                                    align="left", showarrow=False, yanchor="top")])
+                                                    align="left", showarrow=False, yanchor="middle")])
 
             """
             fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
