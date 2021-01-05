@@ -68,25 +68,37 @@ def main(ngx_files):
                                              name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
                 i += 1
 
-            fig_ngx.update_layout(title="NGx metric for {}".format(reference),
-                                 xaxis_title="NG(x) %",
-                                 yaxis_title='Basepairs',
-                                 plot_bgcolor='rgb(255,255,255)',
-                                 xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
-                                            gridcolor='#DCDCDC'))
+            fig_ngx.update_layout(xaxis_title="NG(x) %",
+                                  yaxis_title='Basepairs',
+                                  plot_bgcolor='rgb(255,255,255)',
+                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
+                                             gridcolor='#DCDCDC'))
 
-            # add menu to control log scales
+
+            fig_ngx.update_layout(title={
+                'text': "NGx metric for {}".format(reference),
+                'y': 1,
+                'x': 0.5,
+                'xanchor': 'center',
+                'yanchor': 'top'})
+
             fig_ngx.update_layout(updatemenus=list([dict(active=1, buttons=list([
                 dict(label='Log Scale', method='update',
-                     args=[{'visible': [True, True]},
-                           {'yaxis': {'type': 'log'}}]),
-                dict(label='Linear Scale',
-                     method='update',
-                     args=[{'visible': [True, False]},
-                           {'yaxis': {'type': 'linear'}}])
+                     args=[{'visible': [True, True]}, {'yaxis': {'type': 'log'}}]),
+                dict(label='Linear Scale', method='update',
+                     args=[{'visible': [True, False]}, {'yaxis': {'type': 'linear'}}])
             ]),
-                                                        )
-                                                   ]))
+                                                         type="buttons",
+                                                         direction="right",
+                                                         pad={"r": 10, "t": 10},
+                                                         showactive=True,
+                                                         xanchor="left",
+                                                         x=0.05,
+                                                         y=1.12,
+                                                         yanchor="top")]))
+
+            fig_ngx.update_layout(annotations=[dict(text="y axis scale:", x=0, xref="paper", y=1.1, yref="paper",
+                                                    align="left", showarrow=False, yanchor="top")])
 
             plot(fig_ngx, filename='{0}_{1}_nax.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_ngx.to_json()

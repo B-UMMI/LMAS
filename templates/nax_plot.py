@@ -99,20 +99,6 @@ def main(nax_files):
             fig_nax.update_layout(annotations=[dict(text="y axis scale:", x=0, xref="paper", y=1.1, yref="paper",
                                                     align="left", showarrow=False, yanchor="top")])
 
-            """
-            fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
-                dict(label='Log Scale', method='update',
-                     args=[{'visible': [True, True]},
-                           {'yaxis': {'type': 'log'}}]),
-                dict(label='Linear Scale',
-                     method='update',
-                     args=[{'visible': [True, False]},
-                           {'yaxis': {'type': 'linear'}}])
-            ]),
-                                                         )
-                                                    ]))
-            """
-
             plot(fig_nax, filename='{0}_{1}_nax.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_nax.to_json()
 
