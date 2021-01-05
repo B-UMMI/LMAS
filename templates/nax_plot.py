@@ -97,7 +97,7 @@ def main(nax_files):
                                                          yanchor="top")]))
 
             fig_nax.update_layout(annotations=[dict(text="y axis scale:", x=0, xref="paper", y=1.1, yref="paper",
-                                                    align="left", showarrow=False)])
+                                                    align="left", showarrow=False, yanchor="top")])
 
             """
             fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
