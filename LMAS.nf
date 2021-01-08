@@ -510,7 +510,7 @@ process ASSEMBLY_MAPPING{
     set sample_id, assembler, file(assembly), file("*.paf") into OUT_ASSEMBLY_MAPPING
 
     script:
-    "minimap2 --cs -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_${assembler}.paf"
+    "minimap2 --cs -N 0 -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_${assembler}.paf"
 
 }
 
@@ -582,7 +582,7 @@ process PLOT_LX {
     file("lx.json") into PLOT_LX
 
     script:
-    template "Lx_plot.py"
+    template "lx_plot.py"
 }
 
 process PLOT_NAX {
