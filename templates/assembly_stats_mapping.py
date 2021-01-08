@@ -242,7 +242,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     # COMPASS Metrics
     coverage = get_covered_bases(covered_bases, ref_length)
 
-    multiplicity = get_multiplicity(covered_bases)
+    multiplicity = get_multiplicity(covered_bases, ref_length)
 
     identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
 
