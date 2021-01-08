@@ -118,10 +118,9 @@ def check_missassemblies(paf_file):
     return missmatch_dict
 
 
-def calculate_frag_score(assembler, mis_dict):
+def calculate_frag_score(mis_dict):
     """
 
-    :param assembler:
     :param mis_dict:
     :return:
     """
@@ -129,14 +128,14 @@ def calculate_frag_score(assembler, mis_dict):
     frag_score_list_mis = []
     frag_score_list_okay = []
 
-    for contig in mis_dict["misassembly"][assembler].keys():
-        frag_score = math.log(len(mis_dict["misassembly"][assembler][contig]) / int(mis_dict["misassembly"][assembler][contig][0]['contig length'])) / \
-                 math.log(1 / int(mis_dict["misassembly"][assembler][contig][0]['contig length']))
+    for contig in mis_dict["misassembly"].keys():
+        frag_score = math.log(len(mis_dict["misassembly"][contig]) / int(mis_dict["misassembly"][contig][0]['contig length'])) / \
+                 math.log(1 / int(mis_dict["misassembly"][contig][0]['contig length']))
         frag_score_list_mis.append(frag_score)
 
-    for contig in mis_dict["okay"][assembler].keys():
-        frag_score = math.log(len(mis_dict["okay"][assembler][contig]) / int(mis_dict["okay"][assembler][contig][0]['contig length'])) / \
-                     math.log(1 / int(mis_dict["okay"][assembler][contig][0]['contig length']))
+    for contig in mis_dict["okay"].keys():
+        frag_score = math.log(len(mis_dict["okay"][contig]) / int(mis_dict["okay"][contig][0]['contig length'])) / \
+                     math.log(1 / int(mis_dict["okay"][contig][0]['contig length']))
         frag_score_list_okay.append(frag_score)
 
     print(frag_score_list_mis)
@@ -162,42 +161,41 @@ def evaluate_misassembled_contigs(mis_dict):
     :param mis_dict:
     :return:
     """
-    for assembler in mis_dict.keys():
-        missassembled_contigs = 0
-        for contig in mis_dict[assembler].keys():
-            if len(mis_dict[assembler][contig]) > 1:  # contig broken into multiple alignment blocks
-                missassembled_contigs += 1
-                #print(contig)
-                num_alignment_blocks = len(mis_dict[assembler][contig])
-                aligned_bases = 0
-                contig_len = int(mis_dict[assembler][contig][0]['contig length'])
-                reference = set()
-                strands = set()
-                blocks_to_order = []
-                for alignment_block in mis_dict[assembler][contig]:
-                    #print(alignment_block)
-                    aligned_bases += (alignment_block['query end'] - alignment_block['query start'])
-                    reference.add(alignment_block['reference'])
-                    strands.add(alignment_block['strand'])
-                    blocks_to_order.append(alignment_block['query start'])
-                    # get order
-                if not math.isclose(aligned_bases, contig_len, rel_tol=50):  # TODO - Hardcoded!
-                    print("has gaps")
-                if len(reference) > 1:
-                    print("Different references! {}".format(reference))
-                if len(strands) > 1:
-                    print("Different strands! {}".format(strands))
-                # get order of blocks
-                blocks_ordered = sorted(blocks_to_order)
-                order = []
-                for item in blocks_to_order:
-                    order.append(blocks_ordered.index(item))
-                #print(order)
+    missassembled_contigs = 0
+    for contig in mis_dict.keys():
+        if len(mis_dict[contig]) > 1:  # contig broken into multiple alignment blocks
+            missassembled_contigs += 1
+            #print(contig)
+            num_alignment_blocks = len(mis_dict[contig])
+            aligned_bases = 0
+            contig_len = int(mis_dict[contig][0]['contig length'])
+            reference = set()
+            strands = set()
+            blocks_to_order = []
+            for alignment_block in mis_dict[contig]:
+                #print(alignment_block)
+                aligned_bases += (alignment_block['query end'] - alignment_block['query start'])
+                reference.add(alignment_block['reference'])
+                strands.add(alignment_block['strand'])
+                blocks_to_order.append(alignment_block['query start'])
+                # get order
+            if not math.isclose(aligned_bases, contig_len, rel_tol=50):  # TODO - Hardcoded!
+                print("has gaps")
+            if len(reference) > 1:
+                print("Different references! {}".format(reference))
+            if len(strands) > 1:
+                print("Different strands! {}".format(strands))
+            # get order of blocks
+            blocks_ordered = sorted(blocks_to_order)
+            order = []
+            for item in blocks_to_order:
+                order.append(blocks_ordered.index(item))
+            #print(order)
 
-                ##### CHECK ORDER OF ASSEMBLY BLOCKS! FROM ORDER; EVALUATE TYPE OF MISASSEMBLY
-                #### CHECK STRANDS OF ASSEMBLY BLOCKS
-                ### GENETARE DUMMY TEST DATA
-        print("missassembled contigs: {}".format(missassembled_contigs))
+            ##### CHECK ORDER OF ASSEMBLY BLOCKS! FROM ORDER; EVALUATE TYPE OF MISASSEMBLY
+            #### CHECK STRANDS OF ASSEMBLY BLOCKS
+            ### GENETARE DUMMY TEST DATA
+    print("missassembled contigs: {}".format(missassembled_contigs))
 
 
 def main(sample_id, assembler, assembly, mapping):
@@ -206,7 +204,7 @@ def main(sample_id, assembler, assembly, mapping):
     misassembled_contigs = check_missassemblies(mapping)
 
     #
-    avg_frag_score = calculate_frag_score(assembler, misassembled_contigs)
+    avg_frag_score = calculate_frag_score(misassembled_contigs)
     evaluate_misassembled_contigs(misassembled_contigs["misassembly"])
 
 
