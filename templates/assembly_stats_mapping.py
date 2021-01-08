@@ -169,8 +169,10 @@ def get_multiplicity(covered_bases_list, ref_len):
             else:
                 covered_bases.add(base - (2 * ref_len))
             total_bases += 1
-
-    return len(covered_bases) / total_bases
+    if total_bases > 0:
+        return len(covered_bases) / total_bases
+    else:
+        return 0
 
 
 def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
