@@ -30,9 +30,7 @@ https://github.com/cimendes
 
 import math
 import os
-import numpy as np
-from plotly.offline import plot
-import plotly.graph_objects as go
+
 try:
     import utils
 except ImportError:
