@@ -3,6 +3,10 @@ class Help {
     static def start_info(Map info, String time, String profile, String version) {
 
         println ""
+        println "       /\\︵︵/\\"
+        println "      (◕('人')◕) "
+        println "          ︶"
+        println ""
         println "LMAS - Last Metagenomic Assembler Standing"
         println ""
         int nsamples = info.fastq / 2
@@ -35,6 +39,9 @@ class Help {
     static def print_help(Map params) {
 
         println ""
+        println "       /\\︵︵/\\"
+        println "      (◕('人')◕) "
+        println "          ︶"
         println "LMAS - Last Metagenomic Assembler Standing"
         println ""
         println "Usage: "
@@ -42,7 +49,7 @@ class Help {
         println ""
         println "    --fastq               Path expression to fastq files. (default: $params.fastq)"
         println ""
-        println"     --reference           Path to triple-genome reference fasta file. (default: $params.referece)"
+        println "    --reference           Path to triple-genome reference fasta file. (default: $params.reference)"
         println ""
 
     }
