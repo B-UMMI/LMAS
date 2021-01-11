@@ -30,6 +30,7 @@ https://github.com/cimendes
 
 import math
 import os
+import numpy as np
 from plotly.offline import plot
 import plotly.graph_objects as go
 try:
@@ -58,8 +59,11 @@ if __file__.endswith(".command.sh"):
 
 def check_missassemblies(paf_file):
     """
-    :param paf_file: paf files with mapping information
-    :return: dictionary with contigs broken with multiple alignment blocks
+    Parses a mapping paf file and stores mapping information into a dictionary for each contig. It separates
+    the contigs into two categories (misassembled and okay) depending on the probability of it being misassembled
+    (a non-perfect alignment or a different number of residue matches to the contig size).
+    :param paf_file: path to the paf files with mapping information
+    :return: dictionary with contig mapping info
     """
 
     missmatch_dict = {"misassembly": {}, "okay": {}}
@@ -113,89 +117,85 @@ def check_missassemblies(paf_file):
                 else:
                     missmatch_dict["okay"][contig] = [contig_dict]
 
-    print(missmatch_dict["misassembly"])
-
     return missmatch_dict
 
 
-def calculate_frag_score(mis_dict):
+def get_frag_score(n_blocks, contig_len):
     """
-
-    :param mis_dict:
-    :return:
+    fragment score calculated by log(n alignment blocks/contig length in bp)/log(1/conting length in bp)
+    :param n_blocks: int with number of alignment blocks a contig was divided in
+    :param contig_len: int with contign lenght in bp
+    :return: float with fragment score
     """
-
-    frag_score_list_mis = []
-    frag_score_list_okay = []
-
-    for contig in mis_dict["misassembly"].keys():
-        frag_score = math.log(len(mis_dict["misassembly"][contig]) / int(mis_dict["misassembly"][contig][0]['contig length'])) / \
-                 math.log(1 / int(mis_dict["misassembly"][contig][0]['contig length']))
-        frag_score_list_mis.append(frag_score)
-
-    for contig in mis_dict["okay"].keys():
-        frag_score = math.log(len(mis_dict["okay"][contig]) / int(mis_dict["okay"][contig][0]['contig length'])) / \
-                     math.log(1 / int(mis_dict["okay"][contig][0]['contig length']))
-        frag_score_list_okay.append(frag_score)
-
-    print(frag_score_list_mis)
-    print(frag_score_list_okay)
-    fig = go.Figure()
-    fig.add_trace(go.Box(x=frag_score_list_mis,
-                         name="misassembled", boxpoints='outliers',
-                         boxmean=False, fillcolor='#D3D3D3', line=dict(color='#000000')))
-    fig.add_trace(go.Box(x=frag_score_list_okay,
-                         name="okay", boxpoints='outliers',
-                         boxmean=False, fillcolor='#D3D3D3', line=dict(color='#000000')))
-
-    plot(fig, filename='lala.html', auto_open=True)
-
-    avg_frag_score = sum(frag_score_list_okay + frag_score_list_mis)/len(frag_score_list_okay + frag_score_list_mis)
-    print(avg_frag_score)
-    return avg_frag_score
+    return math.log(n_blocks/contig_len)/math.log((1/contig_len))
 
 
 def evaluate_misassembled_contigs(mis_dict):
     """
-
-    :param mis_dict:
+    Method to evaluate if a contig is misassembed. Recieves a list of possibly misassembled contigs. A contig is
+    classified as misassembled if it's broken into multiple alignment blocks. The type of misassembly is classified
+    according to the following conditions:
+        - Insertion:
+        - Deletion:
+        - Chimera:
+        - Missense:
+        - Translocation
+    :param mis_dict: dictionary with potentially misassembled contigs
     :return:
     """
-    missassembled_contigs = 0
+
+    missassembled_contigs = {}
     for contig in mis_dict.keys():
         if len(mis_dict[contig]) > 1:  # contig broken into multiple alignment blocks
-            missassembled_contigs += 1
-            #print(contig)
-            num_alignment_blocks = len(mis_dict[contig])
-            aligned_bases = 0
+
+            #frag score
+            n_blocks = len(mis_dict[contig])
             contig_len = int(mis_dict[contig][0]['contig length'])
-            reference = set()
-            strands = set()
-            blocks_to_order = []
+            frag_score = (get_frag_score(n_blocks, contig_len))
+
+            # misassembly detection
+            reference = set()  # set of references
+            strands = set()  # set of strands
+            misassembly_list = []
+            blocks_coords = []
+
+            blocks_to_order = []  # list with start coordinates of the alignment block in the reference
             for alignment_block in mis_dict[contig]:
-                #print(alignment_block)
-                aligned_bases += (alignment_block['query end'] - alignment_block['query start'])
                 reference.add(alignment_block['reference'])
                 strands.add(alignment_block['strand'])
                 blocks_to_order.append(alignment_block['query start'])
-                # get order
-            if not math.isclose(aligned_bases, contig_len, rel_tol=50):  # TODO - Hardcoded!
-                print("has gaps")
+                blocks_coords.append([alignment_block['query start'], alignment_block['query end']])
+
+            #   -chimera
             if len(reference) > 1:
-                print("Different references! {}".format(reference))
-            if len(strands) > 1:
-                print("Different strands! {}".format(strands))
-            # get order of blocks
+                misassembly_list.append("chimera {}".format(reference))
+            #   -missense
+            if len(strands) > 1 & len(reference) == 1:  # don't count missense if chimera
+                misassembly_list.append("missense")
+            #   -multiple alignment blocks to the same reference
+            blocks_coords = sorted(blocks_coords, key=lambda x: x[0])
+            gap_sizes = [blocks_coords[i+1][1] - blocks_coords[i][0] for i in range(0, len(blocks_coords)-1)]
+
             blocks_ordered = sorted(blocks_to_order)
             order = []
             for item in blocks_to_order:
                 order.append(blocks_ordered.index(item))
-            #print(order)
+            if sorted(order) != range(min(order), max(order) + 1):
 
-            ##### CHECK ORDER OF ASSEMBLY BLOCKS! FROM ORDER; EVALUATE TYPE OF MISASSEMBLY
-            #### CHECK STRANDS OF ASSEMBLY BLOCKS
-            ### GENETARE DUMMY TEST DATA
-    print("missassembled contigs: {}".format(missassembled_contigs))
+                if len(order) > 2: # TODO - improve. A might be doing a mistake with over simplefication.. distinguish between inversion, insertion, and translocation
+                    #   - translocation
+                    misassembly_list.append("translocation")
+                else:
+                    #   - inversion
+                    misassembly_list.append("inversion")
+            else:
+                #   - insertion
+                if all(i > 50 for i in gap_sizes):
+                    misassembly_list.append("insertion")
+            missassembled_contigs[contig] = {'misassembly': misassembly_list, 'frag_score': frag_score,
+                                             'contig length': contig_len, "n blocks": n_blocks}
+
+    return missassembled_contigs
 
 
 def main(sample_id, assembler, assembly, mapping):
@@ -203,14 +203,12 @@ def main(sample_id, assembler, assembly, mapping):
     # identify contings broken into multiple assembly blocks
     misassembled_contigs = check_missassemblies(mapping)
 
-    #
-    avg_frag_score = calculate_frag_score(misassembled_contigs)
-    evaluate_misassembled_contigs(misassembled_contigs["misassembly"])
+    mis_contigs = evaluate_misassembled_contigs(misassembled_contigs["misassembly"])
+    print(assembler)
+    print(mis_contigs)
 
 
 if __name__ == '__main__':
-    #main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)
-    main("mockSample", "Unicycler", "filtered_mockSample_unicycler.fasta", "mockSample_Unicycler.paf")
-    #main("mockSample", "GATBMinia", "filtered_mockSample_unicycler.fasta", "mockSample_GATBMiniaPipeline.paf")
-    #main("mockSample", "IDBA", "filtered_mockSample_unicycler.fasta", "mockSample_IDBA-UD.paf")
-    #main("mockSample", "velvet", "filtered_mockSample_unicycler.fasta", "mockSample_VelvetOptimizer.paf")
+    import glob
+    for filepath in glob.iglob('*.paf'):
+        main('mockSample', filepath, "filtered_mockSample_unicycler.fasta", filepath)
