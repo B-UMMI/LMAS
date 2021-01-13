@@ -30,6 +30,10 @@ https://github.com/cimendes
 
 import math
 import os
+import pandas as pd
+from plotly.offline import plot
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 try:
     import utils
@@ -165,33 +169,37 @@ def evaluate_misassembled_contigs(mis_dict):
                 blocks_coords.append([alignment_block['query start'], alignment_block['query end']])
 
             #   -chimera
-            if len(reference) > 1:
+            if len(reference) > 1:  # if chimera, the rest of the evaluations don't make sense
                 misassembly_list.append("chimera {}".format(reference))
-            #   -missense
-            if len(strands) > 1 & len(reference) == 1:  # don't count missense if chimera
-                misassembly_list.append("missense")
-            #   -multiple alignment blocks to the same reference
-            blocks_coords = sorted(blocks_coords, key=lambda x: x[0])
-            gap_sizes = [blocks_coords[i+1][1] - blocks_coords[i][0] for i in range(0, len(blocks_coords)-1)]
 
-            blocks_ordered = sorted(blocks_to_order)
-            order = []
-            for item in blocks_to_order:
-                order.append(blocks_ordered.index(item))
-            if sorted(order) != range(min(order), max(order) + 1):
-
-                if len(order) > 2: # TODO - improve. A might be doing a mistake with over simplefication.. distinguish between inversion, insertion, and translocation
-                    #   - translocation
-                    misassembly_list.append("translocation")
-                else:
-                    #   - inversion
-                    misassembly_list.append("inversion")
             else:
+                #   -missense
+                if len(strands) > 1 & len(reference) == 1:  # don't count missense if chimera
+                    misassembly_list.append("missense")
+                #   -multiple alignment blocks to the same reference
+                blocks_coords = sorted(blocks_coords, key=lambda x: x[0])
+                print(blocks_coords)
+                gap_sizes = [blocks_coords[i+1][1] - blocks_coords[i][0] for i in range(0, len(blocks_coords)-1)]
+                print(gap_sizes)
+
+                blocks_ordered = sorted(blocks_to_order)
+                order = []
+                for item in blocks_to_order:
+                    order.append(blocks_ordered.index(item))
+                print(order)
+                if sorted(order) != range(min(order), max(order) + 1):  # check if the order is different from reference
+                    # check if lists are inverted:
+                    if order == sorted(order, reverse=True):
+                        misassembly_list.append("inversion")
+                    elif len(order) > 2: # TODO - improve. A might be doing a mistake with over simplefication.. distinguish between inversion, insertion, and translocation
+                        #   - translocation
+                        misassembly_list.append("translocation")
                 #   - insertion
                 if all(i > 50 for i in gap_sizes):
                     misassembly_list.append("insertion")
             missassembled_contigs[contig] = {'misassembly': misassembly_list, 'frag_score': frag_score,
                                              'contig length': contig_len, "n blocks": n_blocks}
+            print(contig, missassembled_contigs[contig])
 
     return missassembled_contigs
 
@@ -205,8 +213,44 @@ def main(sample_id, assembler, assembly, mapping):
     print(assembler)
     print(mis_contigs)
 
+    x = []
+    y = []
+    z = []
+    for item, value in mis_contigs.items():
+        x.append(value['contig length'])
+        y.append(value['n blocks'])
+        z.append(value['misassembly'])
+    df = pd.DataFrame(list(zip(x, y, z)),
+                      columns=['Contig Length', 'Frag Score', 'Misassembly'])
+    trace = go.Scatter(x=df['Contig Length'], y=df['Frag Score'], name=assembler, text=df['Misassembly'],
+                       hovertemplate=
+                       "<b>%{text}</b><br><br>" +
+                       "Contig Length: %{x:.0f}bp<br>" +
+                       "Fragmentation Score: %{y:.0}<br>" +
+                       "<extra></extra>",
+                       )
+
+    return trace, x
+
 
 if __name__ == '__main__':
     import glob
+    plot_trace = []
+    contig_length = []
     for filepath in glob.iglob('*.paf'):
-        main('mockSample', filepath, "filtered_mockSample_unicycler.fasta", filepath)
+        trace, contig_len = main('mockSample', filepath, "filtered_mockSample_unicycler.fasta", filepath)
+        plot_trace.append(trace)
+        contig_length = contig_length + contig_len
+    fig = make_subplots(rows=2, cols=1,
+                        shared_xaxes=True,
+                        row_heights=[0.8, 0.2])
+
+    for item in plot_trace:
+        fig.add_trace(item, row=1, col=1)
+    #fig = go.Figure(data=plot_trace, layout=go.Layout(title=go.layout.Title(text="N blocks per contig length")))
+    fig.update_traces(mode='markers', marker=dict(line_width=1, symbol='circle', size=16), col=1)
+    fig.update_xaxes(type="log")
+    fig.add_trace(go.Box(x=contig_length, name="", showlegend=False), row=2, col=1)
+
+    plot(fig, filename='lala.html', auto_open=True)
+

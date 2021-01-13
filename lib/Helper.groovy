@@ -3,11 +3,12 @@ class Help {
     static def start_info(Map info, String time, String profile, String version) {
 
         println ""
-        println "       /\\︵︵/\\"
-        println "      (◕('人')◕) "
-        println "          ︶"
+        println "                      _    __  __   _   ___"
+        println "       /\\︵︵/\\      | |  |  \\/  | /_\\ / __|"
+        println "      (◕('人')◕)     | |__| |\\/| |/ _ \\\\__ \\"
+        println "         |︶|        |____|_|  |_/_/ \\_\\___/"
         println ""
-        println "LMAS - Last Metagenomic Assembler Standing"
+        println "         Last Metagenomic Assembler Standing"
         println ""
         int nsamples = info.fastq / 2
         println " Input FastQ                 : $info.fastq"
@@ -39,10 +40,12 @@ class Help {
     static def print_help(Map params) {
 
         println ""
-        println "       /\\︵︵/\\"
-        println "      (◕('人')◕) "
-        println "          ︶"
-        println "LMAS - Last Metagenomic Assembler Standing"
+        println "                      _    __  __   _   ___"
+        println "       /\\︵︵/\\      | |  |  \\/  | /_\\ / __|"
+        println "      (◕('人')◕)     | |__| |\\/| |/ _ \\\\__ \\"
+        println "         |︶|        |____|_|  |_/_/ \\_\\___/"
+        println ""
+        println "         Last Metagenomic Assembler Standing"
         println ""
         println "Usage: "
         println "    nextflow run LMAS.nf"
