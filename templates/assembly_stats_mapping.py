@@ -85,15 +85,9 @@ def get_covered_bases(covered_bases_list, ref_len):
         start, stop = map(int, item[:])
 
         # Due to the triple reference, the values need to be adjusted as not to over-estimate coverage breadth.
-        # Therefore, the coordinates are adjusted as follows:
-        # [0; ref_len][ref_len+1; 2*ref_len][(2*ref_len)+1; 3*ref_len]
         for base in range(start, stop):
-            if base <= ref_len:
-                covered_bases.add(base)
-            elif base <= 2*ref_len:
-                covered_bases.add(base-ref_len)
-            else:
-                covered_bases.add(base-(2*ref_len))
+            covered_bases.add(utils.adjust_reference_coord(base, ref_len))
+
     return len(covered_bases)/ref_len
 
 
@@ -124,16 +118,10 @@ def get_multiplicity(covered_bases_list, ref_len):
         start, stop = map(int, item[:])
 
         # Due to the triple reference, the values need to be adjusted as not to over-estimate coverage breadth.
-        # Therefore, the coordinates are adjusted as follows:
-        # [0; ref_len][ref_len+1; 2*ref_len][(2*ref_len)+1; 3*ref_len]
         for base in range(start, stop):
-            if base <= ref_len:
-                covered_bases.add(base)
-            elif base <= 2 * ref_len:
-                covered_bases.add(base - ref_len)
-            else:
-                covered_bases.add(base - (2 * ref_len))
+            covered_bases.add(utils.adjust_reference_coord(base, ref_len))
             total_bases += 1
+
     if total_bases > 0:
         return len(covered_bases) / total_bases
     else:
@@ -213,28 +201,6 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     return contiguity, coverage, multiplicity, lowest_identity, identity, df_phred
 
 
-def get_Lx(alignment_lengths, ref_len, target):
-    """
-    Returns the number of contigs, ordered by length, that cover at least 'target'% of the reference sequence.
-    :param alignment_lengths: list with length of mapped contigs for the reference
-    :param ref_len: int with the expected reference length
-    :param target: target % of the reference sequence for Lx metric
-    :return: int with the number of contigs that represent
-    """
-    sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
-    target_length = ref_len * target
-
-    if sum(sorted_lengths) < target_length:
-        return None
-
-    length_so_far = 0
-    Lx = 0
-    for contig_length in sorted_lengths:
-        length_so_far += contig_length
-        if length_so_far <= target_length:
-            Lx += 1
-    return Lx
-
 
 def parse_paf_files(sample_id, df, mapping, reference, assembler):
     """
@@ -296,10 +262,10 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
 
         #   Lx
         for x in np.linspace(0, 1, 11):  # Lx
-            lx = get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
+            lx = utils.get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
             df_lx = df_lx.append({'Reference': reference_name, 'Assembler': assembler,
                                   'Lx': x, 'nContigs': lx}, ignore_index=True)
-        l90 = get_Lx(mapped_contigs, len(seq)/3, 0.9)
+        l90 = utils.get_Lx(mapped_contigs, len(seq)/3, 0.9)
 
         contiguity, coverage, multiplicity, lowest_identity, identity, df_phred = get_alignment_stats(mapping,
                                                                                                       header_str,
@@ -332,8 +298,6 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
     # Dataframe with assembly info
     df = utils.parse_assemblies(sample_id, assembler, assembly, mapping)
-
-    print(df)
 
     # save dataframe
     df.to_csv(sample_id + '_' + assembler + '_df.csv')

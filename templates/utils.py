@@ -188,6 +188,29 @@ def get_NGx(alignment_lengths, reference_length, target):
     return nx
 
 
+def get_Lx(alignment_lengths, ref_len, target):
+    """
+    Returns the number of contigs, ordered by length, that cover at least 'target'% of the reference sequence.
+    :param alignment_lengths: list with length of mapped contigs for the reference
+    :param ref_len: int with the expected reference length
+    :param target: target % of the reference sequence for Lx metric
+    :return: int with the number of contigs that represent
+    """
+    sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
+    target_length = ref_len * target
+
+    if sum(sorted_lengths) < target_length:
+        return None
+
+    length_so_far = 0
+    Lx = 0
+    for contig_length in sorted_lengths:
+        length_so_far += contig_length
+        if length_so_far <= target_length:
+            Lx += 1
+    return Lx
+
+
 def is_number(n):
     """
     Verify if n is a number by trying to set it to float
