@@ -119,7 +119,6 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len):
                         "min_len": min_len,
                         "contigs": len(contigs_over_min_len),
                         "basepairs": sum(contigs_over_min_len),
-                        "max_contig_size": max(contigs_over_min_len) if len(contigs_over_min_len) > 0 else 0,
                         "N50": n50_contigs_over_min_len}
                 }
 

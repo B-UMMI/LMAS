@@ -356,6 +356,12 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     logger.debug("Report data dictionary: {}".format(main_data_js))
 
+    with open("performance_metadata.json", "w") as json_fh:
+        json_fh.write(json.dumps(performance_metadata, separators=(",", ":")))
+
+    with open("reference_metadata.json", "w") as json_fh:
+        json_fh.write(json.dumps(refence_info, separators=(",", ":")))
+
     with open("pipeline_report.json", "w") as json_fh:
         json_fh.write(json.dumps(main_data_js, separators=(",", ":")))
 
