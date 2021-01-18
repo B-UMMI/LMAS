@@ -94,8 +94,8 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len):
 
     contigs, contigs_over_min_len = get_contig_lists(utils.fasta_iter(assembly), min_len)
 
-    n50_contigs = utils.get_N50(contigs)
-    n50_contigs_over_min_len = utils.get_N50(contigs_over_min_len)
+    n50_contigs = utils.get_Nx(contigs, 0.5)
+    n50_contigs_over_min_len = utils.get_Nx(contigs_over_min_len, 0.5)
 
     # get read mapping stats
     with open(read_mapping_stats) as f:
