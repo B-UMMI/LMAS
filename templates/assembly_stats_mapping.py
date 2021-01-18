@@ -97,41 +97,6 @@ def get_covered_bases(covered_bases_list, ref_len):
     return len(covered_bases)/ref_len
 
 
-def get_expanded_cigar(cigar):
-    """
-
-    :param cigar: string with cigar values
-    :return: string with expanded cigar values for alignment
-    """
-    expanded_cigar = []
-    cigar_parts = re.findall(r'\\d+[IDX=]', cigar)
-    for cigar_part in cigar_parts:
-        num = int(cigar_part[:-1])
-        letter = cigar_part[-1]
-        expanded_cigar.append(letter * num)
-    return ''.join(expanded_cigar)
-
-
-def get_lowest_window_identity(cigar, window_size):
-    """
-
-    :param cigar: string with alignment cigar
-    :param window_size: int with window size
-    :return: float with lowest identity value for mapping contigs
-    """
-    lowest_window_id = float('inf')
-    expanded_cigar = get_expanded_cigar(cigar)
-
-    for i in range(0, len(expanded_cigar) - window_size):
-        cigar_window = expanded_cigar[i:i+window_size]
-        window_id = cigar_window.count('=') / window_size
-        if window_id < lowest_window_id:
-            lowest_window_id = window_id
-    if lowest_window_id == float('inf'):
-        return 0.0
-    return lowest_window_id
-
-
 def get_phred_quality_score(identity):
     """
     Using the formula -log10(1-identity)*10, receives the identity of a contig and outputs the corresponding phred
@@ -194,11 +159,10 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     n_identity = []
 
-    longest_alignment_cigar = ''
     longest_alignment = 0
 
     alignment_dict = {'Reference': utils.REFERENCE_DIC[ref_name], 'Reference_Length': ref_length,
-                      'Longest_Alignment': 0, 'Longest_Alignment_Cigar': '', 'Contigs': {}}
+                      'Longest_Alignment': 0, 'Contigs': {}}
 
     with open(paf_filename) as paf:
         for line in paf:
@@ -210,7 +174,6 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
                 # number of residue matches, alignment block length
                 matching_bases, total_bases = int(parts[9]), int(parts[10])
-                cigar = parts[-1]
 
                 if contig_name not in alignment_dict['Contigs'].keys():
                     alignment_dict['Contigs'][contig_name] = {'Length': contig_length, 'Base_Matches': matching_bases,
@@ -220,7 +183,6 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
                 if end - start > longest_alignment:
                     longest_alignment = end - start
-                    longest_alignment_cigar = cigar
                 longest_alignment = max(longest_alignment, end - start)
                 covered_bases.append([start, end])
 
@@ -228,7 +190,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     for contig in alignment_dict['Contigs'].keys():
         alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
                                                         alignment_dict['Contigs'][contig]['Length']
-        n_identity.append(alignment_dict['Contigs'][contig]['Base_Matches'])
+        n_identity.append(alignment_dict['Contigs'][contig]['Identity'])
 
         alignment_dict['Contigs'][contig]['Phred'] = get_phred_quality_score(alignment_dict['Contigs'][contig]['Identity'])
         df_phred = df_phred.append({'Assembler': os.path.basename(paf_filename).split('.')[0].rsplit('_')[-1],
@@ -239,7 +201,6 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
                                     }, ignore_index=True)
 
     contiguity = longest_alignment / ref_length
-    lowest_identity = get_lowest_window_identity(longest_alignment_cigar, 1000)
 
     # COMPASS Metrics
     coverage = get_covered_bases(covered_bases, ref_length)
@@ -247,6 +208,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     multiplicity = get_multiplicity(covered_bases, ref_length)
 
     identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
+    lowest_identity = min(n_identity)
 
     return contiguity, coverage, multiplicity, lowest_identity, identity, df_phred
 
