@@ -28,6 +28,7 @@ https://github.com/cimendes
 import os
 import json
 import pandas as pd
+from pandas.core.common import flatten
 from plotly.offline import plot
 import plotly.graph_objects as go
 try:
@@ -57,14 +58,16 @@ def main(gap_json):
     for json_file in gap_json:
         with open(json_file) as jfh:
             data = json.load(jfh)
-            for k in data.keys():
-                if k not in all_data:
-                    all_data[k] = data[k]
-                else:
-                    for assembler, dist_list in data[k].items():
-                        all_data[k][assembler] = dist_list
-
-    print(all_data)
+            for sample in data.keys():
+                for assembler in data[sample].keys():
+                    if sample not in all_data.keys():
+                        all_data[sample] = {assembler: [gap for gap in data[sample][assembler]]}
+                        print(all_data[sample][assembler])
+                    else:
+                        if assembler not in all_data[sample].keys():
+                            all_data[sample][assembler] = [gap for gap in data[sample][assembler]]
+                        else:
+                            all_data[sample][assembler].append(gap for gap in data[sample][assembler])
 
     for sample in all_data.keys():
 
@@ -72,9 +75,10 @@ def main(gap_json):
 
         fig = go.Figure()
         for k, v in all_data[sample].items():
-            for gap in v:
+            flatlist = list(flatten(v))
+            for gap in flatlist:
                 df = df.append({'Assembler': k, 'Gap size': gap}, ignore_index=True)
-
+        
         for assembler in sorted(df['Assembler'].unique()):
             fig.add_trace(go.Box(x=df['Gap size'][df['Assembler'] == assembler],
                                  name=assembler, boxpoints='outliers',
