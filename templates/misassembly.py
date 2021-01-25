@@ -34,7 +34,7 @@ import pandas as pd
 from plotly.offline import plot
 import plotly.graph_objects as go
 import pickle
-
+import json
 try:
     import utils
 except ImportError:
@@ -213,6 +213,8 @@ def main(sample_id, assembler, assembly, mapping):
     print(assembler)
     print(mis_contigs)
 
+    report_data = {"sample": sample_id, "assembler": assembler, "misassembled_contigs": len(mis_contigs.keys())}
+
     x = []
     y = []
     z = []
@@ -220,21 +222,26 @@ def main(sample_id, assembler, assembly, mapping):
         x.append(value['contig length'])
         y.append(value['n blocks'])
         z.append(value['misassembly'])
+
+
+
     df = pd.DataFrame(list(zip(x, y, z)),
-                      columns=['Contig Length', 'Frag Score', 'Misassembly'])
-    trace = go.Scatter(x=df['Contig Length'], y=df['Frag Score'], name=assembler, text=df['Misassembly'], marker_symbol=df['Misassembly'],
+                      columns=['Contig Length', 'n blocks', 'Misassembly'])
+    trace = go.Scatter(x=df['Contig Length'], y=df['n blocks'], name=assembler, text=df['Misassembly'], marker_symbol=df['Misassembly'],
                        hovertemplate=
                        "<b>%{text}</b><br><br>" +
                        "Contig Length: %{x:.0f}bp<br>" +
                        "Fragmentation Score: %{y:.0}<br>" +
-                       "<extra></extra>",
-                       )
+                       "<extra></extra>",)
 
     with open('{}_{}_trace.pkl'.format(sample_id, assembler), 'wb') as f:
         pickle.dump(trace, f)
     
     with open('{}_{}_contig_lenght.pkl'.format(sample_id, assembler), 'wb') as f:
         pickle.dump(x, f)
+    
+    with open("{}_{}_misassembly.json", "w") as json_report:
+        json_report.write(json.dumps(report_data, separators=(",", ":")))
 
 
 if __name__ == '__main__':

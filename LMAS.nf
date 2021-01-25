@@ -703,6 +703,7 @@ process MISASSEMBLY {
     output:
     file("*_trace.pkl") into OUT_MISASSEMBLY_TRACE
     file("*_contig_lenght.pkl") into OUT_MISASSEMBLY_CONTIGS
+    file("*.json") into MISASSEMBLY_REPORT
 
     script:
     template "misassembly.py"
@@ -716,6 +717,7 @@ process PROCESS_MISASSEMBLY {
     input:
     file misassembly_trace from OUT_MISASSEMBLY_TRACE.collect()
     file misassembly_contigs from OUT_MISASSEMBLY_CONTIGS.collect()
+    file report_data from MISASSEMBLY_REPORT.collect()
 
     output:
     file("*.html")

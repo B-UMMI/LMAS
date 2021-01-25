@@ -40,10 +40,12 @@ logger = utils.get_logger(__file__)
 if __file__.endswith(".command.sh"):
     MISASSEMBLY_TRACE = '$misassembly_trace'.split()
     MISASSEMBLY_CONTIGS = "$misassembly_contigs".split()
+    REPORT_DATA = "$report_data".split()
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("MISASSEMBLY_TRACE: {}".format(MISASSEMBLY_TRACE))
     logger.debug("MISASSEMBLY_CONTIGS: {}".format(MISASSEMBLY_CONTIGS))
+    logger.debug("REPORT_DATA: {}".format(REPORT_DATA))
 
 
 def main(misassembly_trace, misassembly_contigs):
