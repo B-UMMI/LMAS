@@ -33,7 +33,7 @@ import os
 import pandas as pd
 from plotly.offline import plot
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+import pickle
 
 try:
     import utils
@@ -222,7 +222,7 @@ def main(sample_id, assembler, assembly, mapping):
         z.append(value['misassembly'])
     df = pd.DataFrame(list(zip(x, y, z)),
                       columns=['Contig Length', 'Frag Score', 'Misassembly'])
-    trace = go.Scatter(x=df['Contig Length'], y=df['Frag Score'], name=assembler, text=df['Misassembly'],
+    trace = go.Scatter(x=df['Contig Length'], y=df['Frag Score'], name=assembler, text=df['Misassembly'], marker_symbol=df['Misassembly'],
                        hovertemplate=
                        "<b>%{text}</b><br><br>" +
                        "Contig Length: %{x:.0f}bp<br>" +
@@ -230,27 +230,12 @@ def main(sample_id, assembler, assembly, mapping):
                        "<extra></extra>",
                        )
 
-    return trace, x
+    with open('{}_{}_trace.pkl'.format(sample_id, assembler), 'wb') as f:
+        pickle.dump(trace, f)
+    
+    with open('{}_{}_contig_lenght.pkl'.format(sample_id, assembler), 'wb') as f:
+        pickle.dump(x, f)
 
 
 if __name__ == '__main__':
-    import glob
-    plot_trace = []
-    contig_length = []
-    for filepath in glob.iglob('*.paf'):
-        trace, contig_len = main('mockSample', filepath, "filtered_mockSample_unicycler.fasta", filepath)
-        plot_trace.append(trace)
-        contig_length = contig_length + contig_len
-    fig = make_subplots(rows=2, cols=1,
-                        shared_xaxes=True,
-                        row_heights=[0.8, 0.2])
-
-    for item in plot_trace:
-        fig.add_trace(item, row=1, col=1)
-    #fig = go.Figure(data=plot_trace, layout=go.Layout(title=go.layout.Title(text="N blocks per contig length")))
-    fig.update_traces(mode='markers', marker=dict(line_width=1, symbol='circle', size=16), col=1)
-    fig.update_xaxes(type="log")
-    fig.add_trace(go.Box(x=contig_length, name="", showlegend=False), row=2, col=1)
-
-    plot(fig, filename='lala.html', auto_open=True)
-
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)

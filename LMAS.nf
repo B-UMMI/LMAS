@@ -514,7 +514,7 @@ process ASSEMBLY_MAPPING{
 
 }
 
-OUT_ASSEMBLY_MAPPING.into{ IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT}
+OUT_ASSEMBLY_MAPPING.into{ IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT; IN_MISASSEMBLY}
 
 process ASSEMBLY_STATS_MAPPING {
 
@@ -691,6 +691,39 @@ process PLOT_GAP_REFERENCE {
 
     script:
     template "plot_gap_reference.py"
+}
+
+process MISASSEMBLY {
+
+    tag { assembler }
+
+    input:
+    set sample_id, assembler, file(assembly), file(mapping) from IN_MISASSEMBLY
+
+    output:
+    file("*_trace.pkl") into OUT_MISASSEMBLY_TRACE
+    file("*_contig_lenght.pkl") into OUT_MISASSEMBLY_CONTIGS
+
+    script:
+    template "misassembly.py"
+
+}
+
+process PROCESS_MISASSEMBLY {
+
+    publishDir 'results/plots/', pattern: "*.html"
+
+    input:
+    file misassembly_trace from OUT_MISASSEMBLY_TRACE.collect()
+    file misassembly_contigs from OUT_MISASSEMBLY_CONTIGS.collect()
+
+    output:
+    file("*.html")
+    file("*.json") into OUT_MISASSEMBLY
+
+    script:
+    template "process_misassembly.py"
+
 }
 
 /** Reports
