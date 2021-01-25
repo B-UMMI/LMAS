@@ -61,6 +61,7 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY = '$assembly'
     READ_MAPPING_STATS = '$read_mapping'
     MIN_LEN = "$params.minLength"
+    N_TARGET = "$params.n_target"
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
@@ -68,6 +69,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
     logger.debug("READ_MAPPING_STATS: {}".format(READ_MAPPING_STATS))
     logger.debug("MIN_LEN: {}".format(MIN_LEN))
+    logger.debug("N_TARGET: {}".format(N_TARGET))
 
 
 def get_contig_lists(fasta, min_len):
@@ -90,12 +92,12 @@ def get_contig_lists(fasta, min_len):
     return contigs_len, contigs_len_over_1000
 
 
-def main(sample_id, assembler, assembly, read_mapping_stats, min_len):
+def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
 
     contigs, contigs_over_min_len = get_contig_lists(utils.fasta_iter(assembly), min_len)
 
-    n50_contigs = utils.get_Nx(contigs, 0.5)
-    n50_contigs_over_min_len = utils.get_Nx(contigs_over_min_len, 0.5)
+    n50_contigs = utils.get_Nx(contigs, n_target)
+    n50_contigs_over_min_len = utils.get_Nx(contigs_over_min_len, n_target)
 
     # get read mapping stats
     with open(read_mapping_stats) as f:
@@ -113,13 +115,13 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len):
                     "contigs": len(contigs),
                     "basepairs": sum(contigs),
                     "max_contig_size": max(contigs) if len(contigs) > 0 else 0,
-                    "N50": n50_contigs,
+                    "N{}".format(n_target*100): n50_contigs,
                     "mapped_reads": mapped_reads},
                 "filtered": {
                         "min_len": min_len,
                         "contigs": len(contigs_over_min_len),
                         "basepairs": sum(contigs_over_min_len),
-                        "N50": n50_contigs_over_min_len}
+                        "N{}".format(n_target*100): n50_contigs_over_min_len}
                 }
 
         json_report.write(json.dumps(json_dic, separators=(",", ":")))
@@ -132,4 +134,4 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len):
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY,READ_MAPPING_STATS, MIN_LEN)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY,READ_MAPPING_STATS, MIN_LEN, N_TARGET)

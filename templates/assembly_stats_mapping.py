@@ -61,6 +61,8 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY = '$assembly'
     MAPPING = '$mapping'
     REFERENCE = '$reference'
+    N_TARGET = "$params.n_target"
+    L_TARGET = "$params.l_target"
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
@@ -68,6 +70,8 @@ if __file__.endswith(".command.sh"):
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
     logger.debug("MAPPING: {}".format(MAPPING))
     logger.debug("REFERENCE: {}".format(REFERENCE))
+    logger.debug("N_TARGET: {}".format(N_TARGET))
+    logger.debug("L_TARGET: {}".format(L_TARGET))
 
 
 def get_covered_bases(covered_bases_list, ref_len):
@@ -160,8 +164,8 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
                 contig_name, contig_length = parts[0], int(parts[1])
                 start, end = int(parts[7]), int(parts[8])
 
-                # number of residue matches, alignment block length
-                matching_bases, total_bases = int(parts[9]), int(parts[10])
+                # number of residue matches
+                matching_bases = int(parts[9])
 
                 if contig_name not in alignment_dict['Contigs'].keys():
                     alignment_dict['Contigs'][contig_name] = {'Length': contig_length, 'Base_Matches': matching_bases,
@@ -202,7 +206,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
 
 
-def parse_paf_files(sample_id, df, mapping, reference, assembler):
+def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_target):
     """
     Parses fasta, paf files references and returns info in dataframe.
     :param sample_id: string with sample identifier
@@ -210,6 +214,8 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
     :param mapping: paf file
     :param reference: path triple reference fasta file
     :param assembler: string with assembler name
+    :param n_target: Target percentage reference lenght for NA and NG metrics
+    :param l_target: Target percentage reference lenght for L metric
     :return: pandas Dataframe with columns Reference, Assembler and C90
     """
 
@@ -251,21 +257,21 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
             nax = utils.get_Nx(mapped_contigs, x)
             df_na = df_na.append({'Reference': reference_name, 'Assembler': assembler,
                                   'NAx': x, 'Basepairs': nax}, ignore_index=True)
-        na50 = utils.get_Nx(mapped_contigs, 0.5)
+        na50 = utils.get_Nx(mapped_contigs, n_target)
 
         #   NGx
         for x in np.linspace(0, 1, 11):
             ngx = utils.get_NGx(mapped_contigs, len(seq)/3, x)
             df_ng = df_ng.append({'Reference': reference_name, 'Assembler': assembler,
                                   'NAx': x, 'Basepairs': ngx}, ignore_index=True)
-        ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, 0.5)
+        ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, n_target)
 
         #   Lx
         for x in np.linspace(0, 1, 11):  # Lx
             lx = utils.get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
             df_lx = df_lx.append({'Reference': reference_name, 'Assembler': assembler,
                                   'Lx': x, 'nContigs': lx}, ignore_index=True)
-        l90 = utils.get_Lx(mapped_contigs, len(seq)/3, 0.9)
+        l90 = utils.get_Lx(mapped_contigs, len(seq)/3, l_target)
 
         contiguity, coverage, multiplicity, lowest_identity, identity, df_phred = get_alignment_stats(mapping,
                                                                                                       header_str,
@@ -294,7 +300,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler):
     return df_na, df_ng, df_lx, df_phred, mapping_stats_dict
 
 
-def main(sample_id, assembler, assembly, mapping, reference):
+def main(sample_id, assembler, assembly, mapping, reference, n_target, l_target):
 
     # Dataframe with assembly info
     df = utils.parse_assemblies(sample_id, assembler, assembly, mapping)
@@ -303,7 +309,8 @@ def main(sample_id, assembler, assembly, mapping, reference):
     df.to_csv(sample_id + '_' + assembler + '_df.csv')
 
     to_plot_nax, to_plot_ngx, to_plot_lx, to_plot_phred, json_dic = parse_paf_files(sample_id, df,
-                                                                                    mapping, reference, assembler)
+                                                                                    mapping, reference, assembler,
+                                                                                    n_target, l_target)
 
     with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
         json_report.write(json.dumps(json_dic, separators=(",", ":")))
@@ -315,4 +322,4 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)

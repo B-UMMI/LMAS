@@ -22,17 +22,14 @@ logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
     LX_FILES = '$lx_files '.split()
+    L_TARGET = "$params.l_target"
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("C90_FILES: {}".format(LX_FILES))
+    logger.debug("L_TARGET: {}".format(L_TARGET))
 
 
-def main(c90files):
-    """
-
-    :param c90files:
-    :return:
-    """
+def main(c90files, l_target):
 
     df_Lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])
 
@@ -67,6 +64,10 @@ def main(c90files):
                                                                 (df_Lx['Assembler'] == assembler)],
                                             name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
                 i += 1
+                # add target line
+            fig_Lx.add_shape(type="line", yref="paper",
+                                x0=l_target, y0=0, x1=l_target, y1=1,
+                                line=dict(color="#D3D3D3", width=4,dash="dashdot"))
 
             fig_Lx.update_layout(xaxis_title="L(x) %",
                                  yaxis_title='Contigs',
@@ -116,4 +117,4 @@ def main(c90files):
 
 
 if __name__ == '__main__':
-    main(LX_FILES)
+    main(LX_FILES, L_TARGET)

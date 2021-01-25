@@ -22,17 +22,14 @@ logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
     NAX_FILES = '$nax_files '.split()
+    N_TARGET = "$params.n_target"
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("NAX_FILES: {}".format(NAX_FILES))
+    logger.debug("N_TARGET: {}".format(N_TARGET))
 
 
-def main(nax_files):
-    """
-
-    :param nax_files:
-    :return:
-    """
+def main(nax_files, n_target):
 
     df_nax = pd.DataFrame(columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
 
@@ -67,6 +64,10 @@ def main(nax_files):
                                                                 (df_nax['Assembler'] == assembler)],
                                              name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
                 i += 1
+            
+            fig_nax.add_shape(type="line", yref="paper",
+                                x0=n_target, y0=0, x1=n_target, y1=1,
+                                line=dict(color="#D3D3D3", width=4,dash="dashdot"))
 
             fig_nax.update_layout(xaxis_title="NA(x) %",
                                   yaxis_title='Basepairs',
@@ -117,4 +118,4 @@ def main(nax_files):
 
 
 if __name__ == '__main__':
-    main(NAX_FILES)
+    main(NAX_FILES, N_TARGET)
