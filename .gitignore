@@ -139,3 +139,4 @@ templates/**/*.paf
 templates/**/*.csv
 templates/**/*.fasta
 templates/**/*.txt
+templates/**/*.pkl

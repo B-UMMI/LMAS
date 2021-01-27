@@ -63,16 +63,16 @@ def main(misassembly_trace, misassembly_contigs):
         else:
             if assembler_name not in data_dict[sample_name].keys():
                 data_dict[sample_name][assembler_name] = trace
-    
+        
     for contig_file in misassembly_contigs:
         sample_name = contig_file.split("_")[0]
         assembler_name = contig_file.split("_")[1]
         with open(contig_file, 'rb') as f:
             x = pickle.load(f)
-        if sample_name not in data_dict.keys():
-            data_dict[sample_name] = [x]
+        if sample_name not in contig_size.keys():
+            contig_size[sample_name] = [x]
         else:
-            data_dict[sample_name].append(x)
+            contig_size[sample_name].append(x)
 
 
     for sample in data_dict.keys():
@@ -83,9 +83,10 @@ def main(misassembly_trace, misassembly_contigs):
         flatlist = list(flatten(contig_size[sample]))
         fig.add_trace(go.Box(x=flatlist, name="", showlegend=False), row=2, col=1)
         for assembler, trace in data_dict[sample].items():
+            print(assembler)
             fig.add_trace(trace, row=1, col=1)
     
-        fig.update_traces(mode='markers', marker=dict(line_width=1, symbol='circle', size=16), col=1)
+        fig.update_traces(marker=dict(line_width=1, symbol='circle', size=16), col=1)
         fig.update_xaxes(type="log")
 
         plot(fig, filename='{}_misassembly.html'.format(sample), auto_open=False)
@@ -93,3 +94,10 @@ def main(misassembly_trace, misassembly_contigs):
 
 if __name__ == '__main__':
     main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS)
+    """
+    import glob
+    file_misassembly_trace = glob.glob("*_trace.pkl")
+    print(file_misassembly_trace)
+    file_misassembly_contigs = glob.glob("*_contig_lenght.pkl")
+    main(file_misassembly_trace, file_misassembly_contigs)
+    """
