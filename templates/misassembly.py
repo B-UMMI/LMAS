@@ -35,6 +35,7 @@ from plotly.offline import plot
 import plotly.graph_objects as go
 import pickle
 import json
+from plotly.validators.scatter.marker import SymbolValidator
 try:
     import utils
 except ImportError:
@@ -210,8 +211,6 @@ def main(sample_id, assembler, assembly, mapping):
     misassembled_contigs = check_missassemblies(mapping)
 
     mis_contigs = evaluate_misassembled_contigs(misassembled_contigs["misassembly"])
-    print(assembler)
-    print(mis_contigs)
 
     report_data = {"sample": sample_id, "assembler": assembler, "misassembled_contigs": len(mis_contigs.keys())}
 
@@ -228,15 +227,36 @@ def main(sample_id, assembler, assembly, mapping):
     df = pd.DataFrame(list(zip(x, y, z)),
                       columns=['Contig Length', 'n blocks', 'Misassembly'])
     # TODO - symbol by df['Misassembly']
-    trace = go.Scatter(x=df['Contig Length'], y=df['n blocks'], name=assembler, text=df['Misassembly'],  mode='markers',
-                       hovertemplate=
-                       "<b>%{text}</b><br><br>" +
-                       "Contig Length: %{x:.0f}bp<br>" +
-                       "Fragments: %{y:.0}<br>" +
-                       "<extra></extra>",)
+    traces = []
+
+    # symbols
+    raw_symbols = SymbolValidator().values
+    namestems = []
+    namevariants = []
+    symbols = []
+    for i in range(0,len(raw_symbols),3):
+        name = raw_symbols[i+2]
+        symbols.append(raw_symbols[i])
+        namestems.append(name.replace("-open", "").replace("-dot", ""))
+        namevariants.append(name[len(namestems[-1]):])
+    
+    i=0
+    for misassembly_type in df['Misassembly'].unique():
+
+        trace = go.Scatter(x=df['Contig Length']['Misassembly' == misassembly_type], 
+                           y=df['n blocks']['Misassembly' == misassembly_type], 
+                           name=assembler, text=df['Misassembly']['Misassembly' == misassembly_type],  
+                           mode='markers', marker_symbol=symbols[i],
+                           hovertemplate=
+                           "<b>%{text}</b><br><br>" +
+                           "Contig Length: %{x:.0f}bp<br>" +
+                           "Fragments: %{y:.0}<br>" +
+                           "<extra></extra>",)
+        traces.append(trace)
+        i+=1
 
     with open('{}_{}_trace.pkl'.format(sample_id, assembler), 'wb') as f:
-        pickle.dump(trace, f)
+        pickle.dump(traces, f)
     
     with open('{}_{}_contig_lenght.pkl'.format(sample_id, assembler), 'wb') as f:
         pickle.dump(x, f)

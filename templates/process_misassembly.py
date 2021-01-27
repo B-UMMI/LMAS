@@ -82,9 +82,10 @@ def main(misassembly_trace, misassembly_contigs):
                             row_heights=[0.8, 0.2])
         flatlist = list(flatten(contig_size[sample]))
         fig.add_trace(go.Box(x=flatlist, name="", showlegend=False), row=2, col=1)
-        for assembler, trace in data_dict[sample].items():
+        for assembler, trace_list in data_dict[sample].items():
             logger.debug("Processing {}...".format(assembler))
-            fig.add_trace(trace, row=1, col=1)
+            for trace in trace_list:
+                fig.add_trace(trace, row=1, col=1)
     
         fig.update_traces(marker=dict(line_width=1, symbol='circle', size=16), col=1)
         fig.update_xaxes(type="log", title="Contig Length")
