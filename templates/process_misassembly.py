@@ -54,7 +54,8 @@ def main(misassembly_trace, misassembly_contigs):
     contig_size = {}
 
     for file_trace in misassembly_trace:
-        sample_name, assembler_name = file_trace.split("_")[0,1]
+        sample_name = file_trace.split("_")[0]
+        assembler_name = file_trace.split("_")[1]
         with open(file_trace, 'rb') as f:
             trace = pickle.load(f)
         if sample_name not in data_dict.keys():
@@ -64,7 +65,8 @@ def main(misassembly_trace, misassembly_contigs):
                 data_dict[sample_name][assembler_name] = trace
     
     for contig_file in misassembly_contigs:
-        sample_name, assembler_name = contig_file.split("_")[0,1]
+        sample_name = contig_file.split("_")[0]
+        assembler_name = contig_file.split("_")[1]
         with open(contig_file, 'rb') as f:
             x = pickle.load(f)
         if sample_name not in data_dict.keys():
