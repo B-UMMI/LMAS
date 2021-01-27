@@ -210,49 +210,49 @@ def main(sample_id, assembler, assembly, mapping):
 
     report_data = {"sample": sample_id, "assembler": assembler, "misassembled_contigs": len(mis_contigs.keys())}
 
-    x = []
-    y = []
-    z = []
+
+    # PLOT 
+
+        # symbols
+    raw_symbols = SymbolValidator().values
+    symbols = []
+    for i in range(0,len(raw_symbols),3):
+        symbols.append(raw_symbols[i])
+    
+    x = []  # contig lengths
+    y = []  # n blocks
+    z = []  # misassembly type
     for item, value in mis_contigs.items():
         x.append(value['contig length'])
         y.append(value['n blocks'])
         z.append(', '.join(value['misassembly']))
 
-
-
     df = pd.DataFrame(list(zip(x, y, z)),
                       columns=['Contig Length', 'n blocks', 'Misassembly'])
-    # TODO - symbol by df['Misassembly']
-    traces = []
-
-    # symbols
-    raw_symbols = SymbolValidator().values
-    namestems = []
-    namevariants = []
-    symbols = []
-    for i in range(0,len(raw_symbols),3):
-        name = raw_symbols[i+2]
-        symbols.append(raw_symbols[i])
-        namestems.append(name.replace("-open", "").replace("-dot", ""))
-        namevariants.append(name[len(namestems[-1]):])
     
+    symbols_dict = {}
     i=0
     for misassembly_type in df['Misassembly'].unique():
-
-        trace = go.Scatter(x=df['Contig Length'][('Misassembly' == misassembly_type)], 
-                           y=df['n blocks'][('Misassembly' == misassembly_type)], 
-                           name=assembler, text=df['Misassembly'][('Misassembly' == misassembly_type)],  
-                           mode='markers', marker_symbol=symbols[i],
-                           hovertemplate=
-                           "<b>%{text}</b><br><br>" +
-                           "Contig Length: %{x:.0f}bp<br>" +
-                           "Fragments: %{y:.0}<br>" +
-                           "<extra></extra>",)
-        traces.append(trace)
+        symbols_dict[misassembly_type] = symbols[i]
         i+=1
 
+
+    df['symbol'] = df.apply(lambda row: symbols_dict[row.Misassembly], axis = 1) 
+
+    print(df)    
+
+    trace = go.Scatter(x=df['Contig Length'], 
+                        y=df['n blocks'], 
+                        name=assembler, text=df['Misassembly'],  
+                        mode='markers', marker_symbol=df['symbol'],
+                        hovertemplate=
+                        "<b>%{text}</b><br><br>" +
+                        "Contig Length: %{x:.0f}bp<br>" +
+                        "Fragments: %{y:.0}<br>" +
+                        "<extra></extra>",)
+
     with open('{}_{}_trace.pkl'.format(sample_id, assembler), 'wb') as f:
-        pickle.dump(traces, f)
+        pickle.dump(trace, f)
     
     with open('{}_{}_contig_lenght.pkl'.format(sample_id, assembler), 'wb') as f:
         pickle.dump(x, f)
@@ -263,3 +263,4 @@ def main(sample_id, assembler, assembly, mapping):
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)
+    #main("mockSample", "Unicycler", "filtered_mockSample_unicycler.fasta", "mockSample_Unicycler.paf")
