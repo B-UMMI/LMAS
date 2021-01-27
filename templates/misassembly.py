@@ -241,7 +241,7 @@ def main(sample_id, assembler, assembly, mapping):
     with open('{}_{}_contig_lenght.pkl'.format(sample_id, assembler), 'wb') as f:
         pickle.dump(x, f)
     
-    with open("{}_{}_misassembly.json", "w") as json_report:
+    with open("{}_{}_misassembly.json".format(sample_id, assembler), "w") as json_report:
         json_report.write(json.dumps(report_data, separators=(",", ":")))
 
 
