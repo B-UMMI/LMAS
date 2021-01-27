@@ -236,8 +236,10 @@ def main(sample_id, assembler, assembly, mapping):
         symbols_dict[misassembly_type] = symbols[i]
         i+=1
 
-
-    df['symbol'] = df.apply(lambda row: symbols_dict[row.Misassembly], axis = 1) 
+    try:
+        df['symbol'] = df.apply(lambda row: symbols_dict[row.Misassembly], axis = 1) 
+    except:
+        df['symbol'] = df.Misassembly
 
     print(df)    
 
@@ -262,5 +264,6 @@ def main(sample_id, assembler, assembly, mapping):
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)
+    #main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)
     #main("mockSample", "Unicycler", "filtered_mockSample_unicycler.fasta", "mockSample_Unicycler.paf")
+    main("mockSample", "metaspades", "filtered_mockSample_metaspades.fasta", "mockSample_metaSPAdes.paf")
