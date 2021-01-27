@@ -263,7 +263,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         for x in np.linspace(0, 1, 11):
             ngx = utils.get_NGx(mapped_contigs, len(seq)/3, x)
             df_ng = df_ng.append({'Reference': reference_name, 'Assembler': assembler,
-                                  'NAx': x, 'Basepairs': ngx}, ignore_index=True)
+                                  'NGx': x, 'Basepairs': ngx}, ignore_index=True)
         ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, n_target)
 
         #   Lx

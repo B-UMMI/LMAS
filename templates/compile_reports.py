@@ -384,9 +384,6 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     with open("pipeline_report.json", "w") as json_fh:
         json_fh.write(json.dumps(main_data_js, separators=(",", ":")))
-    
-    with open("sample_list.json", "w") as json_fh:
-        json_fh.write(json.dumps(main_data_js.keys()))
 
     with open("index.html", "w") as html_fh:
         html_fh.write(html_template.format(performance_metadata, refence_info, main_data_js, main_data_js.keys()))
