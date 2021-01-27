@@ -22,7 +22,7 @@ logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
     NGX_FILES = '$ngx_files '.split()
-    N_TARGET = "$params.n_target"
+    N_TARGET = float("$params.n_target")
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("NAX_FILES: {}".format(NGX_FILES))
@@ -101,7 +101,7 @@ def main(ngx_files, n_target):
             fig_ngx.update_layout(annotations=[dict(text="y axis scale:", x=0, xref="paper", y=1.1, yref="paper",
                                                     align="left", showarrow=False, yanchor="top")])
 
-            plot(fig_ngx, filename='{0}_{1}_nax.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
+            plot(fig_ngx, filename='{0}_{1}_ngx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_ngx.to_json()
 
             if sample not in report_dict.keys():

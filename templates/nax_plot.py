@@ -22,7 +22,7 @@ logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
     NAX_FILES = '$nax_files '.split()
-    N_TARGET = "$params.n_target"
+    N_TARGET = float("$params.n_target")
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("NAX_FILES: {}".format(NAX_FILES))

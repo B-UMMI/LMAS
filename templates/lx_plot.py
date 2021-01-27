@@ -22,7 +22,7 @@ logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
     LX_FILES = '$lx_files '.split()
-    L_TARGET = "$params.l_target"
+    L_TARGET = float("$params.l_target")
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("C90_FILES: {}".format(LX_FILES))
