@@ -61,7 +61,7 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY = '$assembly'
     READ_MAPPING_STATS = '$read_mapping'
     MIN_LEN = "$params.minLength"
-    N_TARGET = "$params.n_target"
+    N_TARGET = float("$params.n_target")
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))

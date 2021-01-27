@@ -61,8 +61,8 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY = '$assembly'
     MAPPING = '$mapping'
     REFERENCE = '$reference'
-    N_TARGET = "$params.n_target"
-    L_TARGET = "$params.l_target"
+    N_TARGET = float("$params.n_target")
+    L_TARGET = float("$params.l_target")
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
