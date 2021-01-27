@@ -227,7 +227,8 @@ def main(sample_id, assembler, assembly, mapping):
 
     df = pd.DataFrame(list(zip(x, y, z)),
                       columns=['Contig Length', 'n blocks', 'Misassembly'])
-    trace = go.Scatter(x=df['Contig Length'], y=df['n blocks'], name=assembler, text=df['Misassembly'], marker_symbol=df['Misassembly'],
+    # TODO - symbol by df['Misassembly']
+    trace = go.Scatter(x=df['Contig Length'], y=df['n blocks'], name=assembler, text=df['Misassembly'],
                        hovertemplate=
                        "<b>%{text}</b><br><br>" +
                        "Contig Length: %{x:.0f}bp<br>" +
