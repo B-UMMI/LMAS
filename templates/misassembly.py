@@ -232,7 +232,7 @@ def main(sample_id, assembler, assembly, mapping):
                        hovertemplate=
                        "<b>%{text}</b><br><br>" +
                        "Contig Length: %{x:.0f}bp<br>" +
-                       "Fragmentation Score: %{y:.0}<br>" +
+                       "Fragments: %{y:.0}<br>" +
                        "<extra></extra>",)
 
     with open('{}_{}_trace.pkl'.format(sample_id, assembler), 'wb') as f:

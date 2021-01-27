@@ -86,18 +86,11 @@ def main(misassembly_trace, misassembly_contigs):
             print(assembler)
             fig.add_trace(trace, row=1, col=1)
     
-        fig.update_traces(marker=dict(line_width=1, symbol='circle', size=16), col=1)
-        fig.update_xaxes(type="log")
+        fig.update_traces(yaxis_title="Number of Fragments", marker=dict(line_width=1, symbol='circle', size=16), col=1)
+        fig.update_xaxes(type="log", title="Contig Length")
 
         plot(fig, filename='{}_misassembly.html'.format(sample), auto_open=False)
         fig.write_json(file='{}_misassembly.json'.format(sample))
 
 if __name__ == '__main__':
     main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS)
-    """
-    import glob
-    file_misassembly_trace = glob.glob("*_trace.pkl")
-    print(file_misassembly_trace)
-    file_misassembly_contigs = glob.glob("*_contig_lenght.pkl")
-    main(file_misassembly_trace, file_misassembly_contigs)
-    """
