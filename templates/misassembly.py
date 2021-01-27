@@ -179,15 +179,12 @@ def evaluate_misassembled_contigs(mis_dict):
                     misassembly_list.append("missense")
                 #   -multiple alignment blocks to the same reference
                 blocks_coords = sorted(blocks_coords, key=lambda x: x[0])
-                print(blocks_coords)
                 gap_sizes = [blocks_coords[i+1][1] - blocks_coords[i][0] for i in range(0, len(blocks_coords)-1)]
-                print(gap_sizes)
 
                 blocks_ordered = sorted(blocks_to_order)
                 order = []
                 for item in blocks_to_order:
                     order.append(blocks_ordered.index(item))
-                print(order)
                 if sorted(order) != range(min(order), max(order) + 1):  # check if the order is different from reference
                     # check if lists are inverted:
                     if order == sorted(order, reverse=True):
@@ -200,7 +197,6 @@ def evaluate_misassembled_contigs(mis_dict):
                     misassembly_list.append("insertion")
             missassembled_contigs[contig] = {'misassembly': misassembly_list, 'frag_score': frag_score,
                                              'contig length': contig_len, "n blocks": n_blocks}
-            print(contig, missassembled_contigs[contig])
 
     return missassembled_contigs
 
@@ -220,7 +216,7 @@ def main(sample_id, assembler, assembly, mapping):
     for item, value in mis_contigs.items():
         x.append(value['contig length'])
         y.append(value['n blocks'])
-        z.append(value['misassembly'])
+        z.append(', '.join(value['misassembly']))
 
 
 
