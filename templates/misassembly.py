@@ -239,9 +239,9 @@ def main(sample_id, assembler, assembly, mapping):
     i=0
     for misassembly_type in df['Misassembly'].unique():
 
-        trace = go.Scatter(x=df['Contig Length']['Misassembly' == misassembly_type], 
-                           y=df['n blocks']['Misassembly' == misassembly_type], 
-                           name=assembler, text=df['Misassembly']['Misassembly' == misassembly_type],  
+        trace = go.Scatter(x=df['Contig Length'][('Misassembly' == misassembly_type)], 
+                           y=df['n blocks'][('Misassembly' == misassembly_type)], 
+                           name=assembler, text=df['Misassembly'][('Misassembly' == misassembly_type)],  
                            mode='markers', marker_symbol=symbols[i],
                            hovertemplate=
                            "<b>%{text}</b><br><br>" +
