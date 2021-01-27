@@ -67,9 +67,9 @@ def main(ngx_files, n_target):
                                              name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
                 i += 1
             
-            #fig_ngx.add_shape(type="line", yref="paper",
-            #                    x0=n_target, y0=0, x1=n_target, y1=1,
-            #                    line=dict(color="#D3D3D3", width=4,dash="dashdot"))
+            fig_ngx.add_shape(type="line", yref="paper",
+                              x0=n_target, y0=0, x1=n_target, y1=1,
+                              line=dict(color="#D3D3D3", width=4,dash="dashdot"))
 
             fig_ngx.update_layout(xaxis_title="NG(x) %",
                                   yaxis_title='Basepairs',
