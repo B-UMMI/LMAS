@@ -721,7 +721,8 @@ process PROCESS_MISASSEMBLY {
 
     output:
     file("*.html")
-    file("*.json") into OUT_MISASSEMBLY
+    file("*_misassembly.json") into OUT_MISASSEMBLY_PLOT
+    file("misassembly_report.json") into OUT_MISASSEMBLY_REPORT
 
     script:
     template "process_misassembly.py"
@@ -753,6 +754,8 @@ process compile_reports {
     file shrimp_plots from PLOT_PHRED
     file gap_reference_json from OUT_GAP_REFERENCE
     file gap_histogram from OUT_GAP_HISTOGRAM
+    file plot_misassemblies from OUT_MISASSEMBLY_PLOT
+    file misassembly_data from OUT_MISASSEMBLY_REPORT
 
     output:
     file "pipeline_report.json"

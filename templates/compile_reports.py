@@ -28,6 +28,8 @@ if __file__.endswith(".command.sh"):
     SHRIMP_JSON = "$shrimp_plots"
     GAP_REFERENCE_JSON = "$gap_reference_json"
     GAP_HISTOGRAM = "$gap_histogram".split()
+    MISASSEMBLY_PLOT = "$plot_misassemblies".split()
+    MISASSEMBLY_REPORT = "$misassembly_data"
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
@@ -42,6 +44,8 @@ if __file__.endswith(".command.sh"):
     logger.debug("SHRIMP_JSON: {}".format(SHRIMP_JSON))
     logger.debug("GAP_REFERENCE_JSON: {}".format(GAP_REFERENCE_JSON))
     logger.debug("GAP_HISTOGRAM: {}".format(GAP_HISTOGRAM))
+    logger.debug("MISASSEMBLY_PLOT: {}".format(MISASSEMBLY_PLOT))
+    logger.debug("MISASSEMBLY_REPORT: {}".format(MISASSEMBLY_PLOT))
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -59,6 +63,7 @@ html_template = """
     <script> const _assemblerPerformanceData = {0} </script>
     <script> const _referenceData = {1} </script>
     <script> const _mainData = {2} </script>
+    <script> const _sampleList = {3} </script>
     <script src="./main.js"></script>
   </body>
 </html>
@@ -239,7 +244,7 @@ def process_reference_data(reference_file):
 
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
-         lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram):
+         lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report):
 
     metadata = {
         "nfMetadata": {
@@ -280,6 +285,15 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         assembly_stats_json = json.load(f)
         for sample_id in assembly_stats_json.keys():
             main_data_js[sample_id] = assembly_stats_json[sample_id]
+    
+    # add misassembly to global stats
+    logger.debug('Processing {0} data...'.format(misassembly_report))
+    with open(misassembly_report) as f:
+        misassembly_json = json.load(f)
+        for sample_id in misassembly_json.keys():
+            for i in range(0, len(main_data_js[sample_id]["GlobalTable"])):
+                assembler = main_data_js[sample_id]["GlobalTable"][i]["assembler"]
+                main_data_js[sample_id]["GlobalTable"][i]["filtered"]["misassembled_contigs"] = misassembly_json[sample_id][assembler]
 
     # add mapping stats
     logger.debug('Processing {0} data...'.format(mapping_stats_report))
@@ -305,10 +319,16 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             main_data_js[sample_id]["PlotData"] = {"Global": [plot_json]}
 
         #   gap size boxplot
-        print(gap_histogram)
         gap_distribution_plot = fnmatch.filter(gap_histogram, sample_id + '*')[0]
         logger.debug('Processing {0} data for {1}...'.format(gap_distribution_plot, sample_id))
         with open(gap_distribution_plot) as plot_fh:
+            plot_json = json.load(plot_fh)
+            main_data_js[sample_id]["PlotData"]["Global"].append(plot_json)
+
+        # misassembly plot
+        misassembled_contigs_plot = fnmatch.filter(plot_misassembly, sample_id + '*')[0]
+        logger.debug('Processing {0} data for {1}...'.format(misassembled_contigs_plot, sample_id))
+        with open(misassembled_contigs_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_js[sample_id]["PlotData"]["Global"].append(plot_json)
 
@@ -364,9 +384,12 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     with open("pipeline_report.json", "w") as json_fh:
         json_fh.write(json.dumps(main_data_js, separators=(",", ":")))
+    
+    with open("sample_list.json", "w") as json_fh:
+        json_fh.write(json.dumps(main_data_js.keys()))
 
     with open("index.html", "w") as html_fh:
-        html_fh.write(html_template.format(performance_metadata, refence_info, main_data_js))
+        html_fh.write(html_template.format(performance_metadata, refence_info, main_data_js, main_data_js.keys()))
 
     with zipfile.ZipFile(main_js) as zf:
         zf.extractall(".")
@@ -377,4 +400,5 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
-         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM)
+         COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
+         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT)
