@@ -64,9 +64,10 @@ html_template = """
     <div id="root"></div>
     <script> const _assemblerPerformanceData = {0} </script>
     <script> const _referenceData = {1} </script>
-    <script> const _mainData = {2} </script>
-    <script> const _sampleList = {3} </script>
-    <script> const _minContigSize = {4} </script>
+    <script> const _mainDataTables = {2} </script>
+    <script> const _mainDataPlots = {3} </script>
+    <script> const _sampleList = {4} </script>
+    <script> const _minContigSize = {5} </script>
     <script src="./main.js"></script>
   </body>
 </html>
@@ -281,23 +282,24 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     # LMAS report
 
     # main report skeleton
-    main_data_js = {}
+    main_data_tables_js = {}
+    main_data_plots_js = {}
 
     # add global stats
     logger.debug('Processing {0} data...'.format(assembly_stats_report))
     with open(assembly_stats_report) as f:
         assembly_stats_json = json.load(f)
         for sample_id in assembly_stats_json.keys():
-            main_data_js[sample_id] = assembly_stats_json[sample_id]
+            main_data_tables_js[sample_id] = assembly_stats_json[sample_id]
     
     # add misassembly to global stats
     logger.debug('Processing {0} data...'.format(misassembly_report))
     with open(misassembly_report) as f:
         misassembly_json = json.load(f)
         for sample_id in misassembly_json.keys():
-            for i in range(0, len(main_data_js[sample_id]["GlobalTable"])):
-                assembler = main_data_js[sample_id]["GlobalTable"][i]["assembler"]
-                main_data_js[sample_id]["GlobalTable"][i]["filtered"]["misassembled_contigs"] = misassembly_json[sample_id][assembler]
+            for i in range(0, len(main_data_tables_js[sample_id]["GlobalTable"])):
+                assembler = main_data_tables_js[sample_id]["GlobalTable"][i]["assembler"]
+                main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"]["misassembled_contigs"] = misassembly_json[sample_id][assembler]
 
     # add mapping stats
     logger.debug('Processing {0} data...'.format(mapping_stats_report))
@@ -305,36 +307,38 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         mapping_stats_json = json.load(f)
         for sample_id in mapping_stats_json.keys():
             for reference, mapping_stats_reference in mapping_stats_json[sample_id]["ReferenceTable"].items():
-                if "ReferenceTables" not in main_data_js[sample_id]:
-                    main_data_js[sample_id]["ReferenceTables"] = {}
-                if reference not in main_data_js[sample_id]["ReferenceTables"].keys():
-                    main_data_js[sample_id]["ReferenceTables"][reference] = [mapping_stats_reference]
+                if "ReferenceTables" not in main_data_tables_js[sample_id]:
+                    main_data_tables_js[sample_id]["ReferenceTables"] = {}
+                if reference not in main_data_tables_js[sample_id]["ReferenceTables"].keys():
+                    main_data_tables_js[sample_id]["ReferenceTables"][reference] = [mapping_stats_reference]
                 else:
-                    main_data_js[sample_id]["ReferenceTables"][reference].append(mapping_stats_reference)
+                    main_data_tables_js[sample_id]["ReferenceTables"][reference].append(mapping_stats_reference)
 
-    for sample_id in main_data_js.keys():
+    for sample_id in main_data_tables_js.keys():
         # add global plots
+        
+        main_data_plots_js[sample_id] = {}
 
         #   contig size boxplot
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
         logger.debug('Processing {0} data for {1}...'.format(contig_distribution_plot, sample_id))
         with open(contig_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            main_data_js[sample_id]["PlotData"] = {"Global": [plot_json]}
+            main_data_plots_js[sample_id]["PlotData"] = {"Global": [plot_json]}
 
         #   gap size boxplot
         gap_distribution_plot = fnmatch.filter(gap_histogram, sample_id + '*')[0]
         logger.debug('Processing {0} data for {1}...'.format(gap_distribution_plot, sample_id))
         with open(gap_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            main_data_js[sample_id]["PlotData"]["Global"].append(plot_json)
+            main_data_plots_js[sample_id]["PlotData"]["Global"].append(plot_json)
 
         # misassembly plot
         misassembled_contigs_plot = fnmatch.filter(plot_misassembly, sample_id + '*')[0]
         logger.debug('Processing {0} data for {1}...'.format(misassembled_contigs_plot, sample_id))
         with open(misassembled_contigs_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            main_data_js[sample_id]["PlotData"]["Global"].append(plot_json)
+            main_data_plots_js[sample_id]["PlotData"]["Global"].append(plot_json)
 
         # add reference plots
         #    completness
@@ -343,7 +347,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
-                main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
 
         #    L90
         with open(lx_json) as lx_fh:
@@ -351,10 +355,10 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
-                if reference not in main_data_js[sample_id]["PlotData"].keys():
-                    main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                    main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
                 else:
-                    main_data_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+                    main_data_plots_js[sample_id]["PlotData"][reference].append(reference_plots_json)
 
         #    phred-like plot
         with open(shrimp_json) as phred_fh:
@@ -362,10 +366,10 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
-                if reference not in main_data_js[sample_id]["PlotData"].keys():
-                    main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                    main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
                 else:
-                    main_data_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+                    main_data_plots_js[sample_id]["PlotData"][reference].append(reference_plots_json)
 
         #   gap plot
         with open(gap_reference_json) as gap_ref_fh:
@@ -373,12 +377,12 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
-                if reference not in main_data_js[sample_id]["PlotData"].keys():
-                    main_data_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                    main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
                 else:
-                    main_data_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+                    main_data_plots_js[sample_id]["PlotData"][reference].append(reference_plots_json)
 
-    logger.debug("Report data dictionary: {}".format(main_data_js))
+    logger.debug("Report data dictionary: {}".format(main_data_plots_js))
 
     with open("performance_metadata.json", "w") as json_fh:
         json_fh.write(json.dumps(performance_metadata, separators=(",", ":")))
@@ -387,10 +391,11 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         json_fh.write(json.dumps(refence_info, separators=(",", ":")))
 
     with open("pipeline_report.json", "w") as json_fh:
-        json_fh.write(json.dumps(main_data_js, separators=(",", ":")))
+        json_fh.write(json.dumps(main_data_tables_js, separators=(",", ":")))
+        json_fh.write(json.dumps(main_data_plots_js, separators=(",", ":")))
 
     with open("index.html", "w") as html_fh:
-        html_fh.write(html_template.format(performance_metadata, refence_info, main_data_js, list(main_data_js.keys()), min_contig_size))
+        html_fh.write(html_template.format(performance_metadata, refence_info, main_data_tables_js, main_data_plots_js, list(main_data_tables_js.keys()), min_contig_size))
 
     with zipfile.ZipFile(main_js) as zf:
         zf.extractall(".")

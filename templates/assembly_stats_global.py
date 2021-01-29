@@ -118,7 +118,6 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
                     "N{}".format(int(n_target*100)): n50_contigs,
                     "mapped_reads": mapped_reads},
                 "filtered": {
-                        "min_len": min_len,
                         "contigs": len(contigs_over_min_len),
                         "basepairs": sum(contigs_over_min_len),
                         "N{}".format(int(n_target*100)): n50_contigs_over_min_len}
