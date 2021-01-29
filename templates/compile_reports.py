@@ -276,7 +276,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     performance_metadata = process_performance_data(pipeline_stats)
 
     # Reference info
-    refence_info = process_reference_data(reference_file)
+    reference_info = process_reference_data(reference_file)
 
     ################
     # LMAS report
@@ -388,14 +388,19 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         json_fh.write(json.dumps(performance_metadata, separators=(",", ":")))
 
     with open("reference_metadata.json", "w") as json_fh:
-        json_fh.write(json.dumps(refence_info, separators=(",", ":")))
+        json_fh.write(json.dumps(reference_info, separators=(",", ":")))
 
     with open("pipeline_report.json", "w") as json_fh:
         json_fh.write(json.dumps(main_data_tables_js, separators=(",", ":")))
         json_fh.write(json.dumps(main_data_plots_js, separators=(",", ":")))
 
     with open("index.html", "w") as html_fh:
-        html_fh.write(html_template.format(performance_metadata, refence_info, main_data_tables_js, main_data_plots_js, list(main_data_tables_js.keys()), min_contig_size))
+        html_fh.write(html_template.format(json.dumps(performance_metadata), 
+                                           json.dumps(reference_info), 
+                                           json.dumps(main_data_tables_js),
+                                           json.dumps(main_data_plots_js), 
+                                           list(main_data_tables_js.keys()), 
+                                           min_contig_size))
 
     with zipfile.ZipFile(main_js) as zf:
         zf.extractall(".")
