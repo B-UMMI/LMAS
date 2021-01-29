@@ -30,6 +30,7 @@ if __file__.endswith(".command.sh"):
     GAP_HISTOGRAM = "$gap_histogram".split()
     MISASSEMBLY_PLOT = "$plot_misassemblies".split()
     MISASSEMBLY_REPORT = "$misassembly_data"
+    MIN_CONTIG_SIZE = "$params.minLength"
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
@@ -46,6 +47,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("GAP_HISTOGRAM: {}".format(GAP_HISTOGRAM))
     logger.debug("MISASSEMBLY_PLOT: {}".format(MISASSEMBLY_PLOT))
     logger.debug("MISASSEMBLY_REPORT: {}".format(MISASSEMBLY_PLOT))
+    logger.debug("MIN_CONTIG_SIZE: {}".format(MIN_CONTIG_SIZE))
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -64,6 +66,7 @@ html_template = """
     <script> const _referenceData = {1} </script>
     <script> const _mainData = {2} </script>
     <script> const _sampleList = {3} </script>
+    <script> const _minContigSize = {4} </script>
     <script src="./main.js"></script>
   </body>
 </html>
@@ -244,7 +247,8 @@ def process_reference_data(reference_file):
 
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
-         lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report):
+         lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
+         min_contig_size):
 
     metadata = {
         "nfMetadata": {
@@ -386,7 +390,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         json_fh.write(json.dumps(main_data_js, separators=(",", ":")))
 
     with open("index.html", "w") as html_fh:
-        html_fh.write(html_template.format(performance_metadata, refence_info, main_data_js, main_data_js.keys()))
+        html_fh.write(html_template.format(performance_metadata, refence_info, main_data_js, list(main_data_js.keys()), min_contig_size))
 
     with zipfile.ZipFile(main_js) as zf:
         zf.extractall(".")
@@ -398,4 +402,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
-         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT)
+         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE)
