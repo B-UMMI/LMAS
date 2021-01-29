@@ -288,7 +288,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
             "identity": identity,
             "lowest_identity": lowest_identity,
             "breadth_of_coverage": coverage,
-            "L90": l90,
+            "L90": l90 if l90 is not None else 0,
             "aligned_contigs": len(mapped_contigs),
             "NA50": na50,
             "NG50": ng50,
