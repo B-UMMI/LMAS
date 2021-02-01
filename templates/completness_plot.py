@@ -116,10 +116,6 @@ def plot_data(species_data, sample_id):
 
         # change legend attributes
         to_plot['layout']['legend']['font'] = dict(color='black', size=12)
-        to_plot['layout']['legend']['orientation'] = 'h'
-        to_plot['layout']['legend']['x'] = 0
-        to_plot['layout']['legend']['y'] = 1.15
-        to_plot['layout']['legend']['borderwidth'] = 2
 
         # change annotations attributes
         for i in to_plot['layout']['annotations']:
