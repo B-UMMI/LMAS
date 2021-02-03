@@ -77,7 +77,6 @@ def determine_missing_intervals(intervals, total_len):
 def merge_intervals(intervals):
     """ Merges intersecting intervals.
     """
-
     merged = [deepcopy(intervals[0])]
     for current in intervals[1:]:
         previous = merged[-1]
@@ -160,24 +159,28 @@ def main(dataframes):
                     gaps_dict = {i: 1 for i in range(starts[i], stops[i]+1)}
                     gaps_intervals.append([starts[i], stops[i]+1, gaps_dict])
                 y += 1
-
-            # sort intervals before merging
-            gaps_intervals = sorted(gaps_intervals, key=lambda x: x[0])
-            merged_intervals = merge_intervals(gaps_intervals)
-
-            # determine missing intervals
+            
             reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
-            missing_intervals = determine_missing_intervals(merged_intervals, reference_length)
+            
+            if len(gaps_intervals) == 0:
+                data_points = gaps_intervals
+            else:
+                # sort intervals before merging
+                gaps_intervals = sorted(gaps_intervals, key=lambda x: x[0])
+                merged_intervals = merge_intervals(gaps_intervals)
 
-            # identify start and end points for gaps subgroups
-            gaps_points = intervals_subgroups(merged_intervals)
+                # determine missing intervals
+                missing_intervals = determine_missing_intervals(merged_intervals, reference_length)
 
-            # add points for intervals without gaps
-            for i in missing_intervals:
-                gaps_points[i[0]] = 0
-                gaps_points[i[1]] = 0
+                # identify start and end points for gaps subgroups
+                gaps_points = intervals_subgroups(merged_intervals)
 
-            data_points = sorted(gaps_points.items(), key=lambda x: x[0])
+                # add points for intervals without gaps
+                for i in missing_intervals:
+                    gaps_points[i[0]] = 0
+                    gaps_points[i[1]] = 0
+
+                data_points = sorted(gaps_points.items(), key=lambda x: x[0])
 
             labels = [c[0] for c in data_points]
             values = [c[1] for c in data_points]
@@ -215,4 +218,5 @@ def main(dataframes):
 
 
 if __name__ == '__main__':
-    main(DATAFRAME_LIST)
+    #main(DATAFRAME_LIST)
+    main(['ERR2935805_SKESA_gaps.csv', 'mockSample_MEGAHIT_gaps.csv', 'mockSample_SPAdes_gaps.csv', 'ERR2984773_BCALM2_gaps.csv', 'ERR2984773_MEGAHIT_gaps.csv', 'ERR2984773_Pandaseq_gaps.csv', 'ERR2935805_MEGAHIT_gaps.csv', 'ERR2935805_Unicycler_gaps.csv', 'ERR2935805_MINIA_gaps.csv', 'ERR2984773_MINIA_gaps.csv', 'ERR2984773_GATBMiniaPipeline_gaps.csv', 'mockSample_SKESA_gaps.csv', 'mockSample_GATBMiniaPipeline_gaps.csv', 'ERR2935805_SPAdes_gaps.csv', 'mockSample_VelvetOptimizer_gaps.csv', 'mockSample_BCALM2_gaps.csv', 'ERR2935805_GATBMiniaPipeline_gaps.csv', 'mockSample_Unicycler_gaps.csv', 'ERR2935805_metaSPAdes_gaps.csv', 'ERR2984773_SPAdes_gaps.csv', 'mockSample_metaSPAdes_gaps.csv', 'ERR2984773_Unicycler_gaps.csv', 'mockSample_IDBA-UD_gaps.csv', 'ERR2935805_IDBA-UD_gaps.csv', 'ERR2984773_IDBA-UD_gaps.csv', 'mockSample_MINIA_gaps.csv', 'mockSample_Pandaseq_gaps.csv', 'ERR2935805_Pandaseq_gaps.csv', 'ERR2984773_SKESA_gaps.csv', 'ERR2984773_VelvetOptimizer_gaps.csv', 'ERR2935805_BCALM2_gaps.csv', 'ERR2984773_metaSPAdes_gaps.csv', 'ERR2935805_VelvetOptimizer_gaps.csv'])
