@@ -43,25 +43,31 @@ if __file__.endswith(".command.sh"):
 def main(assembly_stats_global_file, stats_json):
 
     # Write CSV file report
+    """
     data = {}
     for file in assembly_stats_global_file:
         sample = os.path.basename(file).split('_')[0]
 
         if sample not in data.keys():
-            data[sample] = [{"data": file}]
+            data[sample] = [file]
         else:
-            data[sample].append({"data": file})
+            data[sample].append(file)
+    print(data)
+    print(data.keys())
     for sample in data.keys():
+        print(sample)
+        print(data[sample])
         with open(sample + '.csv', "w") as csv_file:
             csv_file.write(','.join(['Assembler', 'Contigs', 'Basepairs', 'Max contig size', 'N50',
                                      'contigs>1000bp (%)', 'Basepairs in contigs>1000bp (%)', 'N50 in contigs>1000bp'])
                            + '\\n')
             for item in data[sample]:
-                with open(item['data'], 'r') as stats_file:
+                print(item)
+                with open(item, 'r') as stats_file:
                     data = stats_file.read().replace('\\n', '')
                     print(data)
                     csv_file.write(data + '\\n')
-
+    """
     # Write JSON file report
     with open("global_assembly_stats.json", "w") as json_report:
         main_json = {}
@@ -90,4 +96,5 @@ def main(assembly_stats_global_file, stats_json):
 
 
 if __name__ == '__main__':
-    main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON)
+    #main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON)
+    main(['mockSample_Pandaseq_global_assembly_stats_global.csv', 'mockSample_MINIA_global_assembly_stats_global.csv', 'mockSample_BCALM2_global_assembly_stats_global.csv', 'ERR2984773_MINIA_global_assembly_stats_global.csv', 'ERR2984773_BCALM2_global_assembly_stats_global.csv', 'mockSample_SKESA_global_assembly_stats_global.csv', 'mockSample_MEGAHIT_global_assembly_stats_global.csv', 'mockSample_IDBA-UD_global_assembly_stats_global.csv', 'ERR2984773_SKESA_global_assembly_stats_global.csv', 'ERR2935805_MINIA_global_assembly_stats_global.csv', 'ERR2984773_Pandaseq_global_assembly_stats_global.csv', 'ERR2984773_MEGAHIT_global_assembly_stats_global.csv', 'ERR2935805_BCALM2_global_assembly_stats_global.csv', 'mockSample_metaSPAdes_global_assembly_stats_global.csv', 'mockSample_VelvetOptimizer_global_assembly_stats_global.csv', 'mockSample_SPAdes_global_assembly_stats_global.csv', 'ERR2935805_SKESA_global_assembly_stats_global.csv', 'ERR2984773_metaSPAdes_global_assembly_stats_global.csv', 'ERR2935805_MEGAHIT_global_assembly_stats_global.csv', 'mockSample_GATBMiniaPipeline_global_assembly_stats_global.csv', 'ERR2984773_GATBMiniaPipeline_global_assembly_stats_global.csv', 'ERR2984773_IDBA-UD_global_assembly_stats_global.csv', 'mockSample_Unicycler_global_assembly_stats_global.csv', 'ERR2935805_IDBA-UD_global_assembly_stats_global.csv', 'ERR2935805_metaSPAdes_global_assembly_stats_global.csv', 'ERR2935805_SPAdes_global_assembly_stats_global.csv', 'ERR2935805_GATBMiniaPipeline_global_assembly_stats_global.csv', 'ERR2984773_SPAdes_global_assembly_stats_global.csv', 'ERR2984773_VelvetOptimizer_global_assembly_stats_global.csv', 'ERR2984773_Unicycler_global_assembly_stats_global.csv', 'ERR2935805_Unicycler_global_assembly_stats_global.csv', 'ERR2935805_VelvetOptimizer_global_assembly_stats_global.csv'], ['mockSample_Pandaseq_report.json', 'mockSample_MINIA_report.json', 'mockSample_BCALM2_report.json', 'ERR2984773_MINIA_report.json', 'ERR2984773_BCALM2_report.json', 'mockSample_SKESA_report.json', 'mockSample_MEGAHIT_report.json', 'mockSample_IDBA-UD_report.json', 'ERR2984773_SKESA_report.json', 'ERR2935805_MINIA_report.json', 'ERR2984773_Pandaseq_report.json', 'ERR2984773_MEGAHIT_report.json', 'ERR2935805_BCALM2_report.json', 'mockSample_metaSPAdes_report.json', 'mockSample_VelvetOptimizer_report.json', 'mockSample_SPAdes_report.json', 'ERR2935805_SKESA_report.json', 'ERR2984773_metaSPAdes_report.json', 'ERR2935805_MEGAHIT_report.json', 'mockSample_GATBMiniaPipeline_report.json', 'ERR2984773_GATBMiniaPipeline_report.json', 'ERR2984773_IDBA-UD_report.json', 'mockSample_Unicycler_report.json', 'ERR2935805_IDBA-UD_report.json', 'ERR2935805_metaSPAdes_report.json', 'ERR2935805_SPAdes_report.json', 'ERR2935805_GATBMiniaPipeline_report.json', 'ERR2984773_SPAdes_report.json', 'ERR2984773_VelvetOptimizer_report.json', 'ERR2984773_Unicycler_report.json', 'ERR2935805_Unicycler_report.json', 'ERR2935805_VelvetOptimizer_report.json'])
