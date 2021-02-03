@@ -343,20 +343,17 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
         # add reference plots
         #    completness
-        print(sample_id)
-        print(fnmatch.filter(completness_plot, sample_id + '*'))
-        completness_plot_right = fnmatch.filter(completness_plot, sample_id + '*')[0]
-        with open(completness_plot_right) as plot_fh:
+        logger.debug('Processing {0} data for {1}...'.format(completness_plot, sample_id))
+        with open(completness_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
 
         #    L90
+        logger.debug('Processing {0} data for {1}...'.format(lx_json, sample_id))
         with open(lx_json) as lx_fh:
             plot_json = json.load(lx_fh)
-            logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
@@ -365,9 +362,9 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                     main_data_plots_js[sample_id]["PlotData"][reference].append(reference_plots_json)
 
         #    phred-like plot
+        logger.debug('Processing {0} data for {1}...'.format(shrimp_json, sample_id))
         with open(shrimp_json) as phred_fh:
             plot_json = json.load(phred_fh)
-            logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
@@ -376,9 +373,9 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                     main_data_plots_js[sample_id]["PlotData"][reference].append(reference_plots_json)
 
         #   gap plot
+        logger.debug('Processing {0} data for {1}...'.format(gap_reference_json, sample_id))
         with open(gap_reference_json) as gap_ref_fh:
             plot_json = json.load(gap_ref_fh)
-            logger.debug('Processing {0} data for {1}...'.format(plot_json, sample_id))
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
