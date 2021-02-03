@@ -155,7 +155,7 @@ def main(coverage_files):
     all_data[sample_name] = species_data
     print(all_data)
 
-    with open("{}_completness_plots.json".format(sample_id), "w") as json_report:
+    with open("{}_completness_plots.json".format(sample_name), "w") as json_report:
         report_dict = {}
         for sample_id in all_data.keys():
             report_json = plot_data(all_data[sample_id], sample_id)
