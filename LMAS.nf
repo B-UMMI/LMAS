@@ -468,7 +468,6 @@ process PROCESS_ASSEMBLY_STATS_GLOBAL {
     file json_report from OUT_ASSEMBLY_STATS_GLOBAL_JSON.collect()
 
     output:
-    file "*.csv"
     file "global_assembly_stats.json" into PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
 
     script:
