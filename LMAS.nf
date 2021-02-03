@@ -563,7 +563,7 @@ process PROCESS_COMPLETNESS {
 
     output:
     file("*.html")
-    file("*completness_plots.json") into PLOT_PROCESS_COMPLETNESS
+    file("completness_plots.json") into PLOT_PROCESS_COMPLETNESS
 
     script:
     template "completness_plot.py"
@@ -748,7 +748,7 @@ process compile_reports {
     file reference_file from Channel.fromPath(params.reference)
     file contig_size_distribution from PLOT_CONTIG_DISTRIBUTION
     file mapping_assembly_stats from PROCESS_ASSEMBLY_STATS_MAPPING_OUT
-    file completness_plots from PLOT_PROCESS_COMPLETNESS.collect()
+    file completness_plots from PLOT_PROCESS_COMPLETNESS
     file lx_plots from PLOT_LX
     file shrimp_plots from PLOT_PHRED
     file gap_reference_json from OUT_GAP_REFERENCE

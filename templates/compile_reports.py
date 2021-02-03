@@ -22,7 +22,7 @@ if __file__.endswith(".command.sh"):
     PIPELINE_STATS = "${pipeline_stats}"
     CONTIG_SIZE_DISTRIBUTION = "${contig_size_distribution}".split()
     MAPPING_STATS_REPORT = "$mapping_assembly_stats"
-    COMPLETNESS_JSON = "$completness_plots".split()
+    COMPLETNESS_JSON = "$completness_plots"
     REFERENCE_FILE = "$reference_file"
     LX_JSON = "$lx_plots"
     SHRIMP_JSON = "$shrimp_plots"
@@ -343,6 +343,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
         # add reference plots
         #    completness
+        print(sample_id)
+        print(fnmatch.filter(completness_plot, sample_id + '*'))
         completness_plot_right = fnmatch.filter(completness_plot, sample_id + '*')[0]
         with open(completness_plot_right) as plot_fh:
             plot_json = json.load(plot_fh)
@@ -412,6 +414,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 
 if __name__ == "__main__":
+    """
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE)
@@ -419,4 +422,4 @@ if __name__ == "__main__":
     main("main.js.zip", "pipeline_stats.txt", "global_assembly_stats.json", ['ERR2935805_contig_size_distribution.json', 'ERR2984773_contig_size_distribution.json', 'mockSample_contig_size_distribution.json'], "global_assembly_mapping_stats.json", 
     "completness_plots.json", "lmas.zip", "Zymos_Genomes_triple_chromosomes.fasta", "lx.json", "phred.json", "gaps_in_reference.json", ['ERR2935805_gap_distance_histogram.json', 'ERR2984773_gap_distance_histogram.json', 'mockSample_gap_distance_histogram.json'],
     ['ERR2935805_misassembly.json', 'ERR2984773_misassembly.json', 'mockSample_misassembly.json'], "misassembly_report.json", 1000)
-    """
+    

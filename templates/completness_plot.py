@@ -152,10 +152,10 @@ def main(coverage_files):
             if i not in species_data.keys():
                 species_data.setdefault(s, {})[assembler_name] = (coverage[i], contigs[i])
 
-    all_data[sample_name] = species_data
-    print(all_data)
+        all_data[sample_name] = species_data
+    print(all_data.keys())
 
-    with open("{}_completness_plots.json".format(sample_name), "w") as json_report:
+    with open("completness_plots.json", "w") as json_report:
         report_dict = {}
         for sample_id in all_data.keys():
             report_json = plot_data(all_data[sample_id], sample_id)
@@ -174,4 +174,5 @@ def main(coverage_files):
 
 if __name__ == '__main__':
     main(COVERAGE_FILES)
+    #main(['mockSample_GATBMiniaPipeline_breadth_of_coverage_contigs.csv', 'ERR2935805_MEGAHIT_breadth_of_coverage_contigs.csv', 'ERR2935805_GATBMiniaPipeline_breadth_of_coverage_contigs.csv', 'ERR2935805_BCALM2_breadth_of_coverage_contigs.csv', 'ERR2984773_GATBMiniaPipeline_breadth_of_coverage_contigs.csv', 'ERR2935805_Pandaseq_breadth_of_coverage_contigs.csv', 'mockSample_metaSPAdes_breadth_of_coverage_contigs.csv', 'ERR2984773_Pandaseq_breadth_of_coverage_contigs.csv', 'ERR2984773_MEGAHIT_breadth_of_coverage_contigs.csv', 'ERR2935805_MINIA_breadth_of_coverage_contigs.csv', 'ERR2935805_SKESA_breadth_of_coverage_contigs.csv', 'ERR2984773_MINIA_breadth_of_coverage_contigs.csv', 'mockSample_Unicycler_breadth_of_coverage_contigs.csv', 'ERR2984773_metaSPAdes_breadth_of_coverage_contigs.csv', 'mockSample_SPAdes_breadth_of_coverage_contigs.csv', 'ERR2984773_SPAdes_breadth_of_coverage_contigs.csv', 'mockSample_BCALM2_breadth_of_coverage_contigs.csv', 'ERR2935805_metaSPAdes_breadth_of_coverage_contigs.csv', 'ERR2935805_SPAdes_breadth_of_coverage_contigs.csv', 'mockSample_MINIA_breadth_of_coverage_contigs.csv', 'mockSample_SKESA_breadth_of_coverage_contigs.csv', 'ERR2984773_Unicycler_breadth_of_coverage_contigs.csv', 'ERR2984773_BCALM2_breadth_of_coverage_contigs.csv', 'mockSample_MEGAHIT_breadth_of_coverage_contigs.csv', 'ERR2984773_SKESA_breadth_of_coverage_contigs.csv', 'ERR2984773_VelvetOptimizer_breadth_of_coverage_contigs.csv', 'mockSample_IDBA-UD_breadth_of_coverage_contigs.csv', 'ERR2984773_IDBA-UD_breadth_of_coverage_contigs.csv', 'ERR2935805_IDBA-UD_breadth_of_coverage_contigs.csv', 'ERR2935805_VelvetOptimizer_breadth_of_coverage_contigs.csv', 'mockSample_Pandaseq_breadth_of_coverage_contigs.csv', 'ERR2935805_Unicycler_breadth_of_coverage_contigs.csv', 'mockSample_VelvetOptimizer_breadth_of_coverage_contigs.csv'])
 
