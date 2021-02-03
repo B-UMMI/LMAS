@@ -161,7 +161,6 @@ def main(dataframes):
                 y += 1
             
             reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
-            
             if len(gaps_intervals) == 0:
                 data_points = gaps_intervals
             else:
@@ -218,5 +217,4 @@ def main(dataframes):
 
 
 if __name__ == '__main__':
-    #main(DATAFRAME_LIST)
-    main(['ERR2935805_SKESA_gaps.csv', 'mockSample_MEGAHIT_gaps.csv', 'mockSample_SPAdes_gaps.csv', 'ERR2984773_BCALM2_gaps.csv', 'ERR2984773_MEGAHIT_gaps.csv', 'ERR2984773_Pandaseq_gaps.csv', 'ERR2935805_MEGAHIT_gaps.csv', 'ERR2935805_Unicycler_gaps.csv', 'ERR2935805_MINIA_gaps.csv', 'ERR2984773_MINIA_gaps.csv', 'ERR2984773_GATBMiniaPipeline_gaps.csv', 'mockSample_SKESA_gaps.csv', 'mockSample_GATBMiniaPipeline_gaps.csv', 'ERR2935805_SPAdes_gaps.csv', 'mockSample_VelvetOptimizer_gaps.csv', 'mockSample_BCALM2_gaps.csv', 'ERR2935805_GATBMiniaPipeline_gaps.csv', 'mockSample_Unicycler_gaps.csv', 'ERR2935805_metaSPAdes_gaps.csv', 'ERR2984773_SPAdes_gaps.csv', 'mockSample_metaSPAdes_gaps.csv', 'ERR2984773_Unicycler_gaps.csv', 'mockSample_IDBA-UD_gaps.csv', 'ERR2935805_IDBA-UD_gaps.csv', 'ERR2984773_IDBA-UD_gaps.csv', 'mockSample_MINIA_gaps.csv', 'mockSample_Pandaseq_gaps.csv', 'ERR2935805_Pandaseq_gaps.csv', 'ERR2984773_SKESA_gaps.csv', 'ERR2984773_VelvetOptimizer_gaps.csv', 'ERR2935805_BCALM2_gaps.csv', 'ERR2984773_metaSPAdes_gaps.csv', 'ERR2935805_VelvetOptimizer_gaps.csv'])
+    main(DATAFRAME_LIST)

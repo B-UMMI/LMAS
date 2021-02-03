@@ -121,8 +121,5 @@ def main(ngx_files, n_target):
 
 
 if __name__ == '__main__':
-    #main(NGX_FILES, N_TARGET)
-    import glob
-    ng_files = glob.glob("*_ngx.csv")
-    print(ng_files)
-    main(ng_files, 0.5)
+    main(NGX_FILES, N_TARGET)
+
