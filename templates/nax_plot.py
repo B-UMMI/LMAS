@@ -56,6 +56,8 @@ def main(nax_files, n_target):
             fig_nax = go.Figure()
             i = 0
             for assembler in sorted(df_nax['Assembler'].unique()):
+                if set(df_nax['NAx'][(df_nax['Sample'] == sample) & (df_nax['Reference'] == reference) & (df_nax['Assembler'] == assembler)]) == {0}:
+                    continue
                 fig_nax.add_trace(go.Scatter(x=df_nax['NAx'][(df_nax['Sample'] == sample) &
                                                           (df_nax['Reference'] == reference) &
                                                           (df_nax['Assembler'] == assembler)],
@@ -83,9 +85,9 @@ def main(nax_files, n_target):
                 'yanchor': 'top'})
 
             fig_nax.update_layout(updatemenus=list([dict(active=1, buttons=list([
-                dict(label='Log Scale', method='update',
+                dict(label='Log Scale', method='relayout',
                      args=[{'visible': [True, True]}, {'yaxis': {'type': 'log'}}]),
-                dict(label='Linear Scale', method='update',
+                dict(label='Linear Scale', method='relayout',
                      args=[{'visible': [True, False]}, {'yaxis': {'type': 'linear'}}])
             ]),
                                                          type="buttons",

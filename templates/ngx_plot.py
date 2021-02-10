@@ -58,6 +58,8 @@ def main(ngx_files, n_target):
             fig_ngx = go.Figure()
             i = 0
             for assembler in sorted(df_ngx['Assembler'].unique()):
+                if set(df_ngx['NGx'][(df_ngx['Sample'] == sample) & (df_ngx['Reference'] == reference) & (df_ngx['Assembler'] == assembler)]) == {0}:
+                    continue
                 fig_ngx.add_trace(go.Scatter(x=df_ngx['NGx'][(df_ngx['Sample'] == sample) &
                                                              (df_ngx['Reference'] == reference) &
                                                              (df_ngx['Assembler'] == assembler)],
@@ -86,9 +88,9 @@ def main(ngx_files, n_target):
                 'yanchor': 'top'})
 
             fig_ngx.update_layout(updatemenus=list([dict(active=1, buttons=list([
-                dict(label='Log Scale', method='update',
+                dict(label='Log Scale', method='relayout',
                      args=[{'visible': [True, True]}, {'yaxis': {'type': 'log'}}]),
-                dict(label='Linear Scale', method='update',
+                dict(label='Linear Scale', method='relayout',
                      args=[{'visible': [True, False]}, {'yaxis': {'type': 'linear'}}])
             ]),
                                                          type="buttons",

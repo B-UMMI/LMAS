@@ -150,14 +150,14 @@ def main(coverage_files):
         contigs = list(data['Contigs'])
 
         for i, s in enumerate(species):
+            if coverage[i] == 0 and contigs[i] == 0:
+                continue
             if sample_name not in all_data.keys():
                 all_data[sample_name] = {s: {assembler_name: [coverage[i], contigs[i]]}}
             elif s not in all_data[sample_name].keys():
                 all_data[sample_name][s] = {assembler_name: [coverage[i], contigs[i]]}
             else:
                 all_data[sample_name][s][assembler_name] = [coverage[i], contigs[i]]
-
-    #print(all_data)
 
     with open("completness_plots.json", "w") as json_report:
         report_dict = {}
