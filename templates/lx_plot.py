@@ -49,15 +49,15 @@ def main(c90files, l_target):
             fig_Lx = go.Figure()
             i = 0
             for assembler in sorted(df_Lx['Assembler'].unique()):
-                print(set(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]))
-                fig_Lx.add_trace(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
-                                                        (df_Lx['Reference'] == reference) &
-                                                        (df_Lx['Assembler'] == assembler)],
-                                            y=df_Lx['nContigs'][(df_Lx['Sample'] == sample) &
-                                                                (df_Lx['Reference'] == reference) &
-                                                                (df_Lx['Assembler'] == assembler)],
-                                            name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
-                i += 1
+                if sum(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]) > 0:
+                    fig_Lx.add_trace(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
+                                                            (df_Lx['Reference'] == reference) &
+                                                            (df_Lx['Assembler'] == assembler)],
+                                                y=df_Lx['nContigs'][(df_Lx['Sample'] == sample) &
+                                                                    (df_Lx['Reference'] == reference) &
+                                                                    (df_Lx['Assembler'] == assembler)],
+                                                name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
+                    i += 1
             # add target line
             fig_Lx.add_shape(type="line", yref="paper",
                                 x0=l_target, y0=0, x1=l_target, y1=1,
