@@ -38,7 +38,7 @@ def main(c90files, l_target):
         data = pd.read_csv(file_c90)
         data['Sample'] = sample_name
         print(data)
-        df_Lx = pd.concat([df_Lx, data], columns=['Sample', 'Reference', 'Assembler', 'Lx', 'nContigs'], ignore_index=True)
+        df_Lx = pd.concat([df_Lx, data], ignore_index=True)
 
         # with open(file_c90) as fh:
         #     next(fh)  # skip header line
