@@ -755,6 +755,8 @@ process compile_reports {
     file gap_histogram from OUT_GAP_HISTOGRAM
     file plot_misassemblies from OUT_MISASSEMBLY_PLOT
     file misassembly_data from OUT_MISASSEMBLY_REPORT
+    file nax_plots from PLOT_NAX
+    file ngx_plots from PLOT_NGX
 
     output:
     file "pipeline_report.json"

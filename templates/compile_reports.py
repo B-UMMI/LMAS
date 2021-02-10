@@ -8,6 +8,7 @@ import re
 import fnmatch
 from time import gmtime, strftime
 from itertools import groupby
+from pandas.core.common import flatten
 try:
     import utils
 except ImportError:
@@ -25,6 +26,8 @@ if __file__.endswith(".command.sh"):
     COMPLETNESS_JSON = "$completness_plots"
     REFERENCE_FILE = "$reference_file"
     LX_JSON = "$lx_plots"
+    NAX_JSON = "$nax_plots"
+    NGX_JSON = "$ngx_plots"
     SHRIMP_JSON = "$shrimp_plots"
     GAP_REFERENCE_JSON = "$gap_reference_json"
     GAP_HISTOGRAM = "$gap_histogram".split()
@@ -43,6 +46,8 @@ if __file__.endswith(".command.sh"):
     logger.debug("COMPLETNESS_JSON: {}".format(COMPLETNESS_JSON))
     logger.debug("REFERENCE_FILE: {}".format(REFERENCE_FILE))
     logger.debug("LX_JSON: {}".format(LX_JSON))
+    logger.debug("NAX_JSON: {}".format(NAX_JSON))
+    logger.debug("NGX_JSON: {}".format(NGX_JSON))
     logger.debug("SHRIMP_JSON: {}".format(SHRIMP_JSON))
     logger.debug("GAP_REFERENCE_JSON: {}".format(GAP_REFERENCE_JSON))
     logger.debug("GAP_HISTOGRAM: {}".format(GAP_HISTOGRAM))
@@ -250,7 +255,7 @@ def process_reference_data(reference_file):
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
-         min_contig_size):
+         min_contig_size, nax_json, ngx_json):
 
     metadata = {
         "nfMetadata": {
@@ -316,30 +321,31 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                     main_data_tables_js[sample_id]["ReferenceTables"][reference].append(mapping_stats_reference)
 
     for sample_id in main_data_tables_js.keys():
-        # add global plots
-        
         main_data_plots_js[sample_id] = {}
+
+        # add global plots
+        main_data_plots_js[sample_id]["Global"] = {}
 
         #   contig size boxplot
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
         logger.debug('Processing {0} data for {1}...'.format(contig_distribution_plot, sample_id))
         with open(contig_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            main_data_plots_js[sample_id]["PlotData"] = {"Global": [plot_json]}
+            main_data_plots_js[sample_id]["PlotData"]["Global"]["contig_size"] = plot_json
 
         #   gap size boxplot
         gap_distribution_plot = fnmatch.filter(gap_histogram, sample_id + '*')[0]
         logger.debug('Processing {0} data for {1}...'.format(gap_distribution_plot, sample_id))
         with open(gap_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            main_data_plots_js[sample_id]["PlotData"]["Global"].append(plot_json)
+            main_data_plots_js[sample_id]["PlotData"]["Global"]["gap_size"] = plot_json
 
         # misassembly plot
         misassembled_contigs_plot = fnmatch.filter(plot_misassembly, sample_id + '*')[0]
         logger.debug('Processing {0} data for {1}...'.format(misassembled_contigs_plot, sample_id))
         with open(misassembled_contigs_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            main_data_plots_js[sample_id]["PlotData"]["Global"].append(plot_json)
+            main_data_plots_js[sample_id]["PlotData"]["Global"]["misassembly"].append(plot_json)
 
         # add reference plots
         #    completness
@@ -348,18 +354,40 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             plot_json = json.load(plot_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
-                main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                main_data_plots_js[sample_id]["PlotData"][reference] = {"completness": reference_plots_json}
 
-        #    L90
+        #    Lx
         logger.debug('Processing {0} data for {1}...'.format(lx_json, sample_id))
         with open(lx_json) as lx_fh:
             plot_json = json.load(lx_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                    main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                    main_data_plots_js[sample_id]["PlotData"][reference] = {"lx": reference_plots_json}
                 else:
-                    main_data_plots_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+                    main_data_plots_js[sample_id]["PlotData"][reference]["lx"] = reference_plots_json
+        #   NAx
+        logger.debug('Processing {0} data for {1}...'.format(nax_json, sample_id))
+        with open(nax_json) as nax_fh:
+            plot_json = json.load(nax_fh)
+            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                reference_plots_json = [json.loads(x) for x in reference_plots]
+                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                    main_data_plots_js[sample_id]["PlotData"][reference] = {"nax": reference_plots_json}
+                else:
+                    main_data_plots_js[sample_id]["PlotData"][reference]["nax"] = reference_plots_json
+
+        #   NGx
+        logger.debug('Processing {0} data for {1}...'.format(ngx_json, sample_id))
+        with open(ngx_json) as ngx_fh:
+            plot_json = json.load(ngx_fh)
+            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                reference_plots_json = [json.loads(x) for x in reference_plots]
+                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                    main_data_plots_js[sample_id]["PlotData"][reference] = {"ngx": reference_plots_json}
+                else:
+                    main_data_plots_js[sample_id]["PlotData"][reference]["ngx"] = reference_plots_json
+
 
         #    phred-like plot
         logger.debug('Processing {0} data for {1}...'.format(shrimp_json, sample_id))
@@ -368,9 +396,9 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                    main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                    main_data_plots_js[sample_id]["PlotData"][reference] = {"phred" :reference_plots_json}
                 else:
-                    main_data_plots_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+                    main_data_plots_js[sample_id]["PlotData"][reference]["phred"] = reference_plots_json
 
         #   gap plot
         logger.debug('Processing {0} data for {1}...'.format(gap_reference_json, sample_id))
@@ -379,11 +407,13 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 reference_plots_json = [json.loads(x) for x in reference_plots]
                 if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                    main_data_plots_js[sample_id]["PlotData"][reference] = [reference_plots_json]
+                    main_data_plots_js[sample_id]["PlotData"][reference] = {"gaps": reference_plots_json}
                 else:
-                    main_data_plots_js[sample_id]["PlotData"][reference].append(reference_plots_json)
+                    main_data_plots_js[sample_id]["PlotData"][reference]["gaps"] = reference_plots_json
+        
+        # SNP plot
 
-    logger.debug("Report data dictionary: {}".format(main_data_plots_js))
+    #logger.debug("Report data dictionary: {}".format(main_data_plots_js))
 
     with open("performance_metadata.json", "w") as json_fh:
         json_fh.write(json.dumps(performance_metadata, separators=(",", ":")))
@@ -413,4 +443,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
-         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE)
+         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON)
