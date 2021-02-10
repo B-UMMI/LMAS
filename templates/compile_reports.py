@@ -346,7 +346,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         logger.debug('Processing {0} data for {1}...'.format(misassembled_contigs_plot, sample_id))
         with open(misassembled_contigs_plot) as plot_fh:
             plot_json = json.load(plot_fh)
-            main_data_plots_js[sample_id]["PlotData"]["Global"]["misassembly"].append(plot_json)
+            main_data_plots_js[sample_id]["PlotData"]["Global"]["misassembly"] = plot_json
 
         # add reference plots
         #    completness
