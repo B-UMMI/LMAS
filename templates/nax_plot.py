@@ -113,8 +113,6 @@ def main(nax_files, n_target):
                 else:
                     report_dict[sample]["PlotData"][reference].append(plot_species)
 
-        print(report_dict[sample]['PlotData'].keys())
-
     with open("nax.json", "w") as json_report:
         json_report.write(json.dumps(report_dict, separators=(",", ":")))
 
