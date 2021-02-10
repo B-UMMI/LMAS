@@ -45,9 +45,7 @@ def main(c90files, l_target):
                 contigs = line[4]
                 df_Lx = df_Lx.append({'Sample': sample_name, 'Reference': reference,
                                       'Assembler': assembler, 'Lx': Lx, 'nContigs': contigs}, ignore_index=True)
-
-    # create percentage instead of float
-    #df_Lx['Lx'] = df_Lx['Lx'] * 100
+    df_Lx = df_Lx.astype({'nContigs': 'int32'})
 
     # Create plot - Lx per reference for each sample
     report_dict = {}
@@ -57,7 +55,7 @@ def main(c90files, l_target):
             i = 0
             for assembler in sorted(df_Lx['Assembler'].unique()):
                 print(set(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]))
-                if sum(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]) > 0:
+                if set(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]) != {0}:
                     fig_Lx.add_trace(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
                                                             (df_Lx['Reference'] == reference) &
                                                             (df_Lx['Assembler'] == assembler)],
