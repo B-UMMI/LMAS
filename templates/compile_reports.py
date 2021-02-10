@@ -354,63 +354,68 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         with open(completness_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                reference_plots_json = [json.loads(x) for x in reference_plots]
-                main_data_plots_js[sample_id]["PlotData"][reference] = {"completness": reference_plots_json}
+                for x in reference_plots:
+                    reference_plots_json = json.loads(x)
+                    main_data_plots_js[sample_id]["PlotData"][reference] = {"completness": reference_plots_json}
 
         #    Lx
         logger.debug('Processing {0} data for {1}...'.format(lx_json, sample_id))
         with open(lx_json) as lx_fh:
             plot_json = json.load(lx_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                reference_plots_json = [json.loads(x) for x in reference_plots]
-                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                    main_data_plots_js[sample_id]["PlotData"][reference] = {"lx": reference_plots_json}
-                else:
-                    main_data_plots_js[sample_id]["PlotData"][reference]["lx"] = reference_plots_json
+                for x in reference_plots:
+                    reference_plots_json = json.loads(x)
+                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {"lx": reference_plots_json}
+                    else:
+                        main_data_plots_js[sample_id]["PlotData"][reference]["lx"] = reference_plots_json
         #   NAx
         logger.debug('Processing {0} data for {1}...'.format(nax_json, sample_id))
         with open(nax_json) as nax_fh:
             plot_json = json.load(nax_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                reference_plots_json = [json.loads(x) for x in reference_plots]
-                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                    main_data_plots_js[sample_id]["PlotData"][reference] = {"nax": reference_plots_json}
-                else:
-                    main_data_plots_js[sample_id]["PlotData"][reference]["nax"] = reference_plots_json
+                for x in reference_plots:
+                    reference_plots_json = json.loads(x)
+                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {"nax": reference_plots_json}
+                    else:
+                        main_data_plots_js[sample_id]["PlotData"][reference]["nax"] = reference_plots_json
 
         #   NGx
         logger.debug('Processing {0} data for {1}...'.format(ngx_json, sample_id))
         with open(ngx_json) as ngx_fh:
             plot_json = json.load(ngx_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                reference_plots_json = [json.loads(x) for x in reference_plots]
-                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                    main_data_plots_js[sample_id]["PlotData"][reference] = {"ngx": reference_plots_json}
-                else:
-                    main_data_plots_js[sample_id]["PlotData"][reference]["ngx"] = reference_plots_json
-
+                for x in reference_plots:
+                    reference_plots_json = json.loads(x)
+                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {"ngx": reference_plots_json}
+                    else:
+                        main_data_plots_js[sample_id]["PlotData"][reference]["ngx"] = reference_plots_json
 
         #    phred-like plot
         logger.debug('Processing {0} data for {1}...'.format(shrimp_json, sample_id))
         with open(shrimp_json) as phred_fh:
             plot_json = json.load(phred_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                reference_plots_json = [json.loads(x) for x in reference_plots]
-                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                    main_data_plots_js[sample_id]["PlotData"][reference] = {"phred" :reference_plots_json}
-                else:
-                    main_data_plots_js[sample_id]["PlotData"][reference]["phred"] = reference_plots_json
+                for x in reference_plots:
+                    reference_plots_json = json.loads(x)
+                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {"phred" :reference_plots_json}
+                    else:
+                        main_data_plots_js[sample_id]["PlotData"][reference]["phred"] = reference_plots_json
 
         #   gap plot
         logger.debug('Processing {0} data for {1}...'.format(gap_reference_json, sample_id))
         with open(gap_reference_json) as gap_ref_fh:
             plot_json = json.load(gap_ref_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                reference_plots_json = [json.loads(x) for x in reference_plots]
-                if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                    main_data_plots_js[sample_id]["PlotData"][reference] = {"gaps": reference_plots_json}
-                else:
-                    main_data_plots_js[sample_id]["PlotData"][reference]["gaps"] = reference_plots_json
+                for x in reference_plots:
+                    reference_plots_json = json.loads(x)
+                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {"gaps": reference_plots_json}
+                    else:
+                        main_data_plots_js[sample_id]["PlotData"][reference]["gaps"] = reference_plots_json
         
         # SNP plot
 
