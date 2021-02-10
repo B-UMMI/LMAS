@@ -42,7 +42,7 @@ def main(c90files, l_target):
                 reference = line[1]
                 assembler = line[2]
                 Lx = line[3]
-                contigs = line[4]
+                contigs = line[4].strip()
                 df_Lx = df_Lx.append({'Sample': sample_name, 'Reference': reference,
                                       'Assembler': assembler, 'Lx': Lx, 'nContigs': contigs}, ignore_index=True)
     df_Lx = df_Lx.astype({'nContigs': 'int32'})
