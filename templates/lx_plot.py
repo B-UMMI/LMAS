@@ -37,21 +37,10 @@ def main(c90files, l_target):
         sample_name = os.path.basename(file_c90).split('_')[0]
         data = pd.read_csv(file_c90)
         data['Sample'] = sample_name
-        print(data)
         df_Lx = pd.concat([df_Lx, data], ignore_index=True)
 
-        # with open(file_c90) as fh:
-        #     next(fh)  # skip header line
-        #     for line in fh:
-        #         line = line.split(',')
-        #         reference = line[1]
-        #         assembler = line[2]
-        #         Lx = line[3]
-        #         contigs = line[4].strip()
-        #         df_Lx = df_Lx.append({'Sample': sample_name, 'Reference': reference,
-        #                               'Assembler': assembler, 'Lx': Lx, 'nContigs': contigs}, ignore_index=True)
-    df_Lx = df_Lx.astype({'nContigs': 'int32'})
-    print(df_Lx)
+    #df_Lx = df_Lx.astype({'nContigs': 'int32'})
+    #print(df_Lx)
 
     # Create plot - Lx per reference for each sample
     report_dict = {}
@@ -61,15 +50,14 @@ def main(c90files, l_target):
             i = 0
             for assembler in sorted(df_Lx['Assembler'].unique()):
                 print(set(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]))
-                if set(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]) != {0}:
-                    fig_Lx.add_trace(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
-                                                            (df_Lx['Reference'] == reference) &
-                                                            (df_Lx['Assembler'] == assembler)],
-                                                y=df_Lx['nContigs'][(df_Lx['Sample'] == sample) &
-                                                                    (df_Lx['Reference'] == reference) &
-                                                                    (df_Lx['Assembler'] == assembler)],
-                                                name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
-                    i += 1
+                fig_Lx.add_trace(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
+                                                        (df_Lx['Reference'] == reference) &
+                                                        (df_Lx['Assembler'] == assembler)],
+                                            y=df_Lx['nContigs'][(df_Lx['Sample'] == sample) &
+                                                                (df_Lx['Reference'] == reference) &
+                                                                (df_Lx['Assembler'] == assembler)],
+                                            name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
+                i += 1
             # add target line
             fig_Lx.add_shape(type="line", yref="paper",
                                 x0=l_target, y0=0, x1=l_target, y1=1,
