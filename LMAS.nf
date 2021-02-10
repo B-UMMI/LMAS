@@ -435,7 +435,7 @@ process READ_MAPPING{
 
     output:
     file("*_read_mapping.txt") optional true
-    set sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING
+    set sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING optional true
 
     script:
     template "read_mapping.py"
