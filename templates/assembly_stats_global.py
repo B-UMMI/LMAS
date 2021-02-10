@@ -105,6 +105,7 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
         if assembly_stats_json[sample_id]["assembler"] == assembler:
             mapped_reads = assembly_stats_json[sample_id]["mapped_reads"]
         else:
+            mapped_reads = 0
             logger.error(assembly_stats_json)
 
     with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
