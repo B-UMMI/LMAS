@@ -31,23 +31,15 @@ if __file__.endswith(".command.sh"):
 
 def main(ngx_files, n_target):
 
-    df_ngx = pd.DataFrame(columns=['Reference', 'Assembler', 'NGx', 'Basepairs'])
+    df_ngx = pd.DataFrame(columns=['Sample', 'Reference', 'Assembler', 'NGx', 'Basepairs'])
+
 
     for file_ngx in ngx_files:
         sample_name = os.path.basename(file_ngx).split('_')[0]
-        with open(file_ngx) as fh:
-            next(fh)  # skip header line
-            for line in fh:
-                line = line.split(',')
-                reference = line[1]
-                assembler = line[2]
-                ngx = line[3]
-                basepairs = line[4]
-                df_ngx = df_ngx.append({'Sample': sample_name, 'Reference': reference,
-                                        'Assembler': assembler, 'NGx': ngx, 'Basepairs': basepairs}, ignore_index=True)
+        data = pd.read_csv(file_ngx)
+        data['Sample'] = sample_name
+        df_ngx = pd.concat([df_ngx, data], ignore_index=True)
     
-    print(df_ngx)
-
     # Create plot - Lx per reference for each sample
     report_dict = {}
     for sample in sorted(df_ngx['Sample'].unique()):
@@ -55,16 +47,15 @@ def main(ngx_files, n_target):
             fig_ngx = go.Figure()
             i = 0
             for assembler in sorted(df_ngx['Assembler'].unique()):
-                if set(df_ngx['Basepairs'][(df_ngx['Sample'] == sample) & (df_ngx['Reference'] == reference) & (df_ngx['Assembler'] == assembler)]) == {0}:
-                    continue
-                fig_ngx.add_trace(go.Scatter(x=df_ngx['NGx'][(df_ngx['Sample'] == sample) &
-                                                             (df_ngx['Reference'] == reference) &
-                                                             (df_ngx['Assembler'] == assembler)],
-                                             y=df_ngx['Basepairs'][(df_ngx['Sample'] == sample) &
-                                                                   (df_ngx['Reference'] == reference) &
-                                                                   (df_ngx['Assembler'] == assembler)],
-                                             name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
-                i += 1
+                if df_ngx['Basepairs'][(df_ngx['Sample'] == sample) & (df_ngx['Reference'] == reference) & (df_ngx['Assembler'] == assembler)].nunique() > 1:
+                    fig_ngx.add_trace(go.Scatter(x=df_ngx['NGx'][(df_ngx['Sample'] == sample) &
+                                                                    (df_ngx['Reference'] == reference) &
+                                                                    (df_ngx['Assembler'] == assembler)],
+                                                    y=df_ngx['Basepairs'][(df_ngx['Sample'] == sample) &
+                                                                        (df_ngx['Reference'] == reference) &
+                                                                        (df_ngx['Assembler'] == assembler)],
+                                                    name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
+                    i += 1
             
             fig_ngx.add_shape(type="line", yref="paper",
                               x0=n_target, y0=0, x1=n_target, y1=1,

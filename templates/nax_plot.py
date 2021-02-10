@@ -31,23 +31,13 @@ if __file__.endswith(".command.sh"):
 
 def main(nax_files, n_target):
 
-    df_nax = pd.DataFrame(columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
+    df_nax = pd.DataFrame(columns=['Sample', 'Reference', 'Assembler', 'NAx', 'Basepairs'])
 
     for file_nax in nax_files:
         sample_name = os.path.basename(file_nax).split('_')[0]
-        with open(file_nax) as fh:
-            next(fh)  # skip header line
-            for line in fh:
-                line = line.split(',')
-                reference = line[1]
-                assembler = line[2]
-                nax = line[3]
-                basepairs = line[4]
-                df_nax = df_nax.append({'Sample': sample_name, 'Reference': reference,
-                                        'Assembler': assembler, 'NAx': nax, 'Basepairs': basepairs}, ignore_index=True)
-
-    # create percentage instead of float
-    #df_Lx['Lx'] = df_Lx['Lx'] * 100
+        data = pd.read_csv(file_nax)
+        data['Sample'] = sample_name
+        df_nax = pd.concat([df_nax, data], ignore_index=True)
 
     # Create plot - Lx per reference for each sample
     report_dict = {}
@@ -56,16 +46,15 @@ def main(nax_files, n_target):
             fig_nax = go.Figure()
             i = 0
             for assembler in sorted(df_nax['Assembler'].unique()):
-                if set(df_nax['Basepairs'][(df_nax['Sample'] == sample) & (df_nax['Reference'] == reference) & (df_nax['Assembler'] == assembler)]) == {0}:
-                    continue
-                fig_nax.add_trace(go.Scatter(x=df_nax['NAx'][(df_nax['Sample'] == sample) &
-                                                          (df_nax['Reference'] == reference) &
-                                                          (df_nax['Assembler'] == assembler)],
-                                             y=df_nax['Basepairs'][(df_nax['Sample'] == sample) &
+                if df_nax['Basepairs'][(df_nax['Sample'] == sample) &(df_nax['Reference'] == reference) & (df_nax['Assembler'] == assembler)].nunique() > 1:
+                    fig_nax.add_trace(go.Scatter(x=df_nax['NAx'][(df_nax['Sample'] == sample) &
                                                                 (df_nax['Reference'] == reference) &
                                                                 (df_nax['Assembler'] == assembler)],
-                                             name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
-                i += 1
+                                                    y=df_nax['Basepairs'][(df_nax['Sample'] == sample) &
+                                                                    (df_nax['Reference'] == reference) &
+                                                                    (df_nax['Assembler'] == assembler)],
+                                                    name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
+                    i += 1
             
             fig_nax.add_shape(type="line", yref="paper",
                                 x0=n_target, y0=0, x1=n_target, y1=1,
