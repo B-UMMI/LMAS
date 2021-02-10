@@ -56,7 +56,7 @@ def main(nax_files, n_target):
             fig_nax = go.Figure()
             i = 0
             for assembler in sorted(df_nax['Assembler'].unique()):
-                if set(df_nax['NAx'][(df_nax['Sample'] == sample) & (df_nax['Reference'] == reference) & (df_nax['Assembler'] == assembler)]) == {0}:
+                if set(df_nax['Basepairs'][(df_nax['Sample'] == sample) & (df_nax['Reference'] == reference) & (df_nax['Assembler'] == assembler)]) == {0}:
                     continue
                 fig_nax.add_trace(go.Scatter(x=df_nax['NAx'][(df_nax['Sample'] == sample) &
                                                           (df_nax['Reference'] == reference) &

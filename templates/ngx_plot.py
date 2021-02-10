@@ -48,9 +48,6 @@ def main(ngx_files, n_target):
     
     print(df_ngx)
 
-    # create percentage instead of float
-    #df_Lx['Lx'] = df_Lx['Lx'] * 100
-
     # Create plot - Lx per reference for each sample
     report_dict = {}
     for sample in sorted(df_ngx['Sample'].unique()):
@@ -58,7 +55,7 @@ def main(ngx_files, n_target):
             fig_ngx = go.Figure()
             i = 0
             for assembler in sorted(df_ngx['Assembler'].unique()):
-                if set(df_ngx['NGx'][(df_ngx['Sample'] == sample) & (df_ngx['Reference'] == reference) & (df_ngx['Assembler'] == assembler)]) == {0}:
+                if set(df_ngx['Basepairs'][(df_ngx['Sample'] == sample) & (df_ngx['Reference'] == reference) & (df_ngx['Assembler'] == assembler)]) == {0}:
                     continue
                 fig_ngx.add_trace(go.Scatter(x=df_ngx['NGx'][(df_ngx['Sample'] == sample) &
                                                              (df_ngx['Reference'] == reference) &
