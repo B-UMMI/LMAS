@@ -49,7 +49,7 @@ def main(c90files, l_target):
             fig_Lx = go.Figure()
             i = 0
             for assembler in sorted(df_Lx['Assembler'].unique()):
-                print(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)])
+                print(set(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]))
                 if sum(df_Lx['nContigs'][(df_Lx['Sample'] == sample) & (df_Lx['Reference'] == reference) & (df_Lx['Assembler'] == assembler)]) > 0:
                     fig_Lx.add_trace(go.Scatter(x=df_Lx['Lx'][(df_Lx['Sample'] == sample) &
                                                             (df_Lx['Reference'] == reference) &
