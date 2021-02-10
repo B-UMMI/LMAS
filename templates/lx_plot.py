@@ -31,21 +31,24 @@ if __file__.endswith(".command.sh"):
 
 def main(c90files, l_target):
 
-    df_Lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])
-    df_Lx = pd.concat((pd.read_csv(f) for f in c90files))
-    # for file_c90 in c90files:
-    #     sample_name = os.path.basename(file_c90).split('_')[0]
-    #     with open(file_c90) as fh:
-    #         next(fh)  # skip header line
-    #         for line in fh:
-    #             line = line.split(',')
-    #             reference = line[1]
-    #             assembler = line[2]
-    #             Lx = line[3]
-    #             contigs = line[4].strip()
-    #             df_Lx = df_Lx.append({'Sample': sample_name, 'Reference': reference,
-    #                                   'Assembler': assembler, 'Lx': Lx, 'nContigs': contigs}, ignore_index=True)
-    # df_Lx = df_Lx.astype({'nContigs': 'int32'})
+    df_Lx = pd.DataFrame(columns=['Sample', 'Reference', 'Assembler', 'Lx', 'nContigs'])
+    #df_Lx = pd.concat((pd.read_csv(f) for f in c90files))
+    for file_c90 in c90files:
+        sample_name = os.path.basename(file_c90).split('_')[0]
+        data = pd.read_csv(file_c90)
+        data['Sample'] = sample_name
+        print(data)
+        with open(file_c90) as fh:
+            next(fh)  # skip header line
+            for line in fh:
+                line = line.split(',')
+                reference = line[1]
+                assembler = line[2]
+                Lx = line[3]
+                contigs = line[4].strip()
+                df_Lx = df_Lx.append({'Sample': sample_name, 'Reference': reference,
+                                      'Assembler': assembler, 'Lx': Lx, 'nContigs': contigs}, ignore_index=True)
+    df_Lx = df_Lx.astype({'nContigs': 'int32'})
     print(df_Lx)
 
     # Create plot - Lx per reference for each sample
