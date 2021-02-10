@@ -322,9 +322,10 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     for sample_id in main_data_tables_js.keys():
         main_data_plots_js[sample_id] = {}
+        main_data_plots_js[sample_id]["PlotData"] = {}
 
         # add global plots
-        main_data_plots_js[sample_id]["Global"] = {}
+        main_data_plots_js[sample_id]["PlotData"]["Global"] = {}
 
         #   contig size boxplot
         contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]

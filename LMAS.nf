@@ -434,7 +434,7 @@ process READ_MAPPING{
     each THRESHOLD
 
     output:
-    file("*_read_mapping.txt")
+    file("*_read_mapping.txt") optional true
     set sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING
 
     script:
