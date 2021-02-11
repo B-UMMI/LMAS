@@ -145,20 +145,21 @@ def main(dataframes):
             for assembler in assemblers:
                 coords = frame[(frame['Sample'] == sample) & (frame['Reference'] == reference) &
                                (frame['Assembler'] == assembler)]
-                starts = list(coords['Gap Start'])
-                stops = list(coords['Gap End'])
-                for i in range(len(starts)):
-                    # trace with gap location - one per gap
-                    fig.add_trace(go.Scatter(x=[starts[i], stops[i]],
-                                             y=[y, y],
-                                             mode='lines',
-                                             line=dict(color='#000000', width=12),
-                                             name=assembler,
-                                             showlegend=False),
-                                  row=2, col=1)
-                    gaps_dict = {i: 1 for i in range(starts[i], stops[i]+1)}
-                    gaps_intervals.append([starts[i], stops[i]+1, gaps_dict])
-                y += 1
+                if not coords.empty:
+                    starts = list(coords['Gap Start'])
+                    stops = list(coords['Gap End'])
+                    for i in range(len(starts)):
+                        # trace with gap location - one per gap
+                        fig.add_trace(go.Scatter(x=[starts[i], stops[i]],
+                                                    y=[y, y],
+                                                    mode='lines',
+                                                    line=dict(color='#000000', width=12),
+                                                    name=assembler,
+                                                    showlegend=False),
+                                        row=2, col=1)
+                        gaps_dict = {i: 1 for i in range(starts[i], stops[i]+1)}
+                        gaps_intervals.append([starts[i], stops[i]+1, gaps_dict])
+                    y += 1
             
             reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
             if len(gaps_intervals) == 0:
