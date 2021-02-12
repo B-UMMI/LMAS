@@ -92,7 +92,7 @@ def get_covered_bases(covered_bases_list, ref_len):
         for base in range(start, stop):
             covered_bases.add(utils.adjust_reference_coord(base, ref_len))
 
-    return len(covered_bases)/ref_len
+    return len(covered_bases)/ref_len, len(covered_bases)
 
 
 def get_phred_quality_score(identity):
@@ -195,14 +195,14 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     contiguity = longest_alignment / ref_length
 
     # COMPASS Metrics
-    coverage = get_covered_bases(covered_bases, ref_length)
+    coverage, len_convered_bases = get_covered_bases(covered_bases, ref_length)
 
     multiplicity = get_multiplicity(covered_bases, ref_length)
 
     identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
     lowest_identity = min(n_identity) if len(n_identity) > 0 else 0
 
-    return contiguity, coverage, multiplicity, lowest_identity, identity, df_phred
+    return contiguity, coverage, multiplicity, lowest_identity, identity, df_phred, len_convered_bases
 
 
 
@@ -273,12 +273,12 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
                                   'Lx': x, 'nContigs': lx}, ignore_index=True)
         l90 = utils.get_Lx(mapped_contigs, len(seq)/3, l_target)
 
-        contiguity, coverage, multiplicity, lowest_identity, identity, df_phred = get_alignment_stats(mapping,
+        contiguity, coverage, multiplicity, lowest_identity, identity, df_phred, covered_bases = get_alignment_stats(mapping,
                                                                                                       header_str,
                                                                                                       len(seq)/3,
                                                                                                       df_phred)
 
-        fh.write(','.join([reference_name, str(coverage), str(len(mapped_contigs))]) + '\\n')
+        fh.write(','.join([reference_name, str(coverage), str(covered_bases)]) + '\\n')
 
         # Mapping stats dict
         mapping_stats_dict["ReferenceTables"][reference_name] = {
@@ -292,7 +292,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
             "aligned_contigs": len(mapped_contigs),
             "NA50": na50,
             "NG50": ng50,
-            "aligned_basepairs": sum(mapped_contigs)
+            "aligned_basepairs": covered_bases
         }
 
     fh.close()
