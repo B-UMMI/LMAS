@@ -142,18 +142,15 @@ def main(dataframes):
             y = 0
             gaps_intervals = []
             assemblers = sorted(frame['Assembler'].unique())
+            assemblers_in_plot = []
             for assembler in assemblers:
                 print(assembler)
                 coords = frame[(frame['Sample'] == sample) & (frame['Reference'] == reference) &
                                (frame['Assembler'] == assembler)]
                 if coords.empty:
-                    print("EMPTY!")
-                    print(assembler)
                     continue
                 else:
-                    print("WITH STUFF")
-                    print(assembler)
-                    print(y)
+                    assemblers_in_plot.append(assembler)
                     starts = list(coords['Gap Start'])
                     stops = list(coords['Gap End'])
                     for i in range(len(starts)):
@@ -207,7 +204,7 @@ def main(dataframes):
 
             fig.update_yaxes(type='category', tickmode='array',
                              tickvals=list(range(0, y)),
-                             ticktext=assemblers, row=2, col=1)
+                             ticktext=assemblers_in_plot, row=2, col=1)
 
             fig.update_layout(title="Gaps for {}".format(reference),
                               plot_bgcolor='rgb(255,255,255)',
