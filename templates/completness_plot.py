@@ -59,18 +59,12 @@ def plot_data(species_data, sample_id):
     # simpler to manage colors and legends
 
     report_json = {}
-    print(sample_id)
-    print(species_data)
 
-    sorted_dict = json.dumps(species_data, sort_keys = True)
-
-    for species in sorted_dict.keys():
+    for species in species_data.keys():
         i = 0
         to_plot = go.Figure()
-        for assembler, data in sorted_dict[species].items():
-            print(assembler)
-            print(species)
-            print(data)
+        for assembler in sorted(species_data[species].keys()):
+            data = species_data[species][assembler]
             text = str(data[1]) + '<br>' + assembler
             to_plot.add_trace(go.Scatter(x=list(interpolation_function([data[1]])),
                                          y=[data[0]],
