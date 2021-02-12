@@ -155,11 +155,18 @@ def main(dataframes):
                                                     mode='lines',
                                                     line=dict(color='#000000', width=12),
                                                     name=assembler,
+                                                    text=len([starts[i], stops[i]]),
+                                                    hovertemplate=
+                                                    "<b>Gap size: %{text}</b><br><br>" +
+                                                    "Assembler: %{y:.0}<br>" +
+                                                    "<extra></extra>",
                                                     showlegend=False),
                                         row=2, col=1)
                         gaps_dict = {i: 1 for i in range(starts[i], stops[i]+1)}
                         gaps_intervals.append([starts[i], stops[i]+1, gaps_dict])
                     y += 1
+                else:
+                    continue
             
             reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
             if len(gaps_intervals) == 0:
