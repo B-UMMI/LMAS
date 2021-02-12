@@ -62,10 +62,12 @@ def plot_data(species_data, sample_id):
     print(sample_id)
     print(species_data)
 
-    for species in species_data.keys():
+    sorted_dict = json.dumps(species_data, sort_keys = True)
+
+    for species in sorted_dict.keys():
         i = 0
         to_plot = go.Figure()
-        for assembler, data in species_data[species].items():
+        for assembler, data in sorted_dict[species].items():
             print(assembler)
             print(species)
             print(data)

@@ -143,11 +143,17 @@ def main(dataframes):
             gaps_intervals = []
             assemblers = sorted(frame['Assembler'].unique())
             for assembler in assemblers:
+                print(assembler)
                 coords = frame[(frame['Sample'] == sample) & (frame['Reference'] == reference) &
                                (frame['Assembler'] == assembler)]
                 if coords.empty:
+                    print("EMPTY!")
+                    print(assembler)
                     continue
                 else:
+                    print("WITH STUFF")
+                    print(assembler)
+                    print(y)
                     starts = list(coords['Gap Start'])
                     stops = list(coords['Gap End'])
                     for i in range(len(starts)):
@@ -160,7 +166,7 @@ def main(dataframes):
                                                     name=assembler,
                                                     text=gap_size,
                                                     hovertemplate=
-                                                    "<b>Gap size: %{text}</b>" +
+                                                    "<b>Gap size: %{text}</b><br>" +
                                                     "Assembler: %{name}" +
                                                     "<extra></extra>",
                                                     showlegend=False),
