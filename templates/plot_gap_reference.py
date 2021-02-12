@@ -164,11 +164,6 @@ def main(dataframes):
                                                     mode='lines',
                                                     line=dict(color='#000000', width=12),
                                                     name=assembler,
-                                                    text=gap_size,
-                                                    hovertemplate=
-                                                    "<b>Gap size: %{text}</b><br>" +
-                                                    "Assembler: %{name}" +
-                                                    "<extra></extra>",
                                                     showlegend=False),
                                         row=2, col=1)
                         gaps_dict = {i: 1 for i in range(starts[i], stops[i]+1)}
