@@ -11,7 +11,7 @@ COLUMNS = ['Sample', 'Assembler', 'Contig', 'Contig Len', 'Mapped']  # columns f
 
 # colors for each assembler
 COLOURS = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c',
-           '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']
+           '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ebdb75', '#b15928']
 
 # Dic for pretty print of reference names
 REFERENCE_DIC = {
@@ -22,7 +22,11 @@ REFERENCE_DIC = {
     "Listeria_monocytogenes_complete_genome": "Listeria monocytogenes",
     "Pseudomonas_aeruginosa_complete_genome": "Pseudomonas aeruginosa",
     "Salmonella_enterica_complete_genome": "Salmonella enterica",
-    "Staphylococcus_aureus_triple_chromosome": "Staphylococcus aureus"
+    "Staphylococcus_aureus_triple_chromosome": "Staphylococcus aureus",
+    "Staphylococcus_aureus_plasmid1": "Staphylococcus aureus plasmid 1",
+    "Staphylococcus_aureus_plasmid2": " Staphylococcus aureus plasmid 2",
+    "Staphylococcus_aureus_plasmid3": "Staphylococcus aureus plasmid 3",
+    "Escherichia_coli_plasmid": "Escherichia coli plasmid"
 }
 
 
