@@ -34,7 +34,7 @@ logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
     SAMPLE_ID = '$sample_id'
-    FASTQ = '$params.fastq'
+    FASTQ = '$fastq'
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
