@@ -163,8 +163,8 @@ def main(dataframes):
                                                     name=assembler,
                                                     showlegend=False,
                                                     hovertemplate =
-                                                    '<b>Assembler</b>: $%{assembler}'+
-                                                    '<b>Gap size</b>: $%{text}',
+                                                    '<b>Assembler</b>: $\%{assembler}'+
+                                                    '<b>Gap size</b>: $\%{text}',
                                                     text = gap_size),
                                         row=2, col=1)
                         gaps_dict = {i: 1 for i in range(starts[i], stops[i]+1)}
