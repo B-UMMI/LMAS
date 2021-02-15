@@ -56,6 +56,7 @@ IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {
 
 // SET CHANNELS FOR ASSEMBLERS
 IN_fastq_raw.into{
+    IN_PROCESS_READS;
     IN_BCALM2;
     IN_GATB_MINIA_PIPELINE;
     IN_MINIA;
@@ -76,6 +77,19 @@ IN_reference_raw.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STAT
 //      BCALM 2
 if ( !params.bcalmKmerSize.toString().isNumber() ){
     exit 1, "'bcalmKmerSize' parameter must be a number. Provided value: '${params.bcalmKmerSize}'"
+}
+
+process PROCESS_READS{
+    tag {sample_id}
+
+    input:
+    set sample_id, file(fastq) from IN_PROCESS_READS
+
+    output:
+    file("*_reads_report.json") into PROCESS_READS
+
+    script:
+    template "process_reads.py"
 }
 
 process BCALM2 {
@@ -739,6 +753,7 @@ process compile_reports {
     publishDir "report/", mode: "copy"
 
     input:
+    file reads_json from PROCESS_READS.collect()
     file global_assembly_stats from PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
     file pipeline_stats from Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
     file js from Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")

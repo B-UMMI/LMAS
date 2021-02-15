@@ -17,6 +17,7 @@ except ImportError:
 logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
+    READS_NUMBER = "$reads_json".split()
     ASSEMBLY_STATS_REPORT = "$global_assembly_stats"
     MAIN_JS = "${js}"
     LMAS_LOGO = "$lmas_png"
@@ -37,6 +38,7 @@ if __file__.endswith(".command.sh"):
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
+    logger.debug("READS_NUMBER: {}".format(READS_NUMBER))
     logger.debug("ASSEMBLY_STATS_REPORT: {}".format(ASSEMBLY_STATS_REPORT))
     logger.debug("MAIN_JS: {}".format(MAIN_JS))
     logger.debug("MAPPING_STATS_REPORT: {}".format(MAPPING_STATS_REPORT))
@@ -70,10 +72,11 @@ html_template = """
     <div id="root"></div>
     <script> const _assemblerPerformanceData = {0} </script>
     <script> const _referenceData = {1} </script>
-    <script> const _mainDataTables = {2} </script>
-    <script> const _mainDataPlots = {3} </script>
-    <script> const _sampleList = {4} </script>
-    <script> const _minContigSize = {5} </script>
+    <script> const _sampleData = {2}
+    <script> const _mainDataTables = {3} </script>
+    <script> const _mainDataPlots = {4} </script>
+    <script> const _sampleList = {5} </script>
+    <script> const _minContigSize = {6} </script>
     <script src="./main.js"></script>
   </body>
 </html>
@@ -235,6 +238,8 @@ def process_performance_data(pipeline_stats):
 
 
 def process_reference_data(reference_file):
+    """
+    """
 
     reference_file_name = os.path.splitext(os.path.basename(reference_file))[0]
 
@@ -252,10 +257,24 @@ def process_reference_data(reference_file):
 
     return return_dict
 
+def process_sample_reads(reads_jsons):
+    """
+
+    """
+
+    reads_report = {}
+
+    for sample in reads_jsons:
+        with open(sample) as f:
+            reads_number_dict = json.loads(f)
+            for k, v in reads_number_dict.items(): 
+                reads_report[k].add(v)
+    return reads_report
+
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
-         min_contig_size, nax_json, ngx_json):
+         min_contig_size, nax_json, ngx_json, reads_json):
 
     metadata = {
         "nfMetadata": {
@@ -283,6 +302,9 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     # Reference info
     reference_info = process_reference_data(reference_file)
+
+    # Sample info
+    sample_reads = process_sample_reads(reads_json)
 
     ################
     # LMAS report
@@ -434,6 +456,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     with open("index.html", "w") as html_fh:
         html_fh.write(html_template.format(json.dumps(performance_metadata), 
                                            json.dumps(reference_info), 
+                                           json.dumps(sample_reads),
                                            json.dumps(main_data_tables_js),
                                            json.dumps(main_data_plots_js), 
                                            list(main_data_tables_js.keys()), 
@@ -449,4 +472,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
-         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON)
+         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER)
