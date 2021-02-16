@@ -324,6 +324,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     logger.debug('Processing {0} data...'.format(misassembly_report))
     with open(misassembly_report) as f:
         misassembly_json = json.load(f)
+        print(misassembly_json)
         for sample_id in misassembly_json.keys():
             for i in range(0, len(main_data_tables_js[sample_id]["GlobalTable"])):
                 assembler = main_data_tables_js[sample_id]["GlobalTable"][i]["assembler"]
