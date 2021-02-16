@@ -20,6 +20,7 @@ None
 
 import os
 import json
+import collections
 try:
     import utils
 except ImportError:
@@ -71,7 +72,7 @@ def main(assembly_stats_global_file, stats_json):
     # Write JSON file report
     with open("global_assembly_stats.json", "w") as json_report:
         main_json = {}
-        for data_report in stats_json:
+        for data_report in stats_json.sort():
             with open(data_report) as f:
                 json_data = json.load(f)
                 print(json_data)
@@ -92,6 +93,7 @@ def main(assembly_stats_global_file, stats_json):
                     "original": data_global,
                     "filtered": data_filtered
                 })
+        
         json_report.write(json.dumps(main_json, separators=(",", ":")))
 
 
