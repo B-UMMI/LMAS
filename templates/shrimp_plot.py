@@ -59,7 +59,7 @@ def main(phred_files):
             fig_phred = go.Figure()
             i = 0
 
-            for assembler in sorted(df_phred['Assembler'].unique()):
+            for assembler in sorted(df_phred['Assembler'].unique(), key=lambda v: v.upper(), reverse=True):
                 fig_phred.add_trace(go.Scatter(y=df_phred['Phred Quality Score'][(df_phred['Reference'] == reference) &
                                                                                  (df_phred['Assembler'] == assembler) &
                                                                                  (df_phred['Sample'] == sample)],

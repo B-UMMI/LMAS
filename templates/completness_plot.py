@@ -63,7 +63,7 @@ def plot_data(species_data, sample_id):
     for species in species_data.keys():
         i = 0
         to_plot = go.Figure()
-        for assembler in sorted(species_data[species].keys(), key=lambda v: v.upper(), reverse=True):
+        for assembler in sorted(species_data[species].keys(), key=lambda v: v.upper()):
             data = species_data[species][assembler]
             text = str(data[1]) + '<br>' + assembler
             to_plot.add_trace(go.Scatter(x=list(interpolation_function([data[1]])),

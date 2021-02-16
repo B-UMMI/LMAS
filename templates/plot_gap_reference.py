@@ -141,7 +141,7 @@ def main(dataframes):
 
             y = 0
             gaps_intervals = []
-            assemblers = sorted(frame['Assembler'].unique())
+            assemblers = sorted(frame['Assembler'].unique(), key=lambda v: v.upper(), reverse=True)
             assemblers_in_plot = []
             for assembler in assemblers:
                 print(assembler)
