@@ -99,6 +99,7 @@ def main(misassembly_trace, misassembly_contigs, report_data):
     for file_report in report_data:
         with open(file_report) as json_fh:
             data_json = json.load(json_fh)
+            print(data_json)
             if data_json["sample"] not in report_data.keys():
                 report_data[data_json["sample"]] = {data_json["assembler"]: data_json["misassembled_contigs"]}
             else:
