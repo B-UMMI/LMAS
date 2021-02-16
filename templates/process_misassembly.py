@@ -95,18 +95,18 @@ def main(misassembly_trace, misassembly_contigs, report_data):
         fig.write_json(file='{}_misassembly.json'.format(sample))
 
     # TABLE DATA
-    report_data = {}
+    master_report_data = {}
     for file_report in report_data:
         with open(file_report) as json_fh:
             data_json = json.load(json_fh)
             print(data_json)
-            if data_json["sample"] not in report_data.keys():
-                report_data[data_json["sample"]] = {data_json["assembler"]: data_json["misassembled_contigs"]}
+            if data_json["sample"] not in master_report_data.keys():
+                master_report_data[data_json["sample"]] = {data_json["assembler"]: data_json["misassembled_contigs"]}
             else:
-                report_data[data_json["sample"]][data_json["assembler"]] = data_json["misassembled_contigs"]
+                master_report_data[data_json["sample"]][data_json["assembler"]] = data_json["misassembled_contigs"]
 
     with open("misassembly_report.json", "w") as json_report:
-        json_report.write(json.dumps(report_data, separators=(",", ":")))
+        json_report.write(json.dumps(master_report_data, separators=(",", ":")))
 
 if __name__ == '__main__':
     main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS, REPORT_DATA)
