@@ -268,7 +268,7 @@ def process_sample_reads(reads_jsons):
         with open(sample) as f:
             reads_number_dict = json.load(f)
             for k, v in reads_number_dict.items(): 
-                reads_report[k].add(v)
+                reads_report[k] = v
     return reads_report
 
 
