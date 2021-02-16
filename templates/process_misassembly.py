@@ -93,6 +93,8 @@ def main(misassembly_trace, misassembly_contigs, report_data):
         fig.update_xaxes(type="log", title="Contig Length")
         fig.update_yaxes(title_text="Number of fragments", row=1, col=1)
 
+        fig.update_layout(title="Misassembled contigs", plot_bgcolor='rgb(255,255,255)', xaxis=dict(zeroline=False, gridcolor='#DCDCDC'))
+
         plot(fig, filename='{}_misassembly.html'.format(sample), auto_open=False)
         fig.write_json(file='{}_misassembly.json'.format(sample))
 
