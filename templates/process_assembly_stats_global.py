@@ -72,7 +72,7 @@ def main(assembly_stats_global_file, stats_json):
     # Write JSON file report
     with open("global_assembly_stats.json", "w") as json_report:
         main_json = {}
-        sorted_stats_json = sorted(stats_json)
+        sorted_stats_json = sorted(stats_json, key=lambda v: v.upper())
         for data_report in sorted_stats_json:
             with open(data_report) as f:
                 json_data = json.load(f)
