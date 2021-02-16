@@ -44,7 +44,8 @@ def main(stats_json):
     with open("global_assembly_mapping_stats.json", "w") as json_report:
         main_json = {}
 
-        for data_report in stats_json:
+        sorted_stats_json = sorted(stats_json, key=lambda v: v.upper())
+        for data_report in sorted_stats_json:
             with open(data_report) as f:
                 json_data = json.load(f)
                 sample_id = json_data["sample_id"]

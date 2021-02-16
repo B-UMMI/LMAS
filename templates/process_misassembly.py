@@ -54,6 +54,8 @@ def main(misassembly_trace, misassembly_contigs, report_data):
     data_dict = {}
     contig_size = {}
 
+    sorted_misassembly_trace = sorted(misassembly_trace, key=lambda v: v.upper(), reverse=True)
+
     for file_trace in misassembly_trace:
         sample_name = file_trace.split("_")[0]
         assembler_name = file_trace.split("_")[1]

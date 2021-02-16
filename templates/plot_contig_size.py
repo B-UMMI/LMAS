@@ -49,16 +49,11 @@ def main(dataframe_files):
 
     df = pd.concat((pd.read_csv(f) for f in dataframe_files))
 
-    for sample_id in sorted(df['Sample'].unique()):
+    for sample_id in sorted(df['Sample'].unique(), reverse=True):
 
         fig = go.Figure()
 
-        for assembler in sorted(df['Assembler'].unique()):
-            contigs = df['Contig Len'][df['Assembler'] == assembler]
-            mapped_contigs = df['Contig Len'][(df['Mapped'] != 'Unmapped') & (df['Assembler'] == assembler)]
-
-            print(','.join([assembler, f'{len(mapped_contigs)} ({(len(mapped_contigs) / len(contigs)) * 100:.2f}%)',
-                            f'{sum(mapped_contigs)} ({(sum(mapped_contigs) / sum(contigs)) * 100:.2f}%)']))
+        for assembler in sorted(df['Assembler'].unique(), key=lambda v: v.upper(), reverse=True):
 
             # mapped contigs as boxplots
             fig.add_trace(go.Box(x=df['Contig Len'][(df['Mapped'] != 'Unmapped') & (df['Assembler'] == assembler)],

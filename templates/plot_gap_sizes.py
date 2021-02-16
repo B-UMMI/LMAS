@@ -79,7 +79,7 @@ def main(gap_json):
             for gap in flatlist:
                 df = df.append({'Assembler': k, 'Gap size': gap}, ignore_index=True)
         
-        for assembler in sorted(df['Assembler'].unique()):
+        for assembler in sorted(df['Assembler'].unique(), key=lambda v: v.upper(), reverse=True):
             fig.add_trace(go.Box(x=df['Gap size'][df['Assembler'] == assembler],
                                  name=assembler, boxpoints='outliers',
                                  boxmean=False, fillcolor='#D3D3D3', line=dict(color='#000000')))
