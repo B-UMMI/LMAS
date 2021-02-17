@@ -140,3 +140,4 @@ templates/**/*.csv
 templates/**/*.fasta
 templates/**/*.txt
 templates/**/*.pkl
+templates/**/*.tsv

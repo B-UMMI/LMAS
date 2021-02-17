@@ -31,6 +31,7 @@ if __file__.endswith(".command.sh"):
     NGX_JSON = "$ngx_plots"
     SHRIMP_JSON = "$shrimp_plots"
     GAP_REFERENCE_JSON = "$gap_reference_json"
+    SNP_REFERENCE_JSON = "$snp_reference_json"
     GAP_HISTOGRAM = "$gap_histogram".split()
     MISASSEMBLY_PLOT = "$plot_misassemblies".split()
     MISASSEMBLY_REPORT = "$misassembly_data"
@@ -52,6 +53,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("NGX_JSON: {}".format(NGX_JSON))
     logger.debug("SHRIMP_JSON: {}".format(SHRIMP_JSON))
     logger.debug("GAP_REFERENCE_JSON: {}".format(GAP_REFERENCE_JSON))
+    logger.debug("SNP_REFERENCE_JSON: {}".format(SNP_REFERENCE_JSON))
     logger.debug("GAP_HISTOGRAM: {}".format(GAP_HISTOGRAM))
     logger.debug("MISASSEMBLY_PLOT: {}".format(MISASSEMBLY_PLOT))
     logger.debug("MISASSEMBLY_REPORT: {}".format(MISASSEMBLY_REPORT))
@@ -274,7 +276,7 @@ def process_sample_reads(reads_jsons):
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
-         min_contig_size, nax_json, ngx_json, reads_json):
+         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json):
 
     metadata = {
         "nfMetadata": {
@@ -441,6 +443,16 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                         main_data_plots_js[sample_id]["PlotData"][reference]["gaps"] = reference_plots_json
         
         # SNP plot
+        logger.debug('Processing {0} data for {1}...'.format(snp_reference_json, sample_id))
+        with open(snp_reference_json) as snp_ref_fh:
+            plot_json = json.load(snp_ref_fh)
+            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                for x in reference_plots:
+                    reference_plots_json = json.loads(x)
+                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {"snps": reference_plots_json}
+                    else:
+                        main_data_plots_js[sample_id]["PlotData"][reference]["snps"] = reference_plots_json
 
     #logger.debug("Report data dictionary: {}".format(main_data_plots_js))
 
@@ -473,4 +485,4 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
-         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER)
+         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON)

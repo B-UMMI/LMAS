@@ -71,7 +71,7 @@ IN_fastq_raw.into{
     IN_TO_MAP} //mapping channel - minimap2
 
 // SET CHANNELS FOR REFERENCE
-IN_reference_raw.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS}
+IN_reference_raw.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS}
 
 // ASSEMBLERS
 //      BCALM 2
@@ -527,7 +527,7 @@ process ASSEMBLY_MAPPING{
 
 }
 
-OUT_ASSEMBLY_MAPPING.into{ IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT; IN_MISASSEMBLY}
+OUT_ASSEMBLY_MAPPING.into{ IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT; IN_SNP_ASSESSMENT IN_MISASSEMBLY}
 
 process ASSEMBLY_STATS_MAPPING {
 
@@ -706,6 +706,38 @@ process PLOT_GAP_REFERENCE {
     template "plot_gap_reference.py"
 }
 
+process SNP_ASSESSMENT {
+
+    tag { assembler }
+
+    input:
+    set sample_id, assembler, file(assembly), file(mapping) from IN_SNP_ASSESSMENT
+    each reference from IN_SNP_STATS
+
+    output:
+    file("*.tsv")
+    file("*_snps.csv") into OUT_SNP_PLOT_REF
+
+    script:
+    template "snp_assessment.py"
+}
+
+
+process PLOT_GAP_REFERENCE {
+
+    publishDir 'report/plots/', pattern: "*.html"
+
+    input:
+    file snp_coords_dataframes from OUT_SNP_PLOT_REF.collect()
+
+    output:
+    file("*.html")
+    file("*.json") into OUT_SNP_REFERENCE
+
+    script:
+    template "plot_snp.py"
+}
+
 process MISASSEMBLY {
 
     tag { assembler }
@@ -765,6 +797,7 @@ process compile_reports {
     file lx_plots from PLOT_LX
     file shrimp_plots from PLOT_PHRED
     file gap_reference_json from OUT_GAP_REFERENCE
+    file snp_reference_json from OUT_SNP_REFERENCE
     file gap_histogram from OUT_GAP_HISTOGRAM
     file plot_misassemblies from OUT_MISASSEMBLY_PLOT
     file misassembly_data from OUT_MISASSEMBLY_REPORT

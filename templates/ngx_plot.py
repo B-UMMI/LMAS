@@ -46,7 +46,7 @@ def main(ngx_files, n_target):
         for reference in sorted(df_ngx['Reference'].unique()):
             fig_ngx = go.Figure()
             i = 0
-            for assembler in sorted(df_ngx['Assembler'].unique(), key=lambda v: v.upper(), reverse=True):
+            for assembler in sorted(df_ngx['Assembler'].unique(), key=lambda v: v.upper()):
                 if df_ngx['Basepairs'][(df_ngx['Sample'] == sample) & (df_ngx['Reference'] == reference) & (df_ngx['Assembler'] == assembler)].nunique() > 1:
                     fig_ngx.add_trace(go.Scatter(x=df_ngx['NGx'][(df_ngx['Sample'] == sample) &
                                                                     (df_ngx['Reference'] == reference) &
