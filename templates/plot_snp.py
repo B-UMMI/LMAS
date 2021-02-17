@@ -159,8 +159,7 @@ def main(dataframes):
                                             showlegend=False,
                                             ),
                                     row=2, col=1)
-                    gaps_dict = {i: 1 for i in range(int(min(coord_list)), int(max(coord_list)+1))}
-                    gaps_intervals.append([gaps_dict, gaps_dict])
+                    gaps_intervals += coord_list
                     y += 1
             
             reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
