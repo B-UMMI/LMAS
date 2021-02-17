@@ -265,8 +265,8 @@ def adjust_reference_coord(coord, ref_len):
     :return: int coord adjusted to the real length of the reference
     """
     if coord <= ref_len:
-        return int(coord)
+        return (coord)
     elif coord <= 2 * ref_len:
-        return int(coord - ref_len)
+        return (coord - ref_len)
     else:
-        return int(coord - (2 * ref_len))
+        return (coord - (2 * ref_len))
