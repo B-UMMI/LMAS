@@ -159,7 +159,7 @@ def main(dataframes):
                                             showlegend=False,
                                             ),
                                     row=2, col=1)
-                    gaps_dict = {i: 1 for i in range(coord_list)}
+                    gaps_dict = {i: 1 for i in range(min(coord_list), max(coord_list)+1)}
                     gaps_intervals.append([gaps_dict, gaps_dict])
                     y += 1
             
