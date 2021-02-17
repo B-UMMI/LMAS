@@ -723,7 +723,7 @@ process SNP_ASSESSMENT {
 }
 
 
-process PLOT_GAP_REFERENCE {
+process PLOT_SNP_REFERENCE {
 
     publishDir 'report/plots/', pattern: "*.html"
 
