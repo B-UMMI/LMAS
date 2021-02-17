@@ -719,7 +719,7 @@ process SNP_ASSESSMENT {
     file("*_snps.csv") into OUT_SNP_PLOT_REF
 
     script:
-    template "snp_assessment.py"
+    template $/ snp_assessment.py /$
 }
 
 

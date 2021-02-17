@@ -65,9 +65,7 @@ def get_position(start, end, cigar):
     """
     """
     #parse cigar components - exact matches, insertions, deletions and substitutions
-    $/
     matches = re.findall(r'([:=*+-])(\d+|[A-Za-z]+)', cigar)
-    /$
     
     coord = start
     substitution = []
