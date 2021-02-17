@@ -29,6 +29,8 @@ https://github.com/cimendes
 import os
 import json
 import pandas as pd
+import numpy as np
+from collections import Counter
 from copy import deepcopy
 from itertools import groupby
 from plotly.offline import plot
@@ -53,70 +55,6 @@ if __file__.endswith(".command.sh"):
     logger.debug("DATAFRAME_LIST: {}".format(DATAFRAME_LIST))
 
 
-def determine_missing_intervals(intervals, total_len):
-    """
-    """
-
-    start = 0
-    missing_regions = []
-    for i in intervals:
-        diff = i[0] - start
-        if diff > 0:
-            missing_regions.append([start, start+diff-1])
-            start = i[1]
-
-    # add terminal region
-    if start != total_len:
-        missing_regions.append([start, total_len])
-
-    return missing_regions
-
-
-def merge_intervals(intervals):
-    """ Merges intersecting intervals.
-    """
-    merged = [deepcopy(intervals[0])]
-    for current in intervals[1:]:
-        previous = merged[-1]
-        # current and previous intervals intersect
-        if current[0] <= previous[1]:
-            # determine top position
-            previous[1] = max(previous[1], current[1])
-            # merge coverage dictionaries
-            previous_cov = previous[2]
-            current_cov = current[2]
-            for k, v in current_cov.items():
-                if k not in previous_cov:
-                    previous_cov[k] = v
-                else:
-                    previous_cov[k] += v
-            previous[2] = previous_cov
-        # current and previous intervals do not intersect
-        else:
-            merged.append(deepcopy(current))
-
-    return merged
-
-
-def intervals_subgroups(intervals):
-    """
-    """
-
-    subgroups = {}
-    for i in intervals:
-        start = i[0]
-        current_interval = i[2]
-        # identify groups of subsequent equal values
-        values_groups = [list(v) for k, v in groupby(current_interval.values())]
-        for g in values_groups:
-            # keep only the start and end points for each group
-            subgroups[start] = g[0]
-            subgroups[start+len(g)-1] = g[0]
-            start += len(g)
-
-    return subgroups
-
-
 def main(dataframes):
 
     li = []
@@ -138,11 +76,16 @@ def main(dataframes):
                                 vertical_spacing=0.02)
 
             y = 0
-            gaps_intervals = []
+            reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
+            
+            indexes = np.arange(reference_length)
+            _count = Counter()
+            _count.update({x: 0 for x in indexes}) # initialize all values as 0 counts
+            
             assemblers = sorted(frame['Assembler'].unique(), key=lambda v: v.upper(), reverse=True)
             assemblers_in_plot = []
+            
             for assembler in assemblers:
-                print(assembler)
                 coords = frame[(frame['Sample'] == sample) & (frame['Reference'] == reference) &
                                (frame['Assembler'] == assembler)]
                 if coords.empty:
@@ -159,40 +102,13 @@ def main(dataframes):
                                             showlegend=False,
                                             ),
                                     row=2, col=1)
-                    gaps_intervals += coord_list
+                    _count.update(coord_list)
                     y += 1
-            
-            reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
-            if len(gaps_intervals) == 0:
-                data_points = gaps_intervals
-            else:
-                # sort intervals before merging
-                gaps_intervals = sorted(gaps_intervals, key=lambda x: x[0])
-                merged_intervals = merge_intervals(gaps_intervals)
-
-                # determine missing intervals
-                missing_intervals = determine_missing_intervals(merged_intervals, reference_length)
-
-                # identify start and end points for gaps subgroups
-                gaps_points = intervals_subgroups(merged_intervals)
-
-                # add points for intervals without gaps
-                for i in missing_intervals:
-                    gaps_points[i[0]] = 0
-                    gaps_points[i[1]] = 0
-
-                data_points = sorted(gaps_points.items(), key=lambda x: x[0])
-
-            labels = [c[0] for c in data_points]
-            values = [c[1] for c in data_points]
             # histogram-like plot for gap counts
-            fig.add_trace(go.Scatter(x=labels, y=values,
-                                     mode='lines',
-                                     line=dict(color='#000000', width=0.5),
-                                     fill='tozeroy',
-                                     showlegend=False),
-                          row=1, col=1)
-
+            labels, values = zip(*_count.items())
+            fig.add_trace(go.Scatter(x=labels, y=values, mode='lines', line=dict(color='#000000', width=2),
+                                     showlegend=False), row=1, col=1)
+            
             # style plot
             fig.update_xaxes(title_text="{} Bp".format(reference),
                              range=[0, reference_length], row=2, col=1)
@@ -219,4 +135,6 @@ def main(dataframes):
 
 
 if __name__ == '__main__':
-    main(DATAFRAME_LIST)
+    #main(DATAFRAME_LIST)
+    import glob
+    main(glob.glob("*.csv"))
