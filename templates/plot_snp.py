@@ -154,7 +154,7 @@ def main(dataframes):
                     fig.add_trace(go.Scatter(x=coord_list,
                                             y=[y]*len(coord_list),
                                             mode='markers',
-                                            marker=dict(color='#000000', width=12),
+                                            marker=dict(color='#000000', size=12),
                                             name=assembler,
                                             showlegend=False,
                                             ),
