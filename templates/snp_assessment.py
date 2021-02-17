@@ -65,7 +65,7 @@ def get_position(start, end, cigar):
     """
     """
     #parse cigar components - exact matches, insertions, deletions and substitutions
-    matches = re.findall(r'([:=*+-])(\d+|[A-Za-z]+)', cigar)
+    matches = re.findall(r'([:=*+-])(\\d+|[A-Za-z]+)', cigar)
     
     coord = start
     substitution = []
@@ -100,17 +100,17 @@ def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
 
     with open(paf_file) as paf:
         for line in paf:
-            parts = line.strip().split('\t')
+            parts = line.strip().split('\\t')
             if parts[5] == ref_name:
                 if parts[4] == '+':
                     start, end = int(parts[7]), int(parts[8])
                 else:
                     start, end = int(parts[8]), int(parts[7])
                 cigar = parts[-1]
-                if len(re.findall(r'\*', cigar)) > 0:
+                if len(re.findall(r'\\*', cigar)) > 0:
                     snps_iterator = get_position(start, end, cigar)
                     for snp in snps_iterator:
-                        tsv_report.write('\t'.join([utils.adjust_reference_coord(snp[0], ref_len), str(snp[1][0]), str(snp[1][1])]) + '\n')
+                        tsv_report.write('\\t'.join([utils.adjust_reference_coord(snp[0], ref_len), str(snp[1][0]), str(snp[1][1])]) + '\\n')
                         snps.append(utils.adjust_reference_coord(snp[0], ref_len))
                 else:
                     continue
