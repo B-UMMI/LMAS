@@ -123,7 +123,7 @@ def main(dataframes):
                                          linewidth=1, linecolor='black',
                                          gridcolor='#DCDCDC'))
 
-            html_filename = '{0}_{1}_gaps.html'.format(sample, reference.replace(' ', '_'))
+            html_filename = '{0}_{1}_snps.html'.format(sample, reference.replace(' ', '_'))
             plot(fig, filename=html_filename, auto_open=False)
 
             plot_json = fig.to_json()
