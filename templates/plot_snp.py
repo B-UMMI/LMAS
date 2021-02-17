@@ -135,6 +135,4 @@ def main(dataframes):
 
 
 if __name__ == '__main__':
-    #main(DATAFRAME_LIST)
-    import glob
-    main(glob.glob("*.csv"))
+    main(DATAFRAME_LIST)
