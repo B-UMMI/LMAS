@@ -29,7 +29,6 @@ https://github.com/cimendes
 """
 
 import os
-import json
 import re
 from itertools import groupby
 from numpy.lib.function_base import append
@@ -66,7 +65,9 @@ def get_position(start, end, cigar):
     """
     """
     #parse cigar components - exact matches, insertions, deletions and substitutions
-    matches = re.findall(r'([:=*+-])(\\d+|[A-Za-z]+)', cigar)
+    $/
+    matches = re.findall(r'([:=*+-])(\d+|[A-Za-z]+)', cigar)
+    /$
     
     coord = start
     substitution = []
@@ -111,7 +112,6 @@ def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
                 if len(re.findall(r'\*', cigar)) > 0:
                     snps_iterator = get_position(start, end, cigar)
                     for snp in snps_iterator:
-                        print('\t'.join([str(utils.adjust_reference_coord(snp[0], ref_len)), str(snp[1][0]), str(snp[1][1])]))
                         tsv_report.write('\t'.join([utils.adjust_reference_coord(snp[0], ref_len), str(snp[1][0]), str(snp[1][1])]) + '\n')
                         snps.append(utils.adjust_reference_coord(snp[0], ref_len))
                 else:
@@ -144,4 +144,3 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE)
-    #main("mock", "unicycler", "filtered_mockSample_unicycler.fasta", "mockSample_Unicycler.paf", "Zymos_Genomes_triple_chromosomes.fasta")
