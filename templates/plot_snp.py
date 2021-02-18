@@ -78,9 +78,9 @@ def main(dataframes):
             y = 0
             reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
             
-            indexes = np.arange(reference_length)
+            #indexes = np.arange(reference_length)
             _count = Counter()
-            _count.update({x: 0 for x in indexes}) # initialize all values as 0 counts
+            #_count.update({x: 0 for x in indexes}) # initialize all values as 0 counts
             
             assemblers = sorted(frame['Assembler'].unique(), key=lambda v: v.upper(), reverse=True)
             assemblers_in_plot = []
