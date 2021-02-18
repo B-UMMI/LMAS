@@ -94,7 +94,7 @@ def main(dataframes):
                     assemblers_in_plot.append(assembler)
                     coord_list = list(coords['SNP Location'])
                     # trace with gap location - one per gap
-                    fig.add_trace(go.Scatter(x=coord_list,
+                    fig.add_trace(go.Scattergl(x=coord_list,
                                             y=[y]*len(coord_list),
                                             mode='markers',
                                             marker=dict(color='#000000', size=12),
@@ -106,7 +106,7 @@ def main(dataframes):
                     y += 1
             # histogram-like plot for gap counts
             labels, values = zip(*_count.items())
-            fig.add_trace(go.Scatter(x=labels, y=values, mode='lines', line=dict(color='#000000', width=2),
+            fig.add_trace(go.Scattergl(x=labels, y=values, mode='lines', line=dict(color='#000000', width=2),
                                      showlegend=False), row=1, col=1)
             
             # style plot
