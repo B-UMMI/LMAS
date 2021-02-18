@@ -443,6 +443,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                         main_data_plots_js[sample_id]["PlotData"][reference]["gaps"] = reference_plots_json
         
         # SNP plot
+        """
         logger.debug('Processing {0} data for {1}...'.format(snp_reference_json, sample_id))
         with open(snp_reference_json) as snp_ref_fh:
             plot_json = json.load(snp_ref_fh)
@@ -453,6 +454,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                         main_data_plots_js[sample_id]["PlotData"][reference] = {"snps": reference_plots_json}
                     else:
                         main_data_plots_js[sample_id]["PlotData"][reference]["snps"] = reference_plots_json
+        """
 
     #logger.debug("Report data dictionary: {}".format(main_data_plots_js))
 
