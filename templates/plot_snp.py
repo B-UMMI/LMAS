@@ -108,7 +108,7 @@ def main(dataframes):
             if _count:
                 labels, values = zip(*_count.items())
                 fig.add_trace(go.Scattergl(x=labels, y=values, mode='lines', line=dict(color='#000000', width=2),
-                                     showlegend=False), row=1, col=1)
+                                     showlegend=False, fill='tozeroy'), row=1, col=1)
             
             # style plot
             fig.update_xaxes(title_text="{} Bp".format(reference),
