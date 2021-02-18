@@ -104,9 +104,10 @@ def main(dataframes):
                                     row=2, col=1)
                     _count.update(coord_list)
                     y += 1
-            # histogram-like plot for gap counts
-            labels, values = zip(*_count.items())
-            fig.add_trace(go.Scattergl(x=labels, y=values, mode='lines', line=dict(color='#000000', width=2),
+            # histogram-like plot for snp counts, if snp
+            if _count:
+                labels, values = zip(*_count.items())
+                fig.add_trace(go.Scattergl(x=labels, y=values, mode='lines', line=dict(color='#000000', width=2),
                                      showlegend=False), row=1, col=1)
             
             # style plot
