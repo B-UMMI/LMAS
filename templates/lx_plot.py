@@ -75,24 +75,6 @@ def main(c90files, l_target):
                                         'xanchor': 'center',
                                         'yanchor': 'top'})
 
-            fig_Lx.update_layout(updatemenus=list([dict(active=1, buttons=list([
-                dict(label='Log Scale', method='relayout',
-                     args=[{'visible': [True, True]}, {'yaxis': {'type': 'log'}}]),
-                dict(label='Linear Scale', method='relayout',
-                     args=[{'visible': [True, False]}, {'yaxis': {'type': 'linear'}}])
-            ]),
-                                                         type="buttons",
-                                                         direction="right",
-                                                         pad={"r": 10, "t": 10},
-                                                         showactive=True,
-                                                         xanchor="left",
-                                                         x=0.05,
-                                                         y=1.12,
-                                                         yanchor="top")]))
-
-            fig_Lx.update_layout(annotations=[dict(text="y axis scale:", x=0, xref="paper", y=1.1, yref="paper",
-                                                   align="left", showarrow=False, yanchor="top")])
-
             plot(fig_Lx, filename='{0}_{1}_lx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_Lx.to_json()
 

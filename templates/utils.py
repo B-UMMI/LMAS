@@ -154,10 +154,10 @@ def parse_assemblies(sample_id, assembler, assembly, mapping):
 
 def get_Nx(alignment_lengths, target):
     """
-    Calculate Nx (x=target) form a list of contig lenghts
+    Calculate NAx (x=target) form a list of contig lenghts
     :param alignment_lengths: list of aligned contig length sizes (unordered)
     :param target: percentage of total genome length
-    :return: n50 of the aligned contigs (also called NA50
+    :return: na50 of the aligned contigs (also called NA50
     """
     sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
     total_length = sum(sorted_lengths)
