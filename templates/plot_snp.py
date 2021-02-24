@@ -97,6 +97,7 @@ def main(dataframes):
                     fig.add_trace(go.Scattergl(x=coord_list,
                                             y=[y]*len(coord_list),
                                             mode='markers',
+                                            marker_symbol='line-ns',
                                             marker=dict(color='#000000', size=12),
                                             name=assembler,
                                             showlegend=False,
@@ -109,7 +110,7 @@ def main(dataframes):
                 _count_sorted = dict(sorted(_count.items(),key = lambda i: i[0]))
                 labels, values = zip(*_count_sorted.items())
                 fig.add_trace(go.Bar(x=labels, y=values, marker_color='#000000',
-                                     showlegend=False), row=1, col=1)
+                                     showlegend=False, width=12), row=1, col=1)
             
             # style plot
             fig.update_xaxes(title_text="{} Bp".format(reference),
