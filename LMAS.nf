@@ -441,7 +441,7 @@ process READ_MAPPING{
 
     tag { assembler }
 
-    publishDir 'results/stats/${sample_id}/'
+    publishDir 'results/stats/'
 
     input:
     set sample_id, assembler, assembly from TO_READ_MAPPING
@@ -513,7 +513,7 @@ process ASSEMBLY_MAPPING{
 
     tag { sample_id; assembler }
 
-    publishDir 'results/mapping/${sample_id}/'
+    publishDir 'results/mapping/'
 
     input:
     set sample_id, assembler, file(assembly) from OUT_FILTERED
