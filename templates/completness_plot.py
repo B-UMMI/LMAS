@@ -81,8 +81,7 @@ def plot_data(species_data, sample_id):
             i += 1
 
         #add title
-        to_plot.update_layout(title_text="<br>{} Genome Fragmentation".format(species), title_x=0.5,
-                              xaxis_title="Number of contigs", yaxis_title="Breadth of coverage")
+        to_plot.update_layout(xaxis_title="Number of contigs", yaxis_title="Breadth of coverage")
 
         # define xaxes attributes
         xaxis_range = list(interpolation_function(interpolation_xvalues))

@@ -57,21 +57,14 @@ def main(nax_files, n_target):
                     i += 1
             
             fig_nax.add_shape(type="line", yref="paper",
-                                x0=n_target, y0=0, x1=n_target, y1=1,
-                                line=dict(color="#D3D3D3", width=4,dash="dashdot"))
+                              x0=n_target, y0=0, x1=n_target, y1=1,
+                              line=dict(color="#D3D3D3", width=4,dash="dashdot"))
 
             fig_nax.update_layout(xaxis_title="NA(x) %",
                                   yaxis_title='Basepairs',
                                   plot_bgcolor='rgb(255,255,255)',
                                   xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                              gridcolor='#DCDCDC'))
-
-            fig_nax.update_layout(title={
-                'text': "NAx metric for {}".format(reference),
-                'y': 1,
-                'x': 0.5,
-                'xanchor': 'center',
-                'yanchor': 'top'})
 
             plot(fig_nax, filename='{0}_{1}_nax.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_nax.to_json()

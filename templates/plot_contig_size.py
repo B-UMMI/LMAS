@@ -65,7 +65,6 @@ def main(dataframe_files):
                                  line=dict(color='rgba(0,0,0,0)'), fillcolor='rgba(0,0,0,0)'))
 
         fig.update_layout(showlegend=False, xaxis_type="log", xaxis_title="Contig size (Log bp)",
-                          title="Contig size distribution per assembler (contigs over 1000 bp)",
                           plot_bgcolor='rgb(255,255,255)', xaxis=dict(zeroline=False, gridcolor='#DCDCDC'))
 
         plot(fig, filename='{}_contig_size_distribution.html'.format(sample_id), auto_open=False)

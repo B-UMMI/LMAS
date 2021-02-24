@@ -60,20 +60,14 @@ def main(c90files, l_target):
                     i += 1
             # add target line
             fig_Lx.add_shape(type="line", yref="paper",
-                                x0=l_target, y0=0, x1=l_target, y1=1,
-                                line=dict(color="#D3D3D3", width=4,dash="dashdot"))
+                             x0=l_target, y0=0, x1=l_target, y1=1,
+                             line=dict(color="#D3D3D3", width=4,dash="dashdot"))
 
             fig_Lx.update_layout(xaxis_title="L(x) %",
                                  yaxis_title='Contigs',
                                  plot_bgcolor='rgb(255,255,255)',
                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                             gridcolor='#DCDCDC'))
-
-            fig_Lx.update_layout(title={'text': "Lx metric for {}".format(reference),
-                                        'y': 1,
-                                        'x': 0.5,
-                                        'xanchor': 'center',
-                                        'yanchor': 'top'})
 
             plot(fig_Lx, filename='{0}_{1}_lx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_Lx.to_json()

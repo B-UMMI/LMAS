@@ -122,8 +122,7 @@ def main(dataframes):
                              tickvals=list(range(0, y)),
                              ticktext=assemblers_in_plot, row=2, col=1)
 
-            fig.update_layout(title="Gaps for {}".format(reference),
-                              plot_bgcolor='rgb(255,255,255)',
+            fig.update_layout(plot_bgcolor='rgb(255,255,255)',
                               xaxis=dict(showline=True, zeroline=True,
                                          linewidth=1, linecolor='black',
                                          gridcolor='#DCDCDC'))

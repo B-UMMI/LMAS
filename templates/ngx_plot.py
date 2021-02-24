@@ -51,10 +51,10 @@ def main(ngx_files, n_target):
                     fig_ngx.add_trace(go.Scatter(x=df_ngx['NGx'][(df_ngx['Sample'] == sample) &
                                                                     (df_ngx['Reference'] == reference) &
                                                                     (df_ngx['Assembler'] == assembler)],
-                                                    y=df_ngx['Basepairs'][(df_ngx['Sample'] == sample) &
-                                                                        (df_ngx['Reference'] == reference) &
-                                                                        (df_ngx['Assembler'] == assembler)],
-                                                    name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
+                                                y=df_ngx['Basepairs'][(df_ngx['Sample'] == sample) &
+                                                                      (df_ngx['Reference'] == reference) &
+                                                                      (df_ngx['Assembler'] == assembler)],
+                                                name=assembler, line=dict(color=utils.COLOURS[i], width=2)))
                     i += 1
             
             fig_ngx.add_shape(type="line", yref="paper",
@@ -66,14 +66,6 @@ def main(ngx_files, n_target):
                                   plot_bgcolor='rgb(255,255,255)',
                                   xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                              gridcolor='#DCDCDC'))
-
-
-            fig_ngx.update_layout(title={
-                'text': "NGx metric for {}".format(reference),
-                'y': 1,
-                'x': 0.5,
-                'xanchor': 'center',
-                'yanchor': 'top'})
 
             plot(fig_ngx, filename='{0}_{1}_ngx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_ngx.to_json()
