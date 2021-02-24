@@ -72,8 +72,7 @@ def main(phred_files):
                                     marker=dict(color=utils.COLOURS[i], size=12, line=dict(width=1, color='black'))))
                 i += 1
 
-            fig_phred.update_layout(title="Phred-like score metric for {}".format(reference),
-                                    xaxis_title="Contig size",
+            fig_phred.update_layout(xaxis_title="Contig size",
                                     yaxis_title="Score",
                                     plot_bgcolor='rgb(255,255,255)',
                                     xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
