@@ -106,9 +106,10 @@ def main(dataframes):
                     y += 1
             # histogram-like plot for snp counts, if snp
             if _count:
-                labels, values = zip(*_count.items())
-                fig.add_trace(go.Scattergl(x=labels, y=values, mode='lines', line=dict(color='#000000', width=2),
-                                     showlegend=False, fill='tozeroy'), row=1, col=1)
+                _count_sorted = dict(sorted(_count.items(),key = lambda i: i[0]))
+                labels, values = zip(*_count_sorted.items())
+                fig.add_trace(go.Bar(x=labels, y=values, marker_color='#000000',
+                                     showlegend=False), row=1, col=1)
             
             # style plot
             fig.update_xaxes(title_text="{} Bp".format(reference),
