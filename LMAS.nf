@@ -276,7 +276,7 @@ process UNICYCLER {
 
     script:
     """
-    unicycler --version | awk -F ' v' '{print $2}' > .unicycler_version 
+    unicycler --version | awk -F ' v' '{print \$2}' > .unicycler_version 
     {
         unicycler -t $task.cpus -o . --no_correct --no_pilon -1 ${fastq_pair[0]} -2 ${fastq_pair[1]}
         mv assembly.fasta ${sample_id}_unicycler.fasta
