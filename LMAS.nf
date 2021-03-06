@@ -429,7 +429,7 @@ BCALM2_VERSION.mix(GATB_VERSION,
 process PROCESS_VERSION {
 
     input:
-    set version from ALL_VERSIONS
+    file version from ALL_VERSIONS
 
     output:
     file("versions.json")
