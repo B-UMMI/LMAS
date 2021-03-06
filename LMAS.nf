@@ -67,7 +67,6 @@ IN_fastq_raw.into{
     IN_SPADES;
     IN_SKESA;
     IN_VELVETOPTIMIZER;
-    IN_PANDASEQ;
     IN_TO_MAP} //mapping channel - minimap2
 
 // SET CHANNELS FOR REFERENCE
@@ -102,10 +101,12 @@ process BCALM2 {
 
     output:
     set sample_id, val("BCALM2"), file("*_BCALM2.fasta") into OUT_BCALM2
+    file(".*version") into BCALM2_VERSION
 
     script:
     """
     ls -1 $fastq  > list_reads
+    bcalm -version | head -n 1 | awk -F ', ' '{print \$2}' | awk -F ' ' '{print \$2}' > .BCALM2_version
     {
         bcalm -in list_reads -out ${sample_id} -kmer-size $KmerSize
         mv ${sample_id}.unitigs.fa  ${sample_id}_BCALM2.fasta
@@ -137,9 +138,11 @@ process GATBMINIAPIPELINE {
 
     output:
     set sample_id, val("GATBMiniaPipeline"), file('*_GATBMiniaPipeline.fasta') into OUT_GATB
+    file(".*version") into GATB_VERSION
 
     script:
     """
+    echo '' > .GATBMiniaPipeline_version
     {
         if [ $do_error_correction ];
         then
@@ -175,9 +178,11 @@ process MINIA {
 
     output:
     set sample_id, val("MINIA"), file('*_minia.fasta') into OUT_MINIA
+    file(".*version") into MINIA_VERSION
 
     script:
     """
+    minia -v | head -n 1 | awk -F ' ' '{print \$3}' | awk -F 'v' '{print \$2}' > .minia_version
     {
         ls -1 $fastq  > list_reads
         minia -in list_reads -out ${sample_id}_minia.fasta -nb-cores $task.cpu
@@ -204,9 +209,11 @@ process MEGAHIT {
 
     output:
     set sample_id, val("MEGAHIT"), file('*_MEGAHIT.fasta') into OUT_MEGAHIT
+    file(".*version") into MEGAHIT_VERSION
 
     script:
     """
+    /NGStools/megahit/bin/megahit -v | awk -F ' ' '{print \$2}' | awk -F 'v' '{print \$2}' > .megahit_version
     {
         /NGStools/megahit/bin/megahit --num-cpu-threads $task.cpus -o megahit --k-list $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]}
         mv megahit/final.contigs.fa ${sample_id}_MEGAHIT.fasta
@@ -238,9 +245,11 @@ process METASPADES {
 
     output:
     set sample_id, val("metaSPAdes"), file('*_metaspades.fasta') into OUT_METASPADES
+    file(".*version") into METASPADES_VERSION
 
     script:
     """
+    metaspades.py --version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' > .metaspades_version
     {
         metaspades.py --only-assembler --threads $task.cpus -k $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} -o metaspades
         mv metaspades/contigs.fasta ${sample_id}_metaspades.fasta
@@ -263,9 +272,11 @@ process UNICYCLER {
 
     output:
     set sample_id, val("Unicycler"), file('*_unicycler.fasta') into OUT_UNICYCLER
+    file(".*version") into UNICYCLER_VERSION
 
     script:
     """
+    unicycler --version | awk -F ' v' '{print $2}' > .unicycler_version 
     {
         unicycler -t $task.cpus -o . --no_correct --no_pilon -1 ${fastq_pair[0]} -2 ${fastq_pair[1]}
         mv assembly.fasta ${sample_id}_unicycler.fasta
@@ -296,9 +307,11 @@ process SPADES {
 
     output:
     set sample_id, val("SPAdes"), file('*_spades.fasta') into OUT_SPADES
+    file(".*version") into SPADES_VERSION
 
     script:
     """
+    spades.py --version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' > .SPAdes_version
     {
         spades.py --only-assembler --threads $task.cpus -k $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} -o spades
         mv spades/contigs.fasta ${sample_id}_spades.fasta
@@ -320,40 +333,17 @@ process SKESA {
 
     output:
     set sample_id, val("SKESA"), file('*_skesa.fasta') into OUT_SKESA
+    file(".*version") into SKESA_VERSION
 
     script:
     """
+    skesa -v | tail -n 1 | awk -F ' ' '{print \$2}' > .SKESA_version
     {
         skesa --cores $task.cpus --memory $task.memory --use_paired_ends --contigs_out ${sample_id}_skesa.fasta --fastq ${fastq_pair[0]} ${fastq_pair[1]}
         echo pass > .status
     } || {
         echo fail > .status
     }
-    """
-}
-
-
-//      PANDASEQ
-process PANDASEQ {
-    tag { sample_id }
-    publishDir 'results/assembly/pandaseq'
-
-    input:
-    set sample_id, file(fastq_pair) from IN_PANDASEQ
-
-    output:
-    set sample_id, val("Pandaseq"), file('*pandaseq.fasta') into OUT_PANDASEQ
-
-    script:
-    """
-    cp -r /NGStools/pandaseq pandaseq/
-    {
-        ./pandaseq/pandaseq -T $task.cpus -w ${sample_id}_pandaseq.fasta -f ${fastq_pair[0]} -r ${fastq_pair[1]} -B
-        echo pass > .status
-    } || {
-        echo fail > .status
-    }
-    rm -r pandaseq || true
     """
 }
 
@@ -368,9 +358,11 @@ process VELVETOPTIMIZER {
 
     output:
     set sample_id, val("VelvetOptimizer"), file('*.fasta') into OUT_VELVETOPTIMIZER
+    file(".*version") into VELVETOPTIMIZER_VERSION
 
     script:
     """
+    VelvetOptimiser.pl --version > .VelvetOptimiser_version
     {
         VelvetOptimiser.pl -v -s $params.velvetoptimizer_hashs -e $params.velvetoptimizer_hashe -t $task.cpus \
         -f '-shortPaired -fastq.gz -separate ${fastq_pair[0]} ${fastq_pair[1]}'
@@ -407,9 +399,11 @@ process IDBA {
 
     output:
     set sample_id, val("IDBA-UD"), file('*_IDBA-UD.fasta') into OUT_IDBA
+    file(".*version") into IDBA_VERSION
 
     script:
     """
+    echo '' > .IDBA_version
     {
         idba_ud -l ${fasta_reads_single} --num_threads $task.cpus -o .
         mv contig.fa ${sample_id}_IDBA-UD.fasta
@@ -421,6 +415,29 @@ process IDBA {
     """
 }
 
+// VERSION COLLECTION
+BCALM2_VERSION.mix(GATB_VERSION,
+                    MINIA_VERSION,
+                    MEGAHIT_VERSION,
+                    METASPADES_VERSION,
+                    UNICYCLER_VERSION,
+                    SPADES_VERSION,
+                    SKESA_VERSION,
+                    VELVETOPTIMIZER_VERSION,
+                    IDBA_VERSION).set{ALL_VERSIONS}
+
+process PROCESS_VERSION {
+
+    input:
+    set version from ALL_VERSIONS
+
+    output:
+    file("versions.json")
+
+    script:
+    template "process_versions.json"
+}
+
 // ASSEMBLY COLLECTION
 OUT_BCALM2.mix(OUT_GATB,
                   OUT_MINIA,
@@ -429,7 +446,6 @@ OUT_BCALM2.mix(OUT_GATB,
                   OUT_UNICYCLER,
                   OUT_SPADES,
                   OUT_SKESA,
-                  OUT_PANDASEQ,
                   OUT_VELVETOPTIMIZER,
                   OUT_IDBA).set{ALL_ASSEMBLERS}
 
