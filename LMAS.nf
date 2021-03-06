@@ -429,13 +429,13 @@ BCALM2_VERSION.mix(GATB_VERSION,
 process PROCESS_VERSION {
 
     input:
-    file version from ALL_VERSIONS
+    file version from ALL_VERSIONS.collect()
 
     output:
     file("versions.json")
 
     script:
-    template "process_versions.json"
+    template "process_versions.py"
 }
 
 // ASSEMBLY COLLECTION
