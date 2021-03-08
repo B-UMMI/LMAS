@@ -141,3 +141,4 @@ templates/**/*.fasta
 templates/**/*.txt
 templates/**/*.pkl
 templates/**/*.tsv
+data/
