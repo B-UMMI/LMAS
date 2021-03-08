@@ -213,7 +213,7 @@ def main(sample_id, assembler, assembly, mapping):
     # per reference
     mis_per_ref = {}
     for contig in mis_contigs:
-        for reference in mis_contigs['contig']['reference']:
+        for reference in mis_contigs[contig]['reference']:
             if reference not in mis_per_ref.keys():
                 mis_per_ref[reference] = 1
             else:
