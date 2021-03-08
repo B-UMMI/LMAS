@@ -1,5 +1,8 @@
 # LMAS
 
+[![Documentation Status](https://readthedocs.org/projects/lmas/badge/?version=latest)](https://lmas.readthedocs.io/en/latest/?badge=latest)
+
+
                       _    __  __   _   ___
        /\︵︵/\      | |  |  \/  | /_\ / __|
       (◕('人')◕)     | |__| |\/| |/ _ \\__ \
