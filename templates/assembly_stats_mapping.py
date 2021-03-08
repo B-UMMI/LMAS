@@ -181,10 +181,11 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     # Calculate identity for all the contigs:
     for contig in alignment_dict['Contigs'].keys():
         alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
-                                                        alignment_dict['Contigs'][contig]['Length']
+            alignment_dict['Contigs'][contig]['Length']
         n_identity.append(alignment_dict['Contigs'][contig]['Identity'])
 
-        alignment_dict['Contigs'][contig]['Phred'] = get_phred_quality_score(alignment_dict['Contigs'][contig]['Identity'])
+        alignment_dict['Contigs'][contig]['Phred'] = get_phred_quality_score(
+            alignment_dict['Contigs'][contig]['Identity'])
         df_phred = df_phred.append({'Assembler': os.path.basename(paf_filename).split('.')[0].rsplit('_')[-1],
                                     'Reference': alignment_dict['Reference'],
                                     'Contig': contig,
@@ -205,7 +206,6 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     return contiguity, coverage, multiplicity, lowest_identity, identity, df_phred, len_convered_bases
 
 
-
 def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_target):
     """
     Parses fasta, paf files references and returns info in dataframe.
@@ -220,26 +220,31 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
     """
 
     # Dataframe for Phred Score plot
-    df_phred = pd.DataFrame(columns=['Assembler', 'Reference', 'Contig', 'Contig Length', 'Phred Quality Score'])
+    df_phred = pd.DataFrame(columns=[
+                            'Assembler', 'Reference', 'Contig', 'Contig Length', 'Phred Quality Score'])
 
     # Mapping stats dict
     mapping_stats_dict = {
-                "sample_id": sample_id,
-                "ReferenceTables": {}}
-
+        "sample_id": sample_id,
+        "ReferenceTables": {}}
 
     # filter dataframe for the assembler
     df_assembler = df[df['Assembler'] == assembler]
 
     # iterator for reference files (sequence length is needed)
-    references = (x[1] for x in groupby(open(reference, "r"), lambda line: line[0] == ">"))
+    references = (x[1] for x in groupby(
+        open(reference, "r"), lambda line: line[0] == ">"))
 
-    fh = open(sample_id + '_' + assembler + "_breadth_of_coverage_contigs.csv", "w")
+    fh = open(sample_id + '_' + assembler +
+              "_breadth_of_coverage_contigs.csv", "w")
     fh.write("Reference,Breadth of Coverage,Contigs\\n")
 
-    df_na = pd.DataFrame(columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
-    df_ng = pd.DataFrame(columns=['Reference', 'Assembler', 'NGx', 'Basepairs'])
-    df_lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])  # Lx - array of values for L0 to L100
+    df_na = pd.DataFrame(
+        columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
+    df_ng = pd.DataFrame(
+        columns=['Reference', 'Assembler', 'NGx', 'Basepairs'])
+    # Lx - array of values for L0 to L100
+    df_lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])
 
     for header in references:
         header_str = header.__next__()[1:].strip().split()[0]
@@ -248,37 +253,36 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
 
         df_assembler_reference = df_assembler[df_assembler['Mapped'] == header_str]
 
-        mapped_contigs = df_assembler_reference['Contig Len'].astype('int').tolist()
+        mapped_contigs = df_assembler_reference['Contig Len'].astype(
+            'int').tolist()
 
         # Assembly metrics
-
-        #   NAx
-        for x in np.linspace(0, 1, 11):
+        for x in np.linspace(0, 1, 10):
+            # NAx
             nax = utils.get_Nx(mapped_contigs, x)
             df_na = df_na.append({'Reference': reference_name, 'Assembler': assembler,
                                   'NAx': x, 'Basepairs': nax}, ignore_index=True)
-        na50 = utils.get_Nx(mapped_contigs, n_target)
-
-        #   NGx
-        for x in np.linspace(0, 1, 11):
+            # NGx
             ngx = utils.get_NGx(mapped_contigs, len(seq)/3, x)
             df_ng = df_ng.append({'Reference': reference_name, 'Assembler': assembler,
                                   'NGx': x, 'Basepairs': ngx}, ignore_index=True)
-        ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, n_target)
-
-        #   Lx
-        for x in np.linspace(0, 1, 11):  # Lx
-            lx = utils.get_Lx(mapped_contigs, len(seq)/3, x)  # adjust for triple reference
+            # Lx
+            lx = utils.get_Lx(mapped_contigs, len(seq)/3, x)
             df_lx = df_lx.append({'Reference': reference_name, 'Assembler': assembler,
                                   'Lx': x, 'nContigs': lx}, ignore_index=True)
+
+        na50 = utils.get_Nx(mapped_contigs, n_target)
+        ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, n_target)
         l90 = utils.get_Lx(mapped_contigs, len(seq)/3, l_target)
 
         contiguity, coverage, multiplicity, lowest_identity, identity, df_phred, covered_bases = get_alignment_stats(mapping,
-                                                                                                      header_str,
-                                                                                                      len(seq)/3,
-                                                                                                      df_phred)
+                                                                                                                     header_str,
+                                                                                                                     len(
+                                                                                                                         seq)/3,
+                                                                                                                     df_phred)
 
-        fh.write(','.join([reference_name, str(coverage), str(len(mapped_contigs))]) + '\\n')
+        fh.write(','.join([reference_name, str(coverage),
+                           str(len(mapped_contigs))]) + '\\n')
 
         # Mapping stats dict
         mapping_stats_dict["ReferenceTables"][reference_name] = {
