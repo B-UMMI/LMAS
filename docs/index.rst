@@ -6,7 +6,7 @@
 LMAS's
 ======
 
-.. figure:: ../resources/LMAS_ascii.png
+.. figure:: resources/LMAS_ascii.png
    :align: center
 
 Short-read metagenomic assembly: finding the best fit in a world of options.
