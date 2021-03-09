@@ -432,7 +432,7 @@ process PROCESS_VERSION {
     file version from ALL_VERSIONS.collect()
 
     output:
-    file("versions.json")
+    file("versions.json") into VERSIONS_JSON
 
     script:
     template "process_versions.py"
@@ -821,6 +821,7 @@ process compile_reports {
     file misassembly_data from OUT_MISASSEMBLY_REPORT
     file nax_plots from PLOT_NAX
     file ngx_plots from PLOT_NGX
+    file versions_json from VERSIONS_JSON
 
     output:
     file "pipeline_report.json"

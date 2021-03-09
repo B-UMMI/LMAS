@@ -36,6 +36,7 @@ if __file__.endswith(".command.sh"):
     MISASSEMBLY_PLOT = "$plot_misassemblies".split()
     MISASSEMBLY_REPORT = "$misassembly_data"
     MIN_CONTIG_SIZE = "$params.minLength"
+    VERSIONS_JSON = "$versions_json"
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
@@ -45,7 +46,8 @@ if __file__.endswith(".command.sh"):
     logger.debug("MAPPING_STATS_REPORT: {}".format(MAPPING_STATS_REPORT))
     logger.debug("LMAS_LOGO: {}".format(LMAS_LOGO))
     logger.debug("PIPELINE_STATS: {}".format(PIPELINE_STATS))
-    logger.debug("CONTIG_SIZE_DISTRIBUTION: {}".format(CONTIG_SIZE_DISTRIBUTION))
+    logger.debug("CONTIG_SIZE_DISTRIBUTION: {}".format(
+        CONTIG_SIZE_DISTRIBUTION))
     logger.debug("COMPLETNESS_JSON: {}".format(COMPLETNESS_JSON))
     logger.debug("REFERENCE_FILE: {}".format(REFERENCE_FILE))
     logger.debug("LX_JSON: {}".format(LX_JSON))
@@ -58,6 +60,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("MISASSEMBLY_PLOT: {}".format(MISASSEMBLY_PLOT))
     logger.debug("MISASSEMBLY_REPORT: {}".format(MISASSEMBLY_REPORT))
     logger.debug("MIN_CONTIG_SIZE: {}".format(MIN_CONTIG_SIZE))
+    logger.debug("VERSIONS_JSON: {}".format(VERSIONS_JSON))
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -139,7 +142,7 @@ def _hms(s):
     fields = list(map(float, re.split("[dhms]", s)[:-1]))
     if len(fields) == 4:
         return fields[0] * 24 * 3600 + fields[1] * 3600 + fields[2] * 60 + \
-               fields[3]
+            fields[3]
     if len(fields) == 3:
         return fields[0] * 3600 + fields[1] * 60 + fields[2]
     elif len(fields) == 2:
@@ -181,12 +184,18 @@ def _size_compress(s):
         return "{}MB".format(s)
 
 
-def process_performance_data(pipeline_stats):
+def process_performance_data(pipeline_stats, versions_json):
     """
 
     :param pipeline_stats:
+    :param versions_json:
     :return:
     """
+
+    # parse assembler versions
+    with open(versions_json) as f:
+        assembler_versions = json.load(f)
+
     # Parse performance data
     performance = {}
     with open(pipeline_stats, "r") as pipeline_stats_file:
@@ -198,13 +207,16 @@ def process_performance_data(pipeline_stats):
                                            "realtime": [_hms(row[13])],
                                            "rss": [_size_coverter(row[17])],
                                            "rchar": [_size_coverter(row[19])],
-                                           "wchar": [_size_coverter(row[20])]}
+                                           "wchar": [_size_coverter(row[20])], }
                 else:
-                    performance[row[2]]["cpus"].append(_cpu_load_parser(row[8], row[15], row[13]))
+                    performance[row[2]]["cpus"].append(
+                        _cpu_load_parser(row[8], row[15], row[13]))
                     performance[row[2]]["realtime"].append(_hms(row[13]))
                     performance[row[2]]["rss"].append(_size_coverter(row[17]))
-                    performance[row[2]]["rchar"].append(_size_coverter(row[19]))
-                    performance[row[2]]["wchar"].append(_size_coverter(row[20]))
+                    performance[row[2]]["rchar"].append(
+                        _size_coverter(row[19]))
+                    performance[row[2]]["wchar"].append(
+                        _size_coverter(row[20]))
 
     performance_metadata = []
 
@@ -223,15 +235,18 @@ def process_performance_data(pipeline_stats):
         rss_str = _size_compress(max_rss)
 
         # average read size
-        avg_rchar = round(sum(performance[process_id]["rchar"]) / len(performance[process_id]["rchar"]))
+        avg_rchar = round(
+            sum(performance[process_id]["rchar"]) / len(performance[process_id]["rchar"]))
         rchar_str = _size_compress(avg_rchar)
 
         # average write size
-        avg_wchar = round(sum(performance[process_id]["wchar"]) / len(performance[process_id]["wchar"]))
+        avg_wchar = round(
+            sum(performance[process_id]["wchar"]) / len(performance[process_id]["wchar"]))
         wchar_str = _size_compress(avg_wchar)
 
-        performance_metadata.append({"id": id_int, "assembler": process_id, "avgTime": mean_time_str, "cpus": cpu_hour,
-                                     "max_rss": rss_str, "avgRead": rchar_str, "avgWrite": wchar_str})
+        performance_metadata.append({"id": id_int, "assembler": process_id, "version": assembler_versions[process_id],
+                                     "avgTime": mean_time_str, "cpus": cpu_hour, "max_rss": rss_str,
+                                     "avgRead": rchar_str, "avgWrite": wchar_str})
         id_int += 1
 
     logger.debug("Performance dictionary: {}".format(performance_metadata))
@@ -250,14 +265,18 @@ def process_reference_data(reference_file):
     with open(reference_file) as fh:
         faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
         for header in faiter:
-            headerStr = utils.REFERENCE_DIC[header.__next__()[1:].strip().split()[0]]
+            headerStr = utils.REFERENCE_DIC[header.__next__()[1:].strip().split()[
+                0]]
             seq = "".join(s.strip() for s in faiter.__next__())
-            gc_content = float((seq.count('G') + seq.count('C'))) / len(seq) * 100
-            ref_sequences_header[headerStr] = {"size": len(seq)/3, "GC": gc_content}
+            gc_content = float(
+                (seq.count('G') + seq.count('C'))) / len(seq) * 100
+            ref_sequences_header[headerStr] = {
+                "size": len(seq)/3, "GC": gc_content}
 
     return_dict = {reference_file_name: ref_sequences_header}
 
     return return_dict
+
 
 def process_sample_reads(reads_jsons):
     """
@@ -269,14 +288,14 @@ def process_sample_reads(reads_jsons):
     for sample in reads_jsons:
         with open(sample) as f:
             reads_number_dict = json.load(f)
-            for k, v in reads_number_dict.items(): 
+            for k, v in reads_number_dict.items():
                 reads_report[k] = v
     return reads_report
 
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
-         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json):
+         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json):
 
     metadata = {
         "nfMetadata": {
@@ -300,7 +319,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     # Assembler performance data:
     logger.debug('Processing {0} data...'.format(pipeline_stats))
-    performance_metadata = process_performance_data(pipeline_stats)
+    performance_metadata = process_performance_data(
+        pipeline_stats, versions_json)
 
     # Reference info
     reference_info = process_reference_data(reference_file)
@@ -321,7 +341,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         assembly_stats_json = json.load(f)
         for sample_id in assembly_stats_json.keys():
             main_data_tables_js[sample_id] = assembly_stats_json[sample_id]
-    
+
     # add misassembly to global stats
     logger.debug('Processing {0} data...'.format(misassembly_report))
     with open(misassembly_report) as f:
@@ -330,7 +350,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         for sample_id in misassembly_json.keys():
             for i in range(0, len(main_data_tables_js[sample_id]["GlobalTable"])):
                 assembler = main_data_tables_js[sample_id]["GlobalTable"][i]["assembler"]
-                main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"]["misassembled_contigs"] = misassembly_json[sample_id][assembler]
+                main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"][
+                    "misassembled_contigs"] = misassembly_json[sample_id][assembler]
 
     # add mapping stats
     logger.debug('Processing {0} data...'.format(mapping_stats_report))
@@ -341,9 +362,11 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                 if "ReferenceTables" not in main_data_tables_js[sample_id]:
                     main_data_tables_js[sample_id]["ReferenceTables"] = {}
                 if reference not in main_data_tables_js[sample_id]["ReferenceTables"].keys():
-                    main_data_tables_js[sample_id]["ReferenceTables"][reference] = [mapping_stats_reference]
+                    main_data_tables_js[sample_id]["ReferenceTables"][reference] = [
+                        mapping_stats_reference]
                 else:
-                    main_data_tables_js[sample_id]["ReferenceTables"][reference].append(mapping_stats_reference)
+                    main_data_tables_js[sample_id]["ReferenceTables"][reference].append(
+                        mapping_stats_reference)
 
     for sample_id in main_data_tables_js.keys():
         main_data_plots_js[sample_id] = {}
@@ -353,104 +376,124 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         main_data_plots_js[sample_id]["PlotData"]["Global"] = {}
 
         #   contig size boxplot
-        contig_distribution_plot = fnmatch.filter(contig_size_plots, sample_id + '*')[0]
-        logger.debug('Processing {0} data for {1}...'.format(contig_distribution_plot, sample_id))
+        contig_distribution_plot = fnmatch.filter(
+            contig_size_plots, sample_id + '*')[0]
+        logger.debug('Processing {0} data for {1}...'.format(
+            contig_distribution_plot, sample_id))
         with open(contig_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_plots_js[sample_id]["PlotData"]["Global"]["contig_size"] = plot_json
 
         #   gap size boxplot
-        gap_distribution_plot = fnmatch.filter(gap_histogram, sample_id + '*')[0]
-        logger.debug('Processing {0} data for {1}...'.format(gap_distribution_plot, sample_id))
+        gap_distribution_plot = fnmatch.filter(
+            gap_histogram, sample_id + '*')[0]
+        logger.debug('Processing {0} data for {1}...'.format(
+            gap_distribution_plot, sample_id))
         with open(gap_distribution_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_plots_js[sample_id]["PlotData"]["Global"]["gap_size"] = plot_json
 
         # misassembly plot
-        misassembled_contigs_plot = fnmatch.filter(plot_misassembly, sample_id + '*')[0]
-        logger.debug('Processing {0} data for {1}...'.format(misassembled_contigs_plot, sample_id))
+        misassembled_contigs_plot = fnmatch.filter(
+            plot_misassembly, sample_id + '*')[0]
+        logger.debug('Processing {0} data for {1}...'.format(
+            misassembled_contigs_plot, sample_id))
         with open(misassembled_contigs_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             main_data_plots_js[sample_id]["PlotData"]["Global"]["misassembly"] = plot_json
 
         # add reference plots
         #    completness
-        logger.debug('Processing {0} data for {1}...'.format(completness_plot, sample_id))
+        logger.debug('Processing {0} data for {1}...'.format(
+            completness_plot, sample_id))
         with open(completness_plot) as plot_fh:
             plot_json = json.load(plot_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 for x in reference_plots:
                     reference_plots_json = json.loads(x)
-                    main_data_plots_js[sample_id]["PlotData"][reference] = {"completness": reference_plots_json}
+                    main_data_plots_js[sample_id]["PlotData"][reference] = {
+                        "completness": reference_plots_json}
 
         #    Lx
-        logger.debug('Processing {0} data for {1}...'.format(lx_json, sample_id))
+        logger.debug('Processing {0} data for {1}...'.format(
+            lx_json, sample_id))
         with open(lx_json) as lx_fh:
             plot_json = json.load(lx_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 for x in reference_plots:
                     reference_plots_json = json.loads(x)
                     if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {"lx": reference_plots_json}
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {
+                            "lx": reference_plots_json}
                     else:
                         main_data_plots_js[sample_id]["PlotData"][reference]["lx"] = reference_plots_json
         #   NAx
-        logger.debug('Processing {0} data for {1}...'.format(nax_json, sample_id))
+        logger.debug('Processing {0} data for {1}...'.format(
+            nax_json, sample_id))
         with open(nax_json) as nax_fh:
             plot_json = json.load(nax_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 for x in reference_plots:
                     reference_plots_json = json.loads(x)
                     if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {"nax": reference_plots_json}
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {
+                            "nax": reference_plots_json}
                     else:
                         main_data_plots_js[sample_id]["PlotData"][reference]["nax"] = reference_plots_json
 
         #   NGx
-        logger.debug('Processing {0} data for {1}...'.format(ngx_json, sample_id))
+        logger.debug('Processing {0} data for {1}...'.format(
+            ngx_json, sample_id))
         with open(ngx_json) as ngx_fh:
             plot_json = json.load(ngx_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 for x in reference_plots:
                     reference_plots_json = json.loads(x)
                     if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {"ngx": reference_plots_json}
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {
+                            "ngx": reference_plots_json}
                     else:
                         main_data_plots_js[sample_id]["PlotData"][reference]["ngx"] = reference_plots_json
 
         #    phred-like plot
-        logger.debug('Processing {0} data for {1}...'.format(shrimp_json, sample_id))
+        logger.debug('Processing {0} data for {1}...'.format(
+            shrimp_json, sample_id))
         with open(shrimp_json) as phred_fh:
             plot_json = json.load(phred_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 for x in reference_plots:
                     reference_plots_json = json.loads(x)
                     if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {"phred" :reference_plots_json}
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {
+                            "phred": reference_plots_json}
                     else:
                         main_data_plots_js[sample_id]["PlotData"][reference]["phred"] = reference_plots_json
 
         #   gap plot
-        logger.debug('Processing {0} data for {1}...'.format(gap_reference_json, sample_id))
+        logger.debug('Processing {0} data for {1}...'.format(
+            gap_reference_json, sample_id))
         with open(gap_reference_json) as gap_ref_fh:
             plot_json = json.load(gap_ref_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 for x in reference_plots:
                     reference_plots_json = json.loads(x)
                     if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {"gaps": reference_plots_json}
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {
+                            "gaps": reference_plots_json}
                     else:
                         main_data_plots_js[sample_id]["PlotData"][reference]["gaps"] = reference_plots_json
-        
+
         # SNP plot
-        logger.debug('Processing {0} data for {1}...'.format(snp_reference_json, sample_id))
+        logger.debug('Processing {0} data for {1}...'.format(
+            snp_reference_json, sample_id))
         with open(snp_reference_json) as snp_ref_fh:
             plot_json = json.load(snp_ref_fh)
             for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
                 for x in reference_plots:
                     reference_plots_json = json.loads(x)
                     if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {"snps": reference_plots_json}
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {
+                            "snps": reference_plots_json}
                     else:
                         main_data_plots_js[sample_id]["PlotData"][reference]["snps"] = reference_plots_json
 
@@ -467,12 +510,12 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         json_fh.write(json.dumps(main_data_plots_js, separators=(",", ":")))
 
     with open("index.html", "w") as html_fh:
-        html_fh.write(html_template.format(json.dumps(performance_metadata), 
-                                           json.dumps(reference_info), 
+        html_fh.write(html_template.format(json.dumps(performance_metadata),
+                                           json.dumps(reference_info),
                                            json.dumps(sample_reads),
                                            json.dumps(main_data_tables_js),
-                                           json.dumps(main_data_plots_js), 
-                                           list(main_data_tables_js.keys()), 
+                                           json.dumps(main_data_plots_js),
+                                           list(main_data_tables_js.keys()),
                                            min_contig_size))
 
     with zipfile.ZipFile(main_js) as zf:
@@ -485,4 +528,5 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
-         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON)
+         MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
+         VERSIONS_JSON)
