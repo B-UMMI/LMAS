@@ -93,11 +93,15 @@ def main(dataframes):
                 else:
                     assemblers_in_plot.append(assembler)
                     coord_list = list(coords['SNP Location'])
+                    substitution_list = list(coords['Substitution Type'])
+
                     # trace with gap location - one per gap
                     fig.add_trace(go.Scattergl(x=coord_list,
                                             y=[y]*len(coord_list),
                                             mode='markers',
                                             marker_symbol='line-ns',
+                                            text=substitution_list,
+                                            hovertemplate ='<b>Substitution:</b>: %{text}',
                                             marker=dict(color='#000000', size=12,
                                                         line=dict(width=3,
                                                                   color='#000000')),

@@ -110,8 +110,9 @@ def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
                 if len(re.findall(r'\\*', cigar)) > 0:
                     snps_iterator = get_position(start, end, cigar)
                     for snp in snps_iterator:
+                        print(snp)
                         tsv_report.write('\\t'.join([str(utils.adjust_reference_coord(snp[0], ref_len)), str(snp[1][0]), str(snp[1][1])]) + '\\n')
-                        snps.append(utils.adjust_reference_coord(snp[0], ref_len))
+                        snps.append((utils.adjust_reference_coord(snp[0], ref_len), snp[1]))
                 else:
                     continue
     tsv_report.close()
@@ -133,9 +134,12 @@ def main(sample_id, assembler, assembly, mapping, reference):
         snps = get_snps(mapping, header_str, len(seq) / 3, sample_id, assembler)
 
         # plot gap location per reference per reference
-        for coord in snps:
+        for snip_info in snps:
+            coord = snip_info[0]
+            substitution = '{}->{}'.format(snip_info[1][0], snip_info[1][1])
+            print(coord, substitution)
             df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Reference': reference_name,
-                            'Reference Length': len(seq)/3, 'SNP Location': coord}, ignore_index=True)
+                            'Reference Length': len(seq)/3, 'SNP Location': coord, 'Substitution Type': substitution}, ignore_index=True)
 
     df.to_csv(sample_id + '_' + assembler + '_snps.csv')
 
