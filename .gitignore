@@ -142,3 +142,4 @@ templates/**/*.txt
 templates/**/*.pkl
 templates/**/*.tsv
 data/
+templates/*version

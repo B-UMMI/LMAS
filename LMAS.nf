@@ -106,7 +106,7 @@ process BCALM2 {
     script:
     """
     ls -1 $fastq  > list_reads
-    bcalm -version | head -n 1 | awk -F ', ' '{print \$2}' | awk -F ' ' '{print \$2}' | awk -F 'v' '{print \$2}' > .BCALM2_version
+    bcalm -version | head -n 1 | awk -F ', ' '{print \$2}' | awk -F ' ' '{print \$2}' | awk -F 'v' '{print \$2}' > .${sample_id}_BCALM2_version
     {
         bcalm -in list_reads -out ${sample_id} -kmer-size $KmerSize
         mv ${sample_id}.unitigs.fa  ${sample_id}_BCALM2.fasta
@@ -142,7 +142,7 @@ process GATBMINIAPIPELINE {
 
     script:
     """
-    echo '' > .GATBMiniaPipeline_version
+    echo '' > .${sample_id}_GATBMiniaPipeline_version
     {
         if [ $do_error_correction ];
         then
@@ -182,7 +182,7 @@ process MINIA {
 
     script:
     """
-    minia -v | head -n 1 | awk -F ' ' '{print \$3}' | awk -F 'v' '{print \$2}' | awk NF > .minia_version
+    minia -v | head -n 1 | awk -F ' ' '{print \$3}' | awk -F 'v' '{print \$2}' | awk NF > .${sample_id}_MINIA_version
     {
         ls -1 $fastq  > list_reads
         minia -in list_reads -out ${sample_id}_minia.fasta -nb-cores $task.cpu
@@ -213,7 +213,7 @@ process MEGAHIT {
 
     script:
     """
-    /NGStools/megahit/bin/megahit -v | awk -F ' ' '{print \$2}' | awk -F 'v' '{print \$2}' | awk NF > .MEGAHIT_version
+    /NGStools/megahit/bin/megahit -v | awk -F ' ' '{print \$2}' | awk -F 'v' '{print \$2}' | awk NF > .${sample_id}_MEGAHIT_version
     {
         /NGStools/megahit/bin/megahit --num-cpu-threads $task.cpus -o megahit --k-list $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]}
         mv megahit/final.contigs.fa ${sample_id}_MEGAHIT.fasta
@@ -249,7 +249,7 @@ process METASPADES {
 
     script:
     """
-    metaspades.py --version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' 2> .metaSPAdes_version
+    metaspades.py --version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' 2> .${sample_id}_metaSPAdes_version
     {
         metaspades.py --only-assembler --threads $task.cpus -k $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} -o metaspades
         mv metaspades/contigs.fasta ${sample_id}_metaspades.fasta
@@ -276,7 +276,7 @@ process UNICYCLER {
 
     script:
     """
-    unicycler --version | awk -F ' v' '{print \$2}' | awk NF > .Unicycler_version 
+    unicycler --version | awk -F ' v' '{print \$2}' | awk NF > .${sample_id}_Unicycler_version 
     {
         unicycler -t $task.cpus -o . --no_correct --no_pilon -1 ${fastq_pair[0]} -2 ${fastq_pair[1]}
         mv assembly.fasta ${sample_id}_unicycler.fasta
@@ -311,7 +311,7 @@ process SPADES {
 
     script:
     """
-    spades.py --version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' 2> .SPAdes_version
+    spades.py --version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' 2> .${sample_id}_SPAdes_version
     {
         spades.py --only-assembler --threads $task.cpus -k $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} -o spades
         mv spades/contigs.fasta ${sample_id}_spades.fasta
@@ -337,7 +337,7 @@ process SKESA {
 
     script:
     """
-    skesa -v | tail -n 1 | awk -F ' ' '{print \$2}' | awk NF > .SKESA_version
+    skesa -v | tail -n 1 | awk -F ' ' '{print \$2}' | awk NF > .${sample_id}_SKESA_version
     {
         skesa --cores $task.cpus --memory $task.memory --use_paired_ends --contigs_out ${sample_id}_skesa.fasta --fastq ${fastq_pair[0]} ${fastq_pair[1]}
         echo pass > .status
@@ -362,7 +362,7 @@ process VELVETOPTIMIZER {
 
     script:
     """
-    VelvetOptimiser.pl --version | awk -F ' ' '{print \$2}' | awk NF > .VelvetOptimiser_version
+    VelvetOptimiser.pl --version | awk -F ' ' '{print \$2}' | awk NF > .${sample_id}_VelvetOptimiser_version
     {
         VelvetOptimiser.pl -v -s $params.velvetoptimizer_hashs -e $params.velvetoptimizer_hashe -t $task.cpus \
         -f '-shortPaired -fastq.gz -separate ${fastq_pair[0]} ${fastq_pair[1]}'
@@ -403,7 +403,7 @@ process IDBA {
 
     script:
     """
-    echo '' > .IDBA_version
+    echo '' > .${sample_id}_IDBA_version
     {
         idba_ud -l ${fasta_reads_single} --num_threads $task.cpus -o .
         mv contig.fa ${sample_id}_IDBA-UD.fasta
