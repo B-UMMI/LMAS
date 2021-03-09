@@ -47,13 +47,33 @@ You can clone this repository with `git clone https://github.com/cimendes/LMAS.g
 
 After you have a local installation of LMAS, the mock community data needs to be downloaded.
 
-The triple reference sequences can be passed with the `--reference` parameter, and `--fastq` recieves the raw data. 
+The triple reference sequences can be passed with the `--reference` parameter, and `--fastq` recieves the raw data for assembly.
+The raw data is a collection of sequence fragments from the references, and can be either obtained *in silico*  or from real
+sequencing platforms. 
 
-### ZymoBIOMICS Microbial Community Standard
+### Proof of concept - ZymoBIOMICS Microbial Community Standard
 
-A script to download and structure the ZymoBIOMICS data to be used as input is provided. Running `get_data.sh` downloads the eight bacterial genomes and four plasmids of the ZymoBIOMICS Microbial Community Standards were used as the triple reference. It also downloads the raw sequence data of the mock communities, with an even and logarithmic distribution of species, and a simulated sample of the evenly distributed reads generated from the genomes in the Zymobiomics standard to be used as input for the assemblers. 
+A script to download and structure the ZymoBIOMICS data to be used as input is provided (`get_data.sh`). 
 
-TODO - Continue
+Running this scipt downloads the [eight bacterial genomes and four plasmids of the ZymoBIOMICS Microbial Community Standards](https://zenodo.org/record/4588970#.YEeA83X7RhE) were used as the triple reference. 
+It contains tripled complete sequences for the following species:
+- *Bacillus subtilis* 
+- *Enterococcus faecalis*
+- *Escherichia coli*
+   - *Escherichia coli* plasmid
+- *Lactobacillus fermentum*
+- *Listeria monocytogenes*
+- *Pseudomonas aeruginosa*
+- *Salmonella enterica*
+- *Staphylococcus aureus*
+   - *Staphylococcus aureus* plasmid 1
+   - *Staphylococcus aureus* plasmid 2
+   - *Staphylococcus aureus* plasmid 3
+
+It also downloads the raw sequence data of the mock communities, with an even and logarithmic distribution of species ([ERR2984773](https://www.ebi.ac.uk/ena/browser/view/ERR2984773) and [ERR2935805](https://www.ebi.ac.uk/ena/browser/view/ERR2935805)), and a simulated sample of the evenly distributed reads generated from the genomes in the Zymobiomics standard ([mockSample](https://zenodo.org/record/4588970#.YEeA83X7RhE)).
+
+
+## Customizing LMAS
 
 Users can customize the workflow execution either by using command line options or by modifying a simple plain-text 
 configuration file (`params.config`), where parameters are set as key-value pairs. The version of tools used can also 
@@ -61,7 +81,7 @@ be changed by providing new container tags in the appropriate configuration file
 resources for each process (`resources.config`).
 
 
-## Output and Report
+# Output and Report
 
 The output files are stored in the `results/` folder in the directory where the workflow was executed. 
 The nextflow log file for the execution of the pipeline can be found in the directory of execution. Log files for each
@@ -73,4 +93,8 @@ your default browser.
 
 ## Citation and Contacts
 
-TODO
+LMAS is developed at the Molecular [Microbiology and Infection Unit (UMMI)](http://darwin.phyloviz.net/wiki/doku.php) at the [Instituto de Medicina Molecular Joao Antunes](https://imm.medicina.ulisboa.pt/en/), in collaboration with [Microbiology, Advanced Genomics and Infection Control Applications Laboratory (MAGICAL)](https://morangiladlab.com) at the [Faculty of Health Sciences, Ben-Gurion University of the Negev](https://in.bgu.ac.il/en/fohs/Pages/default.aspx). 
+
+This project is licensed under the [GPLv3 license](https://github.com/cimendes/LMAS/blob/main/LICENSE).
+
+If you use LMAS please city this repository.

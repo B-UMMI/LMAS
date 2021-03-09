@@ -786,6 +786,7 @@ process PROCESS_MISASSEMBLY {
     file("*.html")
     file("*_misassembly.json") into OUT_MISASSEMBLY_PLOT
     file("misassembly_report.json") into OUT_MISASSEMBLY_REPORT
+    file("misassembly_report_per_ref.json") into OUT_MISASSEMBLY_PER_REF
 
     script:
     template "process_misassembly.py"
@@ -822,6 +823,7 @@ process compile_reports {
     file nax_plots from PLOT_NAX
     file ngx_plots from PLOT_NGX
     file versions_json from VERSIONS_JSON
+    file misassembly_per_ref_json from OUT_MISASSEMBLY_PER_REF
 
     output:
     file "pipeline_report.json"

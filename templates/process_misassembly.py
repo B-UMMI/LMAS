@@ -103,7 +103,7 @@ def main(misassembly_trace, misassembly_contigs, report_data, report_per_referen
         plot(fig, filename='{}_misassembly.html'.format(sample), auto_open=False)
         fig.write_json(file='{}_misassembly.json'.format(sample))
 
-    # TABLE DATA
+    # GLOBAL MISASSEMBLY STATS
     master_report_data = {}
     for file_report in report_data:
         with open(file_report) as json_fh:
@@ -116,6 +116,11 @@ def main(misassembly_trace, misassembly_contigs, report_data, report_per_referen
                 master_report_data[data_json["sample"]][data_json["assembler"]
                                                         ] = data_json["misassembled_contigs"]
 
+    with open("misassembly_report.json", "w") as json_report:
+        json_report.write(json.dumps(
+            master_report_data, separators=(",", ":")))
+
+    # MISASSEMBLY STATS PER REF
     master_report_data_per_reference = {}
     for report_reference in report_per_reference:
         with open(report_reference) as json_fh:
@@ -124,9 +129,9 @@ def main(misassembly_trace, misassembly_contigs, report_data, report_per_referen
                 master_report_data_per_reference[data_json["sample"]] = {
                     data_json["reference"]}
 
-    with open("misassembly_report.json", "w") as json_report:
+    with open("misassembly_report_per_ref.json", "w") as json_report:
         json_report.write(json.dumps(
-            master_report_data, separators=(",", ":")))
+            master_report_data_per_reference, separators=(",", ":")))
 
 
 if __name__ == '__main__':
