@@ -28,4 +28,5 @@ Short-read metagenomic assembly: finding the best fit in a world of options.
    :caption: User Guide
 
    user/basic_usage
+   user/output_report
 

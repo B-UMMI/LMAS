@@ -31,7 +31,7 @@ Java 8 (or higher) to be installed. More instructions are available [here](https
 
 * **Container Engine**
 
-All components of DEN-IM are executed in docker containers, which means that you’ll need to have a container engine 
+All components of LMAS are executed in docker containers, which means that you’ll need to have a container engine 
 installed. The container engines available are the ones supported by Nextflow:
 
 * [Docker](https://www.nextflow.io/docs/latest/docker.html),

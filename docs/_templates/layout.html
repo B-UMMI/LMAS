@@ -1,10 +1,21 @@
 {% extends "!layout.html" %}
-  {% block footer %} {{ super() }}
+{% block footer %} {{ super() }}
 
-  <style>
-    /* Sidebar header (and topbar for mobile) */
-    .wy-side-nav-search, .wy-nav-top {
-      background: #4A690C;
-    }
-  </style>
+<style>
+  /* Sidebar header (and topbar for mobile) */
+  .wy-side-nav-search,
+  .wy-nav-top {
+    background: #4A690C;
+  }
+
+  /* Sidebar Menu Caption Text */
+  .wy-menu>.caption>.caption-text {
+    color: #4A690C;
+  }
+
+  /*make content screen big!*/
+  .wy-nav-content {
+    max-width: 100%
+  }
+</style>
 {% endblock %}
