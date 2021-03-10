@@ -381,7 +381,9 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                         references = misassembly_stats[sample_id][assembler][0].keys()
                         references_names = [utils.REFERENCE_DIC[i] for i in references]
                         if reference in references_names:
-                            item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][reference]
+                            index = references_names.index(reference)
+                            ref_name = references[index]
+                            item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][ref_name]
                         else:
                             item['misassembled_contigs'] = 0
 
