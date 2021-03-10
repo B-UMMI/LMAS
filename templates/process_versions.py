@@ -43,13 +43,13 @@ ASSEMBLER_PROCESS_DICT = {"BCALM2": "BCALM2", "GATBMiniaPipeline": "GATBMINIAPIP
 def main(versions):
 
     version_dict = {}
-
     for v_file in versions:
-        assembler_name = v_file.replace('.', '').split('_')[-2]
+        assembler_name = ASSEMBLER_PROCESS_DICT[v_file.replace(
+            '.', '').split('_')[-2]]
         with open(v_file) as fh:
             assembler_version = fh.readline().strip()
             if assembler_name not in version_dict.keys():
-                version_dict[ASSEMBLER_PROCESS_DICT[assembler_name]] = assembler_version
+                version_dict[assembler_name] = assembler_version
 
     with open("versions.json", "w") as json_report:
         json_report.write(json.dumps(version_dict, separators=(",", ":")))
