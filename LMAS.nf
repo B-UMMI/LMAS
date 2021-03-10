@@ -765,7 +765,6 @@ process MISASSEMBLY {
     file("*_trace.pkl") into OUT_MISASSEMBLY_TRACE
     file("*_contig_lenght.pkl") into OUT_MISASSEMBLY_CONTIGS
     file("*_misassembly.json") into MISASSEMBLY_REPORT
-    file("*_misassembly_per_reference.json") into MISASSEMBLY_PER_REF
 
     script:
     template "misassembly.py"

@@ -208,18 +208,7 @@ def main(sample_id, assembler, assembly, mapping):
 
     mis_contigs = evaluate_misassembled_contigs(misassembled_contigs["misassembly"])
 
-    report_data = {"sample": sample_id, "assembler": assembler, "misassembled_contigs": len(mis_contigs.keys())}
-
-    # per reference
-    mis_per_ref = {}
-    for contig in mis_contigs:
-        for reference in mis_contigs[contig]['reference']:
-            if reference not in mis_per_ref.keys():
-                mis_per_ref[reference] = 1
-            else:
-                mis_per_ref[reference] = mis_per_ref[reference] + 1
-
-    report_per_reference = {"sample": sample_id, "assembler": assembler, "per_reference":mis_per_ref}
+    report_data = {"sample": sample_id, "assembler": assembler, "misassembled_contigs": mis_contigs}
 
     # PLOT 
 
@@ -271,9 +260,6 @@ def main(sample_id, assembler, assembly, mapping):
     
     with open("{}_{}_misassembly.json".format(sample_id, assembler), "w") as json_report:
         json_report.write(json.dumps(report_data, separators=(",", ":")))
-    
-    with open("{}_{}_misassembly_per_reference.json".format(sample_id, assembler), "w") as json_report:
-        json_report.write(json.dumps(report_per_reference, separators=(",", ":")))
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)

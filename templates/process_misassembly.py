@@ -50,16 +50,16 @@ if __file__.endswith(".command.sh"):
     logger.debug("REPORT_PER_REFERENCE: {}".format(REPORT_PER_REFERENCE))
 
 
-def main(misassembly_trace, misassembly_contigs, report_data, report_per_reference):
-
-    # PLOT
+def make_plot(misassembly_trace, misassembly_contigs):
+    """
+    """
     data_dict = {}
     contig_size = {}
 
     sorted_misassembly_trace = sorted(
         misassembly_trace, key=lambda v: v.upper(), reverse=True)
 
-    for file_trace in misassembly_trace:
+    for file_trace in sorted_misassembly_trace:
         sample_name = file_trace.split("_")[0]
         assembler_name = file_trace.split("_")[1]
         with open(file_trace, 'rb') as f:
@@ -103,7 +103,10 @@ def main(misassembly_trace, misassembly_contigs, report_data, report_per_referen
         plot(fig, filename='{}_misassembly.html'.format(sample), auto_open=False)
         fig.write_json(file='{}_misassembly.json'.format(sample))
 
-    # GLOBAL MISASSEMBLY STATS
+
+def global_misassembly(report_data):
+    """
+    """
     master_report_data = {}
     for file_report in report_data:
         with open(file_report) as json_fh:
@@ -113,27 +116,50 @@ def main(misassembly_trace, misassembly_contigs, report_data, report_per_referen
                 master_report_data[data_json["sample"]] = {
                     data_json["assembler"]: data_json["misassembled_contigs"]}
             else:
-                master_report_data[data_json["sample"]][data_json["assembler"]
-                                                        ] = data_json["misassembled_contigs"]
+                master_report_data[data_json["sample"]][data_json["assembler"]] = len(
+                    data_json["misassembled_contigs"].keys())
 
     with open("misassembly_report.json", "w") as json_report:
         json_report.write(json.dumps(
             master_report_data, separators=(",", ":")))
 
-    # MISASSEMBLY STATS PER REF
+    print(master_report_data)
+
+
+def misassembly_per_ref(report_per_reference):
+    """
+    """
     master_report_data_per_reference = {}
     for report_reference in report_per_reference:
         with open(report_reference) as json_fh:
             data_json = json.load(json_fh)
             if data_json["sample"] not in master_report_data_per_reference.keys():
-                master_report_data_per_reference[data_json["sample"]] = {
-                    data_json["per_reference"]}
+                master_report_data_per_reference[data_json["sample"]
+                                                 ] = data_json["per_reference"]
+
+    print(master_report_data_per_reference)
 
     with open("misassembly_report_per_ref.json", "w") as json_report:
         json_report.write(json.dumps(
             master_report_data_per_reference, separators=(",", ":")))
 
 
+def main(misassembly_trace, misassembly_contigs, report_data, report_per_reference):
+    """
+    """
+
+    # GLOBAL MISASSEMBLY PLOT
+    make_plot(misassembly_trace, misassembly_contigs)
+
+    # GLOBAL MISASSEMBLY STATS
+    global_misassembly(report_data)
+
+    # MISASSEMBLY STATS PER REF
+    # misassembly_per_ref(report_per_reference)
+
+
 if __name__ == '__main__':
-    main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS,
-         REPORT_DATA, REPORT_PER_REFERENCE)
+    #main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS, REPORT_DATA)
+    import glob
+    main(glob.glob("*_trace.pkl"), glob.glob("*_contig_lenght.pkl"),
+         glob.glob("*_*_misassembly.json"))
