@@ -37,6 +37,7 @@ if __file__.endswith(".command.sh"):
     MISASSEMBLY_REPORT = "$misassembly_data"
     MIN_CONTIG_SIZE = "$params.minLength"
     VERSIONS_JSON = "$versions_json"
+    MISASSEMBLY_PER_REF = "$misassembly_per_ref"
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
@@ -61,6 +62,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("MISASSEMBLY_REPORT: {}".format(MISASSEMBLY_REPORT))
     logger.debug("MIN_CONTIG_SIZE: {}".format(MIN_CONTIG_SIZE))
     logger.debug("VERSIONS_JSON: {}".format(VERSIONS_JSON))
+    logger.debug("MISASSEMBLY_PER_REF: {}".format(MISASSEMBLY_PER_REF))
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -295,7 +297,7 @@ def process_sample_reads(reads_jsons):
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
-         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json):
+         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json, misassembly_per_ref):
 
     metadata = {
         "nfMetadata": {
@@ -359,6 +361,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         mapping_stats_json = json.load(f)
         for sample_id in mapping_stats_json.keys():
             for reference, mapping_stats_reference in mapping_stats_json[sample_id]["ReferenceTable"].items():
+                print(mapping_stats_reference)
                 if "ReferenceTables" not in main_data_tables_js[sample_id]:
                     main_data_tables_js[sample_id]["ReferenceTables"] = {}
                 if reference not in main_data_tables_js[sample_id]["ReferenceTables"].keys():
@@ -529,4 +532,4 @@ if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
-         VERSIONS_JSON)
+         VERSIONS_JSON, MISASSEMBLY_PER_REF)
