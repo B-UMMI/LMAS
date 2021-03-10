@@ -361,7 +361,6 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         mapping_stats_json = json.load(f)
         for sample_id in mapping_stats_json.keys():
             for reference, mapping_stats_reference in mapping_stats_json[sample_id]["ReferenceTable"].items():
-                print(mapping_stats_reference)
                 if "ReferenceTables" not in main_data_tables_js[sample_id]:
                     main_data_tables_js[sample_id]["ReferenceTables"] = {}
                 if reference not in main_data_tables_js[sample_id]["ReferenceTables"].keys():
@@ -370,6 +369,19 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                 else:
                     main_data_tables_js[sample_id]["ReferenceTables"][reference].append(
                         mapping_stats_reference)
+    
+    # add misassembly stats
+    with open(misassembly_per_ref) as misassembly_fh:
+        misassembly_stats = json.load(misassembly_fh)
+        for sample_id in main_data_tables_js.keys():
+            for reference in  main_data_tables_js[sample_id]["ReferenceTables"].keys():
+                for item_row in main_data_tables_js[sample_id]["ReferenceTables"][reference]:
+                    assembler = item_row['assembler']
+                    if misassembly_stats[sample_id][assembler] == [{}] or reference not in misassembly_stats[sample_id][assembler][0]:
+                        item_row['misassembled_contigs'] = 0
+                    else:
+                         item_row['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][reference]
+
 
     for sample_id in main_data_tables_js.keys():
         main_data_plots_js[sample_id] = {}
