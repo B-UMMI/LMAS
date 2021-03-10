@@ -116,8 +116,8 @@ def global_misassembly(report_data):
                 master_report_data[data_json["sample"]] = {
                     data_json["assembler"]: data_json["misassembled_contigs"]}
             else:
-                master_report_data[data_json["sample"]][data_json["assembler"]] = len(
-                    data_json["misassembled_contigs"].keys())
+                master_report_data[data_json["sample"]][data_json["assembler"]
+                                                        ] = data_json["misassembled_contigs"]
 
     with open("misassembly_report.json", "w") as json_report:
         json_report.write(json.dumps(
@@ -143,7 +143,6 @@ def misassembly_per_ref(report_per_reference):
                 master_report_data_per_reference[data_json["sample"]][data_json["assembler"]].append(
                     data_json["reference"])
 
-
     with open("misassembly_report_per_ref.json", "w") as json_report:
         json_report.write(json.dumps(
             master_report_data_per_reference, separators=(",", ":")))
@@ -164,7 +163,8 @@ def main(misassembly_trace, misassembly_contigs, report_data, report_per_referen
 
 
 if __name__ == '__main__':
-    main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS, REPORT_DATA, REPORT_PER_REFERENCE)
+    main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS,
+         REPORT_DATA, REPORT_PER_REFERENCE)
     # import glob
     # main(glob.glob("*_trace.pkl"), glob.glob("*_contig_lenght.pkl"),
     #      glob.glob("*_*_misassembly.json"))
