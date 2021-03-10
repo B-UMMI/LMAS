@@ -45,7 +45,7 @@ ASSEMBLER_PROCESS_DICT = {
     "SPAdes": "SPADES",
     "SKESA": "SKESA",
     "VelvetOptimiser": "VELVETOPTIMIZER",
-    "IDBA-UD": "IDBA"}
+    "IDBA": "IDBA"}
 
 
 def main(versions):
