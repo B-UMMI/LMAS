@@ -164,7 +164,7 @@ def main(misassembly_trace, misassembly_contigs, report_data, report_per_referen
 
 
 if __name__ == '__main__':
-    main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS, REPORT_DATA)
+    main(MISASSEMBLY_TRACE, MISASSEMBLY_CONTIGS, REPORT_DATA, REPORT_PER_REFERENCE)
     # import glob
     # main(glob.glob("*_trace.pkl"), glob.glob("*_contig_lenght.pkl"),
     #      glob.glob("*_*_misassembly.json"))
