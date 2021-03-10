@@ -127,7 +127,7 @@ def main(misassembly_trace, misassembly_contigs, report_data, report_per_referen
             data_json = json.load(json_fh)
             if data_json["sample"] not in master_report_data_per_reference.keys():
                 master_report_data_per_reference[data_json["sample"]] = {
-                    data_json["reference"]}
+                    data_json["per_reference"]}
 
     with open("misassembly_report_per_ref.json", "w") as json_report:
         json_report.write(json.dumps(
