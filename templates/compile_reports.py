@@ -378,6 +378,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                 for item_row in main_data_tables_js[sample_id]["ReferenceTables"][reference]:
                     for item in item_row:
                         assembler = item['assembler']
+                        print(misassembly_stats[sample_id][assembler])
                         if reference in misassembly_stats[sample_id][assembler][0].keys():
                             item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][reference]
                         else:
