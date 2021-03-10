@@ -378,7 +378,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                 for item_row in main_data_tables_js[sample_id]["ReferenceTables"][reference]:
                     for item in item_row:
                         assembler = item['assembler']
-                        references = misassembly_stats[sample_id][assembler][0].keys()
+                        references = list(misassembly_stats[sample_id][assembler][0].keys())
                         references_names = [utils.REFERENCE_DIC[i] for i in references]
                         if reference in references_names:
                             index = references_names.index(reference)
