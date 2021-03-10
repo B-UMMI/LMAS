@@ -206,12 +206,22 @@ def main(sample_id, assembler, assembly, mapping):
     # identify contings broken into multiple assembly blocks
     misassembled_contigs = check_missassemblies(mapping)
 
+    # classify misassembly 
     mis_contigs = evaluate_misassembled_contigs(misassembled_contigs["misassembly"])
 
+    # global report
     report_data = {"sample": sample_id, "assembler": assembler, "misassembled_contigs": len(mis_contigs.keys())}
 
-    # PLOT 
+    # reference report
+    reference_report = {"sample": sample_id, "assembler": assembler, 'reference': {}}
+    for contig in mis_contigs.keys():
+        for reference in  mis_contigs[contig]['reference']:
+            if reference not in reference_report['reference'].keys():
+                reference_report['reference'] = 1
+            else:
+                reference_report['reference'] += 1
 
+    # PLOT 
         # symbols
     raw_symbols = SymbolValidator().values
     symbols = []
@@ -261,8 +271,9 @@ def main(sample_id, assembler, assembly, mapping):
     with open("{}_{}_misassembly.json".format(sample_id, assembler), "w") as json_report:
         json_report.write(json.dumps(report_data, separators=(",", ":")))
     
-    with open("{}_{}_misassembled_contigs.json".format(sample_id, assembler), "w") as misassembly_dict:
-        misassembly_dict.write(json.dumps(mis_contigs, separators=(",", ":")))
+    print(mis_contigs)
+    with open("{}_{}_misassembled_reference.json".format(sample_id, assembler), "w") as misassembly_dict:
+        misassembly_dict.write(json.dumps(reference_report, separators=(",", ":")))
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)
