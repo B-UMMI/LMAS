@@ -217,9 +217,9 @@ def main(sample_id, assembler, assembly, mapping):
     for contig in mis_contigs.keys():
         for reference in  mis_contigs[contig]['reference']:
             if reference not in reference_report['reference'].keys():
-                reference_report['reference'] = 1
+                reference_report['reference'] = {reference: 1}
             else:
-                reference_report['reference'] += 1
+                reference_report['reference'][reference] += 1
 
     # PLOT 
         # symbols
