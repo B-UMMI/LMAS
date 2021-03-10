@@ -35,9 +35,17 @@ if __file__.endswith(".command.sh"):
     logger.debug("VERSIONS: {}".format(VERSIONS))
 
 
-ASSEMBLER_PROCESS_DICT = {"BCALM2": "BCALM2", "GATBMiniaPipeline": "GATBMINIAPIPELINE", "MINIA": "MINIA",
-                          "MEGAHIT": "MEGAHIT", 'metaSPAdes': "METASPADES", "Unicycler": "UNICYCLER", "SPAdes": "SPADES",
-                          "SKESA": "SKESA", "VelvetOptimizer": "VELVETOPTIMIZER", "IDBA-UD": "IDBA"}
+ASSEMBLER_PROCESS_DICT = {
+    "BCALM2": "BCALM2",
+    "GATBMiniaPipeline": "GATBMINIAPIPELINE",
+    "MINIA": "MINIA",
+    "MEGAHIT": "MEGAHIT",
+    'metaSPAdes': "METASPADES",
+    "Unicycler": "UNICYCLER",
+    "SPAdes": "SPADES",
+    "SKESA": "SKESA",
+    "VelvetOptimiser": "VELVETOPTIMIZER",
+    "IDBA-UD": "IDBA"}
 
 
 def main(versions):
