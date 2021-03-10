@@ -376,11 +376,12 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
         for sample_id in main_data_tables_js.keys():
             for reference in main_data_tables_js[sample_id]["ReferenceTables"].keys():
                 for item_row in main_data_tables_js[sample_id]["ReferenceTables"][reference]:
-                    assembler = item_row[0]['assembler']
-                    if reference in misassembly_stats[sample_id][assembler][0].keys():
-                        item_row[0]['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][reference]
-                    else:
-                        item_row[0]['misassembled_contigs'] = 0
+                    for item in item_row:
+                        assembler = item['assembler']
+                        if reference in misassembly_stats[sample_id][assembler][0].keys():
+                            item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][reference]
+                        else:
+                            item['misassembled_contigs'] = 0
 
     for sample_id in main_data_tables_js.keys():
         main_data_plots_js[sample_id] = {}
