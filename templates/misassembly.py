@@ -208,7 +208,7 @@ def main(sample_id, assembler, assembly, mapping):
 
     mis_contigs = evaluate_misassembled_contigs(misassembled_contigs["misassembly"])
 
-    report_data = {"sample": sample_id, "assembler": assembler, "misassembled_contigs": mis_contigs}
+    report_data = {"sample": sample_id, "assembler": assembler, "misassembled_contigs": len(mis_contigs.keys())}
 
     # PLOT 
 
@@ -260,6 +260,9 @@ def main(sample_id, assembler, assembly, mapping):
     
     with open("{}_{}_misassembly.json".format(sample_id, assembler), "w") as json_report:
         json_report.write(json.dumps(report_data, separators=(",", ":")))
+    
+    with open("{}_{}_misassembled_contigs.json".format(sample_id, assembler), "w") as misassembly_dict:
+        misassembly_dict.write(json.dumps(mis_contigs, separators=(",", ":")))
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING)
