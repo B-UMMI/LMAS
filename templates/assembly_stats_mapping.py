@@ -127,7 +127,7 @@ def get_multiplicity(covered_bases_list, ref_len):
             total_bases += 1
 
     if total_bases > 0:
-        return len(covered_bases) / total_bases
+        return total_bases / len(covered_bases)
     else:
         return 0
 
