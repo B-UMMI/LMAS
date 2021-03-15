@@ -132,6 +132,27 @@ def get_multiplicity(covered_bases_list, ref_len):
         return 0
 
 
+def get_validity(covered_bases_list, sum_contig_length):
+    """
+    Get ratio of sum of bases that map to the reference to sum of lenght of aligned contigs 
+    :param covered_bases_list: list with alignment coordinates
+    :param sum_contig_length: int of sum of total lenght of all aligned contigs
+    :return: validity
+    """
+    sorted_list = sorted(covered_bases_list, key=lambda x: x[0])
+    total_bases = 0
+
+    for item in sorted_list:
+        start, stop = map(int, item[:])
+        for base in range(start, stop):
+            total_bases += 1
+
+    if total_bases > 0:
+        return total_bases / sum_contig_length
+    else:
+        return 0
+
+
 def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     """
     Function to process the mapping (*.paf) file for a given reference.
@@ -148,11 +169,10 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     # Tracks the longest single alignment, in terms of the reference bases.
     covered_bases = []
-
+    sum_contig_length = 0
     n_identity = []
 
     longest_alignment = 0
-
     alignment_dict = {'Reference': utils.REFERENCE_DIC[ref_name], 'Reference_Length': ref_length,
                       'Longest_Alignment': 0, 'Contigs': {}}
 
@@ -162,6 +182,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
             if parts[5] == ref_name:
                 # parse values from PAF file
                 contig_name, contig_length = parts[0], int(parts[1])
+                sum_contig_length += contig_length
                 start, end = int(parts[7]), int(parts[8])
 
                 # number of residue matches
@@ -200,10 +221,14 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     multiplicity = get_multiplicity(covered_bases, ref_length)
 
+    validity = get_validity(covered_bases, sum_contig_length)
+
+    parsimony = multiplicity / validity
+
     identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
     lowest_identity = min(n_identity) if len(n_identity) > 0 else 0
 
-    return contiguity, coverage, multiplicity, lowest_identity, identity, df_phred, len_convered_bases
+    return contiguity, coverage, multiplicity, validity, parsimony, lowest_identity, identity, df_phred, len_convered_bases
 
 
 def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_target):
@@ -256,6 +281,8 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         mapped_contigs = df_assembler_reference['Contig Len'].astype(
             'int').tolist()
 
+        Ns = df_assembler_reference['#N']
+
         # Assembly metrics
         for x in np.linspace(0, 1, 10):
             # NAx
@@ -275,11 +302,11 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, n_target)
         l90 = utils.get_Lx(mapped_contigs, len(seq)/3, l_target)
 
-        contiguity, coverage, multiplicity, lowest_identity, identity, df_phred, covered_bases = get_alignment_stats(mapping,
-                                                                                                                     header_str,
-                                                                                                                     len(
-                                                                                                                         seq)/3,
-                                                                                                                     df_phred)
+        contiguity, coverage, multiplicity, validity, parsimony, lowest_identity, identity, df_phred, covered_bases, Ns = get_alignment_stats(mapping,
+                                                                                                                                              header_str,
+                                                                                                                                              len(
+                                                                                                                                                  seq)/3,
+                                                                                                                                              df_phred)
 
         fh.write(','.join([reference_name, str(coverage),
                            str(len(mapped_contigs))]) + '\\n')
@@ -289,6 +316,8 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
             "assembler": assembler,
             "contiguity": contiguity,
             "multiplicity": multiplicity,
+            "validity": validity,
+            "parsimony": parsimony,
             "identity": identity,
             "lowest_identity": lowest_identity,
             "breadth_of_coverage": coverage,
@@ -296,7 +325,8 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
             "aligned_contigs": len(mapped_contigs),
             "NA50": na50,
             "NG50": ng50,
-            "aligned_basepairs": covered_bases
+            "aligned_basepairs": covered_bases,
+            "Ns": Ns,
         }
 
     fh.close()

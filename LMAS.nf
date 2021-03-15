@@ -249,7 +249,9 @@ process METASPADES {
 
     script:
     """
-    metaspades.py --version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' 2> .${sample_id}_metaSPAdes_version
+    metaspades.py --version &> version
+    cat version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' > .${sample_id}_metaSPAdes_version
+    rm version
     {
         metaspades.py --only-assembler --threads $task.cpus -k $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} -o metaspades
         mv metaspades/contigs.fasta ${sample_id}_metaspades.fasta
@@ -311,7 +313,9 @@ process SPADES {
 
     script:
     """
-    spades.py --version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' 2> .${sample_id}_SPAdes_version
+    spades.py --version &> version
+    cat version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' 2> .${sample_id}_SPAdes_version
+    rm version
     {
         spades.py --only-assembler --threads $task.cpus -k $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} -o spades
         mv spades/contigs.fasta ${sample_id}_spades.fasta

@@ -76,15 +76,17 @@ def main(dataframes):
                                 vertical_spacing=0.02)
 
             y = 0
-            reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
-            
+            reference_length = int(
+                frame['Reference Length'][frame['Reference'] == reference].unique())
+
             #indexes = np.arange(reference_length)
             _count = Counter()
-            #_count.update({x: 0 for x in indexes}) # initialize all values as 0 counts
-            
-            assemblers = sorted(frame['Assembler'].unique(), key=lambda v: v.upper(), reverse=True)
+            # _count.update({x: 0 for x in indexes}) # initialize all values as 0 counts
+
+            assemblers = sorted(frame['Assembler'].unique(
+            ), key=lambda v: v.upper(), reverse=True)
             assemblers_in_plot = []
-            
+
             for assembler in assemblers:
                 coords = frame[(frame['Sample'] == sample) & (frame['Reference'] == reference) &
                                (frame['Assembler'] == assembler)]
@@ -97,27 +99,29 @@ def main(dataframes):
 
                     # trace with gap location - one per gap
                     fig.add_trace(go.Scattergl(x=coord_list,
-                                            y=[y]*len(coord_list),
-                                            mode='markers',
-                                            marker_symbol='line-ns',
-                                            text=substitution_list,
-                                            hovertemplate ='<b>Substitution:</b>: %{text}',
-                                            marker=dict(color='#000000', size=12,
-                                                        line=dict(width=3,
-                                                                  color='#000000')),
-                                            name=assembler,
-                                            showlegend=False,
-                                            ),
-                                    row=2, col=1)
+                                               y=[y]*len(coord_list),
+                                               mode='markers',
+                                               marker_symbol='line-ns',
+                                               text=substitution_list,
+                                               hovertemplate='<b>Substitution:</b>: %{text}' +
+                                               '<br><b>Coord</b>: %{x}<br>',
+                                               marker=dict(color='#000000', size=12,
+                                                           line=dict(width=3,
+                                                                     color='#000000')),
+                                               name=assembler,
+                                               showlegend=False,
+                                               ),
+                                  row=2, col=1)
                     _count.update(coord_list)
                     y += 1
             # histogram-like plot for snp counts, if snp
             if _count:
-                _count_sorted = dict(sorted(_count.items(),key = lambda i: i[0]))
+                _count_sorted = dict(
+                    sorted(_count.items(), key=lambda i: i[0]))
                 labels, values = zip(*_count_sorted.items())
                 fig.add_trace(go.Bar(x=labels, y=values, marker_color='#000000',
                                      showlegend=False, width=12), row=1, col=1)
-            
+
             # style plot
             fig.update_xaxes(title_text="{} Bp".format(reference),
                              range=[0, reference_length], row=2, col=1)
@@ -131,12 +135,14 @@ def main(dataframes):
                                          linewidth=1, linecolor='black',
                                          gridcolor='#DCDCDC'))
 
-            html_filename = '{0}_{1}_snps.html'.format(sample, reference.replace(' ', '_'))
+            html_filename = '{0}_{1}_snps.html'.format(
+                sample, reference.replace(' ', '_'))
             plot(fig, filename=html_filename, auto_open=False)
 
             plot_json = fig.to_json()
 
-            report_dict[sample]['PlotData'].setdefault(reference, []).append(plot_json)
+            report_dict[sample]['PlotData'].setdefault(
+                reference, []).append(plot_json)
 
     with open('snps_in_reference.json', 'w') as json_report:
         json_report.write(json.dumps(report_dict, separators=(",", ":")))

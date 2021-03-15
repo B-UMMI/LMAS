@@ -44,6 +44,7 @@ https://github.com/cimendes
 
 import os
 import json
+import re
 try:
     import utils
 except ImportError:
@@ -83,18 +84,22 @@ def get_contig_lists(fasta, min_len):
     """
     contigs_len_over_1000 = []
     contigs_len = []
+    Ns_all = 0
+    Ns_over_1000 = 0
 
     for header, seq in fasta:
+        Ns_all += len(re.findall("N", seq.upper()))
         if len(seq) > int(min_len):
             contigs_len_over_1000.append(len(seq))
+            Ns_over_1000 += len(re.findall("N", seq.upper()))
         contigs_len.append(len(seq))
 
-    return contigs_len, contigs_len_over_1000
+    return contigs_len, contigs_len_over_1000, Ns_all, Ns_over_1000
 
 
 def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
 
-    contigs, contigs_over_min_len = get_contig_lists(utils.fasta_iter(assembly), min_len)
+    contigs, contigs_over_min_len, Ns_all, Ns_over_1000 = get_contig_lists(utils.fasta_iter(assembly), min_len)
 
     n50_contigs = utils.get_Nx(contigs, n_target)
     n50_contigs_over_min_len = utils.get_Nx(contigs_over_min_len, n_target)
@@ -117,11 +122,13 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
                     "basepairs": sum(contigs),
                     "max_contig_size": max(contigs) if len(contigs) > 0 else 0,
                     "N{}".format(int(n_target*100)): n50_contigs,
-                    "mapped_reads": mapped_reads},
+                    "mapped_reads": mapped_reads,
+                    "Ns": Ns_all},
                 "filtered": {
                         "contigs": len(contigs_over_min_len),
                         "basepairs": sum(contigs_over_min_len),
-                        "N{}".format(int(n_target*100)): n50_contigs_over_min_len}
+                        "N{}".format(int(n_target*100)): n50_contigs_over_min_len,
+                        "Ns": Ns_over_1000}
                 }
 
         json_report.write(json.dumps(json_dic, separators=(",", ":")))

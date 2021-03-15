@@ -138,14 +138,16 @@ def parse_assemblies(sample_id, assembler, assembly, mapping):
     mapped_contigs = get_mapped_contigs_with_ref(mapping)
 
     fasta = fasta_iter(assembly)
+    Ns = 0
     for header, seq in fasta:
+        Ns += len(re.findall("N", seq.upper())) 
         if header in mapped_contigs.keys():
             is_mapped = mapped_contigs[header]
         else:
             is_mapped = 'Unmapped'
 
         df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Contig': header, 'Contig Len': len(seq),
-                        'Mapped': is_mapped}, ignore_index=True)
+                        'Mapped': is_mapped, '#N': Ns}, ignore_index=True)
 
     df = df.reset_index()
 

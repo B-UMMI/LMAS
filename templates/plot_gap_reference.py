@@ -109,7 +109,8 @@ def intervals_subgroups(intervals):
         start = i[0]
         current_interval = i[2]
         # identify groups of subsequent equal values
-        values_groups = [list(v) for k, v in groupby(current_interval.values())]
+        values_groups = [list(v)
+                         for k, v in groupby(current_interval.values())]
         for g in values_groups:
             # keep only the start and end points for each group
             subgroups[start] = g[0]
@@ -141,7 +142,8 @@ def main(dataframes):
 
             y = 0
             gaps_intervals = []
-            assemblers = sorted(frame['Assembler'].unique(), key=lambda v: v.upper(), reverse=True)
+            assemblers = sorted(frame['Assembler'].unique(
+            ), key=lambda v: v.upper(), reverse=True)
             assemblers_in_plot = []
             for assembler in assemblers:
                 print(assembler)
@@ -157,19 +159,24 @@ def main(dataframes):
                         gap_size = stops[i]-starts[i]
                         # trace with gap location - one per gap
                         fig.add_trace(go.Scatter(x=[starts[i], stops[i]],
-                                                    y=[y, y],
-                                                    mode='lines',
-                                                    line=dict(color='#000000', width=12),
-                                                    name=assembler,
-                                                    showlegend=False,
-                                                    text = [gap_size, gap_size],
-                                                    hovertemplate ='<b>Gap size</b>: %{text}'),
-                                        row=2, col=1)
-                        gaps_dict = {i: 1 for i in range(starts[i], stops[i]+1)}
-                        gaps_intervals.append([starts[i], stops[i]+1, gaps_dict])
+                                                 y=[y, y],
+                                                 mode='lines',
+                                                 line=dict(
+                                                     color='#000000', width=12),
+                                                 name=assembler,
+                                                 showlegend=False,
+                                                 text=[gap_size, gap_size],
+                                                 hovertemplate='<b>Gap size</b>: %{text}' +
+                                                 '<br><b>Coord</b>: %{x}<br>'),
+                                      row=2, col=1)
+                        gaps_dict = {i: 1 for i in range(
+                            starts[i], stops[i]+1)}
+                        gaps_intervals.append(
+                            [starts[i], stops[i]+1, gaps_dict])
                     y += 1
-            
-            reference_length = int(frame['Reference Length'][frame['Reference'] == reference].unique())
+
+            reference_length = int(
+                frame['Reference Length'][frame['Reference'] == reference].unique())
             if len(gaps_intervals) == 0:
                 data_points = gaps_intervals
             else:
@@ -178,7 +185,8 @@ def main(dataframes):
                 merged_intervals = merge_intervals(gaps_intervals)
 
                 # determine missing intervals
-                missing_intervals = determine_missing_intervals(merged_intervals, reference_length)
+                missing_intervals = determine_missing_intervals(
+                    merged_intervals, reference_length)
 
                 # identify start and end points for gaps subgroups
                 gaps_points = intervals_subgroups(merged_intervals)
@@ -213,12 +221,14 @@ def main(dataframes):
                                          linewidth=1, linecolor='black',
                                          gridcolor='#DCDCDC'))
 
-            html_filename = '{0}_{1}_gaps.html'.format(sample, reference.replace(' ', '_'))
+            html_filename = '{0}_{1}_gaps.html'.format(
+                sample, reference.replace(' ', '_'))
             plot(fig, filename=html_filename, auto_open=False)
 
             plot_json = fig.to_json()
 
-            report_dict[sample]['PlotData'].setdefault(reference, []).append(plot_json)
+            report_dict[sample]['PlotData'].setdefault(
+                reference, []).append(plot_json)
 
     with open('gaps_in_reference.json', 'w') as json_report:
         json_report.write(json.dumps(report_dict, separators=(",", ":")))
