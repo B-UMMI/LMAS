@@ -125,7 +125,6 @@ def get_multiplicity(covered_bases_list, ref_len):
         for base in range(start, stop):
             covered_bases.add(utils.adjust_reference_coord(base, ref_len))
             total_bases += 1
-
     if total_bases > 0:
         return total_bases / len(covered_bases)
     else:
@@ -218,15 +217,17 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     # COMPASS Metrics
     coverage, len_convered_bases = get_covered_bases(covered_bases, ref_length)
+    print("coverage: {}".format(coverage))
 
     multiplicity = get_multiplicity(covered_bases, ref_length)
+    print("multiplicity: {}".format(multiplicity))
 
     validity = get_validity(covered_bases, sum_contig_length)
+    print("validity: {}".format(validity))
 
-    print(multiplicity, validity)
-
-    parsimony = multiplicity / validity
-
+    parsimony = multiplicity / validity if validity != 0 else 0
+    print("parsimony: {}".format(parsimony))
+    
     identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
     lowest_identity = min(n_identity) if len(n_identity) > 0 else 0
 
@@ -264,7 +265,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
 
     # filter dataframe for the assembler
     df_assembler = df[df['Assembler'] == assembler]
-    print(df_assembler)
 
     # iterator for reference files (sequence length is needed)
     references = (x[1] for x in groupby(
@@ -280,7 +280,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         seq = "".join(s.strip() for s in references.__next__())
 
         df_assembler_reference = df_assembler[df_assembler['Mapped'] == header_str]
-        print(df_assembler_reference)
 
         mapped_contigs = df_assembler_reference['Contig Len'].astype(
             'int').tolist()
@@ -360,4 +359,6 @@ def main(sample_id, assembler, assembly, mapping, reference, n_target, l_target)
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)
+    #main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)
+    main("ERR2935805", "SKESA", "filtered_ERR2935805_skesa.fasta", "ERR2935805_SKESA.paf", 
+    "Zymos_Genomes_triple_chromosomes.fasta", 0.5, 0.9)
