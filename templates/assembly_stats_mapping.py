@@ -279,6 +279,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         seq = "".join(s.strip() for s in references.__next__())
 
         df_assembler_reference = df_assembler[df_assembler['Mapped'] == header_str]
+        print(df_assembler_reference)
 
         mapped_contigs = df_assembler_reference['Contig Len'].astype(
             'int').tolist()
