@@ -302,7 +302,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, n_target)
         l90 = utils.get_Lx(mapped_contigs, len(seq)/3, l_target)
 
-        contiguity, coverage, multiplicity, validity, parsimony, lowest_identity, identity, df_phred, covered_bases, Ns = get_alignment_stats(mapping,
+        contiguity, coverage, multiplicity, validity, parsimony, lowest_identity, identity, df_phred, covered_bases = get_alignment_stats(mapping,
                                                                                                                                               header_str,
                                                                                                                                               len(
                                                                                                                                                   seq)/3,
