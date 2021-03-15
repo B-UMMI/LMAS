@@ -21,6 +21,7 @@ Short-read metagenomic assembly: finding the best fit in a world of options.
    getting_started/installation
    about/about
 
+
 .. _User Guide:
 
 .. toctree::
@@ -28,5 +29,25 @@ Short-read metagenomic assembly: finding the best fit in a world of options.
    :caption: User Guide
 
    user/basic_usage
-   user/output_report
+   user/output
+   user/assemblers
+   user/parameters
+   user/metrics
 
+.. _Report:
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Report
+
+   report/overview
+
+
+.. _Dev:
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Developer Guide
+
+   dev/general
+   dev/add_process
