@@ -250,6 +250,13 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
     df_phred = pd.DataFrame(columns=[
                             'Assembler', 'Reference', 'Contig', 'Contig Length', 'Phred Quality Score'])
 
+    # Dataframes for assembly stats 
+    df_na = pd.DataFrame(
+        columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
+    df_ng = pd.DataFrame(
+        columns=['Reference', 'Assembler', 'NGx', 'Basepairs'])
+    df_lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])
+
     # Mapping stats dict
     mapping_stats_dict = {
         "sample_id": sample_id,
@@ -257,6 +264,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
 
     # filter dataframe for the assembler
     df_assembler = df[df['Assembler'] == assembler]
+    print(df_assembler)
 
     # iterator for reference files (sequence length is needed)
     references = (x[1] for x in groupby(
@@ -265,13 +273,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
     fh = open(sample_id + '_' + assembler +
               "_breadth_of_coverage_contigs.csv", "w")
     fh.write("Reference,Breadth of Coverage,Contigs\\n")
-
-    df_na = pd.DataFrame(
-        columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
-    df_ng = pd.DataFrame(
-        columns=['Reference', 'Assembler', 'NGx', 'Basepairs'])
-    # Lx - array of values for L0 to L100
-    df_lx = pd.DataFrame(columns=['Reference', 'Assembler', 'Lx', 'nContigs'])
 
     for header in references:
         header_str = header.__next__()[1:].strip().split()[0]
