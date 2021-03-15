@@ -359,6 +359,4 @@ def main(sample_id, assembler, assembly, mapping, reference, n_target, l_target)
 
 
 if __name__ == '__main__':
-    #main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)
-    main("ERR2935805", "SKESA", "filtered_ERR2935805_skesa.fasta", "ERR2935805_SKESA.paf", 
-    "Zymos_Genomes_triple_chromosomes.fasta", 0.5, 0.9)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)
