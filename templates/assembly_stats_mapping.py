@@ -281,7 +281,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         mapped_contigs = df_assembler_reference['Contig Len'].astype(
             'int').tolist()
 
-        Ns = df_assembler_reference['#N']
+        Ns = sum(df_assembler['#N'][df_assembler['Mapped'] == header_str])
 
         # Assembly metrics
         for x in np.linspace(0, 1, 10):
