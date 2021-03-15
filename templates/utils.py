@@ -7,7 +7,7 @@ import pandas as pd
 import re
 import logging
 
-COLUMNS = ['Sample', 'Assembler', 'Contig', 'Contig Len', 'Mapped']  # columns for dataframe
+COLUMNS = ['Sample', 'Assembler', 'Contig', 'Contig Len', 'Mapped', '#N']  # columns for dataframe
 
 # colors for each assembler
 COLOURS = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c',
