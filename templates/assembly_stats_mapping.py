@@ -223,6 +223,8 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     validity = get_validity(covered_bases, sum_contig_length)
 
+    print(multiplicity, validity)
+
     parsimony = multiplicity / validity
 
     identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
@@ -255,7 +257,6 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
 
     # filter dataframe for the assembler
     df_assembler = df[df['Assembler'] == assembler]
-    print(df_assembler)
 
     # iterator for reference files (sequence length is needed)
     references = (x[1] for x in groupby(
