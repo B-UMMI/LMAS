@@ -255,6 +255,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
 
     # filter dataframe for the assembler
     df_assembler = df[df['Assembler'] == assembler]
+    print(df_assembler)
 
     # iterator for reference files (sequence length is needed)
     references = (x[1] for x in groupby(
