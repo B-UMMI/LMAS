@@ -84,6 +84,7 @@ html_template = """
     <script> const _mainDataPlots = {4} </script>
     <script> const _sampleList = {5} </script>
     <script> const _minContigSize = {6} </script>
+    <script> const _overviewMD = {7} </script>
     <script src="./main.js"></script>
   </body>
 </html>
@@ -297,7 +298,7 @@ def process_sample_reads(reads_jsons):
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
-         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json, misassembly_per_ref):
+         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json, misassembly_per_ref, about_md):
 
     metadata = {
         "nfMetadata": {
@@ -518,6 +519,12 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     #logger.debug("Report data dictionary: {}".format(main_data_plots_js))
 
+    # add about markdown
+    about_md_to_write = ""
+    if os.path.exists(about_md):
+        with open(about_md, 'r') as file:
+            about_md_to_write = '`' + file.read() + '`'
+    
     with open("performance_metadata.json", "w") as json_fh:
         json_fh.write(json.dumps(performance_metadata, separators=(",", ":")))
 
@@ -535,7 +542,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                                            json.dumps(main_data_tables_js),
                                            json.dumps(main_data_plots_js),
                                            list(main_data_tables_js.keys()),
-                                           min_contig_size))
+                                           min_contig_size,
+                                           about_md_to_write))
 
     with zipfile.ZipFile(main_js) as zf:
         zf.extractall(".")
@@ -545,6 +553,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 
 if __name__ == "__main__":
+    """
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
@@ -553,5 +562,4 @@ if __name__ == "__main__":
     main("main.js.zip", "pipeline_stats.txt", "global_assembly_stats.json", ['ERR2935805_contig_size_distribution.json', 'ERR2984773_contig_size_distribution.json', 'mockSample_contig_size_distribution.json'], "global_assembly_mapping_stats.json",
     "completness_plots.json", "lmas.zip", "Zymos_Genomes_triple_chromosomes.fasta", "lx.json", "phred.json", "gaps_in_reference.json", ['ERR2935805_gap_distance_histogram.json', 'ERR2984773_gap_distance_histogram.json', 'mockSample_gap_distance_histogram.json'],
     ['ERR2935805_misassembly.json', 'ERR2984773_misassembly.json', 'mockSample_misassembly.json'], "misassembly_report.json", 1000, "nax.json", "ngx.json",['ERR2935805_reads_report.json', 'ERR2984773_reads_report.json', 'mockSample_reads_report.json'] , "snps_in_reference.json",
-    "versions.json", "misassembly_report_per_ref.json")
-    """
+    "versions.json", "misassembly_report_per_ref.json", "about.md")
