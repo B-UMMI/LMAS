@@ -38,6 +38,7 @@ if __file__.endswith(".command.sh"):
     MIN_CONTIG_SIZE = "$params.minLength"
     VERSIONS_JSON = "$versions_json"
     MISASSEMBLY_PER_REF = "$misassembly_per_ref"
+    ABOUT_MD = "$about_md"
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
@@ -63,6 +64,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("MIN_CONTIG_SIZE: {}".format(MIN_CONTIG_SIZE))
     logger.debug("VERSIONS_JSON: {}".format(VERSIONS_JSON))
     logger.debug("MISASSEMBLY_PER_REF: {}".format(MISASSEMBLY_PER_REF))
+    logger.debug("ABOUT_MD: {}".format(ABOUT_MD))
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -553,13 +555,13 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 
 if __name__ == "__main__":
-    """
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
-         VERSIONS_JSON, MISASSEMBLY_PER_REF)
+         VERSIONS_JSON, MISASSEMBLY_PER_REF, ABOUT_MD)
     """
     main("main.js.zip", "pipeline_stats.txt", "global_assembly_stats.json", ['ERR2935805_contig_size_distribution.json', 'ERR2984773_contig_size_distribution.json', 'mockSample_contig_size_distribution.json'], "global_assembly_mapping_stats.json",
     "completness_plots.json", "lmas.zip", "Zymos_Genomes_triple_chromosomes.fasta", "lx.json", "phred.json", "gaps_in_reference.json", ['ERR2935805_gap_distance_histogram.json', 'ERR2984773_gap_distance_histogram.json', 'mockSample_gap_distance_histogram.json'],
     ['ERR2935805_misassembly.json', 'ERR2984773_misassembly.json', 'mockSample_misassembly.json'], "misassembly_report.json", 1000, "nax.json", "ngx.json",['ERR2935805_reads_report.json', 'ERR2984773_reads_report.json', 'mockSample_reads_report.json'] , "snps_in_reference.json",
     "versions.json", "misassembly_report_per_ref.json", "about.md")
+    """
