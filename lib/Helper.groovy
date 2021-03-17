@@ -54,6 +54,8 @@ class Help {
         println ""
         println "    --reference           Path to triple-genome reference fasta file. (default: $params.reference)"
         println ""
+        println "    --md                  Path to markdown with input sample description for report (optional). (default: $params.md)"
+        println ""
 
     }
 

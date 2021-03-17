@@ -7,6 +7,8 @@ The triple reference sequences can be passed with the '--reference' parameter, a
 the raw data for assembly. The raw data is a collection of sequence fragments from the references, and can 
 be either obtained *in silico* or from real sequencing platforms.
 
+The optional parameter '--md' allows the user to pass information on input samples to be presented in the report. 
+
 
 Download ZymoBIOMICS Microbial Community Standard Data
 ------------------------------------------------------

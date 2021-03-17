@@ -828,7 +828,7 @@ process compile_reports {
     file ngx_plots from PLOT_NGX
     file versions_json from VERSIONS_JSON
     file misassembly_per_ref from MISASSEMBLY_PER_REF
-    file about_md from Channel.fromPath("${workflow.projectDir}/data/*.md")
+    file about_md from Channel.fromPath(params.md)
     file containers_config from Channel.fromPath("${workflow.projectDir}/containers.config")
 
     output:
