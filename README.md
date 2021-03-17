@@ -122,4 +122,4 @@ LMAS is developed at the Molecular [Microbiology and Infection Unit (UMMI)](http
 
 This project is licensed under the [GPLv3 license](https://github.com/cimendes/LMAS/blob/main/LICENSE).
 
-If you use LMAS please city this repository.
+If you use LMAS please cite this repository.
