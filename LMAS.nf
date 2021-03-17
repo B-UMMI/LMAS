@@ -314,7 +314,7 @@ process SPADES {
     script:
     """
     spades.py --version &> version
-    cat version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' 2> .${sample_id}_SPAdes_version
+    cat version | awk -F ' ' '{print \$4}' | awk -F 'v' '{print \$2}' > .${sample_id}_SPAdes_version
     rm version
     {
         spades.py --only-assembler --threads $task.cpus -k $kmers -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} -o spades
@@ -829,6 +829,7 @@ process compile_reports {
     file versions_json from VERSIONS_JSON
     file misassembly_per_ref from MISASSEMBLY_PER_REF
     file about_md from Channel.fromPath("${workflow.projectDir}/data/*.md")
+    file containers_config from Channel.fromPath("${workflow.projectDir}/containers.config")
 
     output:
     file "pipeline_report.json"

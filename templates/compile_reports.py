@@ -39,6 +39,7 @@ if __file__.endswith(".command.sh"):
     VERSIONS_JSON = "$versions_json"
     MISASSEMBLY_PER_REF = "$misassembly_per_ref"
     ABOUT_MD = "$about_md"
+    CONTAINERS = "$containers_config"
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
@@ -65,6 +66,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("VERSIONS_JSON: {}".format(VERSIONS_JSON))
     logger.debug("MISASSEMBLY_PER_REF: {}".format(MISASSEMBLY_PER_REF))
     logger.debug("ABOUT_MD: {}".format(ABOUT_MD))
+    logger.debug("CONTAINERS: {}".format(CONTAINERS))
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
@@ -189,7 +191,7 @@ def _size_compress(s):
         return "{}MB".format(s)
 
 
-def process_performance_data(pipeline_stats, versions_json):
+def process_performance_data(pipeline_stats, versions_json, containers_config):
     """
 
     :param pipeline_stats:
@@ -200,6 +202,15 @@ def process_performance_data(pipeline_stats, versions_json):
     # parse assembler versions
     with open(versions_json) as f:
         assembler_versions = json.load(f)
+
+    # parse containers config
+    containers = {}
+    with open(containers_config) as f:
+        for line in f:
+            if re.compile('|'.join(ASSEMBLER_PROCESS_LIST)).search(line):
+                assembler_process = line.split(':')[1].replace('{', '').strip()
+                container = next(f).split('=')[1].replace('"', "").strip()
+                containers[assembler_process] = container
 
     # Parse performance data
     performance = {}
@@ -250,8 +261,8 @@ def process_performance_data(pipeline_stats, versions_json):
         wchar_str = _size_compress(avg_wchar)
 
         performance_metadata.append({"id": id_int, "assembler": process_id, "version": assembler_versions[process_id],
-                                     "avgTime": mean_time_str, "cpus": cpu_hour, "max_rss": rss_str,
-                                     "avgRead": rchar_str, "avgWrite": wchar_str})
+                                     "container": containers[process_id], "avgTime": mean_time_str, "cpus": cpu_hour,
+                                     "max_rss": rss_str, "avgRead": rchar_str, "avgWrite": wchar_str})
         id_int += 1
 
     logger.debug("Performance dictionary: {}".format(performance_metadata))
@@ -300,7 +311,8 @@ def process_sample_reads(reads_jsons):
 
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
-         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json, misassembly_per_ref, about_md):
+         min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json, misassembly_per_ref, about_md,
+         containers_config):
 
     metadata = {
         "nfMetadata": {
@@ -325,7 +337,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     # Assembler performance data:
     logger.debug('Processing {0} data...'.format(pipeline_stats))
     performance_metadata = process_performance_data(
-        pipeline_stats, versions_json)
+        pipeline_stats, versions_json, containers_config)
 
     # Reference info
     reference_info = process_reference_data(reference_file)
@@ -381,8 +393,10 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                 for item_row in main_data_tables_js[sample_id]["ReferenceTables"][reference]:
                     for item in item_row:
                         assembler = item['assembler']
-                        references = list(misassembly_stats[sample_id][assembler][0].keys())
-                        references_names = [utils.REFERENCE_DIC[i] for i in references]
+                        references = list(
+                            misassembly_stats[sample_id][assembler][0].keys())
+                        references_names = [utils.REFERENCE_DIC[i]
+                                            for i in references]
                         if reference in references_names:
                             index = references_names.index(reference)
                             ref_name = references[index]
@@ -522,11 +536,11 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     #logger.debug("Report data dictionary: {}".format(main_data_plots_js))
 
     # add about markdown
-    about_md_to_write = ""
+    about_md_to_write = '` `'
     if os.path.exists(about_md):
         with open(about_md, 'r') as file:
             about_md_to_write = '`' + file.read() + '`'
-    
+
     with open("performance_metadata.json", "w") as json_fh:
         json_fh.write(json.dumps(performance_metadata, separators=(",", ":")))
 
@@ -558,10 +572,12 @@ if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
-         VERSIONS_JSON, MISASSEMBLY_PER_REF, ABOUT_MD)
+         VERSIONS_JSON, MISASSEMBLY_PER_REF, ABOUT_MD, CONTAINERS)
     """
     main("main.js.zip", "pipeline_stats.txt", "global_assembly_stats.json", ['ERR2935805_contig_size_distribution.json', 'ERR2984773_contig_size_distribution.json', 'mockSample_contig_size_distribution.json'], "global_assembly_mapping_stats.json",
-    "completness_plots.json", "lmas.zip", "Zymos_Genomes_triple_chromosomes.fasta", "lx.json", "phred.json", "gaps_in_reference.json", ['ERR2935805_gap_distance_histogram.json', 'ERR2984773_gap_distance_histogram.json', 'mockSample_gap_distance_histogram.json'],
-    ['ERR2935805_misassembly.json', 'ERR2984773_misassembly.json', 'mockSample_misassembly.json'], "misassembly_report.json", 1000, "nax.json", "ngx.json",['ERR2935805_reads_report.json', 'ERR2984773_reads_report.json', 'mockSample_reads_report.json'] , "snps_in_reference.json",
-    "versions.json", "misassembly_report_per_ref.json", "about.md")
+         "completness_plots.json", "lmas.zip", "Zymos_Genomes_triple_chromosomes.fasta", "lx.json", "phred.json", "gaps_in_reference.json", [
+             'ERR2935805_gap_distance_histogram.json', 'ERR2984773_gap_distance_histogram.json', 'mockSample_gap_distance_histogram.json'],
+         ['ERR2935805_misassembly.json', 'ERR2984773_misassembly.json', 'mockSample_misassembly.json'], "misassembly_report.json", 1000, "nax.json", "ngx.json", [
+             'ERR2935805_reads_report.json', 'ERR2984773_reads_report.json', 'mockSample_reads_report.json'], "snps_in_reference.json",
+         "versions.json", "misassembly_report_per_ref.json", "about.md", "containers.config")
     """
