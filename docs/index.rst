@@ -41,6 +41,8 @@ Short-read metagenomic assembly: finding the best fit in a world of options.
    :caption: Report
 
    report/overview
+   report/global
+   report/reference
 
 
 .. _Dev:
