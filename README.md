@@ -12,6 +12,23 @@
 
          Last Metagenomic Assembler Standing
 
+## Table of Contents
+
+  * [Overview](#overview)
+  * [Instalation](#instalation)
+    + [Nextflow](#nextflow)
+    + [Container Engine](#container-engine)
+    + [Clone LMAS](#clone-lmas)
+  * [Running LMAS](#running-lmas)
+  * [Customizing LMAS](#customizing-lmas)
+  * [Output and Report](#output-and-report)
+  * [Proof of concept](#proof-of-concept)
+    + [ZymoBIOMICS Microbial Community Standard](#zymobiomics-microbial-community-standard)
+  * [Citation and Contacts](#citation-and-contacts)
+
+
+## Overview
+
 The de novo assembly of raw sequence data is a key process when analysing data from shotgun metagenomic sequencing. It allows recovering draft genomes from a pool of mixed raw reads, yielding longer sequences that offer contextual information and afford a more complete picture of the microbial community. It also represents one of the greatest bottlenecks when obtaining trustworthy, reproducible results.
 
 LMAS is an automated workflow enabling the benchmarking of traditional and metagenomic prokaryotic de novo assembly software using defined mock communities. The results are presented in an interactive HTML report where selected global and reference specific performance metrics can be explored.
@@ -24,12 +41,12 @@ The mock communities can be provided by the user to better reflect the samples o
 
 Before installing LMAS, a few dependencies must be installed in your system:
 
-* **Nextflow**
+### Nextflow
 
 Nextflow (version 20.01.0 or higher) can be used on any POSIX compatible system (Linux, OS X, etc). It requires BASH and 
 Java 8 (or higher) to be installed. More instructions are available [here](https://www.nextflow.io/docs/latest/getstarted.html).
 
-* **Container Engine**
+### Container Engine
 
 All components of LMAS are executed in docker containers, which means that you’ll need to have a container engine 
 installed. The container engines available are the ones supported by Nextflow:
@@ -41,7 +58,7 @@ installed. The container engines available are the ones supported by Nextflow:
 If you already have any one of these installed, you are good to go as the provided docker containers are compatible 
 with all engines available. If not, you’ll need to install one.
 
-* **Clone LMAS** 
+### Clone LMAS
 
 You can clone this repository with `git clone https://github.com/cimendes/LMAS.git`, and all files will be in your local machine.
 
@@ -53,7 +70,30 @@ The triple reference sequences can be passed with the `--reference` parameter, a
 The raw data is a collection of sequence fragments from the references, and can be either obtained *in silico*  or from real
 sequencing platforms. 
 
-### Proof of concept - ZymoBIOMICS Microbial Community Standard
+
+## Customizing LMAS
+
+Users can customize the workflow execution either by using command line options or by modifying a simple plain-text 
+configuration file (`params.config`), where parameters are set as key-value pairs. The version of tools used can also 
+be changed by providing new container tags in the appropriate configuration file (`containers.config`), as well as the 
+resources for each process (`resources.config`).
+
+
+## Output and Report
+
+The output files are stored in the `results/` folder in the directory where the workflow was executed. 
+The nextflow log file for the execution of the pipeline can be found in the directory of execution. Log files for each
+of the components in the workflow are stored inside the `results/` folder.
+LMAS creates an **interactive HTML report**, stored in the `report/` folder in the directory where the 
+workflow was executed. To open the report simply click oh the **index.html** file and the report will open on 
+your default browser. 
+
+LMAS comes pre-packaged with the JS source code for the interactive report, available in the `resources/` folder. 
+The source code for the report is available in the [lmas_report](https://github.com/cimendes/lmas_report) repository. 
+
+## Proof of concept
+
+### ZymoBIOMICS Microbial Community Standard
 
 A script to download and structure the ZymoBIOMICS data to be used as input is provided (`get_data.sh`). 
 
@@ -74,24 +114,7 @@ It contains tripled complete sequences for the following species:
 
 It also downloads the raw sequence data of the mock communities, with an even and logarithmic distribution of species ([ERR2984773](https://www.ebi.ac.uk/ena/browser/view/ERR2984773) and [ERR2935805](https://www.ebi.ac.uk/ena/browser/view/ERR2935805)), and a simulated sample of the evenly distributed reads generated from the genomes in the Zymobiomics standard ([mockSample](https://zenodo.org/record/4588970#.YEeA83X7RhE)).
 
-
-## Customizing LMAS
-
-Users can customize the workflow execution either by using command line options or by modifying a simple plain-text 
-configuration file (`params.config`), where parameters are set as key-value pairs. The version of tools used can also 
-be changed by providing new container tags in the appropriate configuration file (`containers.config`), as well as the 
-resources for each process (`resources.config`).
-
-
-# Output and Report
-
-The output files are stored in the `results/` folder in the directory where the workflow was executed. 
-The nextflow log file for the execution of the pipeline can be found in the directory of execution. Log files for each
-of the components in the workflow are stored inside the `results/` folder.
-LMAS creates an **interactive HTML report**, stored in the `report/` folder in the directory where the 
-workflow was executed. To open the report simply click oh the **index.html** file and the report will open on 
-your default browser. 
-
+The resulting LMAS report is available at [https://lmas-demo.herokuapp.com](https://lmas-demo.herokuapp.com)
 
 ## Citation and Contacts
 
