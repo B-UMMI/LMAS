@@ -143,3 +143,10 @@ templates/**/*.pkl
 templates/**/*.tsv
 data/
 templates/*version
+templates/about.md
+templates/containers.config
+templates/lmas.png
+templates/lmas.zip
+templates/main.js
+templates/main.js.zip
+.vscode/settings.json
