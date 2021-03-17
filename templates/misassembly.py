@@ -256,6 +256,7 @@ def main(sample_id, assembler, assembly, mapping):
                         y=df['n blocks'], 
                         name=assembler, text=df['Misassembly'],  
                         mode='markers', marker_symbol=df['symbol'],
+                        opacity=0.7,
                         hovertemplate=
                         "<b>%{text}</b><br><br>" +
                         "Contig Length: %{x:.0f}bp<br>" +
