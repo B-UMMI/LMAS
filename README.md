@@ -91,7 +91,7 @@ your default browser.
 LMAS comes pre-packaged with the JS source code for the interactive report, available in the `resources/` folder. 
 The source code for the report is available in the [lmas_report](https://github.com/cimendes/lmas_report) repository. 
 
-## Proof of concept
+## Evaluation
 
 ### ZymoBIOMICS Microbial Community Standard
 
