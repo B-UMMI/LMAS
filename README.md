@@ -29,14 +29,14 @@
 
 ## Overview
 
-The de novo assembly of raw sequence data is a key process when analysing data from shotgun metagenomic sequencing. It allows recovering draft genomes from a pool of mixed raw reads, yielding longer sequences that offer contextual information and afford a more complete picture of the microbial community. It also represents one of the greatest bottlenecks when obtaining trustworthy, reproducible results.
+The *de novo* assembly of raw sequence data is a key process when analysing data from shotgun metagenomic sequencing. It allows recovering draft genomes from a pool of mixed raw reads, yielding longer sequences that offer contextual information and afford a more complete picture of the microbial community. It also represents one of the greatest bottlenecks when obtaining trustworthy, reproducible results.
 
-LMAS is an automated workflow enabling the benchmarking of traditional and metagenomic prokaryotic de novo assembly software using defined mock communities. The results are presented in an interactive HTML report where selected global and reference specific performance metrics can be explored.
+LMAS is an automated workflow enabling the benchmarking of traditional and metagenomic prokaryotic *de novo* assembly software using defined mock communities. The results are presented in an interactive HTML report where selected global and reference specific performance metrics can be explored.
 
 LMAS expects **tripled reference sequences**. Each reference should be provided in a single FASTA file where the linearized 
 reference replicons are concatenated three times to ensure that contigs can fully align even with start-end overlap and 
 regardless of their starting position relative to that of the reference. Read data, in **paired-end form*, reflecting the 
-sequences inthe reference genomes, is required to be passed on for assembly and downstream quality assessment. 
+sequences in the reference genomes, is required to be passed on for assembly and downstream quality assessment. 
 
 The mock communities can be provided by the user to better reflect the samples of interest. New assemblers can be added with minimal changes to the pipeline, so that LMAS can be expanded as novel algorithms are developed.
 
@@ -70,7 +70,7 @@ You can clone this repository with `git clone https://github.com/cimendes/LMAS.g
 After you have a local installation of LMAS, the mock community data needs to be downloaded.
 
 The triple reference sequences can be passed with the `--reference` parameter, and `--fastq` recieves the raw data for assembly.
-The raw data is a collection of sequence fragments from the references, and can be either obtained *in silico*  or from real
+The raw data is a collection of sequence fragments from the references, and can be either obtained *in silico* or from real
 sequencing platforms. 
 
 
@@ -88,7 +88,7 @@ The output files are stored in the `results/` folder in the directory where the 
 The nextflow log file for the execution of the pipeline can be found in the directory of execution. Log files for each
 of the components in the workflow are stored inside the `results/` folder.
 LMAS creates an **interactive HTML report**, stored in the `report/` folder in the directory where the 
-workflow was executed. To open the report simply click oh the **index.html** file and the report will open on 
+workflow was executed. To open the report simply click on the **index.html** file and the report will open on 
 your default browser. 
 
 LMAS comes pre-packaged with the JS source code for the interactive report, available in the `resources/` folder. 
