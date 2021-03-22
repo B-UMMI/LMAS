@@ -60,4 +60,4 @@ You can clone this repository with git.
     git clone https://github.com/cimendes/LMAS.git 
 
 All files will be in your local machine.
-The main execution file for Nextflow is `LMAS.nf`. 
+The main execution file for Nextflow is ``LMAS.nf``. 

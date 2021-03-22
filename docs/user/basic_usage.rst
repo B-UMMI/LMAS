@@ -3,11 +3,11 @@ Basic Usage
 
 After you have a local installation of LMAS, the mock community data needs to be downloaded.
 
-The triple reference sequences can be passed with the '--reference' parameter, and '--fastq' recieves 
+The triple reference sequences can be passed with the ``--reference`` parameter, and ``--fastq`` recieves 
 the raw data for assembly. The raw data is a collection of sequence fragments from the references, and can 
 be either obtained *in silico* or from real sequencing platforms.
 
-The optional parameter '--md' allows the user to pass information on input samples to be presented in the report. 
+The optional parameter ``--md`` allows the user to pass information on input samples to be presented in the report. 
 
 
 Download ZymoBIOMICS Microbial Community Standard Data
@@ -50,7 +50,8 @@ Customizing LMAS
 ----------------
 
 Users can customize the workflow execution either by using command line options or by modifying a simple 
-plain-text configuration file (params.config), where parameters are set as key-value pairs. The version of 
-tools used can also be changed by providing new container tags in the appropriate configuration file 
-(containers.config), as well as the resources for each process (resources.config).
+plain-text configuration file (``params.config``), where parameters are set as key-value pairs. 
+
+The version of tools used can also be changed by providing new container tags in the appropriate configuration file 
+(``containers.config``), as well as the resources for each process (``resources.config``).
 
