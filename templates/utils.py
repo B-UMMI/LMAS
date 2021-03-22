@@ -138,9 +138,8 @@ def parse_assemblies(sample_id, assembler, assembly, mapping):
     mapped_contigs = get_mapped_contigs_with_ref(mapping)
 
     fasta = fasta_iter(assembly)
-    Ns = 0
     for header, seq in fasta:
-        Ns += len(re.findall("N", seq.upper())) 
+        Ns = len(re.findall("N", seq.upper())) 
         if header in mapped_contigs.keys():
             is_mapped = mapped_contigs[header]
         else:

@@ -168,7 +168,6 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     # Tracks the longest single alignment, in terms of the reference bases.
     covered_bases = []
-    sum_contig_length = 0
     n_identity = []
 
     longest_alignment = 0
@@ -181,7 +180,6 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
             if parts[5] == ref_name:
                 # parse values from PAF file
                 contig_name, contig_length = parts[0], int(parts[1])
-                sum_contig_length += contig_length
                 start, end = int(parts[7]), int(parts[8])
 
                 # number of residue matches
@@ -199,7 +197,10 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
                 covered_bases.append([start, end])
 
     # Calculate identity for all the contigs:
+    sum_contig_length = 0
     for contig in alignment_dict['Contigs'].keys():
+        sum_contig_length += alignment_dict['Contigs'][contig]['Length']
+
         alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
             alignment_dict['Contigs'][contig]['Length']
         n_identity.append(alignment_dict['Contigs'][contig]['Identity'])
@@ -227,7 +228,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     parsimony = multiplicity / validity if validity != 0 else 0
     print("parsimony: {}".format(parsimony))
-    
+
     identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
     lowest_identity = min(n_identity) if len(n_identity) > 0 else 0
 
@@ -251,7 +252,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
     df_phred = pd.DataFrame(columns=[
                             'Assembler', 'Reference', 'Contig', 'Contig Length', 'Phred Quality Score'])
 
-    # Dataframes for assembly stats 
+    # Dataframes for assembly stats
     df_na = pd.DataFrame(
         columns=['Reference', 'Assembler', 'NAx', 'Basepairs'])
     df_ng = pd.DataFrame(
@@ -284,7 +285,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         mapped_contigs = df_assembler_reference['Contig Len'].astype(
             'int').tolist()
 
-        Ns = sum(df_assembler['#N'][df_assembler['Mapped'] == header_str])
+        Ns = sum(df_assembler_reference['#N'].astype('int').tolist())
 
         # Assembly metrics
         for x in np.linspace(0, 1, 10):
@@ -306,10 +307,10 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         l90 = utils.get_Lx(mapped_contigs, len(seq)/3, l_target)
 
         contiguity, coverage, multiplicity, validity, parsimony, lowest_identity, identity, df_phred, covered_bases = get_alignment_stats(mapping,
-                                                                                                                                              header_str,
-                                                                                                                                              len(
-                                                                                                                                                  seq)/3,
-                                                                                                                                              df_phred)
+                                                                                                                                          header_str,
+                                                                                                                                          len(
+                                                                                                                                              seq)/3,
+                                                                                                                                          df_phred)
 
         fh.write(','.join([reference_name, str(coverage),
                            str(len(mapped_contigs))]) + '\\n')
