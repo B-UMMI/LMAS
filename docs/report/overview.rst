@@ -8,6 +8,7 @@ On the top right corner there's a direct link to LMAS `source repository <https:
 `documentation <https://lmas.readthedocs.io/en/latest>`_. 
 
 .. image:: ../resources/report_lmas.gif
+    :alt: Report LMAS
     :align: center
     :scale: 70 %
 
@@ -22,6 +23,7 @@ This is devided into three tabs:
 * About us
 
 .. image:: ../resources/overview.gif
+    :alt: Overview in LMAS report 
     :align: center
     :scale: 70 %
 

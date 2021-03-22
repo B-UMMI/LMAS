@@ -8,6 +8,7 @@ LMAS's
 
 .. figure:: resources/LMAS_ascii.png
    :align: center
+   :alt: LMAS Logo
 
 Short-read metagenomic assembly: finding the best fit in a world of options.
 

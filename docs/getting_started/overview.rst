@@ -1,5 +1,3 @@
-..    include:: <isonum.txt>
-
 Overview
 ========
 
@@ -20,4 +18,5 @@ The mock communities can be provided by the user to better reflect the samples o
 be added with minimal changes to the pipeline, so that LMAS can be expanded as novel algorithms are developed.
 
 .. figure:: ../resources/LMAS_ECCMID.jpeg
+   :alt: LMAS diagram
    :align: center
