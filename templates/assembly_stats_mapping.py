@@ -360,6 +360,6 @@ def main(sample_id, assembler, assembly, mapping, reference, n_target, l_target)
 
 
 if __name__ == '__main__':
-    #main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)
-    main("mockSample", "GATBMiniaPipeline", "filtered_ERR2935805_GATBMiniaPipeline.fasta", "ERR2935805_GATBMiniaPipeline.paf",
-    "Zymos_Genomes_triple_chromosomes.fasta", 0.5, 0.9)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)
+    #main("mockSample", "GATBMiniaPipeline", "filtered_ERR2935805_GATBMiniaPipeline.fasta", "ERR2935805_GATBMiniaPipeline.paf",
+    #"Zymos_Genomes_triple_chromosomes.fasta", 0.5, 0.9)
