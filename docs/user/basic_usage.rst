@@ -9,6 +9,12 @@ be either obtained *in silico* or from real sequencing platforms.
 
 The optional parameter ``--md`` allows the user to pass information on input samples to be presented in the report. 
 
+LMAS has the following folder structure:
+
+.. code-block:: bash
+
+
+
 
 Download ZymoBIOMICS Microbial Community Standard Data
 ------------------------------------------------------
@@ -35,8 +41,9 @@ The files will be saved in the following structure:
 .. code-block:: bash
 
     data/
+    ├── about.md
     ├── fastq
-    │   ├── ERR2935805_1.fq.gz 
+    │   ├── ERR2935805_1.fq.gz
     │   ├── ERR2935805_2.fq.gz
     │   ├── ERR2984773_1.fq.gz
     │   ├── ERR2984773_2.fq.gz
@@ -46,12 +53,41 @@ The files will be saved in the following structure:
         └── Zymos_Genomes_triple_chromosomes.fasta
 
 
-Customizing LMAS
-----------------
+Customizing LMAS workflow configuration
+---------------------------------------
 
-Users can customize the workflow execution either by using command line options or by modifying a simple 
-plain-text configuration file (``params.config``), where parameters are set as key-value pairs. 
+Users can customize the **workflow execution** either by using **command line options**, with ``--<name of parameter> <option>``
+or by modifying a simple **plain-text configuration file**, where parameters are set as key-value pairs.
 
-The version of tools used can also be changed by providing new container tags in the appropriate configuration file 
-(``containers.config``), as well as the resources for each process (``resources.config``).
+There are four configuration files in LMAS:
 
+nextflow.config
+^^^^^^^^^^^^^^^
+
+This is Nextflow main configuration file. It should not be edited. 
+
+params.config
+^^^^^^^^^^^^^
+
+The ``params.config`` file includes all available paramenters for LMAS and their respective default values.
+
+containers.config 
+^^^^^^^^^^^^^^^^^
+
+The ``containers.config`` file includes the container directive for each process in LMAS. 
+These containers are retrieved from **dockerhub** if they do not exist locally yet. 
+
+.. warning:: You can change the container string to any other value, but it should point to an image that exist on dockerhub or locally.
+
+profiles.config 
+^^^^^^^^^^^^^^^
+
+The ``profiles.config`` file includes a set of pre-made profiles with all possible combinations of executors and container engines. 
+You can add new ones or modify existing one.
+
+resources.config 
+^^^^^^^^^^^^^^^^
+ 
+The ``resources.config`` file includes the **cpus** and **memory** directives provided for each assembler in LMAS. 
+
+.. warning:: The **memory** directive increments automatically when a task if retried. If the directive is set to ``{16.Gb*task.attempt}``, the memory used will be 16 Gb multiplied by the number of attempts. 
