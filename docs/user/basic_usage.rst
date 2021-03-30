@@ -9,12 +9,36 @@ be either obtained *in silico* or from real sequencing platforms.
 
 The optional parameter ``--md`` allows the user to pass information on input samples to be presented in the report. 
 
-LMAS has the following folder structure:
+.. warning:: By default, LMAS expects the input data in a ``data/`` folder, with the triple reference in ``data/reference/*.fasta``, the read data in ``data/fastq/*_{1,2}.*``, and the markdown file in ``data/*.md``.
+
+When you clone it, LMAS has the following folder structure:
 
 .. code-block:: bash
 
+    LMAS
+    ├── bin/
+    ├── containers.config
+    ├── docker/
+    ├── docs/
+    ├── get_data.sh
+    ├── lib/
+    ├── LICENSE
+    ├── LMAS.nf
+    ├── nextflow.config
+    ├── params.config
+    ├── profiles.config
+    ├── README.md
+    ├── resources/
+    ├── resources.config
+    └── templates/
 
-
+* The ``LMAS.nf`` in the main execution file for LMAS. 
+* The ``get_data.sh`` bash script file downloads the ZymoBIOMICS Microbial Community Standard data.
+* The ``containers.config``, ``nextflow.config``, ``params.config``, ``profiles.config`` and ``resources.config`` are LMAS configuration files.
+* The ``bin/`` and ``templates/`` folders contain custom LMAS code for data processing.
+* The ``docs/`` folder contains LMAS documentation source files.
+* The ``docker/`` contains the dockerfile for LMAS base container.
+* The ``resources/`` folder contains the LMAS report compiled code.
 
 Download ZymoBIOMICS Microbial Community Standard Data
 ------------------------------------------------------
@@ -29,7 +53,7 @@ The triple-reference sequences and the mock sample are available at zenodo: http
 The even and log distributed raw sequence data is available at https://www.ebi.ac.uk/ena/browser/view/ERR2984773 and 
 https://www.ebi.ac.uk/ena/browser/view/ERR2935805, respectively. 
 
-A script to download and structure the ZymoBIOMICS data to be ready to used as default input for LMAS is provided, 
+A script to download and structure the ZymoBIOMICS data to be ready to used as **default input** for LMAS is provided, 
 included in LMAS repository. To run it, simply execute: 
 
 .. code-block:: bash
