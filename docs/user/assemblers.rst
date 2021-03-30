@@ -29,7 +29,7 @@ the compacted strings into unitigs. It's a traditional single k-mer value De Bru
 
 * **Source code:** https://github.com/GATB/bcalm
 * **Date of last update:** 22/05/2020
-* **Container:** cimendes/bcalm:2.2.3-1
+* **Container:** `cimendes/bcalm:2.2.3-1 <https://hub.docker.com/repository/docker/cimendes/bcalm>`_ 
 
 GATB-Minia Pipeline
 ^^^^^^^^^^^^^^^^^^^
@@ -41,7 +41,7 @@ k-mer values. It was developed explicitly to handle metagenomic data.
 
 * **Source code:** https://github.com/GATB/gatb-minia-pipeline
 * **Date of last update:** 31/07/2020
-* **Container:** cimendes/gatb-minia-pipeline:31.07.2020-1
+* **Container:** `cimendes/gatb-minia-pipeline:31.07.2020-1 <https://hub.docker.com/repository/docker/cimendes/gatb-minia-pipeline>`_
 
 IDBA
 ^^^^
@@ -55,7 +55,7 @@ high-depth regions that can be aligned to high confidence contigs.
 
 * **Source code:** https://github.com/loneknightpy/idba
 * **Date of last update:** 31/12/2016
-* **Container:** cimendes/idba:1.1.3-1
+* **Container:** `cimendes/idba:1.1.3-1 <https://hub.docker.com/repository/docker/cimendes/idba>`_
 
 MINIA
 ^^^^^
@@ -66,7 +66,7 @@ software and using graph simplifications that are heavily inspired by the SPAdes
 
 * **Source code:** https://github.com/GATB/minia
 * **Date of last update:** 04/03/2021
-* **Container:** cimendes/minia:3.2.4-1
+* **Container:** `cimendes/minia:3.2.4-1 <https://hub.docker.com/repository/docker/cimendes/minia>`_ 
 
 MEGAHIT
 ^^^^^^^
@@ -79,7 +79,7 @@ useful for metagenomics which suffers from non-uniform sequencing depths.
 
 * **Source code:** https://github.com/voutcn/megahit
 * **Date of last update:** 15/10/2019
-* **Container:** cimendes/megahit-assembler:1.2.9-1
+* **Container:** `cimendes/megahit-assembler:1.2.9-1 <https://hub.docker.com/repository/docker/cimendes/megahit-assembler>`_
 
 METASPADES
 ^^^^^^^^^^
@@ -91,7 +91,7 @@ hypothetical kmers to connect graph.
 
 * **Source code:** https://github.com/ablab/spades
 * **Date of last update:** 11/03/2021
-* **Container:** cimendes/spades:3.15.0-1
+* **Container:** `cimendes/spades:3.15.0-1 <https://hub.docker.com/repository/docker/cimendes/spades>`_
 
 SKESA
 ^^^^^
@@ -103,7 +103,7 @@ tries to obtain good contiguity by using k-mers longer than mate length and up t
 
 * **Source code:** https://github.com/ncbi/SKESA
 * **Date of last update:** 14/03/2020
-* **Container:** cimendes/skesa:2.4.0-1
+* **Container:** `cimendes/skesa:2.4.0-1 <https://hub.docker.com/repository/docker/cimendes/skesa>`_
 
 SPADES
 ^^^^^^
@@ -114,7 +114,7 @@ It starts with the smallest k-mer size and and adds hypotetical k-mers to connec
 
 * **Source code:** https://github.com/ablab/spades
 * **Date of last update:** 11/03/2021
-* **Container:** cimendes/spades:3.15.0-1
+* **Container:** `cimendes/spades:3.15.0-1 <https://hub.docker.com/repository/docker/cimendes/spades>`_
 
 UNICYCLER
 ^^^^^^^^^
@@ -125,7 +125,7 @@ multiple k-mer values. It was published by `Wick et al. 2017 <https://journals.p
 
 * **Source code:** https://github.com/rrwick/Unicycler
 * **Date of last update:** 20/07/2020
-* **Container:** cimendes/unicycler:0.4.8-1
+* **Container:** `cimendes/unicycler:0.4.8-1 <https://hub.docker.com/repository/docker/cimendes/unicycler>`_
 
 VELVETOPTIMIZER
 ^^^^^^^^^^^^^^^
@@ -138,4 +138,4 @@ user supplied one. It outputs the results to a subdirectory and records all its 
 
 * **Source code:** https://github.com/tseemann/VelvetOptimiser
 * **Date of last update:** 21/01/2017
-* **Container:** cimendes/velvetoptimiser:2.2.6-1
+* **Container:** `cimendes/velvetoptimiser:2.2.6-1 <https://hub.docker.com/repository/docker/cimendes/velvetoptimiser>`_

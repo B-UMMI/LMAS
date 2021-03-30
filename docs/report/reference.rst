@@ -95,13 +95,6 @@ PLS
 Phred-like score per contig, per assembler. 
 Data for assemblers who fail to produce sequences that align to the reference aren't present.
 
-The Phred-like score is obtained as following:
-
-.. image:: ../resources/phred.png
-    :alt: PLS 
-    :align: center
-    :scale: 100 %
-
 .. image:: ../resources/pls.png
     :alt: PLS plot in LMAS report 
     :align: center
