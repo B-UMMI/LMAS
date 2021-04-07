@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-04-07T09:42:10.596Z" agent="5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36" etag="8h1tGNqiayQppyFoWq7-" version="14.5.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-04-07T09:49:49.373Z" agent="5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36" etag="n05_uaDr_y2NYUsRvlZA" version="14.5.3" type="github">
   <diagram id="cn4aKhFlLtVEDiT3Zxqw" name="Page-1">
-    <mxGraphModel dx="946" dy="646" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="946" dy="589" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -54,7 +54,7 @@
         <mxCell id="v2xlkt1o2UhCh4SSOTkN-16" value="&lt;b&gt;&lt;font style=&quot;font-size: 26px&quot;&gt;Global Assessment&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#FFFFFF;" parent="1" vertex="1">
           <mxGeometry x="469" y="80" width="280" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="v2xlkt1o2UhCh4SSOTkN-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=16;strokeWidth=2;" parent="1" source="v2xlkt1o2UhCh4SSOTkN-18" target="v2xlkt1o2UhCh4SSOTkN-22" edge="1">
+        <mxCell id="v2xlkt1o2UhCh4SSOTkN-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=16;strokeWidth=3;" parent="1" source="v2xlkt1o2UhCh4SSOTkN-18" target="v2xlkt1o2UhCh4SSOTkN-22" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="v2xlkt1o2UhCh4SSOTkN-18" value="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;Read Mapping&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;minimap2&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -66,7 +66,7 @@
         <mxCell id="v2xlkt1o2UhCh4SSOTkN-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.772;entryY=0.02;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=16;strokeWidth=3;" parent="1" source="v2xlkt1o2UhCh4SSOTkN-24" target="v2xlkt1o2UhCh4SSOTkN-28" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="v2xlkt1o2UhCh4SSOTkN-24" value="&lt;b&gt;Filter Assembly&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;bbTools&lt;/font&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#808080;strokeColor=none;" parent="1" vertex="1">
+        <mxCell id="v2xlkt1o2UhCh4SSOTkN-24" value="&lt;b&gt;Filter Assembly&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;bbTools&lt;/font&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;strokeColor=none;fillColor=#B3B3B3;" parent="1" vertex="1">
           <mxGeometry x="29" y="460" width="770" height="50" as="geometry" />
         </mxCell>
         <mxCell id="v2xlkt1o2UhCh4SSOTkN-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=3;fontSize=16;" parent="1" source="v2xlkt1o2UhCh4SSOTkN-26" target="v2xlkt1o2UhCh4SSOTkN-39" edge="1">
@@ -75,7 +75,7 @@
         <mxCell id="v2xlkt1o2UhCh4SSOTkN-26" value="&lt;span style=&quot;font-weight: bold&quot;&gt;Reference Metrics&lt;br&gt;&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;&lt;b&gt;Table Metrics&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;Contiguity, Multiplicity, Validity, Parsimony, Identity, Lowest Identity, Breadth of Coverage, &lt;br&gt;Aligned Contigs, Misassembled Contigs, Lx, NAx, NGx, Aligned Basepairs, Number of &quot;N&quot; Basepairs&lt;br&gt;&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&lt;b&gt;Plot Metrics&lt;/b&gt;&lt;br&gt;Genome framentation, Lx metric, NAx metric, NGx metric, PLS metric, Gaps, SNPs&lt;/span&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="59" y="655" width="710" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="v2xlkt1o2UhCh4SSOTkN-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=16;strokeWidth=2;" parent="1" source="v2xlkt1o2UhCh4SSOTkN-28" target="v2xlkt1o2UhCh4SSOTkN-26" edge="1">
+        <mxCell id="v2xlkt1o2UhCh4SSOTkN-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=16;strokeWidth=3;" parent="1" source="v2xlkt1o2UhCh4SSOTkN-28" target="v2xlkt1o2UhCh4SSOTkN-26" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="v2xlkt1o2UhCh4SSOTkN-28" value="&lt;font&gt;&lt;b&gt;Assembly Mapping&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;minimap2&lt;/font&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" parent="1" vertex="1">
