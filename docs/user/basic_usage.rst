@@ -3,7 +3,7 @@ Basic Usage
 
 After you have a local installation of LMAS, the mock community data needs to be downloaded.
 
-The triple reference sequences can be passed with the ``--reference`` parameter, and ``--fastq`` recieves 
+The triple reference sequences can be passed with the ``--reference`` parameter, and ``--fastq`` receives 
 the raw data for assembly. The raw data is a collection of sequence fragments from the references, and can 
 be either obtained *in silico* or from real sequencing platforms.
 
