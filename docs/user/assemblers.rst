@@ -2,7 +2,7 @@ Short-Read (Meta)Genomic Assemblers
 ===================================
 
 We've compiled a collection of *de novo* assembly tools, including Overlap, Layout and Consensus (OLC) 
-and De Bruijn graph assembly algorythms, both single k-mer and multiple k-mer value approaches, and hybrid assemblers.
+and De Bruijn graph assembly algorithms, both single k-mer and multiple k-mer value approaches, and hybrid assemblers.
 The collection includes both traditional and assemblers developed explicitly to handle metagenomic datasets.
 
 Selection Criteria
