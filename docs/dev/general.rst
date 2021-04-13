@@ -4,6 +4,10 @@ General Orientation
 LAMS code is in two repositories: `source repository <https://github.com/cimendes/LMAS>`_ and 
 `report repository <https://github.com/cimendes/lmas_report>`_. 
 
+.. figure:: ../resources/LMAS_DIAGRAM_FULL.png
+   :alt: LMAS diagram full dev
+   :align: center
+
 LMAS repository
 ----------------
 
