@@ -174,9 +174,6 @@ def evaluate_misassembled_contigs(mis_dict):
                 misassembly_list.append("chimera {}".format(reference))
 
             else:
-                #   -missense
-                if len(strands) > 1 & len(reference) == 1:  # don't count missense if chimera
-                    misassembly_list.append("missense")
                 #   -multiple alignment blocks to the same reference
                 blocks_coords = sorted(blocks_coords, key=lambda x: x[0])
                 gap_sizes = [blocks_coords[i+1][1] - blocks_coords[i][0] for i in range(0, len(blocks_coords)-1)]
@@ -186,8 +183,8 @@ def evaluate_misassembled_contigs(mis_dict):
                 for item in blocks_to_order:
                     order.append(blocks_ordered.index(item))
                 if sorted(order) != range(min(order), max(order) + 1):  # check if the order is different from reference
-                    # check if lists are inverted:
-                    if order == sorted(order, reverse=True):
+                    # check if lists are inverted and if maps to different strants:
+                    if order == sorted(order, reverse=True) or len(strands) > 1:
                         misassembly_list.append("inversion")
                     elif len(order) > 2: # TODO - improve. A might be doing a mistake with over simplefication.. distinguish between inversion, insertion, and translocation
                         #   - translocation
@@ -195,6 +192,8 @@ def evaluate_misassembled_contigs(mis_dict):
                 #   - insertion
                 if all(i > 50 for i in gap_sizes):
                     misassembly_list.append("insertion")
+                #   - deletion
+                # TODO
             missassembled_contigs[contig] = {'misassembly': misassembly_list, 'frag_score': frag_score,
                                              'contig length': contig_len, "n blocks": n_blocks, "reference": reference}
 
