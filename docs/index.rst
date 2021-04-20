@@ -62,3 +62,4 @@ specific performance metrics can be explored.
 
    dev/general
    dev/add_process
+   dev/create_mock_community
