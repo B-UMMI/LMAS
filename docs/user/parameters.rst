@@ -3,18 +3,16 @@ Parameters
 
 A set of **default parameters** is provided, but these can be easily altered by either editing the 
 ``params.config`` file, or by passing the new value when executing the workflow with nextflow.
+There are three main parameters in LMAS: **reference, fastq and md**. 
 
 The **triple reference sequences** can be passed with the ``--reference`` parameter, and ``--fastq`` recieves 
 the **raw data** for assembly. The raw data is a collection of sequence fragments from the references, and can be either 
-obtained *in silico* or from real sequencing platforms.
+obtained *in silico* or from real sequencing platforms. Users can pass text information, in a markdown file, 
+on input samples to be presented in the report with the ``--md`` parameter.
 
-Users can pass text information, in a markdown file, on input samples to be presented in the report with the ``--md`` parameter. 
+**Assemblers** are run with the tool's default parametes, but basic execution parameters, such as length of k-mer, 
+can be altered. The target values for some **quality assessment** metrics can also be ajusted, such as N50 and NG50.
 
-**Assemblers** are run with the tool's default parametes, but basic execution parameters, such as length of k-mer, can be altered.
-
-The **quality assessment** values can also be ajusted.
-
-Assemblers are
 
 Input Files
 ------------
