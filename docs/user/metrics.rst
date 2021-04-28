@@ -73,12 +73,12 @@ contig was broken into in the mapping process, and the *x-axis* its size in base
 Information of the **type of misassembly** is available as hoover text for the type of misassembly. 
 
 Types of misassembly detected:
-* Inversion
-* Insertion
-* Deletion
-* Translocation
-* Misense
-* Chimera
+
+- Inversion
+- Insertion
+- Deletion
+- Translocation
+- Chimera
 
 Additionally, a **boxplot** representing the contig size distribution for all misassembled contigs is available.
 
