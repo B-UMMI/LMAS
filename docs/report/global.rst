@@ -19,7 +19,7 @@ per assembler: *Contigs*, *Basepairs*, *Nx* and *Number of "N"s*. Target value f
 shown for the **Original Assembly**, and **Misassembled contigs** shown for the **Contigs > X** section.
 
 Metric definitions are available when mousehover the column titles or, alternatively, in the 
-`Metrics section <../user/metrics.rst>`_ of this documentation.
+`Metrics section <../user/metrics.html>`_ of this documentation.
 
 .. image:: ../resources/Global_Table.png
     :alt: Global Table of Metrics in LMAS report 
