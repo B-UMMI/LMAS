@@ -7,6 +7,11 @@ from the references and can be either obtained *in silico* or from real sequenci
 
 The optional parameter ``--md`` allows the user to pass information on input samples to be presented in the report. 
 
+Each reference should be provided in a single file where the linearized replicons are concatenated three times to ensure 
+that contigs can fully align even with start-end overlap and regardless of their starting position relative to that of 
+the reference. The short-read data can originate from real raw sequence data of the mock communities or simulated 
+samples from the reference sequence provided.
+
 .. warning:: By default, LMAS expects the input data in a ``data/`` folder, with the triple reference in ``data/reference/*.fasta``, the read data in ``data/fastq/*_{1,2}.*``, and the markdown file in ``data/*.md``.
 
 When you clone it, LMAS has the following folder structure:
