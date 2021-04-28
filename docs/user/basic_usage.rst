@@ -1,11 +1,9 @@
 Basic Usage
 ===========
 
-After you have a local installation of LMAS, the mock community data needs to be downloaded.
-
-The triple reference sequences can be passed with the ``--reference`` parameter, and ``--fastq`` receives 
-the raw data for assembly. The raw data is a collection of sequence fragments from the references, and can 
-be either obtained *in silico* or from real sequencing platforms.
+To use LMAS, the triple reference sequences must be passed with the ``--reference`` parameter, and ``--fastq`` 
+receives the short-read paired-end raw data for assembly. The raw data is a collection of sequence fragments 
+from the references and can be either obtained *in silico* or from real sequencing platforms
 
 The optional parameter ``--md`` allows the user to pass information on input samples to be presented in the report. 
 
