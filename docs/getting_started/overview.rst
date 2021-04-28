@@ -1,6 +1,3 @@
-.. role:: bolditalic
-  :class: bolditalic
-
 Overview
 ========
 
@@ -10,7 +7,7 @@ information and afford a more complete picture of the microbial community. **It 
 **bottlenecks when obtaining trustworthy, reproducible results**.
 
 **LMAS** is an **automated workflow enabling the benchmarking** of traditional and metagenomic
-prokaryotic :bolditalic:`de novo` **assembly software using defined mock communities**. The results are presented in an **interactive** 
+prokaryotic *de novo* **assembly software using defined mock communities**. The results are presented in an **interactive** 
 **HTML report** where selected global and reference specific performance metrics can be explored.
 
 LMAS expects **reference sequences in tripled version** as to to ensure that contigs can fully align even with 
@@ -23,3 +20,9 @@ be added with minimal changes to the pipeline, so that LMAS can be expanded as n
 .. figure:: ../resources/LMAS_ECCMID.png
    :alt: LMAS diagram
    :align: center
+
+  **The LMAS Workflow.** The input sequencing data is assembled in parallel, resources permitting, by the set of 
+  assemblers in LMAS. The resulting assembled sequences are processed and assembly quality metrics are computed,
+  both globaly and in comparison to the tripled reference sequences provided. The global and per reference metrics
+  are grouped in the LMAS report for exploration.
+  
