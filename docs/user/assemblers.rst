@@ -3,13 +3,13 @@ Short-Read (Meta)Genomic Assemblers
 
 We've compiled a collection of *de novo* assembly tools, including **Overlap, Layout and Consensus (OLC)** 
 and **De Bruijn graph** assembly algorithms, both **single k-mer and multiple k-mer value approaches**, and hybrid assemblers.
-The collection includes both traditional and assemblers developed explicitly to handle metagenomic datasets.
+The collection includes both genomic and metagenomic assemblers developed explicitly to handle metagenomic datasets.
 
 Selection Criteria
 -------------------
 
 Open-source tools, with clear documentation describing the methodology implemented, were favoured. 
-The collection of tools were ordered by date of last update and a Docker containers for the top 10 assemblers 
+The collection of tools were ordered by date of last update and a Docker container for the top 10 assemblers 
 was created with the latest released version, with the version used as tag. 
 In the case of tools with no release, the container was compiled with latest version in the default branch of the 
 source repository, using the date of the last update as tag.
@@ -22,7 +22,7 @@ Assemblers benchmarked in LMAS, in aphabetical order:
 BCALM2
 ^^^^^^
 
-This assembler, publiched by `Chikhi et al, 2016 <https://academic.oup.com/bioinformatics/article/32/12/i201/2289008>`_ in 
+This assembler, published by `Chikhi et al, 2016 <https://academic.oup.com/bioinformatics/article/32/12/i201/2289008>`_ in 
 *Bioinformatics*, is a fast and low memory algorithm for graph compaction, consisting of three stages: careful distribution 
 of input k-mers into buckets, parallel compaction of the buckets, and a parallel reunification step to glue together 
 the compacted strings into unitigs. **It's a traditional single k-mer value De Bruijn assembler.**
@@ -34,10 +34,10 @@ the compacted strings into unitigs. **It's a traditional single k-mer value De B
 GATB-Minia Pipeline
 ^^^^^^^^^^^^^^^^^^^
 
-GATB-Minia is an assembly pipeline, still unpublished, that consists Bloocoo for error correction, Minia 3 for contigs 
-assembly, which is based on the BCALM2 assembler, and the BESST for scaffolding. It was developed to extend Minia assembler 
-to use multiple k-mer values. It was developed to extend the Minia assembler to use **De Bruijn algorithm with multiple** 
-**k-mer values**. **It was developed explicitly to handle metagenomic data.**
+GATB-Minia is an assembly pipeline, still unpublished, that consists of Bloocoo for error correction, Minia 3 for contigs 
+assembly, which is based on the BCALM2 assembler, and BESST for scaffolding.
+It was developed to extend the Minia assembler to use **De Bruijn algorithm with multiple** **k-mer values**.
+**It was developed explicitly to handle metagenomic data.**
 
 * **Source code:** https://github.com/GATB/gatb-minia-pipeline
 * **Date of last update:** 31/07/2020
@@ -74,8 +74,8 @@ MEGAHIT
 
 MEGAHIT, published by `Li et al. 2015 <https://academic.oup.com/bioinformatics/article/31/10/1674/177884>`_, is a 
 *de novo* assembler for **assembling large and complex metagenomics data** in a time- and cost-efficient manner. 
-It makes use of succinct **de Bruijn graph, with a a multiple k-mer size** strategy. In each iteration, MEGAHIT cleans 
-potentially erroneous edges by removing tips, merging bubbles and removing low local coverage edges,specially 
+It makes use of the succinct **de Bruijn graph, with a multiple k-mer size** strategy. In each iteration, MEGAHIT cleans 
+potentially erroneous edges by removing tips, merging bubbles and removing low local coverage edges, specially 
 useful for metagenomics which suffers from non-uniform sequencing depths.
 
 * **Source code:** https://github.com/voutcn/megahit
@@ -121,7 +121,7 @@ UNICYCLER
 ^^^^^^^^^
 
 An assembly pipeline for **bacterial genomes** that can do long-read assembly, hybrid assembly and short-read assembly. 
-When asseblying Illumina-only read sets where it functions as a SPAdes-optimiser, using a **de Bruijn algorithm with** 
+When assembling Illumina-only read sets where it functions as a SPAdes-optimiser, using a **de Bruijn algorithm with** 
 **multiple k-mer values**. It was published by `Wick et al. 2017 <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005595>`_.
 
 * **Source code:** https://github.com/rrwick/Unicycler
