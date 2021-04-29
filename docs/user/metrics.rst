@@ -8,8 +8,8 @@ Global Metrics
 Global Table Metrics
 ^^^^^^^^^^^^^^^^^^^^^
 
-Global table metrics are presented both for the **Original Assembly** and in the **Filtered Assembly**.
-Assemblies are filtered by a minumum contig size, defined in the ``--minLength`` parameter. 
+Global table metrics are presented both for the **Original Assembly** and for the **Filtered Assembly**.
+Assemblies are filtered by a minimum contig size, defined in the ``--minLength`` parameter. 
 
 Contigs
 """""""
@@ -42,7 +42,7 @@ Mapped Reads
 Number of 'N's
 """"""""""""""
 * Total of 'N's in assembly basepairs;
-* Calculated for the **Original Assembly** and the**Filtered Assembly**, by minimum contig size as defined in the ``--minLength`` parameter;
+* Calculated for the **Original Assembly** and the **Filtered Assembly**, by minimum contig size as defined in the ``--minLength`` parameter;
 
 Missassembled Contigs
 """""""""""""""""""""
@@ -52,7 +52,7 @@ Missassembled Contigs
 Global Plot Metrics
 ^^^^^^^^^^^^^^^^^^^^
 Global plot metrics are presented for the **Filtered Assembly**.
-Assemblies are filtered by a minumum contig size, defined in the ``--minLength`` parameter. 
+Assemblies are filtered by a minimum contig size, defined in the ``--minLength`` parameter. 
 
 Contig size distribution per assembler
 """""""""""""""""""""""""""""""""""""""
@@ -68,9 +68,9 @@ This plot contains a **boxplot** for each assembler representing the distributio
 Misassembled contigs
 """"""""""""""""""""
 
-This plot contains a **scatter plot** for misassembled contigs per assembler. The *y-axis* represent the number of blocks the misassembled 
+This plot contains a **scatter plot** for misassembled contigs per assembler. The *y-axis* represents the number of blocks the misassembled 
 contig was broken into in the mapping process, and the *x-axis* its size in basepairs. 
-Information of the **type of misassembly** is available as hoover text for the type of misassembly. 
+Information of the **type of misassembly** is available as hover text for the type of misassembly. 
 
 Types of misassembly detected:
 
@@ -86,7 +86,7 @@ Per Reference Metrics
 ---------------------
 
 Metrics per reference are calculated with ``minimap2`` mapping results between the the **Filtered Assembly** and the **tripled reference sequences**.
-Assemblies are filtered by a minumum contig size, defined in the ``--minLength`` parameter. 
+Assemblies are filtered by a minimum contig size, defined in the ``--minLength`` parameter. 
 
 Reference Table Metrics
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -196,14 +196,14 @@ The Phred-like score for each contig is obtained as following:
 
 Gaps
 """"
-Location of **gaps** in comparison to the reference sequence, per assembler. Length of gap, in basepairs, and coordenates in the reference
-is available as hoover text. 
-The **histogram** of the cumulative number of gaps per position in the reference is avaiable above the gap location plot. 
+Location of **gaps** in comparison to the reference sequence, per assembler. Length of gap, in basepairs, and coordinates in the reference
+is available as hover text. 
+The **histogram** of the cumulative number of gaps per position in the reference is available above the gap location plot. 
 Data for assemblers who fail to produce sequences that align to the reference aren't present.
 
 SNPs
 """"
-Location of **substitutions** in comparison to the reference sequence, per assembler. Substitution type and coordenate in the reference 
-is available as hoover text.
-The **histogram** of the cumulative number of substitutions per position in the referenceis is avaiable above the SNP location plot. 
+Location of **substitutions** in comparison to the reference sequence, per assembler. Substitution type and coordinate in the reference 
+is available as hover text.
+The **histogram** of the cumulative number of substitutions per position in the reference is avaiable above the SNP location plot. 
 Data for assemblers who fail to produce sequences that align to the reference aren't present.
