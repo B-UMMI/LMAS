@@ -64,8 +64,6 @@ Some information is required:
 
 By default, all assemblies are run with 4 CPUs and 16Gb of memory. 
 
-.. warning:: This isn't implemented yet.
-
 
 Add process to LMAS.nf manually
 :::::::::::::::::::::::::::::::::
