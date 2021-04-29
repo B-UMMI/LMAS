@@ -33,7 +33,7 @@ Overview
 
 This is divided into two sections: **Input Data** and **About**. 
 
-The Input Data sectiob presents the name of the file passed to the ``--reference`` parameter, the sample names of the short-read paired-end 
+The Input Data section presents the name of the file passed to the ``--reference`` parameter, the sample names of the short-read paired-end 
 raw sequencing files passed to the ``--fastq`` parameter, and the number of reads in each file. 
 
 The About section loads information about the samples used, in markdown, passed on to LMAS with the ``--md`` parameter. This is an 
