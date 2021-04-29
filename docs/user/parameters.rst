@@ -70,7 +70,7 @@ GATB Minia Pipeline
 
 * **Param:** :code:`--gatb_besst_iter`
 
-* **Definition:** Number of iteration during Besst scaffolding
+* **Definition:** Number of iteration during BESST scaffolding
 
 * **Default:** 10000
 
@@ -78,7 +78,7 @@ GATB Minia Pipeline
 
 * **Param:** :code:`--GATB_error_correction`
 
-* **Definition:** Boolen to perform error correction
+* **Definition:** Boolean to perform error correction
 
 * **Default:** false
 
