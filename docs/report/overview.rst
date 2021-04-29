@@ -31,7 +31,7 @@ This is devided into three tabs:
 Overview
 :::::::::
 
-This is devided into two sections: **Input Data** and **About**. 
+This is divided into two sections: **Input Data** and **About**. 
 
 Input data presents the name of the file passed to ``--reference`` parameter, the sample names of the short-read paired-end 
 raw sequencing files passed to ``--fastq``, and the number of reads in each file. 
