@@ -17,7 +17,7 @@ Table of Metrics
 
 For each assembler, the following metrics are shown in relation to the sequences produced by the assembler that 
 aligned to the reference sequence: *Contiguity*, *Multiplicity*, *Validity*, *Parsimony*, *Identity*, *Lowest identity*,
-*Breath of coverage*, *Align contigs*, *Misassembled contigs*, *Lx*, *NAx*, *NGx*, *Aligned Basepairs* and *Number of "N"s*.
+*Breadth of coverage*, *Align contigs*, *Misassembled contigs*, *Lx*, *NAx*, *NGx*, *Aligned Basepairs* and *Number of "N"s*.
 Target value for the *Lx* metric is defined by the``--l_target`` parameter (defaul: ``0.9``).
 The target value for the *NAx* and *NGx* metrics is defined by the``--n_target`` parameter (defaul: ``0.5``).
 
@@ -42,7 +42,7 @@ in the ``--minLength`` parameter, that map to the reference sequence.
 Genome fragmentation
 ::::::::::::::::::::
 
-**Number of contigs** (x-axis) per **breath of coverage** (y-axis) per assembler for the reference sequence. 
+**Number of contigs** (x-axis) per **breadth of coverage** (y-axis) per assembler for the reference sequence. 
 Data for assemblers who fail to produce sequences that align to the reference sequence aren't shown.
 
 .. image:: ../resources/genome_fragmentation_reference.png
@@ -103,7 +103,7 @@ Data for assemblers who fail to produce sequences that align to the reference ar
 Gaps
 ::::
 
-Location of gaps in comparison to the reference sequence, per assembler. Length of gap, in basepairs, is available as hoover text. 
+Location of gaps in comparison to the reference sequence, per assembler. Length of gap, in basepairs, is available as hover text. 
 The **top plot** represents the histogram of the cumulative number of gaps per position in the reference. 
 
 Data for assemblers who fail to produce sequences that align to the reference aren't present.
@@ -116,8 +116,8 @@ Data for assemblers who fail to produce sequences that align to the reference ar
 SNPs
 ::::
 
-Location of substitutions in comparison to the reference sequence, per assembler. Substitution type and coordenate is available 
-as hoover text.
+Location of substitutions in comparison to the reference sequence, per assembler. Substitution type and coordinate is available 
+as hover text.
 The **top plot** represents the histogram of the cumulative number of substitutions per position in the reference. 
 
 Data for assemblers who fail to produce sequences that align to the reference aren't present.

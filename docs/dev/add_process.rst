@@ -19,26 +19,28 @@ The current available assemblers are:
 * UNICYCLER
 * VELVETOPTIMIZER
 
-To add an assembler, it must be insured that **short-read paired-end sequence data** can be provided as input. 
+To add an assembler, it must be ensured that **short-read paired-end sequence data** can be provided as input. 
 
-More information is available at `assemblers <../user/assemblers>`_.
+More information is available at `assemblers <../user/assemblers.html>`_.
 
 Changing assembler version
 -----------------------------------
 
 The easiest way to change a version of a particular assembler in LMAS is by changing the containers for the assembler process.
-This is done though altering the container property in the `containers.config <https://github.com/cimendes/LMAS/blob/main/containers.config>`_ file.
+This is done through altering the container property in the `containers.config <https://github.com/cimendes/LMAS/blob/main/containers.config>`_ file.
 
 For example, for the ``SPADES`` process, the container "cimendes/spades:3.15.0-1" can be altered to another one that implements a
 different version of the tool: 
 
 .. code-block:: bash
+
     withName: SPADES {
                 container = "cimendes/spades:3.15.0-1"
             }
 
 
 .. code-block:: bash
+
     withName: SPADES {
                 container = "cimendes/spades:3.14.1-1"
             }
@@ -55,19 +57,19 @@ Create an issue with an assembler suggestion
 An issue template is available to collect the necessary information for an assembler to be added to LMAS.
 Some information is required:
 
-* Container for the execution of the assembler, containing the executable in the PATH and Nextflow's ps dependency
-* Command to capture the assembler version, if available,
-* Minimal command to execute the assembler with short-read paired-end sequencing datasets
-* Parameters (such as k-mer lists) to be passed onto the assembler
+* Container for the execution of the assembler, containing the executable in the PATH and Nextflow's ps dependency;
+* Command to capture the assembler version, if available;
+* Minimal command to execute the assembler with short-read paired-end sequencing datasets;
+* Parameters (such as k-mer lists) to be passed onto the assembler.
 
-By default, all assemblies are run with 4 CPUS and 16Gb of memory. 
+By default, all assemblies are run with 4 CPUs and 16Gb of memory. 
 
 
 Add process to LMAS.nf manually
 :::::::::::::::::::::::::::::::::
 To add a new assembler to LMAS, a few steps must be completed:
 
-1. **Add new channel for the FASTQ datasets**
+1. **Add a new channel for the FASTQ datasets**
 
 A new channel to provide the raw sequence data to the new assembler must be created.
 Simply add a new channel, named for example ``IN_<NEW_ASSEMBLER>``, to the ``into`` operator
@@ -76,6 +78,7 @@ that splits the data in the ``IN_fastq_raw`` channel in this `line <https://gith
 It should look like:
 
 .. code-block:: bash
+
     // SET CHANNELS FOR ASSEMBLERS
     IN_fastq_raw.into{
         IN_PROCESS_READS;
@@ -92,20 +95,21 @@ It should look like:
         IN_NEW_ASSEMBLER; // new channel added
         IN_TO_MAP} //mapping channel - minimap2
 
-.. warning:: Make sure the channel name isn't used elsewere. Otherwise Nextflow will throw an error
+.. warning:: Make sure the channel name isn't used elsewhere. Otherwise Nextflow will throw an error.
 
-2. **Add new process with the assembler**
+2. **Add a new process with the assembler**
 
 Parameters to be passed on to this new process can be added in the `params.config <https://github.com/cimendes/LMAS/blob/main/params.config>`_ file.
 You can access this values in the ``.nf`` file with ``params.<parameter>``.
-For example
+For example:
 
 .. code-block:: bash
+
     IN_NEW_ASSEMBLER_kmers = Channel.value(params.newassemblerKmers)
 
-.. warning:: For parameters need to be passed into a process through a channel. 
+.. warning:: Parameters need to be passed into a process through a channel. 
 
-To create the new process, you can use the following template, substituting ``NEW_ASSEMBLE`` with the new
+To create the new process, you can use the following template, substituting ``NEW_ASSEMBLER`` with the new
 assembler name:
 
 .. code-block:: bash
@@ -148,6 +152,7 @@ for it to be processed accordingly in this `line <https://github.com/cimendes/LM
 It should look like:
 
 .. code-block:: bash
+
     // VERSION COLLECTION
     BCALM2_VERSION.mix(GATB_VERSION,
                         MINIA_VERSION,
@@ -162,12 +167,13 @@ It should look like:
 
 4. **Add assembly to main assembly collection**
 
-The channel with the assembly produced  must be merged into the main assembly collection channel
+The channel with the assembly produced must be merged into the main assembly collection channel
 for it to be processed. This is done in this `line <https://github.com/cimendes/LMAS/blob/main/LMAS.nf#L445>`_.
 
 It should look like:
 
 .. code-block:: bash
+
     // ASSEMBLY COLLECTION
     OUT_BCALM2.mix(OUT_GATB,
                     OUT_MINIA,
@@ -179,3 +185,39 @@ It should look like:
                     OUT_VELVETOPTIMIZER,
                     OUT_NEW_ASSEMBLER,   // new channel added 
                     OUT_IDBA).set{ALL_ASSEMBLERS}
+
+5. **Add the resources for the new assembler**
+
+The resources for the new assembler need to be added to the ``resources.config`` file.
+
+It should look like:
+
+.. code-block:: bash
+    
+    withName: NEW_ASSEMBLER {
+        cpus = 4
+        memory = {16.Gb*task.attempt}
+    }
+
+6. **Add the container for the new assembler**
+
+The container for the new assembler need to be added to the ``resources.config`` file.
+
+It should look like:
+
+.. code-block:: bash
+    
+    withName: NEW_ASSEMBLER {
+        container = "username/NEW_ASSEMBLER:tag"
+    }
+
+7. (Optional) **Add parameters for the new assembler**
+
+Parameters that the new assembler requires for its execution need to be added to the ``params.config`` file.
+
+It should look like:
+
+.. code-block:: bash
+
+    //NEW_ASSEMBLER
+    new_assembler_parameter = parameter

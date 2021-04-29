@@ -10,7 +10,7 @@ information and afford a more complete picture of the microbial community. **It 
 prokaryotic *de novo* **assembly software using defined mock communities**. The results are presented in an **interactive** 
 **HTML report** where selected global and reference specific performance metrics can be explored.
 
-LMAS expects **reference sequences in tripled version** as to to ensure that contigs can fully align even with 
+LMAS expects **reference sequences in tripled version** as to ensure that contigs can fully align even with 
 start-end overlap and regardless of their starting position relative to that of the linearised reference sequence. 
 **Read data in paired-end form** is required to be passed on for the assembler.
 

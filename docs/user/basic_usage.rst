@@ -3,7 +3,7 @@ Basic Usage
 
 To use LMAS, the triple reference sequences must be passed with the ``--reference`` parameter, and ``--fastq`` 
 receives the short-read paired-end raw data for assembly. The raw data is a collection of sequence fragments 
-from the references and can be either obtained *in silico* or from real sequencing platforms
+from the references and can be either obtained *in silico* or from real sequencing platforms.
 
 The optional parameter ``--md`` allows the user to pass information on input samples to be presented in the report. 
 
@@ -35,12 +35,12 @@ When you clone it, LMAS has the following folder structure:
     ├── resources.config
     └── templates/
 
-* The ``LMAS.nf`` in the main execution file for LMAS. 
+* The ``LMAS.nf`` is the main execution file for LMAS. 
 * The ``get_data.sh`` bash script file downloads the ZymoBIOMICS Microbial Community Standard data.
 * The ``containers.config``, ``nextflow.config``, ``params.config``, ``profiles.config`` and ``resources.config`` are LMAS configuration files.
 * The ``bin/`` and ``templates/`` folders contain custom LMAS code for data processing.
 * The ``docs/`` folder contains LMAS documentation source files.
-* The ``docker/`` contains the dockerfile for LMAS base container.
+* The ``docker/`` folder contains the dockerfile for LMAS base container.
 * The ``resources/`` folder contains the LMAS report compiled code.
 
 
@@ -55,7 +55,7 @@ There are four configuration files in LMAS:
 nextflow.config
 ^^^^^^^^^^^^^^^
 
-This is Nextflow main configuration file. It should not be edited. 
+This is Nextflow main configuration file. **It should not be edited**. 
 
 params.config
 ^^^^^^^^^^^^^
@@ -90,14 +90,14 @@ ZymoBIOMICS Microbial Community Standard Data
 As proof-of-concept,the eight bacterial genomes and four plasmids of the 
 `ZymoBIOMICS Microbial Community Standards <https://www.zymoresearch.com/collections/zymobiomics-microbial-community-standards>`_ 
 were used as reference. Raw sequence data of the mock communities, with an even and logarithmic distribution of species, 
-and a simulated sample of the evenly distributed reads generated from the genomes. 
+and a simulated sample of the evenly distributed reads were generated from the genomes. 
 
 The triple-reference sequences and the mock sample are available at zenodo: https://zenodo.org/record/4588970#.YEeA83X7RhE
 
 The even and log distributed raw sequence data is available at https://www.ebi.ac.uk/ena/browser/view/ERR2984773 and 
 https://www.ebi.ac.uk/ena/browser/view/ERR2935805, respectively. 
 
-A script to download and structure the ZymoBIOMICS data to be ready to used as **default input** for LMAS is provided, 
+A script to download and structure the ZymoBIOMICS data to be used as **default input** for LMAS is provided, 
 included in LMAS repository. To run it, simply execute: 
 
 .. code-block:: bash

@@ -13,5 +13,5 @@ Detailed information on LMAS' interactive report is available at `Report section
 An example of the resulting report is available at https://lmas-demo.herokuapp.com.
 
 The output files of all assemblers and quality assessment processing scripts in the workflow are stored in the 
-``results/``folder, also in the directory of LMAS’ execution. Stand-alone HTML versions of the plots included 
+``results/`` folder, also in the directory of LMAS’ execution. Stand-alone HTML versions of the plots included 
 in the report are also available in this folder. 
