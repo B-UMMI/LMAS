@@ -1,7 +1,7 @@
 General Orientation
 ===================
 
-LAMS code is in two repositories: `source repository <https://github.com/cimendes/LMAS>`_ and 
+LMAS code is in two repositories: `source repository <https://github.com/cimendes/LMAS>`_ and 
 `report repository <https://github.com/cimendes/lmas_report>`_. 
 
 .. figure:: ../resources/LMAS_DIAGRAM_FULL.png
@@ -24,7 +24,7 @@ that can be altered by the user to adapt LMAS execution, are
 `containers.config <https://github.com/cimendes/LMAS/blob/main/containers.config>`_,
 and `resources.config <https://github.com/cimendes/LMAS/blob/main/resources.config>`_, respectively. 
 
-Information on how to adjust these values is available `here <../user>`_.
+Information on how to adjust these values is available `here <../user/parameters.html>`_.
 
 Templates
 ::::::::::
@@ -43,7 +43,7 @@ for the LMAS report. The report code is available in the `report repository <htt
 Lib
 ::::
 
-The `lib <https://github.com/cimendes/LMAS/tree/main/lib>`_ folder contains custum Groovy code used by LMAS for 
+The `lib <https://github.com/cimendes/LMAS/tree/main/lib>`_ folder contains custom Groovy code used by LMAS for 
 the ``--help`` function. 
 
 Docker
