@@ -109,7 +109,10 @@ def main(sample_id, assembler, assembly, mapping, reference):
 
     for header in references:
         header_str = header.__next__()[1:].strip().split()[0]
-        reference_name = utils.REFERENCE_DIC[header_str]
+        try:
+            reference_name = utils.REFERENCE_DIC[header_str]
+        except:
+            reference_name = header_str
 
         seq = "".join(s.strip() for s in references.__next__())
 

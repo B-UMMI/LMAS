@@ -171,7 +171,11 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     n_identity = []
 
     longest_alignment = 0
-    alignment_dict = {'Reference': utils.REFERENCE_DIC[ref_name], 'Reference_Length': ref_length,
+    try:
+        ref_name_util = utils.REFERENCE_DIC[ref_name]
+    except:
+        ref_name_util = ref_name
+    alignment_dict = {'Reference': ref_name_util, 'Reference_Length': ref_length,
                       'Longest_Alignment': 0, 'Contigs': {}}
 
     with open(paf_filename) as paf:
@@ -277,7 +281,10 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
 
     for header in references:
         header_str = header.__next__()[1:].strip().split()[0]
-        reference_name = utils.REFERENCE_DIC[header_str]
+        try:
+            reference_name = utils.REFERENCE_DIC[header_str]
+        except:
+            reference_name = header_str
         seq = "".join(s.strip() for s in references.__next__())
 
         df_assembler_reference = df_assembler[df_assembler['Mapped'] == header_str]
