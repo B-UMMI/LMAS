@@ -177,7 +177,7 @@ def evaluate_misassembled_contigs(mis_dict):
                 #   -multiple alignment blocks to the same reference
                 blocks_coords = sorted(blocks_coords, key=lambda x: x[0])
 
-                gap_sizes = [blocks_coords[i+1][0] - blocks_coords[i][1] for i in range(0, len(blocks_coords))]
+                gap_sizes = [blocks_coords[i+1][0] - blocks_coords[i][1] for i in range(0, len(blocks_coords)-1)]
 
 
                 blocks_ordered = sorted(blocks_to_order)
