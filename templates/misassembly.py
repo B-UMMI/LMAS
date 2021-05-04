@@ -176,7 +176,9 @@ def evaluate_misassembled_contigs(mis_dict):
             else:
                 #   -multiple alignment blocks to the same reference
                 blocks_coords = sorted(blocks_coords, key=lambda x: x[0])
-                gap_sizes = [blocks_coords[i+1][1] - blocks_coords[i][0] for i in range(0, len(blocks_coords)-1)]
+
+                gap_sizes = [blocks_coords[i+1][0] - blocks_coords[i][1] for i in range(0, len(blocks_coords))]
+
 
                 blocks_ordered = sorted(blocks_to_order)
                 order = []
@@ -193,7 +195,9 @@ def evaluate_misassembled_contigs(mis_dict):
                 if all(i > 50 for i in gap_sizes):
                     misassembly_list.append("insertion")
                 #   - deletion
-                # TODO
+                if all(i < -50 for i in gap_sizes):
+                    misassembly_list.append("deletion")
+            
             missassembled_contigs[contig] = {'misassembly': misassembly_list, 'frag_score': frag_score,
                                              'contig length': contig_len, "n blocks": n_blocks, "reference": reference}
 
