@@ -82,7 +82,7 @@ process PROCESS_READS{
     tag {sample_id}
 
     input:
-    set sample_id, file(fastq) from IN_PROCESS_READS
+    tuple sample_id, file(fastq) from IN_PROCESS_READS
 
     output:
     file("*_reads_report.json") into PROCESS_READS
@@ -96,11 +96,11 @@ process BCALM2 {
     publishDir "results/assembly/bcalm2/"
 
     input:
-    set sample_id, file(fastq) from IN_BCALM2
+    tuple sample_id, file(fastq) from IN_BCALM2
     val KmerSize from Channel.value(params.bcalmKmerSize)
 
     output:
-    set sample_id, val("BCALM2"), file("*_BCALM2.fasta") into OUT_BCALM2
+    tuple sample_id, val("BCALM2"), file("*_BCALM2.fasta") into OUT_BCALM2
     file(".*version") into BCALM2_VERSION
 
     script:
@@ -128,16 +128,16 @@ IN_error_correction = Channel.value(GATB_error_correction)
 
 process GATBMINIAPIPELINE {
     tag {sample_id}
-    publishDir 'results/assembly/GATBMiniaPipeline/'
+    publishDir 'results//assembly/GATBMiniaPipeline/'
 
     input:
-    set sample_id, file(fastq_pair) from IN_GATB_MINIA_PIPELINE
+    tuple sample_id, file(fastq_pair) from IN_GATB_MINIA_PIPELINE
     val kmer_list from IN_GATB_kmers
     val do_error_correction from GATB_error_correction
     val besst_iter from IN_GATB_besst_iter
 
     output:
-    set sample_id, val("GATBMiniaPipeline"), file('*_GATBMiniaPipeline.fasta') into OUT_GATB
+    tuple sample_id, val("GATBMiniaPipeline"), file('*_GATBMiniaPipeline.fasta') into OUT_GATB
     file(".*version") into GATB_VERSION
 
     script:
@@ -173,11 +173,11 @@ process MINIA {
     publishDir 'results/assembly/MINIA/'
 
     input:
-    set sample_id, file(fastq) from IN_MINIA
+    tuple sample_id, file(fastq) from IN_MINIA
     val kmer from IN_MINIA_kmer
 
     output:
-    set sample_id, val("MINIA"), file('*_minia.fasta') into OUT_MINIA
+    tuple sample_id, val("MINIA"), file('*_minia.fasta') into OUT_MINIA
     file(".*version") into MINIA_VERSION
 
     script:
@@ -204,11 +204,11 @@ process MEGAHIT {
     publishDir 'results/assembly/MEGAHIT/', pattern: '*_megahit*.fasta'
 
     input:
-    set sample_id, file(fastq_pair) from IN_MEGAHIT
+    tuple sample_id, file(fastq_pair) from IN_MEGAHIT
     val kmers from IN_megahit_kmers
 
     output:
-    set sample_id, val("MEGAHIT"), file('*_MEGAHIT.fasta') into OUT_MEGAHIT
+    tuple sample_id, val("MEGAHIT"), file('*_MEGAHIT.fasta') into OUT_MEGAHIT
     file(".*version") into MEGAHIT_VERSION
 
     script:
@@ -240,11 +240,11 @@ process METASPADES {
     publishDir 'results/assembly/metaSPAdes/'
 
     input:
-    set sample_id, file(fastq_pair) from IN_METASPADES
+    tuple sample_id, file(fastq_pair) from IN_METASPADES
     val kmers from IN_metaspades_kmers
 
     output:
-    set sample_id, val("metaSPAdes"), file('*_metaspades.fasta') into OUT_METASPADES
+    tuple sample_id, val("metaSPAdes"), file('*_metaspades.fasta') into OUT_METASPADES
     file(".*version") into METASPADES_VERSION
 
     script:
@@ -270,10 +270,10 @@ process UNICYCLER {
     publishDir 'results/assembly/unicycler'
 
     input:
-    set sample_id, file(fastq_pair) from IN_UNICYCLER
+    tuple sample_id, file(fastq_pair) from IN_UNICYCLER
 
     output:
-    set sample_id, val("Unicycler"), file('*_unicycler.fasta') into OUT_UNICYCLER
+    tuple sample_id, val("Unicycler"), file('*_unicycler.fasta') into OUT_UNICYCLER
     file(".*version") into UNICYCLER_VERSION
 
     script:
@@ -304,11 +304,11 @@ process SPADES {
     publishDir 'results/assembly/SPAdes/', pattern: '*.fasta'
 
     input:
-    set sample_id, file(fastq_pair) from IN_SPADES
+    tuple sample_id, file(fastq_pair) from IN_SPADES
     val kmers from IN_spades_kmers
 
     output:
-    set sample_id, val("SPAdes"), file('*_spades.fasta') into OUT_SPADES
+    tuple sample_id, val("SPAdes"), file('*_spades.fasta') into OUT_SPADES
     file(".*version") into SPADES_VERSION
 
     script:
@@ -333,10 +333,10 @@ process SKESA {
     publishDir 'results/assembly/SKESA/'
 
     input:
-    set sample_id, file(fastq_pair) from IN_SKESA
+    tuple sample_id, file(fastq_pair) from IN_SKESA
 
     output:
-    set sample_id, val("SKESA"), file('*_skesa.fasta') into OUT_SKESA
+    tuple sample_id, val("SKESA"), file('*_skesa.fasta') into OUT_SKESA
     file(".*version") into SKESA_VERSION
 
     script:
@@ -358,10 +358,10 @@ process VELVETOPTIMIZER {
     publishDir 'results/assembly/VelvetOtimiser'
 
     input:
-    set sample_id, file(fastq_pair) from IN_VELVETOPTIMIZER
+    tuple sample_id, file(fastq_pair) from IN_VELVETOPTIMIZER
 
     output:
-    set sample_id, val("VelvetOptimizer"), file('*.fasta') into OUT_VELVETOPTIMIZER
+    tuple sample_id, val("VelvetOptimizer"), file('*.fasta') into OUT_VELVETOPTIMIZER
     file(".*version") into VELVETOPTIMIZER_VERSION
 
     script:
@@ -385,10 +385,10 @@ process reformat_IDBA {
     tag { sample_id }
 
     input:
-    set sample_id, file(fastq_pair) from IN_IDBA
+    tuple sample_id, file(fastq_pair) from IN_IDBA
 
     output:
-    set sample_id, file('*.fasta') into REFORMAT_IDBA
+    tuple sample_id, file('*.fasta') into REFORMAT_IDBA
 
     script:
     "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta"
@@ -399,10 +399,10 @@ process IDBA {
     publishDir 'results/assembly/IDBA-UD/'
 
     input:
-    set sample_id, file(fasta_reads_single) from  REFORMAT_IDBA
+    tuple sample_id, file(fasta_reads_single) from  REFORMAT_IDBA
 
     output:
-    set sample_id, val("IDBA-UD"), file('*_IDBA-UD.fasta') into OUT_IDBA
+    tuple sample_id, val("IDBA-UD"), file('*_IDBA-UD.fasta') into OUT_IDBA
     file(".*version") into IDBA_VERSION
 
     script:
@@ -464,12 +464,12 @@ process READ_MAPPING{
     publishDir 'results/stats/'
 
     input:
-    set sample_id, assembler, assembly from TO_READ_MAPPING
+    tuple sample_id, assembler, assembly from TO_READ_MAPPING
     each THRESHOLD
 
     output:
     file("*_read_mapping.txt") optional true
-    set sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING optional true
+    tuple sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING optional true
 
     script:
     template "read_mapping.py"
@@ -482,7 +482,7 @@ process ASSEMBLY_STATS_GLOBAL {
     publishDir 'results/stats/assembly/'
 
     input:
-    set sample_id, assembler, file(assembly), file(read_mapping) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING, by: [0,1])
+    tuple sample_id, assembler, file(assembly), file(read_mapping) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING, by: [0,1])
 
     output:
     file "*report.json" into OUT_ASSEMBLY_STATS_GLOBAL_JSON
@@ -518,11 +518,11 @@ process FILTER_ASSEMBLY {
     publishDir 'results/assembly/filtered/'
 
     input:
-    set sample_id, assembler, file(assembly) from TO_FILTER
+    tuple sample_id, assembler, file(assembly) from TO_FILTER
     val minLen from IN_minLen
 
     output:
-    set sample_id, assembler, file('filtered_*') into OUT_FILTERED
+    tuple sample_id, assembler, file('filtered_*') into OUT_FILTERED
 
     script:
     "reformat.sh in=${assembly} out=filtered_${assembly} minlength=${minLen}"
@@ -536,11 +536,11 @@ process ASSEMBLY_MAPPING{
     publishDir 'results/mapping/'
 
     input:
-    set sample_id, assembler, file(assembly) from OUT_FILTERED
+    tuple sample_id, assembler, file(assembly) from OUT_FILTERED
     each reference from IN_MAPPING_CONTIGS
 
     output:
-    set sample_id, assembler, file(assembly), file("*.paf") into OUT_ASSEMBLY_MAPPING
+    tuple sample_id, assembler, file(assembly), file("*.paf") into OUT_ASSEMBLY_MAPPING
 
     script:
     "minimap2 --cs -N 0 -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_${assembler}.paf"
@@ -556,7 +556,7 @@ process ASSEMBLY_STATS_MAPPING {
     publishDir 'results/stats/'
 
     input:
-    set sample_id, assembler, file(assembly), file(mapping) from IN_ASSEMBLY_MAPPING_FOR_STATS
+    tuple sample_id, assembler, file(assembly), file(mapping) from IN_ASSEMBLY_MAPPING_FOR_STATS
     each reference from IN_ASSEMBLY_STATS_MAPPING
 
     output:
@@ -684,7 +684,7 @@ process GAP_ASSESSMENT {
     tag { assembler }
 
     input:
-    set sample_id, assembler, file(assembly), file(mapping) from IN_GAP_ASSESSMENT
+    tuple sample_id, assembler, file(assembly), file(mapping) from IN_GAP_ASSESSMENT
     each reference from IN_GAP_STATS
 
     output:
@@ -731,7 +731,7 @@ process SNP_ASSESSMENT {
     tag { assembler }
 
     input:
-    set sample_id, assembler, file(assembly), file(mapping) from IN_SNP_ASSESSMENT
+    tuple sample_id, assembler, file(assembly), file(mapping) from IN_SNP_ASSESSMENT
     each reference from IN_SNP_STATS
 
     output:
@@ -763,7 +763,7 @@ process MISASSEMBLY {
     tag { assembler }
 
     input:
-    set sample_id, assembler, file(assembly), file(mapping) from IN_MISASSEMBLY
+    tuple sample_id, assembler, file(assembly), file(mapping) from IN_MISASSEMBLY
 
     output:
     file("*_trace.pkl") into OUT_MISASSEMBLY_TRACE
