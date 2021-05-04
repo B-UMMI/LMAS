@@ -11,7 +11,7 @@ class Help {
         println "         Last Metagenomic Assembler Standing"
         println ""
         int nsamples = info.fastq / 2
-        println " Input FastQ                 : $info.fastq"
+        println " Input FastQ                 : $nsamples"
         println " Reference file              : $info.referece"
         println " Reports are found in        : ./reports"
         println " Results are found in        : ./results"
