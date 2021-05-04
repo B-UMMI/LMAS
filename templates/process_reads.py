@@ -2,7 +2,8 @@
 """
 Purpose
 -------
-This script count reads in fastq files and return json with info for report
+This script count read pairs in fastq files and return json with info for report
+
 Expected input
 --------------
 The following variables are expected whether using NextFlow or the
@@ -26,8 +27,8 @@ try:
 except ImportError:
     from templates import utils
 
-__version__ = "0.0.1"
-__build__ = "15.02.2021"
+__version__ = "0.0.2"
+__build__ = "04.04.2021"
 __template__ = "PROCESS_READS-nf"
 
 logger = utils.get_logger(__file__)
@@ -44,7 +45,7 @@ if __file__.endswith(".command.sh"):
 def main(sample_id, fastq):
 
     # get total number of reads
-    n_reads_total = (sum(1 for line in gzip.open(fastq[0], 'rb'))/4)+(sum(1 for line in gzip.open(fastq[1], 'rb'))/4)
+    n_reads_total = (sum(1 for line in gzip.open(fastq[0], 'rb'))/4)  # To get read pairs seeing only one file is enough
 
     with open("{}_reads_report.json".format(sample_id), "w") as json_report:
         json_dic = {
