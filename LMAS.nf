@@ -93,7 +93,7 @@ process PROCESS_READS{
 
 process BCALM2 {
     tag {sample_id}
-    publishDir "results/assembly/bcalm2/"
+    publishDir "results/$sample_id/assembly/bcalm2/"
 
     input:
     tuple sample_id, file(fastq) from IN_BCALM2
@@ -128,7 +128,7 @@ IN_error_correction = Channel.value(GATB_error_correction)
 
 process GATBMINIAPIPELINE {
     tag {sample_id}
-    publishDir 'results//assembly/GATBMiniaPipeline/'
+    publishDir "results/$sample_id/assembly/GATBMiniaPipeline/"
 
     input:
     tuple sample_id, file(fastq_pair) from IN_GATB_MINIA_PIPELINE
@@ -170,7 +170,7 @@ IN_MINIA_kmer = Channel.value(params.miniakmer)
 
 process MINIA {
     tag {sample_id}
-    publishDir 'results/assembly/MINIA/'
+    publishDir "results/$sample_id/assembly/MINIA/"
 
     input:
     tuple sample_id, file(fastq) from IN_MINIA
@@ -201,7 +201,7 @@ IN_megahit_kmers = Channel.value(params.megahitKmers)
 
 process MEGAHIT {
     tag { sample_id }
-    publishDir 'results/assembly/MEGAHIT/', pattern: '*_megahit*.fasta'
+    publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*_megahit*.fasta'
 
     input:
     tuple sample_id, file(fastq_pair) from IN_MEGAHIT
@@ -237,7 +237,7 @@ IN_metaspades_kmers = Channel.value(params.metaspadesKmers)
 
 process METASPADES {
     tag { sample_id }
-    publishDir 'results/assembly/metaSPAdes/'
+    publishDir "results/$sample_id/assembly/metaSPAdes/"
 
     input:
     tuple sample_id, file(fastq_pair) from IN_METASPADES
@@ -267,7 +267,7 @@ process METASPADES {
 //      UNICYCLER
 process UNICYCLER {
     tag { sample_id }
-    publishDir 'results/assembly/unicycler'
+    publishDir "results/$sample_id/assembly/unicycler"
 
     input:
     tuple sample_id, file(fastq_pair) from IN_UNICYCLER
@@ -301,7 +301,7 @@ IN_spades_kmers = Channel.value(params.spadesKmers)
 
 process SPADES {
     tag { sample_id }
-    publishDir 'results/assembly/SPAdes/', pattern: '*.fasta'
+    publishDir "results/$sample_id/assembly/SPAdes/", pattern: '*.fasta'
 
     input:
     tuple sample_id, file(fastq_pair) from IN_SPADES
@@ -330,7 +330,7 @@ process SPADES {
 //      SKESA
 process SKESA {
     tag { sample_id }
-    publishDir 'results/assembly/SKESA/'
+    publishDir "results/$sample_id/assembly/SKESA/"
 
     input:
     tuple sample_id, file(fastq_pair) from IN_SKESA
@@ -355,7 +355,7 @@ process SKESA {
 //      VELVETOPTIMIZER
 process VELVETOPTIMIZER {
     tag { sample_id }
-    publishDir 'results/assembly/VelvetOtimiser'
+    publishDir "results/$sample_id/assembly/VelvetOtimiser"
 
     input:
     tuple sample_id, file(fastq_pair) from IN_VELVETOPTIMIZER
@@ -396,7 +396,7 @@ process reformat_IDBA {
 
 process IDBA {
     tag { sample_id }
-    publishDir 'results/assembly/IDBA-UD/'
+    publishDir "results/$sample_id/assembly/IDBA-UD/"
 
     input:
     tuple sample_id, file(fasta_reads_single) from  REFORMAT_IDBA
@@ -461,7 +461,7 @@ process READ_MAPPING{
 
     tag { assembler }
 
-    publishDir 'results/stats/'
+    publishDir "results/$sample_id/mapping/reads"
 
     input:
     tuple sample_id, assembler, assembly from TO_READ_MAPPING
@@ -479,7 +479,7 @@ process READ_MAPPING{
 process ASSEMBLY_STATS_GLOBAL {
     tag { assembler }
 
-    publishDir 'results/stats/assembly/'
+    publishDir "results/$sample_id/stats/assembly"
 
     input:
     tuple sample_id, assembler, file(assembly), file(read_mapping) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING, by: [0,1])
@@ -495,7 +495,7 @@ process ASSEMBLY_STATS_GLOBAL {
 
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
-    publishDir 'results/stats/'
+    publishDir "results/$sample_id/stats/assembly"
 
     input:
     file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
@@ -515,7 +515,7 @@ IN_minLen = Channel.value(params.minLength)
 process FILTER_ASSEMBLY {
 
     tag {sample_id; assembler}
-    publishDir 'results/assembly/filtered/'
+    publishDir "results/$sample_id/assembly/filtered/"
 
     input:
     tuple sample_id, assembler, file(assembly) from TO_FILTER
@@ -533,7 +533,7 @@ process ASSEMBLY_MAPPING{
 
     tag { sample_id; assembler }
 
-    publishDir 'results/mapping/'
+    publishDir "results/$sample_id/mapping/assembly"
 
     input:
     tuple sample_id, assembler, file(assembly) from OUT_FILTERED
@@ -553,7 +553,7 @@ process ASSEMBLY_STATS_MAPPING {
 
     tag { assembler }
 
-    publishDir 'results/stats/'
+    publishDir "results/$sample_id/stats/"
 
     input:
     tuple sample_id, assembler, file(assembly), file(mapping) from IN_ASSEMBLY_MAPPING_FOR_STATS
@@ -575,7 +575,7 @@ process ASSEMBLY_STATS_MAPPING {
 
 process PROCESS_ASSEMBLY_STATS_MAPPING {
 
-    publishDir 'results/stats/'
+    publishDir "results/$sample_id/stats/"
 
     input:
     file json_report from OUT_ASSEMBLY_STATS_MAPPING_JSON.collect()
