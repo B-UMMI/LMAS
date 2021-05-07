@@ -75,7 +75,7 @@ process PROCESS_REFERENCE{
     file reference_fasta from IN_reference_raw
 
     output:
-    file("*tripled.fasta") into OUT_REFERENCE_TRIPLE
+    file("triple_reference.fasta") into OUT_REFERENCE_TRIPLE
 
     script:
     template "process_reference.py"
