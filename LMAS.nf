@@ -69,8 +69,21 @@ IN_fastq_raw.into{
     IN_VELVETOPTIMIZER;
     IN_TO_MAP} //mapping channel - minimap2
 
+// TRIPLE THE REFERENCE REPLICONS
+process PROCESS_REFERENCE{
+    input:
+    file reference_fasta from IN_reference_raw
+
+    output:
+    file("*tripled.fasta") into OUT_REFERENCE_TRIPLE
+
+    script:
+    template "process_reference.py"
+}
+
 // SET CHANNELS FOR REFERENCE
-IN_reference_raw.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS}
+OUT_REFERENCE_TRIPLE.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS}
+
 
 // ASSEMBLERS
 //      BCALM 2
