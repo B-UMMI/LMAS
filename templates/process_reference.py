@@ -20,6 +20,7 @@ https://github.com/cimendes
 """
 
 import os
+from itertools import groupby
 try:
     import utils
 except ImportError:
@@ -39,12 +40,22 @@ if __file__.endswith(".command.sh"):
 
 def main(reference):
 
-    fasta_iter = utils.fasta_iter(reference)
+    fh = open(reference)
+    fw = open("triple_reference.fasta", "w")
 
-    with open("triple_reference.fasta", "w") as fh:
-        for header, seq in fasta_iter:
-            fh.write('>' + header + '\\n')
-            fh.write(seq * 3 + '\\n')
+    # ditch the boolean (x[0]) and just keep the header or sequence since
+    # we know they alternate.
+    faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
+
+    for header in faiter:
+        # drop the ">"
+        header = header.__next__()[1:].strip()
+        print(header)
+        # join all sequence lines to one.
+        seq = "".join(s.strip() for s in faiter.__next__())
+
+        fw.write('>' + header + '\\n')
+        fw.write(seq * 3 + '\\n')
 
 if __name__ == '__main__':
     main(REFERENCE)
