@@ -171,11 +171,7 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
     n_identity = []
 
     longest_alignment = 0
-    try:
-        ref_name_util = utils.REFERENCE_DIC[ref_name]
-    except:
-        ref_name_util = ref_name
-    alignment_dict = {'Reference': ref_name_util, 'Reference_Length': ref_length,
+    alignment_dict = {'Reference': ref_name, 'Reference_Length': ref_length,
                       'Longest_Alignment': 0, 'Contigs': {}}
 
     with open(paf_filename) as paf:
@@ -280,14 +276,10 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
     fh.write("Reference,Breadth of Coverage,Contigs\\n")
 
     for header in references:
-        header_str = header.__next__()[1:].strip().split()[0]
-        try:
-            reference_name = utils.REFERENCE_DIC[header_str]
-        except:
-            reference_name = header_str
+        reference_name = header.__next__()[1:].strip()
         seq = "".join(s.strip() for s in references.__next__())
 
-        df_assembler_reference = df_assembler[df_assembler['Mapped'] == header_str]
+        df_assembler_reference = df_assembler[df_assembler['Mapped'] == reference_name]
 
         mapped_contigs = df_assembler_reference['Contig Len'].astype(
             'int').tolist()
@@ -314,7 +306,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         l90 = utils.get_Lx(mapped_contigs, len(seq)/3, l_target)
 
         contiguity, coverage, multiplicity, validity, parsimony, lowest_identity, identity, df_phred, covered_bases = get_alignment_stats(mapping,
-                                                                                                                                          header_str,
+                                                                                                                                          reference_name,
                                                                                                                                           len(
                                                                                                                                               seq)/3,
                                                                                                                                           df_phred)

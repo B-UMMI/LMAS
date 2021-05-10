@@ -281,11 +281,7 @@ def process_reference_data(reference_file):
     with open(reference_file) as fh:
         faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
         for header in faiter:
-            try:
-
-                headerStr = utils.REFERENCE_DIC[header.__next__()[1:].strip().split()[0]]
-            except:
-                headerStr = header.__next__()[1:].strip().split()[0]
+            headerStr = header.__next__()[1:].strip()
             seq = "".join(s.strip() for s in faiter.__next__())
             gc_content = float(
                 (seq.count('G') + seq.count('C'))) / len(seq) * 100
@@ -398,10 +394,8 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                         assembler = item['assembler']
                         references = list(
                             misassembly_stats[sample_id][assembler][0].keys())
-                        references_names = [utils.REFERENCE_DIC[i]
-                                            for i in references]
-                        if reference in references_names:
-                            index = references_names.index(reference)
+                        if reference in references:
+                            index = references.index(reference)
                             ref_name = references[index]
                             item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][ref_name]
                         else:

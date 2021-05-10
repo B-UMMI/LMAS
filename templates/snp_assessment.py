@@ -127,20 +127,16 @@ def main(sample_id, assembler, assembly, mapping, reference):
     references = (x[1] for x in groupby(open(reference, "r"), lambda line: line[0] == ">"))
 
     for header in references:
-        header_str = header.__next__()[1:].strip().split()[0]
-        try:
-            reference_name = utils.REFERENCE_DIC[header_str]
-        except:
-            reference_name = header_str
-
+        reference_name = header.__next__()[1:].strip()
+        print(reference_name)
         seq = "".join(s.strip() for s in references.__next__())
-        snps = get_snps(mapping, header_str, len(seq) / 3, sample_id, assembler)
+        snps = get_snps(mapping, reference_name, len(seq) / 3, sample_id, assembler)
 
         # plot gap location per reference per reference
         for snip_info in snps:
             coord = snip_info[0]
             substitution = '{}->{}'.format(snip_info[1][0], snip_info[1][1])
-            print(coord, substitution)
+            #print(coord, substitution)
             df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Reference': reference_name,
                             'Reference Length': len(seq)/3, 'SNP Location': coord, 'Substitution Type': substitution}, ignore_index=True)
 

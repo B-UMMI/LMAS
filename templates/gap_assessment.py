@@ -108,15 +108,11 @@ def main(sample_id, assembler, assembly, mapping, reference):
     references = (x[1] for x in groupby(open(reference, "r"), lambda line: line[0] == ">"))
 
     for header in references:
-        header_str = header.__next__()[1:].strip().split()[0]
-        try:
-            reference_name = utils.REFERENCE_DIC[header_str]
-        except:
-            reference_name = header_str
+        reference_name = header.__next__()[1:].strip()
 
         seq = "".join(s.strip() for s in references.__next__())
 
-        gaps, gap_sizes = get_gaps(mapping, header_str, len(seq) / 3)
+        gaps, gap_sizes = get_gaps(mapping, reference_name, len(seq) / 3)
         all_gap_sizes.append(gap_sizes)  # for global plot
 
         # plot gap location per reference per reference

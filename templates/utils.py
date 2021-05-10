@@ -13,23 +13,6 @@ COLUMNS = ['Sample', 'Assembler', 'Contig', 'Contig Len', 'Mapped', '#N']  # col
 COLOURS = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c',
            '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ebdb75', '#b15928']
 
-# Dic for pretty print of reference names
-REFERENCE_DIC = {
-    "BS.pilon.polished.v3.ST170922": "Bacillus subtilis",
-    "Enterococcus_faecalis_complete_genome": "Enterococcus faecalis",
-    "Escherichia_coli_chromosome": "Escherichia coli",
-    "Lactobacillus_fermentum_complete_genome": "Lactobacillus fermentum",
-    "Listeria_monocytogenes_complete_genome": "Listeria monocytogenes",
-    "Pseudomonas_aeruginosa_complete_genome": "Pseudomonas aeruginosa",
-    "Salmonella_enterica_complete_genome": "Salmonella enterica",
-    "Staphylococcus_aureus_triple_chromosome": "Staphylococcus aureus",
-    "Staphylococcus_aureus_plasmid1": "Staphylococcus aureus plasmid 1",
-    "Staphylococcus_aureus_plasmid2": " Staphylococcus aureus plasmid 2",
-    "Staphylococcus_aureus_plasmid3": "Staphylococcus aureus plasmid 3",
-    "Escherichia_coli_plasmid": "Escherichia coli plasmid"
-}
-
-
 def get_logger(filepath, level=logging.DEBUG):
     """
 
@@ -85,7 +68,7 @@ def fasta_iter(fasta_name):
 
     for header in faiter:
         # drop the ">"
-        headerStr = header.__next__()[1:].strip().split()[0]
+        headerStr = header.__next__()[1:].strip().split(' ')[0].replace('_', ' ')
 
         # join all sequence lines to one.
         try:
