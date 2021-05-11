@@ -281,7 +281,7 @@ def process_reference_data(reference_file):
     with open(reference_file) as fh:
         faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
         for header in faiter:
-            headerStr = header.__next__()[1:].strip()
+            headerStr = header.__next__()[1:].strip().split(' ')[0].replace('_', ' ')
             seq = "".join(s.strip() for s in faiter.__next__())
             gc_content = float(
                 (seq.count('G') + seq.count('C'))) / len(seq) * 100
