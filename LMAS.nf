@@ -508,7 +508,7 @@ process ASSEMBLY_STATS_GLOBAL {
 
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
-    publishDir "results/$sample_id/stats/assembly"
+    publishDir "results/stats"
 
     input:
     file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
@@ -588,7 +588,7 @@ process ASSEMBLY_STATS_MAPPING {
 
 process PROCESS_ASSEMBLY_STATS_MAPPING {
 
-    publishDir "results/$sample_id/stats/"
+    publishDir "results/stats/"
 
     input:
     file json_report from OUT_ASSEMBLY_STATS_MAPPING_JSON.collect()
