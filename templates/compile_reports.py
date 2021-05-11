@@ -68,8 +68,6 @@ if __file__.endswith(".command.sh"):
     logger.debug("ABOUT_MD: {}".format(ABOUT_MD))
     logger.debug("CONTAINERS: {}".format(CONTAINERS))
 
-ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
-                          "SKESA", "PANDASEQ", "VELVETOPTIMIZER", "IDBA"]
 
 html_template = """
 <!DOCTYPE html>
@@ -207,7 +205,7 @@ def process_performance_data(pipeline_stats, versions_json, containers_config):
     containers = {}
     with open(containers_config) as f:
         for line in f:
-            if re.compile('|'.join(ASSEMBLER_PROCESS_LIST)).search(line):
+            if re.compile('|'.join(utils.ASSEMBLER_PROCESS_LIST)).search(line):
                 assembler_process = line.split(':')[1].replace('{', '').strip()
                 container = next(f).split('=')[1].replace('"', "").strip()
                 containers[assembler_process] = container
@@ -217,7 +215,7 @@ def process_performance_data(pipeline_stats, versions_json, containers_config):
     with open(pipeline_stats, "r") as pipeline_stats_file:
         csvreader = csv.reader(pipeline_stats_file, delimiter='\t')
         for row in csvreader:
-            if row[2] in ASSEMBLER_PROCESS_LIST:
+            if row[2] in utils.ASSEMBLER_PROCESS_LIST:
                 if row[2] not in performance.keys():
                     performance[row[2]] = {"cpus": [_cpu_load_parser(row[8], row[15], row[13])],
                                            "realtime": [_hms(row[13])],

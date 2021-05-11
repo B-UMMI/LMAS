@@ -858,7 +858,7 @@ process compile_reports {
     file "pipeline_report.json"
     file "index.html"
     file "main.js"
-    file "lmas.png"
+    file "lmas.jpg"
 
     script:
     template "compile_reports.py"
