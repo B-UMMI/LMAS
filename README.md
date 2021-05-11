@@ -1,7 +1,7 @@
 # LMAS
 
 [![Documentation Status](https://readthedocs.org/projects/lmas/badge/?version=latest)](https://lmas.readthedocs.io/en/latest/?badge=latest)
-[![DOI Dataset](https://zenodo.org/badge/DOI/10.5281/zenodo.4588970.svg)](https://doi.org/10.5281/zenodo.4588970)
+[![DOI Dataset](https://zenodo.org/badge/DOI/10.5281/zenodo.4742651.svg)](https://doi.org/10.5281/zenodo.4742651)
 
 
 
