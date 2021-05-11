@@ -126,6 +126,7 @@ process BCALM2 {
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_BCALM2.fasta
     }
     # remove temp files
     rm list_reads *.fa || true
@@ -166,12 +167,13 @@ process GATBMINIAPIPELINE {
 
         link=\$(readlink ${sample_id}_GATBMiniaPipeline.fasta) && rm ${sample_id}_GATBMiniaPipeline.fasta && mv \$link ${sample_id}_GATBMiniaPipeline.fasta
 
-        # rm temp dirs
-
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_GATBMiniaPipeline.fasta
     }
+    {
+    # rm temp dirs
     rm -r *_GATBMiniaPipeline.lib* *_GATBMiniaPipeline_besst *.unitigs* *contigs.fa *.h5 || true
     rm *list_reads* || true
     """
@@ -203,6 +205,7 @@ process MINIA {
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_minia.fasta
     }
     rm list_reads *.unitigs.* *.h5 || true
     """
@@ -233,6 +236,7 @@ process MEGAHIT {
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_MEGAHIT.fasta
     }
     rm -r megahit || true
     """
@@ -271,6 +275,7 @@ process METASPADES {
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_metaspades.fasta
     }
     rm -r metaspades || true
     """
@@ -298,6 +303,7 @@ process UNICYCLER {
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_unicycler.fasta
     }
     rm *best_spades_graph* *overlaps_removed* *bridges_applied* *final_clean* || true
     """
@@ -334,6 +340,7 @@ process SPADES {
         mv spades/contigs.fasta ${sample_id}_spades.fasta
     } || {
         echo fail > .status
+        :> ${sample_id}_spades.fasta
     }
     rm -r spades || true
     """
@@ -360,6 +367,7 @@ process SKESA {
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_skesa.fasta
     }
     """
 }
@@ -387,6 +395,7 @@ process VELVETOPTIMIZER {
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_velvetoptimizer.fasta
     }
     rm -r auto_data* || true
     """
@@ -427,6 +436,7 @@ process IDBA {
         echo pass > .status
     } || {
         echo fail > .status
+        :> ${sample_id}_IDBA-UD.fasta
     }
     rm begin align-* contig-* graph-* kmer local-* || true
     """

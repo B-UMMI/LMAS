@@ -98,47 +98,72 @@ def get_contig_lists(fasta, min_len):
 
 
 def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
+    
+    if os.path.getsize(assembly) > 0: 
 
-    contigs, contigs_over_min_len, Ns_all, Ns_over_1000 = get_contig_lists(utils.fasta_iter(assembly), min_len)
+        contigs, contigs_over_min_len, Ns_all, Ns_over_1000 = get_contig_lists(utils.fasta_iter(assembly), min_len)
 
-    n50_contigs = utils.get_Nx(contigs, n_target)
-    n50_contigs_over_min_len = utils.get_Nx(contigs_over_min_len, n_target)
+        n50_contigs = utils.get_Nx(contigs, n_target)
+        n50_contigs_over_min_len = utils.get_Nx(contigs_over_min_len, n_target)
 
-    # get read mapping stats
-    with open(read_mapping_stats) as f:
-        assembly_stats_json = json.load(f)
-        if assembly_stats_json[sample_id]["assembler"] == assembler:
-            mapped_reads = assembly_stats_json[sample_id]["mapped_reads"]
-        else:
-            mapped_reads = 0
-            logger.error(assembly_stats_json)
+        # get read mapping stats
+        with open(read_mapping_stats) as f:
+            assembly_stats_json = json.load(f)
+            if assembly_stats_json[sample_id]["assembler"] == assembler:
+                mapped_reads = assembly_stats_json[sample_id]["mapped_reads"]
+            else:
+                mapped_reads = 0
+                logger.error(assembly_stats_json)
 
-    with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
-        json_dic = {
-                "assembler": assembler,
-                "sample_id": sample_id,
-                "global": {
-                    "contigs": len(contigs),
-                    "basepairs": sum(contigs),
-                    "max_contig_size": max(contigs) if len(contigs) > 0 else 0,
-                    "N{}".format(int(n_target*100)): n50_contigs,
-                    "mapped_reads": mapped_reads,
-                    "Ns": Ns_all},
-                "filtered": {
-                        "contigs": len(contigs_over_min_len),
-                        "basepairs": sum(contigs_over_min_len),
-                        "N{}".format(int(n_target*100)): n50_contigs_over_min_len,
-                        "Ns": Ns_over_1000}
-                }
+        with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
+            json_dic = {
+                    "assembler": assembler,
+                    "sample_id": sample_id,
+                    "global": {
+                        "contigs": len(contigs),
+                        "basepairs": sum(contigs),
+                        "max_contig_size": max(contigs) if len(contigs) > 0 else 0,
+                        "N{}".format(int(n_target*100)): n50_contigs,
+                        "mapped_reads": mapped_reads,
+                        "Ns": Ns_all},
+                    "filtered": {
+                            "contigs": len(contigs_over_min_len),
+                            "basepairs": sum(contigs_over_min_len),
+                            "N{}".format(int(n_target*100)): n50_contigs_over_min_len,
+                            "Ns": Ns_over_1000}
+                    }
 
-        json_report.write(json.dumps(json_dic, separators=(",", ":")))
+            json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
-    with open(sample_id + '_' + assembler + "_global_assembly_stats_global.csv", "w") as cvs_file:
-        cvs_file.write(','.join([assembler, f'{len(contigs)}', f'{sum(contigs)}',
-                                 f'{max(contigs)if len(contigs) > 0 else 0 }', f'{n50_contigs}',
-                                 f'{len(contigs_over_min_len)}', f'{sum(contigs_over_min_len)}',
-                                 f'{n50_contigs_over_min_len}']))
-
+        with open(sample_id + '_' + assembler + "_global_assembly_stats_global.csv", "w") as cvs_file:
+            cvs_file.write(','.join([assembler, f'{len(contigs)}', f'{sum(contigs)}',
+                                    f'{max(contigs)if len(contigs) > 0 else 0 }', f'{n50_contigs}',
+                                    f'{len(contigs_over_min_len)}', f'{sum(contigs_over_min_len)}',
+                                    f'{n50_contigs_over_min_len}']))
+    else:
+        with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
+            json_dic = {
+                    "assembler": assembler,
+                    "sample_id": sample_id,
+                    "global": {
+                        "contigs": 0,
+                        "basepairs": 0,
+                        "max_contig_size":0,
+                        "N{}".format(int(n_target*100)): 0,
+                        "mapped_reads": 0,
+                        "Ns": 0},
+                    "filtered": {
+                            "contigs": 0,
+                            "basepairs": 0,
+                            "N{}".format(int(n_target*100)): 0,
+                            "Ns": 0}
+                    }
+            json_report.write(json.dumps(json_dic, separators=(",", ":")))
+        with open(sample_id + '_' + assembler + "_global_assembly_stats_global.csv", "w") as cvs_file:
+            cvs_file.write(','.join([assembler, f'{0}', f'{0}',
+                                    f'{0}', f'{0}',
+                                    f'{0}', f'{0}',
+                                    f'{0}']))
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY,READ_MAPPING_STATS, MIN_LEN, N_TARGET)
