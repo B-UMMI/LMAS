@@ -603,7 +603,7 @@ process PROCESS_ASSEMBLY_STATS_MAPPING {
 
 process PROCESS_COMPLETNESS {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file coverage_files from OUT_COVERAGE_PER_CONTIG.collect()
@@ -618,7 +618,7 @@ process PROCESS_COMPLETNESS {
 
 process PLOT_LX {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file lx_files from OUT_LX_PLOT.collect()
@@ -633,7 +633,7 @@ process PLOT_LX {
 
 process PLOT_NAX {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file nax_files from OUT_NAX_PLOT.collect()
@@ -648,7 +648,7 @@ process PLOT_NAX {
 
 process PLOT_NGX {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file ngx_files from OUT_NGX_PLOT.collect()
@@ -663,7 +663,7 @@ process PLOT_NGX {
 
 process PROCESS_SHRIMP_PLOT {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file phred_files from OUT_PHRED.collect()
@@ -679,7 +679,7 @@ process PROCESS_SHRIMP_PLOT {
 
 process PLOT_CONTIG_DISTRIBUTION {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file dataframes from OUT_DF_ASSEMBLY_STATS_MAPPING.collect()
@@ -710,7 +710,7 @@ process GAP_ASSESSMENT {
 
 process PLOT_GAP_BOXPLOT {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file gap_distance_json from OUT_GAP_DISTANCE.collect()
@@ -726,7 +726,7 @@ process PLOT_GAP_BOXPLOT {
 
 process PLOT_GAP_REFERENCE {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file gap_coords_dataframes from OUT_GAP_PLOT_REF.collect()
@@ -758,7 +758,7 @@ process SNP_ASSESSMENT {
 
 process PLOT_SNP_REFERENCE {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file snp_coords_dataframes from OUT_SNP_PLOT_REF.collect()
@@ -791,7 +791,7 @@ process MISASSEMBLY {
 
 process PROCESS_MISASSEMBLY {
 
-    publishDir 'report/plots/', pattern: "*.html", mode: "copy"
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
     file misassembly_trace from OUT_MISASSEMBLY_TRACE.collect()
