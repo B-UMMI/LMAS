@@ -172,7 +172,6 @@ process GATBMINIAPIPELINE {
         echo fail > .status
         :> ${sample_id}_GATBMiniaPipeline.fasta
     }
-    {
     # rm temp dirs
     rm -r *_GATBMiniaPipeline.lib* *_GATBMiniaPipeline_besst *.unitigs* *contigs.fa *.h5 || true
     rm *list_reads* || true
