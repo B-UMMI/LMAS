@@ -35,13 +35,18 @@ logger = utils.get_logger(__file__)
 if __file__.endswith(".command.sh"):
     ASSEMBLY_STATS_GLOBAL_FILE = '$assembly_stats_global_files'.split()
     ASSEMBLY_STATS_GLOBAL_FILE_JSON = "$json_report".split()
+    N_TARGET = float("$params.n_target")
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
-    logger.debug("ASSEMBLY_STATS_GLOBAL_FILE: {}".format(ASSEMBLY_STATS_GLOBAL_FILE))
-    logger.debug("ASSEMBLY_STATS_GLOBAL_FILE_JSON: {}".format(ASSEMBLY_STATS_GLOBAL_FILE_JSON))
+    logger.debug("ASSEMBLY_STATS_GLOBAL_FILE: {}".format(
+        ASSEMBLY_STATS_GLOBAL_FILE))
+    logger.debug("ASSEMBLY_STATS_GLOBAL_FILE_JSON: {}".format(
+        ASSEMBLY_STATS_GLOBAL_FILE_JSON))
+    logger.debug("N_TARGET: {}".format(
+        N_TARGET))
 
 
-def main(assembly_stats_global_file, stats_json):
+def main(assembly_stats_global_file, stats_json, n_target):
 
     # Write CSV file report
     """
@@ -94,9 +99,30 @@ def main(assembly_stats_global_file, stats_json):
                     "original": data_global,
                     "filtered": data_filtered
                 })
-        
+
+        # Add missing data for non-successful assemblies
+        for assembler in utils.ASSEMBLER_NAMES:
+            for sample_id in main_json.keys():
+                if not any(d['assembler'] == assembler for d in main_json[sample_id]["GlobalTable"]):
+                    main_json[sample_id]["GlobalTable"].append(
+                        {
+                            "assembler": assembler,
+                            "global": {
+                                "contigs": 0,
+                                "basepairs": 0,
+                                "max_contig_size": 0,
+                                "N{}".format(int(n_target*100)): 0,
+                                "mapped_reads": 0,
+                                "Ns": 0},
+                            "filtered": {
+                                "contigs": 0,
+                                "basepairs": 0,
+                                "N{}".format(int(n_target*100)): 0,
+                                "Ns": 0}
+                        })
+
         json_report.write(json.dumps(main_json, separators=(",", ":")))
 
 
 if __name__ == '__main__':
-    main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON)
+    main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON, N_TARGET)
