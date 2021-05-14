@@ -618,7 +618,7 @@ process PROCESS_COMPLETNESS {
     file coverage_files from OUT_COVERAGE_PER_CONTIG.collect()
 
     output:
-    file("*.html")
+    file("*.html") optional true
     file("completness_plots.json") into PLOT_PROCESS_COMPLETNESS
 
     script:
@@ -678,7 +678,7 @@ process PROCESS_SHRIMP_PLOT {
     file phred_files from OUT_PHRED.collect()
 
     output:
-    file("*.html")
+    file("*.html") optional true
     file("phred.json") into PLOT_PHRED
 
     script:
@@ -741,7 +741,7 @@ process PLOT_GAP_REFERENCE {
     file gap_coords_dataframes from OUT_GAP_PLOT_REF.collect()
 
     output:
-    file("*.html")
+    file("*.html") optional true
     file("*.json") into OUT_GAP_REFERENCE
 
     script:
@@ -773,7 +773,7 @@ process PLOT_SNP_REFERENCE {
     file snp_coords_dataframes from OUT_SNP_PLOT_REF.collect()
 
     output:
-    file("*.html")
+    file("*.html") optional true
     file("*.json") into OUT_SNP_REFERENCE
 
     script:
