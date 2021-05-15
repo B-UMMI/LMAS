@@ -77,11 +77,9 @@ def main(assembly_stats_global_file, stats_json, n_target):
     # Write JSON file report
     with open("global_assembly_stats.json", "w") as json_report:
         main_json = {}
-        sorted_stats_json = sorted(stats_json, key=lambda v: v.upper())
-        for data_report in sorted_stats_json:
+        for data_report in stats_json:
             with open(data_report) as f:
                 json_data = json.load(f)
-                print(json_data)
                 assembler = json_data["assembler"]
                 sample_id = json_data["sample_id"]
                 data_global = json_data["global"]
@@ -102,7 +100,6 @@ def main(assembly_stats_global_file, stats_json, n_target):
 
         # Add missing data for non-successful assemblies
         for assembler in utils.ASSEMBLER_NAMES:
-            print(assembler)
             for sample_id in main_json.keys():
                 if not any(d['assembler'] == assembler for d in main_json[sample_id]["GlobalTable"]):
                     main_json[sample_id]["GlobalTable"].append(
@@ -122,23 +119,13 @@ def main(assembly_stats_global_file, stats_json, n_target):
                                 "Ns": 0}
                         })
 
+        # sort final dictionary by assembler
+        for sample in main_json.keys():
+            main_json[sample]["GlobalTable"] = sorted(main_json[sample]["GlobalTable"], key = lambda i: i['assembler'].upper())
+
         json_report.write(json.dumps(main_json, separators=(",", ":")))
 
 
 if __name__ == '__main__':
     main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON, N_TARGET)
-    """
-    main(['mockSample_BCALM2_global_assembly_stats_global.csv', 'subENN_Unicycler_global_assembly_stats_global.csv', 
-    'subENN_BCALM2_global_assembly_stats_global.csv', 'mockSample_MINIA_global_assembly_stats_global.csv', 'subENN_MEGAHIT_global_assembly_stats_global.csv', 
-    'mockSample_Unicycler_global_assembly_stats_global.csv', 'mockSample_VelvetOptimizer_global_assembly_stats_global.csv', 
-    'subENN_MINIA_global_assembly_stats_global.csv', 'subENN_metaSPAdes_global_assembly_stats_global.csv', 'subENN_SPAdes_global_assembly_stats_global.csv', 
-    'mockSample_MEGAHIT_global_assembly_stats_global.csv', 'mockSample_SPAdes_global_assembly_stats_global.csv', 
-    'subENN_SKESA_global_assembly_stats_global.csv', 'subENN_IDBA-UD_global_assembly_stats_global.csv', 'subENN_VelvetOptimizer_global_assembly_stats_global.csv', 
-    'mockSample_GATBMiniaPipeline_global_assembly_stats_global.csv', 'mockSample_metaSPAdes_global_assembly_stats_global.csv', 
-    'mockSample_IDBA-UD_global_assembly_stats_global.csv', 'mockSample_SKESA_global_assembly_stats_global.csv'],
-    ['mockSample_BCALM2_report.json', 'subENN_Unicycler_report.json', 'subENN_BCALM2_report.json', 'mockSample_MINIA_report.json', 
-    'subENN_MEGAHIT_report.json', 'mockSample_Unicycler_report.json', 'mockSample_VelvetOptimizer_report.json', 'subENN_MINIA_report.json', 
-    'subENN_metaSPAdes_report.json', 'subENN_SPAdes_report.json', 'mockSample_MEGAHIT_report.json', 'mockSample_SPAdes_report.json', 'subENN_SKESA_report.json', 
-    'subENN_IDBA-UD_report.json', 'subENN_VelvetOptimizer_report.json', 'mockSample_GATBMiniaPipeline_report.json', 'mockSample_metaSPAdes_report.json', 
-    'mockSample_IDBA-UD_report.json', 'mockSample_SKESA_report.json'], 0.5)
-    """
+    
