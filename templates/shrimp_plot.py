@@ -38,10 +38,12 @@ def main(phred_files):
                                      'Phred Quality Score'])
 
     for file_phred in phred_files:
+        print(file_phred)
         sample_name = os.path.basename(file_phred).split('_')[0]
         with open(file_phred) as fh:
             next(fh)  # skip header line
             for line in fh:
+                print(line)
                 line = line.split(',')
                 assembler = line[1]
                 reference = line[2]
@@ -52,9 +54,10 @@ def main(phred_files):
                                             'Contig': contig, 'Contig Length': contig_length,
                                             'Phred Quality Score': phred_score}, ignore_index=True)
 
-    # Create plot - C90 per reference for each sample
+    # Create plot 
     report_dict = {}
     for sample in sorted(df_phred['Sample'].unique()):
+        print(sample)
         for reference in sorted(df_phred['Reference'].unique()):
             fig_phred = go.Figure()
             i = 0
@@ -98,3 +101,4 @@ def main(phred_files):
 
 if __name__ == '__main__':
     main(PHRED_FILES)
+    #main(['subENN_MEGAHIT_phred.csv', 'subENN_SKESA_phred.csv', 'subENN_SPAdes_phred.csv', 'subENN_metaSPAdes_phred.csv', 'mockSample_Unicycler_phred.csv', 'subENN_MINIA_phred.csv', 'subENN_Unicycler_phred.csv', 'mockSample_BCALM2_phred.csv', 'mockSample_metaSPAdes_phred.csv', 'mockSample_MEGAHIT_phred.csv', 'mockSample_SPAdes_phred.csv', 'mockSample_VelvetOptimizer_phred.csv', 'mockSample_MINIA_phred.csv', 'subENN_BCALM2_phred.csv', 'mockSample_IDBA-UD_phred.csv', 'subENN_IDBA-UD_phred.csv', 'mockSample_SKESA_phred.csv', 'subENN_VelvetOptimizer_phred.csv', 'mockSample_GATBMiniaPipeline_phred.csv'])

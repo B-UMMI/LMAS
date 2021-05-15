@@ -82,7 +82,7 @@ process PROCESS_REFERENCE{
 }
 
 // SET CHANNELS FOR REFERENCE
-OUT_REFERENCE_TRIPLE.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS}
+OUT_REFERENCE_TRIPLE.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS; COMPILE_REPORTS_REF}
 
 
 // ASSEMBLERS
@@ -835,7 +835,7 @@ process compile_reports {
     file pipeline_stats from Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
     file js from Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
     file lmas_png from Channel.fromPath("${workflow.projectDir}/resources/lmas.zip")
-    file reference_file from Channel.fromPath(params.reference)
+    file reference_file from COMPILE_REPORTS_REF
     file contig_size_distribution from PLOT_CONTIG_DISTRIBUTION
     file mapping_assembly_stats from PROCESS_ASSEMBLY_STATS_MAPPING_OUT
     file completness_plots from PLOT_PROCESS_COMPLETNESS

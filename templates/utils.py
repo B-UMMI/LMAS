@@ -74,7 +74,7 @@ def fasta_iter(fasta_name):
 
     for header in faiter:
         # drop the ">"
-        headerStr = header.__next__()[1:].strip().split(' ')[0].replace('_', ' ')
+        headerStr = header.__next__()[1:].strip().split(' ')[0]
 
         # join all sequence lines to one.
         try:

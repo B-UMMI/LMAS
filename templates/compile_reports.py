@@ -569,15 +569,15 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 
 if __name__ == "__main__":
-    """
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
          VERSIONS_JSON, MISASSEMBLY_PER_REF, ABOUT_MD, CONTAINERS)
     """
     main("main.js.zip", "pipeline_stats.txt", "global_assembly_stats.json", ['mockSample_contig_size_distribution.json', 'subENN_contig_size_distribution.json'], "global_assembly_mapping_stats.json",
-         "completness_plots.json", "lmas.zip", "ZymoBIOMICS_genomes.fasta", "lx.json", "phred.json", "gaps_in_reference.json", 
+         "completness_plots.json", "lmas.zip", "triple_reference.fasta", "lx.json", "phred.json", "gaps_in_reference.json", 
          ['mockSample_gap_distance_histogram.json', 'subENN_gap_distance_histogram.json'],
          ['mockSample_misassembly.json', 'subENN_misassembly.json'], "misassembly_report.json", 1000, "nax.json", "ngx.json", 
          ['subENN_reads_report.json', 'mockSample_reads_report.json'], "snps_in_reference.json",
          "versions.json", "misassembly_report_per_ref.json", "about.md", "containers.config")
+    """

@@ -218,16 +218,16 @@ def get_alignment_stats(paf_filename, ref_name, ref_length, df_phred):
 
     # COMPASS Metrics
     coverage, len_convered_bases = get_covered_bases(covered_bases, ref_length)
-    print("coverage: {}".format(coverage))
+    #print("coverage: {}".format(coverage))
 
     multiplicity = get_multiplicity(covered_bases, ref_length)
-    print("multiplicity: {}".format(multiplicity))
+    #print("multiplicity: {}".format(multiplicity))
 
     validity = get_validity(covered_bases, sum_contig_length)
-    print("validity: {}".format(validity))
+    #print("validity: {}".format(validity))
 
     parsimony = multiplicity / validity if validity != 0 else 0
-    print("parsimony: {}".format(parsimony))
+    #print("parsimony: {}".format(parsimony))
 
     identity = (sum(n_identity)/len(n_identity)) if len(n_identity) > 0 else 0
     lowest_identity = min(n_identity) if len(n_identity) > 0 else 0
@@ -277,6 +277,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
 
     for header in references:
         reference_name = header.__next__()[1:].strip()
+        print(reference_name)
         seq = "".join(s.strip() for s in references.__next__())
 
         df_assembler_reference = df_assembler[df_assembler['Mapped'] == reference_name]
@@ -362,3 +363,4 @@ if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)
     #main("mockSample", "GATBMiniaPipeline", "filtered_ERR2935805_GATBMiniaPipeline.fasta", "ERR2935805_GATBMiniaPipeline.paf",
     #"Zymos_Genomes_triple_chromosomes.fasta", 0.5, 0.9)
+    #main("subENN", "SKESA", "filtered_subENN_skesa.fasta", "subENN_SKESA.paf", "triple_reference.fasta", 0.5, 0.9)
