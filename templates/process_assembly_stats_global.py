@@ -119,7 +119,7 @@ def main(assembly_stats_global_file, stats_json, n_target):
                                 "Ns": 0}
                         })
 
-        # sort final dictionary by assembler
+        # sort final dictionary by assembler 
         for sample in main_json.keys():
             main_json[sample]["GlobalTable"] = sorted(main_json[sample]["GlobalTable"], key = lambda i: i['assembler'].upper())
 
