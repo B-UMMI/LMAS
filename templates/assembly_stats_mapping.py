@@ -147,7 +147,7 @@ def get_validity(covered_bases_list, sum_contig_length):
             total_bases += 1
 
     if total_bases > 0:
-        return  total_bases / sum_contig_length
+        return total_bases / sum_contig_length
     else:
         return 0
 
@@ -280,7 +280,8 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         print(reference_name)
         seq = "".join(s.strip() for s in references.__next__())
 
-        df_assembler_reference = df_assembler[df_assembler['Mapped'] == reference_name]
+        df_assembler_reference = df_assembler[df_assembler['Mapped']
+                                              == reference_name]
 
         mapped_contigs = df_assembler_reference['Contig Len'].astype(
             'int').tolist()
@@ -361,6 +362,3 @@ def main(sample_id, assembler, assembly, mapping, reference, n_target, l_target)
 
 if __name__ == '__main__':
     main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, MAPPING, REFERENCE, N_TARGET, L_TARGET)
-    #main("mockSample", "GATBMiniaPipeline", "filtered_ERR2935805_GATBMiniaPipeline.fasta", "ERR2935805_GATBMiniaPipeline.paf",
-    #"Zymos_Genomes_triple_chromosomes.fasta", 0.5, 0.9)
-    #main("subENN", "SKESA", "filtered_subENN_skesa.fasta", "subENN_SKESA.paf", "triple_reference.fasta", 0.5, 0.9)

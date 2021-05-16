@@ -38,6 +38,7 @@ if __file__.endswith(".command.sh"):
         os.path.basename(__file__)))
     logger.debug("REFERENCE: {}".format(REFERENCE))
 
+
 def main(reference):
 
     fasta_iter = utils.fasta_iter(reference)
@@ -49,6 +50,7 @@ def main(reference):
             print(header)
             fh.write('>' + header + '\\n')
             fh.write(seq * 3 + '\\n')
+
 
 if __name__ == '__main__':
     main(REFERENCE)

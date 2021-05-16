@@ -119,13 +119,13 @@ def main(assembly_stats_global_file, stats_json, n_target):
                                 "Ns": 0}
                         })
 
-        # sort final dictionary by assembler 
+        # sort final dictionary by assembler
         for sample in main_json.keys():
-            main_json[sample]["GlobalTable"] = sorted(main_json[sample]["GlobalTable"], key = lambda i: i['assembler'].upper())
+            main_json[sample]["GlobalTable"] = sorted(
+                main_json[sample]["GlobalTable"], key=lambda i: i['assembler'].upper())
 
         json_report.write(json.dumps(main_json, separators=(",", ":")))
 
 
 if __name__ == '__main__':
     main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON, N_TARGET)
-    

@@ -368,7 +368,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                 try:
                     main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"][
                         "misassembled_contigs"] = misassembly_json[sample_id][assembler]
-                except KeyError: 
+                except KeyError:
                     main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"][
                         "misassembled_contigs"] = 0
 

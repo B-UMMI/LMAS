@@ -35,7 +35,8 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY_STATS_GLOBAL_FILE_JSON = "$json_report".split()
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
-    logger.debug("ASSEMBLY_STATS_GLOBAL_FILE_JSON: {}".format(ASSEMBLY_STATS_GLOBAL_FILE_JSON))
+    logger.debug("ASSEMBLY_STATS_GLOBAL_FILE_JSON: {}".format(
+        ASSEMBLY_STATS_GLOBAL_FILE_JSON))
 
 
 def main(stats_json):
@@ -44,8 +45,7 @@ def main(stats_json):
     with open("global_assembly_mapping_stats.json", "w") as json_report:
         main_json = {}
 
-        sorted_stats_json = sorted(stats_json, key=lambda v: v.upper())
-        for data_report in sorted_stats_json:
+        for data_report in stats_json:
             with open(data_report) as f:
                 json_data = json.load(f)
                 sample_id = json_data["sample_id"]
@@ -53,12 +53,43 @@ def main(stats_json):
 
             for reference_id, reference_mapping_stats in reference_table_data.items():
                 if sample_id not in main_json.keys():
-                    main_json[sample_id] = {"ReferenceTable": {reference_id: [reference_mapping_stats]}}
+                    main_json[sample_id] = {"ReferenceTable": {
+                        reference_id: [reference_mapping_stats]}}
                 else:
                     if reference_id not in main_json[sample_id]["ReferenceTable"].keys():
-                        main_json[sample_id]["ReferenceTable"][reference_id] = [reference_mapping_stats]
+                        main_json[sample_id]["ReferenceTable"][reference_id] = [
+                            reference_mapping_stats]
                     else:
-                        main_json[sample_id]["ReferenceTable"][reference_id].append(reference_mapping_stats)
+                        main_json[sample_id]["ReferenceTable"][reference_id].append(
+                            reference_mapping_stats)
+
+        # Add missing data for non-successful assemblies
+        for assembler in utils.ASSEMBLER_NAMES:
+            for sample_id in main_json.keys():
+                for reference in main_json[sample_id]["ReferenceTable"]:
+                    if not any(d['assembler'] == assembler for d in main_json[sample_id]["ReferenceTable"][reference]):
+                        main_json[sample_id]["GlobalTable"].append(
+                            {
+                                "assembler": assembler,
+                                "contiguity": 0,
+                                "multiplicity": 0,
+                                "validity": 0,
+                                "parsimony": 0,
+                                "identity": 0,
+                                "lowest_identity": 0,
+                                "breadth_of_coverage": 0,
+                                "L90": 0,
+                                "aligned_contigs": 0,
+                                "NA50": 0,
+                                "NG50": 0,
+                                "aligned_basepairs": 0,
+                                "Ns": 0,
+                            })
+        # sort final dictionary by assembler
+        for sample in main_json.keys():
+            for reference in main_json[sample]["ReferenceTable"]:
+                main_json[sample]["ReferenceTable"] = sorted(
+                    main_json[sample]["ReferenceTable"], key=lambda i: i['assembler'].upper())
 
         json_report.write(json.dumps(main_json, separators=(",", ":")))
 

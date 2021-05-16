@@ -53,7 +53,8 @@ def plot_data(species_data, sample_id):
     :return:
     """
     interpolation_xvalues = [0, 40, 80, 160, 320, 640, 1280, 2560]
-    interpolation_function = interpolate.interp1d(interpolation_xvalues, np.arange(len(interpolation_xvalues)))
+    interpolation_function = interpolate.interp1d(
+        interpolation_xvalues, np.arange(len(interpolation_xvalues)))
 
     # create a tracer for each assembler data point
     # simpler to manage colors and legends
@@ -80,8 +81,9 @@ def plot_data(species_data, sample_id):
                                          ))
             i += 1
 
-        #add title
-        to_plot.update_layout(xaxis_title="Number of contigs", yaxis_title="Breadth of coverage")
+        # add title
+        to_plot.update_layout(xaxis_title="Number of contigs",
+                              yaxis_title="Breadth of coverage")
 
         # define xaxes attributes
         xaxis_range = list(interpolation_function(interpolation_xvalues))
@@ -136,7 +138,8 @@ def main(coverage_files):
     for coverage_file in coverage_files:
         sample_name = os.path.basename(coverage_file).split('_')[0]
         assembler_name = os.path.basename(coverage_file).split('_')[1]
-        logger.debug('Processing {0} {1} data...'.format(sample_name, assembler_name))
+        logger.debug('Processing {0} {1} data...'.format(
+            sample_name, assembler_name))
 
         # import table with data
         data = pd.read_csv(coverage_file)
@@ -148,11 +151,14 @@ def main(coverage_files):
             if coverage[i] == 0 and contigs[i] == 0:
                 continue
             if sample_name not in all_data.keys():
-                all_data[sample_name] = {s: {assembler_name: [coverage[i], contigs[i]]}}
+                all_data[sample_name] = {
+                    s: {assembler_name: [coverage[i], contigs[i]]}}
             elif s not in all_data[sample_name].keys():
-                all_data[sample_name][s] = {assembler_name: [coverage[i], contigs[i]]}
+                all_data[sample_name][s] = {
+                    assembler_name: [coverage[i], contigs[i]]}
             else:
-                all_data[sample_name][s][assembler_name] = [coverage[i], contigs[i]]
+                all_data[sample_name][s][assembler_name] = [
+                    coverage[i], contigs[i]]
 
     with open("completness_plots.json", "w") as json_report:
         report_dict = {}
@@ -161,12 +167,15 @@ def main(coverage_files):
 
             for species, plot_species in report_json[sample_id].items():
                 if sample_id not in report_dict.keys():
-                    report_dict[sample_id] = {"PlotData": {species: [plot_species]}}
+                    report_dict[sample_id] = {
+                        "PlotData": {species: [plot_species]}}
                 else:
                     if species not in report_dict[sample_id]["PlotData"].keys():
-                        report_dict[sample_id]["PlotData"][species] = [plot_species]
+                        report_dict[sample_id]["PlotData"][species] = [
+                            plot_species]
                     else:
-                        report_dict[sample_id]["PlotData"][species].append(plot_species)
+                        report_dict[sample_id]["PlotData"][species].append(
+                            plot_species)
 
         json_report.write(json.dumps(report_dict, separators=(",", ":")))
 

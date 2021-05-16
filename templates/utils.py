@@ -7,7 +7,8 @@ import pandas as pd
 import re
 import logging
 
-COLUMNS = ['Sample', 'Assembler', 'Contig', 'Contig Len', 'Mapped', '#N']  # columns for dataframe
+COLUMNS = ['Sample', 'Assembler', 'Contig', 'Contig Len',
+           'Mapped', '#N']  # columns for dataframe
 
 # colors for each assembler
 COLOURS = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c',
@@ -18,6 +19,7 @@ ASSEMBLER_NAMES = ["BCALM2", "GATBMiniaPipeline", "MINIA", "MEGAHIT", "metaSPAde
 
 ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "VELVETOPTIMIZER", "IDBA"]
+
 
 def get_logger(filepath, level=logging.DEBUG):
     """
@@ -128,7 +130,7 @@ def parse_assemblies(sample_id, assembler, assembly, mapping):
 
     fasta = fasta_iter(assembly)
     for header, seq in fasta:
-        Ns = len(re.findall("N", seq.upper())) 
+        Ns = len(re.findall("N", seq.upper()))
         if header in mapped_contigs.keys():
             is_mapped = mapped_contigs[header]
         else:
@@ -149,7 +151,8 @@ def get_Nx(alignment_lengths, target):
     :param target: percentage of total genome length
     :return: na50 of the aligned contigs (also called NA50
     """
-    sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
+    sorted_lengths = sorted(
+        alignment_lengths, reverse=True)  # from longest to shortest
     total_length = sum(sorted_lengths)
     target_length = total_length * target
     length_so_far = 0
@@ -170,7 +173,8 @@ def get_NGx(alignment_lengths, reference_length, target):
     :param target: percentage of known genome size
     :return: nx of the aligned contigs
     """
-    sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
+    sorted_lengths = sorted(
+        alignment_lengths, reverse=True)  # from longest to shortest
     target_length = reference_length * target
     length_so_far = 0
     nx = 0
@@ -190,7 +194,8 @@ def get_Lx(alignment_lengths, ref_len, target):
     :param target: target % of the reference sequence for Lx metric
     :return: int with the number of contigs that represent
     """
-    sorted_lengths = sorted(alignment_lengths, reverse=True)  # from longest to shortest
+    sorted_lengths = sorted(
+        alignment_lengths, reverse=True)  # from longest to shortest
     target_length = ref_len * target
 
     if sum(sorted_lengths) < target_length:
