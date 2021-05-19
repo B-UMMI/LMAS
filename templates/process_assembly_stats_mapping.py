@@ -68,7 +68,7 @@ def main(stats_json):
             for sample_id in main_json.keys():
                 for reference in main_json[sample_id]["ReferenceTable"]:
                     if not any(d['assembler'] == assembler for d in main_json[sample_id]["ReferenceTable"][reference]):
-                        main_json[sample_id]["GlobalTable"].append(
+                        main_json[sample_id]["ReferenceTable"][reference].append(
                             {
                                 "assembler": assembler,
                                 "contiguity": 0,
@@ -88,8 +88,8 @@ def main(stats_json):
         # sort final dictionary by assembler
         for sample in main_json.keys():
             for reference in main_json[sample]["ReferenceTable"]:
-                main_json[sample]["ReferenceTable"] = sorted(
-                    main_json[sample]["ReferenceTable"], key=lambda i: i['assembler'].upper())
+                main_json[sample]["ReferenceTable"][reference] = sorted(
+                    main_json[sample]["ReferenceTable"][reference], key=lambda i: i['assembler'].upper())
 
         json_report.write(json.dumps(main_json, separators=(",", ":")))
 
