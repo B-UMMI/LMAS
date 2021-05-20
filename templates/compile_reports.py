@@ -360,11 +360,9 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     logger.debug('Processing {0} data...'.format(misassembly_report))
     with open(misassembly_report) as f:
         misassembly_json = json.load(f)
-        print(misassembly_json)
         for sample_id in misassembly_json.keys():
             for i in range(0, len(main_data_tables_js[sample_id]["GlobalTable"])):
                 assembler = main_data_tables_js[sample_id]["GlobalTable"][i]["assembler"]
-                print(assembler)
                 try:
                     main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"][
                         "misassembled_contigs"] = misassembly_json[sample_id][assembler]
@@ -395,13 +393,19 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                 for item_row in main_data_tables_js[sample_id]["ReferenceTables"][reference]:
                     for item in item_row:
                         assembler = item['assembler']
-                        references = list(
-                            misassembly_stats[sample_id][assembler][0].keys())
-                        if reference in references:
-                            index = references.index(reference)
-                            ref_name = references[index]
-                            item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][ref_name]
-                        else:
+                        try:
+                            references = list(
+                                misassembly_stats[sample_id][assembler][0].keys())
+                            if reference in references:
+                                index = references.index(reference)
+                                ref_name = references[index]
+                                try:
+                                    item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][ref_name]
+                                except KeyError:
+                                    item['misassembled_contigs'] = 0
+                            else:
+                                item['misassembled_contigs'] = 0
+                        except KeyError:
                             item['misassembled_contigs'] = 0
 
     for sample_id in main_data_tables_js.keys():
@@ -569,6 +573,30 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 
 if __name__ == "__main__":
+    READS_NUMBER=['ERR2935805_reads_report.json', 'ENN_reads_report.json', 'LNN_reads_report.json', 'ERR2984773_reads_report.json', 'EHS_reads_report.json', 'LHS_reads_report.json']
+    ASSEMBLY_STATS_REPORT = "global_assembly_stats.json"
+    MAIN_JS = "main.js.zip"
+    MAPPING_STATS_REPORT = "global_assembly_mapping_stats.json"
+    LMAS_LOGO = "lmas.zip"
+    PIPELINE_STATS =  "pipeline_stats.txt"
+    CONTIG_SIZE_DISTRIBUTION =  ['EHS_contig_size_distribution.json', 'ENN_contig_size_distribution.json', 'ERR2935805_contig_size_distribution.json', 'ERR2984773_contig_size_distribution.json', 'LHS_contig_size_distribution.json', 'LNN_contig_size_distribution.json']
+    COMPLETNESS_JSON = "completness_plots.json"
+    REFERENCE_FILE = "triple_reference.fasta"
+    LX_JSON = "lx.json"
+    NAX_JSON = "nax.json"
+    NGX_JSON = "ngx.json"
+    SHRIMP_JSON = "phred.json"
+    GAP_REFERENCE_JSON = "gaps_in_reference.json"
+    SNP_REFERENCE_JSON = "snps_in_reference.json"
+    GAP_HISTOGRAM = ['EHS_gap_distance_histogram.json', 'ENN_gap_distance_histogram.json', 'ERR2935805_gap_distance_histogram.json', 'ERR2984773_gap_distance_histogram.json', 'LHS_gap_distance_histogram.json', 'LNN_gap_distance_histogram.json']
+    MISASSEMBLY_PLOT = ['EHS_misassembly.json', 'ENN_misassembly.json', 'ERR2935805_misassembly.json', 'ERR2984773_misassembly.json', 'LHS_misassembly.json', 'LNN_misassembly.json']
+    MISASSEMBLY_REPORT= "misassembly_report.json"
+    MIN_CONTIG_SIZE = 1000
+    VERSIONS_JSON = "versions.json"
+    MISASSEMBLY_PER_REF = "misassembly_report_per_ref.json"
+    ABOUT_MD =  "about.md"
+    CONTAINERS = "containers.config"
+
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
