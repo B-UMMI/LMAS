@@ -854,7 +854,7 @@ process compile_reports {
     file containers_config from Channel.fromPath("${workflow.projectDir}/containers.config")
 
     output:
-    file "pipeline_report.json"
+    file "pipeline_report*.json"
     file "index.html"
     file "main.js"
     file "lmas.jpg"

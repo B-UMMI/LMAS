@@ -551,8 +551,9 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
     with open("reference_metadata.json", "w") as json_fh:
         json_fh.write(json.dumps(reference_info, separators=(",", ":")))
 
-    with open("pipeline_report.json", "w") as json_fh:
+    with open("pipeline_report_tables.json", "w") as json_fh:
         json_fh.write(json.dumps(main_data_tables_js, separators=(",", ":")))
+    with open("pipeline_report_plots.json", "w") as json_fh:
         json_fh.write(json.dumps(main_data_plots_js, separators=(",", ":")))
 
     with open("index.html", "w") as html_fh:
@@ -573,6 +574,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 
 if __name__ == "__main__":
+    """
     READS_NUMBER=['ERR2935805_reads_report.json', 'ENN_reads_report.json', 'LNN_reads_report.json', 'ERR2984773_reads_report.json', 'EHS_reads_report.json', 'LHS_reads_report.json']
     ASSEMBLY_STATS_REPORT = "global_assembly_stats.json"
     MAIN_JS = "main.js.zip"
@@ -596,7 +598,7 @@ if __name__ == "__main__":
     MISASSEMBLY_PER_REF = "misassembly_report_per_ref.json"
     ABOUT_MD =  "about.md"
     CONTAINERS = "containers.config"
-
+    """
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
