@@ -858,6 +858,8 @@ process compile_reports {
     file "index.html"
     file "main.js"
     file "lmas.jpg"
+    file "performance_metadata.json"
+    file "reference_metadata.json"
 
     script:
     template "compile_reports.py"
