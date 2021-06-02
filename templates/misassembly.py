@@ -166,15 +166,18 @@ def classify_misassembled_contigs(mis_dict):
         # ---- misassembly detection datastructures ---- #
         reference = set()  # set of references
         strands = set()  # set of strands
-        blocks_coords = []  # list of tuples with alignment block coordenates in reference
+        blocks_coords_in_contig = []  # list of tuples with alignment block coordenates in contig
+        blocks_coords_in_reference = []  # list of tuples with alignment block coordenates in contig
         ref_length = set()
 
         # ---- fill out datastructures ---- #
         for alignment_block in mis_dict[contig]:
             reference.add(alignment_block['reference'])
             strands.add(alignment_block['strand'])
-            blocks_coords.append(
+            blocks_coords_in_contig.append(
                 [alignment_block['query start'], alignment_block['query end']])
+            blocks_coords_in_reference.append(
+                [alignment_block['target start'], alignment_block['target end']])
             ref_length.add(alignment_block['reference length'])
 
         #### MISASSEMBLY CLASSIFICATION ALGORYTHM ####
@@ -192,10 +195,11 @@ def classify_misassembled_contigs(mis_dict):
             # B2. Check distance between alignment blocks
             distances_between_blocks = []
             # sorting on start position in reference
-            blocks_coords = sorted(blocks_coords, key=lambda x: x[0])
-            for i in range(0, len(blocks_coords)-1):
+            # TODO - TO REFACTOR!
+            blocks_coords_in_reference = sorted(blocks_coords_in_reference, key=lambda x: x[0])
+            for i in range(0, len(blocks_coords_in_reference)-1): # TODO - why the -1?
                 distances_between_blocks.append(
-                    blocks_coords[i][1] - blocks_coords[i+1][0])  # TODO - replicon edge cases
+                    blocks_coords_in_reference[i][1] - blocks_coords_in_reference[i+1][0])  # TODO - replicon edge cases
 
             # TODO - check if values make sense!!!!
             """
@@ -220,7 +224,8 @@ def classify_misassembled_contigs(mis_dict):
                                          "distance": distances_between_blocks,
                                          "reference": reference,
                                          "strands": strands,
-                                         "blocks_coords": blocks_coords}
+                                         "blocks_coords_in_contig": blocks_coords_in_contig,
+                                         "blocks_coords_in_reference": blocks_coords_in_reference}
 
     return missassembled_contigs
 
