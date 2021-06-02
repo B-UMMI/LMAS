@@ -166,8 +166,10 @@ def classify_misassembled_contigs(mis_dict):
         # ---- misassembly detection datastructures ---- #
         reference = set()  # set of references
         strands = set()  # set of strands
-        blocks_coords_in_contig = []  # list of tuples with alignment block coordenates in contig
-        blocks_coords_in_reference = []  # list of tuples with alignment block coordenates in contig
+        # list of tuples with alignment block coordenates in contig
+        blocks_coords_in_contig = []
+        # list of tuples with alignment block coordenates in contig
+        blocks_coords_in_reference = []
         ref_length = set()
 
         # ---- fill out datastructures ---- #
@@ -193,35 +195,47 @@ def classify_misassembled_contigs(mis_dict):
                 misassembly_list.append("inversion")
 
             # B2. Check distance between alignment blocks
-            distances_between_blocks = []
-            # sorting on start position in reference
-            # TODO - TO REFACTOR!
-            blocks_coords_in_reference = sorted(blocks_coords_in_reference, key=lambda x: x[0])
-            for i in range(0, len(blocks_coords_in_reference)-1): # TODO - why the -1?
-                distances_between_blocks.append(
-                    blocks_coords_in_reference[i][1] - blocks_coords_in_reference[i+1][0])  # TODO - replicon edge cases
 
-            # TODO - check if values make sense!!!!
-            """
-            if any(50 < i < 1000 for i in distances_between_blocks):
-                misassembly_list.append("insertion")
-            
-            if any(i < -50 for i in distances_between_blocks):
-                misassembly_list.append("deletion")
-            """
-            if any(i > 1000 for i in distances_between_blocks):
+            # B2.1 In Reference
+            distances_between_blocks_ref = []
+            blocks_coords_in_reference = sorted(
+                blocks_coords_in_reference, key=lambda x: x[0])  # sorting on start position in reference
+            for i in range(0, len(blocks_coords_in_reference)-1):
+                distances_between_blocks_ref.append(
+                    blocks_coords_in_reference[i+1][0] - blocks_coords_in_reference[i][1])
+
+            # B2.1 In the contig
+            distance_between_blocks_contig = []
+            blocks_coords_in_contig = sorted(
+                blocks_coords_in_contig, key=lambda x: x[0])  # sorting on start position in contig
+            for i in range(0, len(blocks_coords_in_contig)-1):
+                distance_between_blocks_contig.append(
+                    blocks_coords_in_contig[i+1][0] - blocks_coords_in_contig[i][1])
+
+            # C. Classification
+
+            # C.1 Translocation - blocks over 1000 bps in distance in reference
+            if any(i > 1000 for i in distances_between_blocks_ref):
                 misassembly_list.append("translocation")
 
-            """
-            # catch all ?
+            # C.2 Insertion -
+            if any(i == 0 for i in distances_between_blocks_ref) and any(i > 50 for i in distance_between_blocks_contig):
+                misassembly_list.append("insertion")
+            
+            # C.3 Deletion -
+            if any(50 <= i < 1000 for i in distances_between_blocks_ref) and any(i == 0 for i in distance_between_blocks_contig):
+                misassembly_list.append("deletion")
+
+            # C.4 - Catch all
             if len(misassembly_list) == 0:
                 misassembly_list.append("inconsistency")
-            """
+
 
         missassembled_contigs[contig] = {'misassembly': misassembly_list,
                                          'contig length': contig_len,
                                          "n blocks": n_blocks,
-                                         "distance": distances_between_blocks,
+                                         "distance_in_ref": distances_between_blocks_ref,
+                                         "distance_in_contig": distance_between_blocks_contig,
                                          "reference": reference,
                                          "strands": strands,
                                          "blocks_coords_in_contig": blocks_coords_in_contig,
@@ -242,7 +256,7 @@ def make_plot(mis_contigs, sample_id, assembler):
     assembler : [type]
         [description]
     """
-            # symbols
+    # symbols
     raw_symbols = SymbolValidator().values
     symbols = []
     for i in range(0, len(raw_symbols), 3):
@@ -291,6 +305,7 @@ def make_plot(mis_contigs, sample_id, assembler):
 
     with open('{}_{}_contig_lenght.pkl'.format(sample_id, assembler), 'wb') as f:
         pickle.dump(x, f)
+
 
 def main(sample_id, assembler, assembly, mapping):
 

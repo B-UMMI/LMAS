@@ -67,18 +67,25 @@ def test_classify_misassembled_contigs():
     filter_paf_dict = misassembly.filter_dict(paf_dict)
     classified_mis_dict = misassembly.classify_misassembled_contigs(filter_paf_dict)
 
-    for contig in classified_mis_dict.keys():
-        print(contig)
-        print(classified_mis_dict[contig])
+    assert isinstance(classified_mis_dict,dict)
+    assert len(classified_mis_dict.keys()) == 3
+
+    assert list(classified_mis_dict.keys()) == ['162', 'NODE_188_length_33202_cov_63.293119',  'k141_878']
+
+    assert classified_mis_dict['162']['misassembly'] == ['inversion', 'translocation']
+    assert classified_mis_dict['NODE_188_length_33202_cov_63.293119']['misassembly'] == ['inversion', 'translocation']
+    assert 'chimera' in classified_mis_dict['k141_878']['misassembly'][0]
+    assert 'Salmonella_enterica' in classified_mis_dict['k141_878']['misassembly'][0]
+    assert 'Escherichia_coli_plasmid' in classified_mis_dict['k141_878']['misassembly'][0]
+    assert 'Escherichia_coli' in classified_mis_dict['k141_878']['misassembly'][0]
 
 
-def test_SPADES_CASE():
-    paf_dict = misassembly.parse_paf("data/misassembly/ERR2935805_SPAdes.paf")
+def test_all():
+    paf_dict = misassembly.parse_paf("data/misassembly/EHS_GATBMiniaPipeline.paf")
     filter_paf_dict = misassembly.filter_dict(paf_dict)
     classified_mis_dict = misassembly.classify_misassembled_contigs(filter_paf_dict)
 
-    print(len(classified_mis_dict.keys()))
+    print(len(classified_mis_dict))
 
     with open("misassembly_test.json", "w") as fh:
         fh.write(str(classified_mis_dict))
-
