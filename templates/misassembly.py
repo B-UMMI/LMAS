@@ -218,6 +218,7 @@ def classify_misassembled_contigs(mis_dict):
             if any(i > 1000 for i in distances_between_blocks_ref):
                 misassembly_list.append("translocation")
 
+            # TODO - Can be improved by comparing pairs of values for ref and contig
             # C.2 Insertion -
             if any(i == 0 for i in distances_between_blocks_ref) and any(i > 50 for i in distance_between_blocks_contig):
                 misassembly_list.append("insertion")
