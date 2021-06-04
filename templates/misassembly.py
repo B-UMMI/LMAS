@@ -171,6 +171,9 @@ def classify_misassembled_contigs(mis_dict):
         # list of tuples with alignment block coordenates in contig
         blocks_coords_in_reference = []
         ref_length = set()
+        distances_between_blocks_ref = []
+        distance_between_blocks_contig = []
+
 
         # ---- fill out datastructures ---- #
         for alignment_block in mis_dict[contig]:
@@ -197,7 +200,6 @@ def classify_misassembled_contigs(mis_dict):
             # B2. Check distance between alignment blocks
 
             # B2.1 In Reference
-            distances_between_blocks_ref = []
             blocks_coords_in_reference = sorted(
                 blocks_coords_in_reference, key=lambda x: x[0])  # sorting on start position in reference
             for i in range(0, len(blocks_coords_in_reference)-1):
@@ -205,7 +207,6 @@ def classify_misassembled_contigs(mis_dict):
                     blocks_coords_in_reference[i+1][0] - blocks_coords_in_reference[i][1])
 
             # B2.1 In the contig
-            distance_between_blocks_contig = []
             blocks_coords_in_contig = sorted(
                 blocks_coords_in_contig, key=lambda x: x[0])  # sorting on start position in contig
             for i in range(0, len(blocks_coords_in_contig)-1):
@@ -220,16 +221,20 @@ def classify_misassembled_contigs(mis_dict):
 
             # TODO - Can be improved by comparing pairs of values for ref and contig
             # C.2 Insertion -
-            if any(i == 0 for i in distances_between_blocks_ref) and any(i > 50 for i in distance_between_blocks_contig):
+            if any(i > 50 for i in distance_between_blocks_contig):
                 misassembly_list.append("insertion")
             
             # C.3 Deletion -
-            if any(50 <= i < 1000 for i in distances_between_blocks_ref) and any(i == 0 for i in distance_between_blocks_contig):
+            if any(i > 50 for i in distances_between_blocks_ref) and any(i <= 0 for i in distance_between_blocks_contig):
                 misassembly_list.append("deletion")
 
-            # C.4 - Catch all
-            if len(misassembly_list) == 0:
-                misassembly_list.append("inconsistency")
+            # C.4 - Duplication
+            if any(i < 0 for i in distances_between_blocks_ref) and any(i <= 0 for i in distance_between_blocks_contig):
+                misassembly_list.append("duplication")
+
+        # D - Catch all
+        if len(misassembly_list) == 0:
+            misassembly_list.append("inconsistency")
 
 
         missassembled_contigs[contig] = {'misassembly': misassembly_list,
@@ -273,8 +278,8 @@ def make_plot(mis_contigs, sample_id, assembler):
         z.append(', '.join(value['misassembly']))
         w.append(item)
 
-    df = pd.DataFrame(list(zip(x, y, z)),
-                      columns=['Contig Length', 'n blocks', 'Misassembly'])
+    df = pd.DataFrame(list(zip(x, y, z, w)),
+                      columns=['Contig Length', 'n blocks', 'Misassembly', "Contig ID"])
 
     symbols_dict = {}
     i = 0
@@ -296,7 +301,6 @@ def make_plot(mis_contigs, sample_id, assembler):
                        mode='markers', marker_symbol=df['symbol'],
                        opacity=0.7,
                        hovertemplate="<b>%{text}</b><br><br>" +
-                       "Contig name: <br>" +
                        "Contig Length: %{x:.0f}bp<br>" +
                        "Fragments: %{y:.0}<br>" +
                        "<extra></extra>",)
