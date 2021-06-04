@@ -72,7 +72,7 @@ def test_classify_misassembled_contigs():
         filter_paf_dict)
 
     assert sorted(list(classified_mis_dict.keys())) == [
-        '162', 'contig-100_82', 'Contig_1255_11.5951', 'NODE_188_length_33202_cov_63.293119',  'k141_878', 'scaffold_8']
+        '162', 'Contig_1255_11.5951', 'NODE_188_length_33202_cov_63.293119','contig-100_82', 'k141_878', 'scaffold_8']
 
     # classify chimera
     assert 'chimera' in classified_mis_dict['k141_878']['misassembly'][0]
@@ -85,6 +85,10 @@ def test_classify_misassembled_contigs():
     assert 'Salmonella_enterica' in classified_mis_dict['Contig_1255_11.5951']['misassembly'][0]
 
     # classify inversion
+    assert sorted(classified_mis_dict['contig-100_82']['misassembly']) == [
+        'inversion']
+    assert len(classified_mis_dict['contig-100_82']['strands']) == 2
+    print(classified_mis_dict['contig-100_82'])
 
     # classify translocation
     assert sorted(classified_mis_dict['scaffold_8']['misassembly']) == [
