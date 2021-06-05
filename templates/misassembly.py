@@ -7,20 +7,16 @@ Purpose
 For each contig, this script will evaluate if it's a missassembly and classy it into these main types:
     * Insertion
     * Deletion
-    * Missense
     * Inversion
     * Chimera
     * Translocation
-    * ...
+    * Duplication
 
 Expected input
 --------------
 This script takes the following arguments (in this order):
   * Path to the metagenomic assembly files (ending in *.fasta)
   * Path to the mapped contigs to the triple reference genomes (ending in *.paf)
-
-The triple bacterial reference files for the zymos mock community are available at
-"../../data/references/Zymos_Genomes_triple_chromosomes.fasta"
 
 Authorship
 ----------
@@ -255,18 +251,13 @@ def make_plot(mis_contigs, sample_id, assembler):
 
     Parameters
     ----------
-    mis_contigs : [type]
-        [description]
-    sample_id : [type]
-        [description]
-    assembler : [type]
-        [description]
+    mis_contigs : dictionary
+        dictioanry of misassembled contigs, with classification
+    sample_id : string
+        sample ID
+    assembler : string
+        assembler name
     """
-    # symbols
-    raw_symbols = SymbolValidator().values
-    symbols = []
-    for i in range(0, len(raw_symbols), 3):
-        symbols.append(raw_symbols[i])
 
     x = []  # contig lengths
     y = []  # n blocks
@@ -281,26 +272,14 @@ def make_plot(mis_contigs, sample_id, assembler):
     df = pd.DataFrame(list(zip(x, y, z, w)),
                       columns=['Contig Length', 'n blocks', 'Misassembly', "Contig ID"])
 
-    symbols_dict = {}
-    i = 0
-    for misassembly_type in df['Misassembly'].unique():
-        symbols_dict[misassembly_type] = symbols[i]
-        i += 1
-
-    try:
-        df['symbol'] = df.apply(
-            lambda row: symbols_dict[row.Misassembly], axis=1)
-    except:
-        df['symbol'] = df.Misassembly
-
-    print(df)
+    df['text'] = '<b>' + df['Misassembly'] + '</b><br><br>Contig Name: ' + df['Contig ID'] + '<br>'
 
     trace = go.Scatter(x=df['Contig Length'],
                        y=df['n blocks'],
-                       name=assembler, text=df['Misassembly'],
+                       name=assembler, text=df['text'],
                        mode='markers', marker_symbol=df['symbol'],
                        opacity=0.7,
-                       hovertemplate="<b>%{text}</b><br><br>" +
+                       hovertemplate="%{text}" +
                        "Contig Length: %{x:.0f}bp<br>" +
                        "Fragments: %{y:.0}<br>" +
                        "<extra></extra>",)
