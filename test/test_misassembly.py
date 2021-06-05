@@ -44,6 +44,8 @@ MISASSEMBLY_PAF_FILE_ALL = "test/data/misassembly/test.paf"
 MISASSEMBLY_PAF_FILE_CHIMERA = "test/data/misassembly/test_chimera.paf"
 MISASSEMBLY_PAF_FILE_INVERSION = "test/data/misassembly/test_inversion.paf"
 MISASSEMBLY_PAF_FILE_INSERTION = "test/data/misassembly/test_insertion.paf"
+MISASSEMBLY_PAF_FILE_TRANSLOCATION = "test/data/misassembly/test_translocation.paf"
+MISASSEMBLY_PAF_FILE_COMPLEX = "test/data/misassembly/test_inversion_translocation.paf"
 
 
 def test_parse_paf():
@@ -129,52 +131,38 @@ def test_insertion():
         i > 50 for i in classified_mis_dict['scaffold_6']['distance_in_contig'])
 
 
-"""
-def test_classify_misassembled_contigs_inversion():
-    paf_dict = misassembly.parse_paf(MISASSEMBLY_PAF_FILE_CHIMERA)
+
+def test_translocation():
+    "test the detection of translocation"
+
+    paf_dict = misassembly.parse_paf(MISASSEMBLY_PAF_FILE_TRANSLOCATION)
     filter_paf_dict = misassembly.filter_dict(paf_dict)
     classified_mis_dict = misassembly.classify_misassembled_contigs(
         filter_paf_dict)
 
-    assert sorted(classified_mis_dict['contig-100_82']['misassembly']) == [
-        'inversion']
-    assert len(classified_mis_dict['contig-100_82']['strands']) == 2
-    print(classified_mis_dict['contig-100_82'])
-
-def test_translocation():
-
     # classify translocation
     assert sorted(classified_mis_dict['scaffold_8']['misassembly']) == [
-        'translocation']
+        'insertion', 'translocation']
     assert len(classified_mis_dict['scaffold_8']['strands']) == 1
     assert any(
         i > 1000 for i in classified_mis_dict['scaffold_8']['distance_in_ref'])
 
-def test_inversion_translocation():
 
-# classify inversion + translocation
+def test_complex():
+    paf_dict = misassembly.parse_paf(MISASSEMBLY_PAF_FILE_COMPLEX)
+    filter_paf_dict = misassembly.filter_dict(paf_dict)
+    classified_mis_dict = misassembly.classify_misassembled_contigs(
+        filter_paf_dict)
+
     assert sorted(classified_mis_dict['162']['misassembly']) == [
-        'inversion', 'translocation']
+        'deletion', 'inversion', 'translocation']
     assert len(classified_mis_dict['162']['strands']) == 2
     assert any(i > 1000 for i in classified_mis_dict['162']['distance_in_ref'])
 
     assert sorted(classified_mis_dict['NODE_188_length_33202_cov_63.293119']['misassembly']) == [
-        'inversion', 'translocation']
+        'deletion', 'inversion', 'translocation']
     assert len(
         classified_mis_dict['NODE_188_length_33202_cov_63.293119']['strands']) == 2
     assert any(
         i > 1000 for i in classified_mis_dict['NODE_188_length_33202_cov_63.293119']['distance_in_ref'])
-"""
-"""
-def test_all():
-    import glob
-    fh = open("misassembly_test_all.json", "w")
-    for paffile in glob.glob("/home/cimendes/Git/LMAS_Zymos_Resuls/Results/run1/results/*/mapping/assembly/*.paf"):
-        paf_dict = misassembly.parse_paf(paffile)
-        filter_paf_dict = misassembly.filter_dict(paf_dict)
-        classified_mis_dict = misassembly.classify_misassembled_contigs(
-            filter_paf_dict)
 
-        fh.write(str({paffile: classified_mis_dict}))
-    fh.close()
-"""
