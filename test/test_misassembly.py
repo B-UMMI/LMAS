@@ -167,7 +167,7 @@ def test_complex():
     assert any(
         i > 1000 for i in classified_mis_dict['NODE_188_length_33202_cov_63.293119']['distance_in_ref'])
 
-
+"""
 def test_make_df():
     paf_dict = misassembly.parse_paf(MISASSEMBLY_PAF_FILE_ALL)
     filter_paf_dict = misassembly.filter_dict(paf_dict)
@@ -194,3 +194,4 @@ def test_make_df():
     
     #bubu = misassembly.make_df('pytest_sample', 'pytest', classified_mis_dict, filter_paf_dict)
     #print(bubu)
+"""
