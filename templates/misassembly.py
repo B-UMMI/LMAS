@@ -170,7 +170,6 @@ def classify_misassembled_contigs(mis_dict):
         distances_between_blocks_ref = []
         distance_between_blocks_contig = []
 
-
         # ---- fill out datastructures ---- #
         for alignment_block in mis_dict[contig]:
             reference.add(alignment_block['reference'])
@@ -219,7 +218,7 @@ def classify_misassembled_contigs(mis_dict):
             # C.2 Insertion -
             if any(i > 50 for i in distance_between_blocks_contig):
                 misassembly_list.append("insertion")
-            
+
             # C.3 Deletion -
             if any(i > 50 for i in distances_between_blocks_ref) and any(i <= 0 for i in distance_between_blocks_contig):
                 misassembly_list.append("deletion")
@@ -232,12 +231,12 @@ def classify_misassembled_contigs(mis_dict):
         if len(misassembly_list) == 0:
             misassembly_list.append("inconsistency")
 
-
         missassembled_contigs[contig] = {'misassembly': misassembly_list,
                                          'contig length': contig_len,
                                          "n blocks": n_blocks,
                                          "distance_in_ref": distances_between_blocks_ref,
                                          "distance_in_contig": distance_between_blocks_contig,
+                                         "ref_start"
                                          "reference": reference,
                                          "strands": strands,
                                          "blocks_coords_in_contig": blocks_coords_in_contig,
@@ -252,7 +251,7 @@ def make_plot(mis_contigs, sample_id, assembler):
     Parameters
     ----------
     mis_contigs : dictionary
-        dictioanry of misassembled contigs, with classification
+        dictionary of misassembled contigs, with classification
     sample_id : string
         sample ID
     assembler : string
@@ -272,7 +271,8 @@ def make_plot(mis_contigs, sample_id, assembler):
     df = pd.DataFrame(list(zip(x, y, z, w)),
                       columns=['Contig Length', 'n blocks', 'Misassembly', "Contig ID"])
 
-    df['text'] = '<b>' + df['Misassembly'] + '</b><br><br>Contig Name: ' + df['Contig ID'] + '<br>'
+    df['text'] = '<b>' + df['Misassembly'] + \
+        '</b><br><br>Contig Name: ' + df['Contig ID'] + '<br>'
 
     trace = go.Scatter(x=df['Contig Length'],
                        y=df['n blocks'],
@@ -289,6 +289,34 @@ def make_plot(mis_contigs, sample_id, assembler):
 
     with open('{}_{}_contig_lenght.pkl'.format(sample_id, assembler), 'wb') as f:
         pickle.dump(x, f)
+
+
+def make_df(sample_id, assembler, mis_contigs, filtered_paf_dict):
+    """[summary]
+
+    Parameters
+    ----------
+    sample_id : Str
+        String with sample ID
+    assembler : Str
+        String with Assembler name
+    mis_contigs : dictionary
+        dictionary of misassembled contigs, with classification
+    filtered_paf_dict: dictionary
+
+    """
+
+    df = pd.DataFrame(columns=["Contig", 'Sample', 'Reference',
+                               'Ref Start', 'Ref End', 'Misassembly', "Assembler", 'Reference Length'])
+
+    for contig_id in mis_contigs.keys():
+        for contig_info in filtered_paf_dict[contig_id]:
+            df = df.append({'Contig': contig_id, 'Sample': sample_id, 'Assembler': assembler, 'Reference': contig_info['reference'],
+                            'Ref Start': contig_info['target start'], 'Ref End': contig_info['target end'],
+                            'Misassembly': mis_contigs[contig_id]['misassembly'], 'Reference Length': contig_info['reference length']},
+                           ignore_index=True)
+
+    df.to_csv(sample_id + '_' + assembler + '_misassembly.csv')
 
 
 def main(sample_id, assembler, assembly, mapping):
@@ -316,8 +344,11 @@ def main(sample_id, assembler, assembly, mapping):
             else:
                 reference_report['reference'][reference] += 1
 
-    # make plot
+    # make plot trace - global
     make_plot(mis_contigs, sample_id, assembler)
+
+    # prepare df for plot per reference
+    make_df(sample_id, assembler, mis_contigs, filtered_paf_dict)
 
     # Write files for report
     with open("{}_{}_misassembly.json".format(sample_id, assembler), "w") as json_report:
