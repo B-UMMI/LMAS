@@ -277,7 +277,7 @@ def make_plot(mis_contigs, sample_id, assembler):
     trace = go.Scatter(x=df['Contig Length'],
                        y=df['n blocks'],
                        name=assembler, text=df['text'],
-                       mode='markers', marker_symbol=df['symbol'],
+                       mode='markers',
                        opacity=0.7,
                        hovertemplate="%{text}" +
                        "Contig Length: %{x:.0f}bp<br>" +
