@@ -236,7 +236,6 @@ def classify_misassembled_contigs(mis_dict):
                                          "n blocks": n_blocks,
                                          "distance_in_ref": distances_between_blocks_ref,
                                          "distance_in_contig": distance_between_blocks_contig,
-                                         "ref_start"
                                          "reference": reference,
                                          "strands": strands,
                                          "blocks_coords_in_contig": blocks_coords_in_contig,

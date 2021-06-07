@@ -167,12 +167,23 @@ def test_complex():
     assert any(
         i > 1000 for i in classified_mis_dict['NODE_188_length_33202_cov_63.293119']['distance_in_ref'])
 
-"""
+
 def test_make_df():
     paf_dict = misassembly.parse_paf(MISASSEMBLY_PAF_FILE_ALL)
     filter_paf_dict = misassembly.filter_dict(paf_dict)
     classified_mis_dict = misassembly.classify_misassembled_contigs(
         filter_paf_dict)
+
+    reference_report = {"sample": "lala",
+                        "assembler": "lala", 'reference': {}}
+    for contig in classified_mis_dict.keys():
+        print(classified_mis_dict[contig].keys())
+        for reference in classified_mis_dict[contig]['reference']:
+            if reference not in reference_report['reference'].keys():
+                reference_report['reference'][reference] = 1
+            else:
+                reference_report['reference'][reference] += 1
+
     
     #print(filter_paf_dict)
     #print(classified_mis_dict)
@@ -181,6 +192,5 @@ def test_make_df():
     #    for contig_info in filter_paf_dict[contig_id]:
     #        print(contig_info)
     
-    bubu = misassembly.make_df('pytest_sample', 'pytest', classified_mis_dict, filter_paf_dict)
-    print(bubu)
-"""
+    #bubu = misassembly.make_df('pytest_sample', 'pytest', classified_mis_dict, filter_paf_dict)
+    #print(bubu)
