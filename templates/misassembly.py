@@ -139,7 +139,7 @@ def filter_dict(paf_dict):
 
 def classify_misassembled_contigs(mis_dict):
     """
-    Method to classify a misassembled contig. Recieves a dictionary of misassembled contigs. 
+    Method to classify a misassembled contig. Recieves a dictionary of misassembled contigs.
     A contig is classified as misassembled if it's broken into multiple alignment blocks.
     The misassembly is classified into to the following categories:
         - Chimera: blocks align to more than one reference
@@ -180,6 +180,20 @@ def classify_misassembled_contigs(mis_dict):
                 [alignment_block['target start'], alignment_block['target end']])
             ref_length.add(alignment_block['reference length'])
 
+        # sort blocks order in reference and in contigs on start position
+        sorted_blocks_coords_in_reference = sorted(
+                blocks_coords_in_reference, key=lambda x: x[0])
+        sorted_blocks_coords_in_contig = sorted(
+                blocks_coords_in_contig, key=lambda x: x[0])
+        
+        # check blocks order
+        order_in_ref = []
+        for item in blocks_coords_in_reference:
+            order_in_ref.append(sorted_blocks_coords_in_reference.index(item))
+        order_in_contig = []
+        for item in blocks_coords_in_contig:
+            order_in_contig.append(sorted_blocks_coords_in_contig.index(item))
+
         #### MISASSEMBLY CLASSIFICATION ALGORYTHM ####
         #   A. chimera
         if len(reference) > 1:  # if chimera, the rest of the evaluations don't make sense
@@ -195,18 +209,14 @@ def classify_misassembled_contigs(mis_dict):
             # B2. Check distance between alignment blocks
 
             # B2.1 In Reference
-            blocks_coords_in_reference = sorted(
-                blocks_coords_in_reference, key=lambda x: x[0])  # sorting on start position in reference
-            for i in range(0, len(blocks_coords_in_reference)-1):
+            for i in range(0, len(sorted_blocks_coords_in_reference)-1):
                 distances_between_blocks_ref.append(
-                    blocks_coords_in_reference[i+1][0] - blocks_coords_in_reference[i][1])
+                    sorted_blocks_coords_in_reference[i+1][0] - sorted_blocks_coords_in_reference[i][1])
 
             # B2.1 In the contig
-            blocks_coords_in_contig = sorted(
-                blocks_coords_in_contig, key=lambda x: x[0])  # sorting on start position in contig
-            for i in range(0, len(blocks_coords_in_contig)-1):
+            for i in range(0, len(sorted_blocks_coords_in_contig)-1):
                 distance_between_blocks_contig.append(
-                    blocks_coords_in_contig[i+1][0] - blocks_coords_in_contig[i][1])
+                    sorted_blocks_coords_in_contig[i+1][0] - sorted_blocks_coords_in_contig[i][1])
 
             # C. Classification
 
@@ -214,7 +224,6 @@ def classify_misassembled_contigs(mis_dict):
             if any(i > 1000 for i in distances_between_blocks_ref):
                 misassembly_list.append("translocation")
 
-            # TODO - Can be improved by comparing pairs of values for ref and contig
             # C.2 Insertion -
             if any(i > 50 for i in distance_between_blocks_contig):
                 misassembly_list.append("insertion")
@@ -227,7 +236,16 @@ def classify_misassembled_contigs(mis_dict):
             if any(i < 0 for i in distances_between_blocks_ref) and any(i <= 0 for i in distance_between_blocks_contig):
                 misassembly_list.append("duplication")
 
-        # D - Catch all
+            # C.5 - Rearangement
+            if order_in_ref != order_in_contig:
+                #check if inversion
+                if 'inversion' in misassembly_list:
+                    if order_in_contig == sorted(order_in_ref) or sorted(order_in_contig) == order_in_ref:
+                        pass
+                else:
+                    misassembly_list.append("rearrangement")
+
+        # E - Catch all
         if len(misassembly_list) == 0:
             misassembly_list.append("inconsistency")
 
@@ -239,7 +257,9 @@ def classify_misassembled_contigs(mis_dict):
                                          "reference": reference,
                                          "strands": strands,
                                          "blocks_coords_in_contig": blocks_coords_in_contig,
-                                         "blocks_coords_in_reference": blocks_coords_in_reference}
+                                         "blocks_coords_in_reference": blocks_coords_in_reference,
+                                         "order_in_ref": order_in_ref,
+                                         "order_in_contig": order_in_contig}
 
     return missassembled_contigs
 
