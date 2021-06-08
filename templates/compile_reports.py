@@ -40,6 +40,7 @@ if __file__.endswith(".command.sh"):
     MISASSEMBLY_PER_REF = "$misassembly_per_ref"
     ABOUT_MD = "$about_md"
     CONTAINERS = "$containers_config"
+    PLOT_MISASSEMBLY_PER_REFERENCE = "$plot_misassembly_per_ref"
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
@@ -67,6 +68,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("MISASSEMBLY_PER_REF: {}".format(MISASSEMBLY_PER_REF))
     logger.debug("ABOUT_MD: {}".format(ABOUT_MD))
     logger.debug("CONTAINERS: {}".format(CONTAINERS))
+    logger.debug("CONTAINERS: {}".format(PLOT_MISASSEMBLY_PER_REFERENCE))
 
 
 html_template = """
@@ -309,7 +311,7 @@ def process_sample_reads(reads_jsons):
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
          min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json, misassembly_per_ref, about_md,
-         containers_config):
+         containers_config, plot_misassembly_per_reference_json):
 
     metadata = {
         "nfMetadata": {
@@ -536,6 +538,19 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                             "snps": reference_plots_json}
                     else:
                         main_data_plots_js[sample_id]["PlotData"][reference]["snps"] = reference_plots_json
+        # MISASSEMBLY plot
+        logger.debug('Processing {0} data for {1}...'.format(
+            plot_misassembly_per_reference_json, sample_id))
+        with open(plot_misassembly_per_reference_json) as misassembly_ref_fh:
+            plot_json = json.load(misassembly_ref_fh)
+            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                for x in reference_plots:
+                    reference_plots_json = json.loads(x)
+                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                        main_data_plots_js[sample_id]["PlotData"][reference] = {
+                            "misassembly": reference_plots_json}
+                    else:
+                        main_data_plots_js[sample_id]["PlotData"][reference]["misassembly"] = reference_plots_json
 
     #logger.debug("Report data dictionary: {}".format(main_data_plots_js))
 
@@ -602,7 +617,7 @@ if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
-         VERSIONS_JSON, MISASSEMBLY_PER_REF, ABOUT_MD, CONTAINERS)
+         VERSIONS_JSON, MISASSEMBLY_PER_REF, ABOUT_MD, CONTAINERS, PLOT_MISASSEMBLY_PER_REFERENCE)
     """
     main("main.js.zip", "pipeline_stats.txt", "global_assembly_stats.json", ['mockSample_contig_size_distribution.json', 'subENN_contig_size_distribution.json'], "global_assembly_mapping_stats.json",
          "completness_plots.json", "lmas.zip", "triple_reference.fasta", "lx.json", "phred.json", "gaps_in_reference.json", 

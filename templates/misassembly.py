@@ -139,7 +139,7 @@ def filter_dict(paf_dict):
 
 def classify_misassembled_contigs(mis_dict):
     """
-    Method to classify a misassembled contig. Recieves a dictionary of misassembled contigs. 
+    Method to classify a misassembled contig. Recieves a dictionary of misassembled contigs.
     A contig is classified as misassembled if it's broken into multiple alignment blocks.
     The misassembly is classified into to the following categories:
         - Chimera: blocks align to more than one reference
@@ -170,7 +170,6 @@ def classify_misassembled_contigs(mis_dict):
         distances_between_blocks_ref = []
         distance_between_blocks_contig = []
 
-
         # ---- fill out datastructures ---- #
         for alignment_block in mis_dict[contig]:
             reference.add(alignment_block['reference'])
@@ -180,6 +179,20 @@ def classify_misassembled_contigs(mis_dict):
             blocks_coords_in_reference.append(
                 [alignment_block['target start'], alignment_block['target end']])
             ref_length.add(alignment_block['reference length'])
+
+        # sort blocks order in reference and in contigs on start position
+        sorted_blocks_coords_in_reference = sorted(
+                blocks_coords_in_reference, key=lambda x: x[0])
+        sorted_blocks_coords_in_contig = sorted(
+                blocks_coords_in_contig, key=lambda x: x[0])
+        
+        # check blocks order
+        order_in_ref = []
+        for item in blocks_coords_in_reference:
+            order_in_ref.append(sorted_blocks_coords_in_reference.index(item))
+        order_in_contig = []
+        for item in blocks_coords_in_contig:
+            order_in_contig.append(sorted_blocks_coords_in_contig.index(item))
 
         #### MISASSEMBLY CLASSIFICATION ALGORYTHM ####
         #   A. chimera
@@ -196,18 +209,14 @@ def classify_misassembled_contigs(mis_dict):
             # B2. Check distance between alignment blocks
 
             # B2.1 In Reference
-            blocks_coords_in_reference = sorted(
-                blocks_coords_in_reference, key=lambda x: x[0])  # sorting on start position in reference
-            for i in range(0, len(blocks_coords_in_reference)-1):
+            for i in range(0, len(sorted_blocks_coords_in_reference)-1):
                 distances_between_blocks_ref.append(
-                    blocks_coords_in_reference[i+1][0] - blocks_coords_in_reference[i][1])
+                    sorted_blocks_coords_in_reference[i+1][0] - sorted_blocks_coords_in_reference[i][1])
 
             # B2.1 In the contig
-            blocks_coords_in_contig = sorted(
-                blocks_coords_in_contig, key=lambda x: x[0])  # sorting on start position in contig
-            for i in range(0, len(blocks_coords_in_contig)-1):
+            for i in range(0, len(sorted_blocks_coords_in_contig)-1):
                 distance_between_blocks_contig.append(
-                    blocks_coords_in_contig[i+1][0] - blocks_coords_in_contig[i][1])
+                    sorted_blocks_coords_in_contig[i+1][0] - sorted_blocks_coords_in_contig[i][1])
 
             # C. Classification
 
@@ -215,11 +224,10 @@ def classify_misassembled_contigs(mis_dict):
             if any(i > 1000 for i in distances_between_blocks_ref):
                 misassembly_list.append("translocation")
 
-            # TODO - Can be improved by comparing pairs of values for ref and contig
             # C.2 Insertion -
             if any(i > 50 for i in distance_between_blocks_contig):
                 misassembly_list.append("insertion")
-            
+
             # C.3 Deletion -
             if any(i > 50 for i in distances_between_blocks_ref) and any(i <= 0 for i in distance_between_blocks_contig):
                 misassembly_list.append("deletion")
@@ -228,10 +236,18 @@ def classify_misassembled_contigs(mis_dict):
             if any(i < 0 for i in distances_between_blocks_ref) and any(i <= 0 for i in distance_between_blocks_contig):
                 misassembly_list.append("duplication")
 
-        # D - Catch all
+            # C.5 - Rearangement
+            if order_in_ref != order_in_contig:
+                #check if inversion
+                if 'inversion' in misassembly_list:
+                    if order_in_contig == sorted(order_in_ref) or sorted(order_in_contig) == order_in_ref:
+                        pass
+                else:
+                    misassembly_list.append("rearrangement")
+
+        # E - Catch all
         if len(misassembly_list) == 0:
             misassembly_list.append("inconsistency")
-
 
         missassembled_contigs[contig] = {'misassembly': misassembly_list,
                                          'contig length': contig_len,
@@ -241,7 +257,9 @@ def classify_misassembled_contigs(mis_dict):
                                          "reference": reference,
                                          "strands": strands,
                                          "blocks_coords_in_contig": blocks_coords_in_contig,
-                                         "blocks_coords_in_reference": blocks_coords_in_reference}
+                                         "blocks_coords_in_reference": blocks_coords_in_reference,
+                                         "order_in_ref": order_in_ref,
+                                         "order_in_contig": order_in_contig}
 
     return missassembled_contigs
 
@@ -252,7 +270,7 @@ def make_plot(mis_contigs, sample_id, assembler):
     Parameters
     ----------
     mis_contigs : dictionary
-        dictioanry of misassembled contigs, with classification
+        dictionary of misassembled contigs, with classification
     sample_id : string
         sample ID
     assembler : string
@@ -272,12 +290,13 @@ def make_plot(mis_contigs, sample_id, assembler):
     df = pd.DataFrame(list(zip(x, y, z, w)),
                       columns=['Contig Length', 'n blocks', 'Misassembly', "Contig ID"])
 
-    df['text'] = '<b>' + df['Misassembly'] + '</b><br><br>Contig Name: ' + df['Contig ID'] + '<br>'
+    df['text'] = '<b>' + df['Misassembly'] + \
+        '</b><br><br>Contig Name: ' + df['Contig ID'] + '<br>'
 
     trace = go.Scatter(x=df['Contig Length'],
                        y=df['n blocks'],
                        name=assembler, text=df['text'],
-                       mode='markers', marker_symbol=df['symbol'],
+                       mode='markers',
                        opacity=0.7,
                        hovertemplate="%{text}" +
                        "Contig Length: %{x:.0f}bp<br>" +
@@ -289,6 +308,34 @@ def make_plot(mis_contigs, sample_id, assembler):
 
     with open('{}_{}_contig_lenght.pkl'.format(sample_id, assembler), 'wb') as f:
         pickle.dump(x, f)
+
+
+def make_df(sample_id, assembler, mis_contigs, filtered_paf_dict):
+    """[summary]
+
+    Parameters
+    ----------
+    sample_id : Str
+        String with sample ID
+    assembler : Str
+        String with Assembler name
+    mis_contigs : dictionary
+        dictionary of misassembled contigs, with classification
+    filtered_paf_dict: dictionary
+
+    """
+
+    df = pd.DataFrame(columns=["Contig", 'Sample', 'Reference',
+                               'Ref Start', 'Ref End', 'Misassembly', "Assembler", 'Reference Length'])
+
+    for contig_id in mis_contigs.keys():
+        for contig_info in filtered_paf_dict[contig_id]:
+            df = df.append({'Contig': contig_id, 'Sample': sample_id, 'Assembler': assembler, 'Reference': contig_info['reference'],
+                            'Ref Start': contig_info['target start'], 'Ref End': contig_info['target end'],
+                            'Misassembly': mis_contigs[contig_id]['misassembly'], 'Reference Length': contig_info['reference length']},
+                           ignore_index=True)
+
+    df.to_csv(sample_id + '_' + assembler + '_misassembly.csv')
 
 
 def main(sample_id, assembler, assembly, mapping):
@@ -316,8 +363,11 @@ def main(sample_id, assembler, assembly, mapping):
             else:
                 reference_report['reference'][reference] += 1
 
-    # make plot
+    # make plot trace - global
     make_plot(mis_contigs, sample_id, assembler)
+
+    # prepare df for plot per reference
+    make_df(sample_id, assembler, mis_contigs, filtered_paf_dict)
 
     # Write files for report
     with open("{}_{}_misassembly.json".format(sample_id, assembler), "w") as json_report:

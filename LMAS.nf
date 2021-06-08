@@ -792,6 +792,7 @@ process MISASSEMBLY {
     file("*_contig_lenght.pkl") into OUT_MISASSEMBLY_CONTIGS
     file("*_misassembly.json") into MISASSEMBLY_REPORT
     file("*_misassembled_reference.json") into MISASSEMBLY_DICTIONARY
+    file("*_misassembly.csv") into PLOT_MISASSEMBLY_REF
 
     script:
     template "misassembly.py"
@@ -816,6 +817,23 @@ process PROCESS_MISASSEMBLY {
 
     script:
     template "process_misassembly.py"
+
+}
+
+process PLOT_MISASSEMBLY {
+
+    publishDir 'results/plots/', pattern: "*.html", mode: "copy"
+
+    input:
+    file misassembly_dataframes from MISASSEMBLY_PER_REF.collect()
+
+    output:
+    file("*.html")
+    file("*.json") into OUT_MISASSEMBLY_REFERENCE
+
+    script:
+    template "plot_misassembly.py"
+
 
 }
 
@@ -850,6 +868,7 @@ process compile_reports {
     file ngx_plots from PLOT_NGX
     file versions_json from VERSIONS_JSON
     file misassembly_per_ref from MISASSEMBLY_PER_REF
+    file plot_misassembly_per_ref from OUT_MISASSEMBLY_REFERENCE
     file about_md from Channel.fromPath(params.md)
     file containers_config from Channel.fromPath("${workflow.projectDir}/containers.config")
 

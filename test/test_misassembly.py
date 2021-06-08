@@ -9,6 +9,7 @@ Raises
 pytest.fail
     Status for the test (Pass or Fail)
 """
+from templates.misassembly import classify_misassembled_contigs
 import pytest
 from contextlib import contextmanager
 try:
@@ -116,20 +117,19 @@ def test_insertion():
     filter_paf_dict = misassembly.filter_dict(paf_dict)
     classified_mis_dict = misassembly.classify_misassembled_contigs(
         filter_paf_dict)
-
+    
     assert sorted(list(classified_mis_dict.keys())) == [
         'NODE_55_length_174716_cov_35.030820', 'scaffold_6']
 
     assert sorted(classified_mis_dict['NODE_55_length_174716_cov_35.030820']['misassembly']) == [
-        'insertion']
+        'insertion', 'rearrangement']
     assert any(
         i > 50 for i in classified_mis_dict['NODE_55_length_174716_cov_35.030820']['distance_in_contig'])
 
     assert sorted(classified_mis_dict['scaffold_6']['misassembly']) == [
-        'insertion']
+        'insertion', 'rearrangement']
     assert any(
         i > 50 for i in classified_mis_dict['scaffold_6']['distance_in_contig'])
-
 
 
 def test_translocation():
@@ -139,10 +139,10 @@ def test_translocation():
     filter_paf_dict = misassembly.filter_dict(paf_dict)
     classified_mis_dict = misassembly.classify_misassembled_contigs(
         filter_paf_dict)
-
+    
     # classify translocation
     assert sorted(classified_mis_dict['scaffold_8']['misassembly']) == [
-        'insertion', 'translocation']
+        'insertion', 'rearrangement', 'translocation']
     assert len(classified_mis_dict['scaffold_8']['strands']) == 1
     assert any(
         i > 1000 for i in classified_mis_dict['scaffold_8']['distance_in_ref'])
@@ -153,7 +153,7 @@ def test_complex():
     filter_paf_dict = misassembly.filter_dict(paf_dict)
     classified_mis_dict = misassembly.classify_misassembled_contigs(
         filter_paf_dict)
-
+    
     assert sorted(classified_mis_dict['162']['misassembly']) == [
         'deletion', 'inversion', 'translocation']
     assert len(classified_mis_dict['162']['strands']) == 2
@@ -166,3 +166,32 @@ def test_complex():
     assert any(
         i > 1000 for i in classified_mis_dict['NODE_188_length_33202_cov_63.293119']['distance_in_ref'])
 
+"""
+def test_make_df():
+    paf_dict = misassembly.parse_paf(MISASSEMBLY_PAF_FILE_ALL)
+    filter_paf_dict = misassembly.filter_dict(paf_dict)
+    classified_mis_dict = misassembly.classify_misassembled_contigs(
+        filter_paf_dict)
+
+    print(classified_mis_dict)
+    reference_report = {"sample": "lala",
+                        "assembler": "lala", 'reference': {}}
+    for contig in classified_mis_dict.keys():
+        print(classified_mis_dict[contig].keys())
+        for reference in classified_mis_dict[contig]['reference']:
+            if reference not in reference_report['reference'].keys():
+                reference_report['reference'][reference] = 1
+            else:
+                reference_report['reference'][reference] += 1
+
+    
+    #print(filter_paf_dict)
+    #print(classified_mis_dict)
+
+    #for contig_id in classified_mis_dict.keys():
+    #    for contig_info in filter_paf_dict[contig_id]:
+    #        print(contig_info)
+    
+    #bubu = misassembly.make_df('pytest_sample', 'pytest', classified_mis_dict, filter_paf_dict)
+    #print(bubu)
+"""
