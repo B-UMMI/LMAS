@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-06-08T16:15:49.589Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" etag="Dd8D2aape_HaVPm0_Axv" version="14.6.13" type="github">
+<mxfile host="app.diagrams.net" modified="2021-06-08T16:17:10.213Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" etag="6M5CR-vE704C29NXMHWc" version="14.6.13" type="github">
   <diagram id="he2Oa29YfT0aPHqa_ObK" name="Page-1">
     <mxGraphModel dx="981" dy="528" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -52,8 +52,8 @@
         <mxCell id="wiGD63AvM6oCa6fRVpSF-72" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fontSize=8;strokeWidth=1;fillColor=#D4D4D4;align=left;strokeColor=#666666;" parent="ixpo_LNdE5r7v7pgXRcQ-4" vertex="1">
           <mxGeometry x="11" y="20" width="320" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="wiGD63AvM6oCa6fRVpSF-71" value="" style="shape=parallelogram;html=1;strokeWidth=1;perimeter=parallelogramPerimeter;whiteSpace=wrap;rounded=0;arcSize=12;size=0.6919850885368127;direction=west;flipV=1;fontColor=#333333;dashed=1;fillColor=#D4D4D4;strokeColor=#666666;flipH=1;" parent="ixpo_LNdE5r7v7pgXRcQ-4" vertex="1">
-          <mxGeometry x="176" y="21" width="74" height="38" as="geometry" />
+        <mxCell id="wiGD63AvM6oCa6fRVpSF-71" value="" style="shape=parallelogram;html=1;strokeWidth=1;perimeter=parallelogramPerimeter;whiteSpace=wrap;rounded=0;arcSize=12;size=0.512429831595831;direction=west;flipV=1;fontColor=#333333;dashed=1;fillColor=#D4D4D4;strokeColor=#666666;flipH=1;" parent="ixpo_LNdE5r7v7pgXRcQ-4" vertex="1">
+          <mxGeometry x="176" y="21" width="107" height="38" as="geometry" />
         </mxCell>
         <mxCell id="wiGD63AvM6oCa6fRVpSF-70" value="" style="shape=parallelogram;html=1;strokeWidth=1;perimeter=parallelogramPerimeter;whiteSpace=wrap;rounded=0;arcSize=12;size=0.5131578947368421;direction=west;flipV=1;fontColor=#333333;dashed=1;fillColor=#D4D4D4;strokeColor=#666666;" parent="ixpo_LNdE5r7v7pgXRcQ-4" vertex="1">
           <mxGeometry x="60" y="20" width="120" height="40" as="geometry" />
@@ -90,14 +90,8 @@
         </mxCell>
         <mxCell id="wiGD63AvM6oCa6fRVpSF-74" value="" style="endArrow=classic;html=1;endSize=3;strokeColor=#666666;" parent="ixpo_LNdE5r7v7pgXRcQ-4" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="139" y="67.51999999999998" as="sourcePoint" />
-            <mxPoint x="199" y="67.51999999999998" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="wiGD63AvM6oCa6fRVpSF-77" value="" style="endArrow=classic;html=1;endSize=3;strokeColor=#666666;" parent="ixpo_LNdE5r7v7pgXRcQ-4" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="224" y="14.520000000000023" as="sourcePoint" />
-            <mxPoint x="256" y="14.289999999999964" as="targetPoint" />
+            <mxPoint x="116" y="67.28999999999996" as="sourcePoint" />
+            <mxPoint x="237" y="67.28999999999996" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="ixpo_LNdE5r7v7pgXRcQ-3" value="&amp;gt; 1000 bp" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;" vertex="1" parent="ixpo_LNdE5r7v7pgXRcQ-4">
@@ -440,6 +434,12 @@
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="319.33184643143534" y="418.94000000000005" as="sourcePoint" />
             <mxPoint x="333" y="438" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ixpo_LNdE5r7v7pgXRcQ-95" value="" style="endArrow=classic;html=1;endSize=3;strokeColor=#666666;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="475.75" y="521" as="sourcePoint" />
+            <mxPoint x="535.75" y="521" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
