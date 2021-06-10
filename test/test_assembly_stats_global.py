@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Module to test the LMAS script to detect and classify misassemblies
+Module to test the LMAS script to get stats from an assembly file (FASTA)
 
 Raises
 ------
