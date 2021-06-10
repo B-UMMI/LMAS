@@ -250,8 +250,7 @@ def classify_misassembled_contigs(mis_dict):
                                          "strands": strands,
                                          "blocks_coords_in_contig": blocks_coords_in_contig,
                                          "blocks_coords_in_reference": blocks_coords_in_reference,
-                                         "order_in_ref": order_in_ref,
-                                         "order_in_contig": order_in_contig}
+                                         "order_in_ref": order_in_ref}
 
     return missassembled_contigs
 
