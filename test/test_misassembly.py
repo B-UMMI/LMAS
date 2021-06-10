@@ -127,7 +127,7 @@ def test_insertion():
         i > 50 for i in classified_mis_dict['NODE_55_length_174716_cov_35.030820']['distance_in_contig'])
 
     assert sorted(classified_mis_dict['scaffold_6']['misassembly']) == [
-        'insertion', 'rearrangement']
+        'insertion']
     assert any(
         i > 50 for i in classified_mis_dict['scaffold_6']['distance_in_contig'])
 
@@ -155,12 +155,12 @@ def test_complex():
         filter_paf_dict)
     
     assert sorted(classified_mis_dict['162']['misassembly']) == [
-        'deletion', 'inversion', 'translocation']
+        'inversion', 'rearrangement', 'translocation']
     assert len(classified_mis_dict['162']['strands']) == 2
     assert any(i > 1000 for i in classified_mis_dict['162']['distance_in_ref'])
 
     assert sorted(classified_mis_dict['NODE_188_length_33202_cov_63.293119']['misassembly']) == [
-        'deletion', 'inversion', 'translocation']
+        'inversion', 'rearrangement', 'translocation']
     assert len(
         classified_mis_dict['NODE_188_length_33202_cov_63.293119']['strands']) == 2
     assert any(
