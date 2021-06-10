@@ -190,9 +190,6 @@ def classify_misassembled_contigs(mis_dict):
         order_in_ref = []
         for item in blocks_coords_in_reference:
             order_in_ref.append(sorted_blocks_coords_in_reference.index(item))
-        order_in_contig = []
-        for item in blocks_coords_in_contig:
-            order_in_contig.append(sorted_blocks_coords_in_contig.index(item))
 
         #### MISASSEMBLY CLASSIFICATION ALGORYTHM ####
         #   A. chimera
@@ -229,7 +226,7 @@ def classify_misassembled_contigs(mis_dict):
                 misassembly_list.append("insertion")
 
             # C.3 Deletion -
-            if any(i > 50 for i in distances_between_blocks_ref) and any(i <= 0 for i in distance_between_blocks_contig):
+            if any(1000 >= i > 50 for i in distances_between_blocks_ref) and any(i <= 0 for i in distance_between_blocks_contig):
                 misassembly_list.append("deletion")
 
             # C.4 - Duplication
@@ -237,13 +234,8 @@ def classify_misassembled_contigs(mis_dict):
                 misassembly_list.append("duplication")
 
             # C.5 - Rearangement
-            if order_in_ref != order_in_contig:
-                #check if inversion
-                if 'inversion' in misassembly_list:
-                    if order_in_contig == sorted(order_in_ref) or sorted(order_in_contig) == order_in_ref:
-                        pass
-                else:
-                    misassembly_list.append("rearrangement")
+            if order_in_ref != sorted(order_in_ref):
+                misassembly_list.append("rearrangement")
 
         # E - Catch all
         if len(misassembly_list) == 0:
