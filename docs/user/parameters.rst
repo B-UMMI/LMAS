@@ -5,13 +5,16 @@ A set of **default parameters** is provided, but these can be easily altered by 
 ``params.config`` file, or by passing the new value when executing the workflow with nextflow.
 There are three main parameters in LMAS: **reference, fastq and md**. 
 
-The **triple reference sequences** can be passed with the ``--reference`` parameter, and ``--fastq`` recieves 
-the **raw data** for assembly. The raw data is a collection of sequence fragments from the references, and can be either 
+The **triple reference sequences** can be passed with the ``--reference`` parameter, and ``--fastq`` receives the 
+**raw data** for assembly. The raw data is a collection of sequence fragments from the references and can be either 
 obtained *in silico* or from real sequencing platforms. Users can pass text information, in a markdown file, 
 on input samples to be presented in the report with the ``--md`` parameter.
 
-**Assemblers** are run with the tool's default parametes, but basic execution parameters, such as length of k-mer, 
-can be altered. The target values for some **quality assessment** metrics can also be ajusted, such as N50 and NG50.
+Several options are available to alter the behaviour of the **assemblers** incorporated in LMAS, namely to alter 
+the values of the k-mer for each assembly iteration. By default, these values reflect the corresponding default 
+settings of the assemblers. 
+
+The target values for some **quality assessment** metrics can also be adjusted, such as N50 and NG50.
 
 
 Input Files
@@ -30,7 +33,7 @@ Path expression to paired-end fastq files. Required.
 reference
 ^^^^^^^^^
 
-Path to triple-genome reference fasta file. Required.
+Path to reference fasta file. Required.
 
 * **Param:** :code:`--reference`
 
@@ -136,7 +139,7 @@ Assembly Quality Assessment
 
 Minimum contig length
 ^^^^^^^^^^^^^^^^^^^^^
-Value for mininum contig length, in basepairs.
+Value for minimum contig length, in basepairs.
 
 * **Param:** :code:`--minLength`
 
@@ -144,7 +147,7 @@ Value for mininum contig length, in basepairs.
 
 Mapped reads threshold
 ^^^^^^^^^^^^^^^^^^^^^^^
-Value for mininum percentage of read aligning to the contig to be considered as mapped.
+Value for minimum percentage of read aligning to the contig to be considered as mapped.
 
 * **Param:** :code:`--mapped_reads_threshold`
 
@@ -154,7 +157,7 @@ N Target
 ^^^^^^^^
 Target value for the N*x*, NA*x* and NG*x* metrics. 
 
-* **Param:** :code:`--l_target`
+* **Param:** :code:`--n_target`
 
 * **Default:** 0.9
 
@@ -162,6 +165,6 @@ L Target
 ^^^^^^^^
 Target value for the L*x* metric. 
 
-* **Param:** :code:`--n_target`
+* **Param:** :code:`--l_target`
 
 * **Default:** 0.5
