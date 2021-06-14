@@ -165,7 +165,7 @@ process GATBMINIAPIPELINE {
             gatb -1 ${fastq_pair[0]} -2 ${fastq_pair[1]} --kmer-sizes ${kmer_list} -o ${sample_id}_GATBMiniaPipeline --no-scaffolding --no-error-correction
         fi
 
-        link=\$(readlink ${sample_id}_GATBMiniaPipeline.fasta) && rm ${sample_id}_GATBMiniaPipeline.fasta && mv \$link ${sample_id}_GATBMiniaPipeline.fasta
+        link=\$(readlink ${sample_id}_final.contigs.fa) && rm ${sample_id}_final.contigs.fa && mv \$link ${sample_id}_GATBMiniaPipeline.fasta
 
         echo pass > .status
     } || {
