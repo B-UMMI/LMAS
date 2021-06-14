@@ -44,8 +44,8 @@ def test_fasta_iter():
     fasta_iterator = utils.fasta_iter(ASSEMBLY_TEST)
     first_header, first_contig = fasta_iterator.__next__()
     
-    assert first_header == 'Contig_1_5907_Circ'
-    assert len(first_contig) == 6337
+    assert first_header == 'k141_4'
+    assert len(first_contig) == 1061
     assert sorted(set(first_contig)) == ['A', 'C', 'G', 'T']
 
 def test_get_contig_lists():
@@ -62,11 +62,11 @@ def test_get_contig_lists():
         quast_max_contig = int(quast_report[14][-1])
         quast_ns = float(quast_report[21][-1])
     
-    assert len(contigs_len) == quast_contigs_len == 6704
+    assert len(contigs_len) == quast_contigs_len == 505
     assert sum(contigs_len) == quast_total_len
     assert max(contigs_len) == quast_max_contig
 
-    assert len(contigs_len_over_1000) == 6699
+    assert len(contigs_len_over_1000) == 505
     assert min(contigs_len_over_1000) > 1000
     assert len(contigs_len) >= len(contigs_len_over_1000) 
 
@@ -84,5 +84,7 @@ def test_get_Nx():
         quast_report = list(csv.reader(f, delimiter='\t'))
         quast_n50 = int(quast_report[17][-1]) #second row, last col
 
-    assert n50_contigs == quast_n50 == 2863
-    assert n50_contigs_over_min_len == 2864
+    assert n50_contigs == quast_n50 == 173935
+    assert n50_contigs_over_min_len == 173935
+
+    assert Ns_all == Ns_over_1000 == 0

@@ -102,16 +102,19 @@ def get_mapped_contigs(paf_file):
 
 def get_mapped_contigs_with_ref(paf_file):
     """
-    Gets list with the sizes of the mapped contigs.
+    Gets a dictionary with references and the the mapped contigs.
     In the paf file, the first col is the contig name,
-    the second is the contig size (excludes gaps)
+    the sixth is the reference name
     :param paf_file: path to the PAF file
-    :return: dict with contig names and matching reference
+    :return: dict with reference and aligned contigs
     """
     mapped_contigs = {}
     with open(paf_file) as f:
         for line in f:
-            mapped_contigs[line.split()[0]] = line.split()[5]
+            if line.split()[0] not in mapped_contigs.keys():
+                mapped_contigs[line.split()[0]] = [line.split()[5]]
+            else:
+                mapped_contigs[line.split()[0]].append(line.split()[5])
     return mapped_contigs
 
 
@@ -132,12 +135,14 @@ def parse_assemblies(sample_id, assembler, assembly, mapping):
     for header, seq in fasta:
         Ns = len(re.findall("N", seq.upper()))
         if header in mapped_contigs.keys():
-            is_mapped = mapped_contigs[header]
+            for reference in mapped_contigs[header]:
+                is_mapped = reference
+                df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Contig': header, 'Contig Len': len(seq),
+                        'Mapped': is_mapped, '#N': Ns}, ignore_index=True)
         else:
             is_mapped = 'Unmapped'
-
-        df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Contig': header, 'Contig Len': len(seq),
-                        'Mapped': is_mapped, '#N': Ns}, ignore_index=True)
+            df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Contig': header, 'Contig Len': len(seq),
+                            'Mapped': is_mapped, '#N': Ns}, ignore_index=True)
 
     df = df.reset_index()
 
