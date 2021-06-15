@@ -825,7 +825,7 @@ process PLOT_MISASSEMBLY {
     publishDir 'results/plots/', pattern: "*.html", mode: "copy"
 
     input:
-    file misassembly_dataframes from MISASSEMBLY_PER_REF.collect()
+    file misassembly_dataframes from PLOT_MISASSEMBLY_REF.collect()
 
     output:
     file("*.html")
