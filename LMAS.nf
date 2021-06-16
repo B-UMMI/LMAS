@@ -53,6 +53,7 @@ if (!params.reference){ exit 1, "'reference' parameter missing"}
 IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {
     exit 1, "No reference fasta file provided with pattern:'${params.reference}'" }
 
+IN_reference_raw.into{ TO_TRIPLE; TO_REPORT}
 
 // SET CHANNELS FOR ASSEMBLERS
 IN_fastq_raw.into{
@@ -72,7 +73,7 @@ IN_fastq_raw.into{
 // TRIPLE THE REFERENCE REPLICONS
 process PROCESS_REFERENCE{
     input:
-    file reference_fasta from IN_reference_raw
+    file reference_fasta from TO_TRIPLE
 
     output:
     file("triple_reference.fasta") into OUT_REFERENCE_TRIPLE
@@ -82,7 +83,7 @@ process PROCESS_REFERENCE{
 }
 
 // SET CHANNELS FOR REFERENCE
-OUT_REFERENCE_TRIPLE.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS; COMPILE_REPORTS_REF}
+OUT_REFERENCE_TRIPLE.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS}
 
 
 // ASSEMBLERS
@@ -853,7 +854,7 @@ process compile_reports {
     file pipeline_stats from Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
     file js from Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
     file lmas_png from Channel.fromPath("${workflow.projectDir}/resources/lmas.zip")
-    file reference_file from COMPILE_REPORTS_REF
+    file reference_file from TO_REPORT
     file contig_size_distribution from PLOT_CONTIG_DISTRIBUTION
     file mapping_assembly_stats from PROCESS_ASSEMBLY_STATS_MAPPING_OUT
     file completness_plots from PLOT_PROCESS_COMPLETNESS
