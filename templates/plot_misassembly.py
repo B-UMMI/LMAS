@@ -130,9 +130,11 @@ def main(dataframes):
     report_dict = {}
     samples = sorted(frame['Sample'].unique())
     for sample in samples:
+        print(sample)
         report_dict[sample] = {"PlotData": {}}
         references = sorted(frame['Reference'].unique())
         for reference in references:
+            print('  ' + reference)
             fig = make_subplots(rows=2, cols=1,
                                 row_heights=[0.2, 0.8],
                                 shared_xaxes=True,
@@ -144,7 +146,7 @@ def main(dataframes):
             ), key=lambda v: v.upper(), reverse=True)
             assemblers_in_plot = []
             for assembler in assemblers:
-                print(assembler)
+                print('    ' + assembler)
                 coords = frame[(frame['Sample'] == sample) & (frame['Reference'] == reference) &
                                (frame['Assembler'] == assembler)]
                 if coords.empty:
@@ -154,9 +156,9 @@ def main(dataframes):
                     starts = list(coords['Ref Start'])
                     stops = list(coords['Ref End'])
                     for i in range(len(starts)):
-                        gap_size = stops[i]-starts[i]
-                        text='<b>Block size</b>: ' + gap_size + '<br> <b>Contig:</b> ' + coords['Contig']
-                        # trace with misassembly location - one per gap
+                        text='<b>Misassembly</b>: ' + coords['Misassembly'] + '<br> <b>Contig:</b> ' + str(coords['Contig'])
+                        
+                        # trace with misassembly location - one per block
                         fig.add_trace(go.Scatter(x=[starts[i], stops[i]],
                                                  y=[y, y],
                                                  mode='lines',
@@ -169,9 +171,9 @@ def main(dataframes):
                                                  '<br><b>Coord</b>: %{x}<br>'),
                                       row=2, col=1)
                         gaps_dict = {i: 1 for i in range(
-                            starts[i], stops[i]+1)}
+                            int(starts[i]), int(stops[i]+1))}
                         gaps_intervals.append(
-                            [starts[i], stops[i]+1, gaps_dict])
+                            [int(starts[i]), int(stops[i]+1), gaps_dict])
                     y += 1
 
             reference_length = int(
