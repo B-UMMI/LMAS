@@ -705,6 +705,7 @@ process PLOT_CONTIG_DISTRIBUTION {
 process GAP_ASSESSMENT {
 
     tag { assembler }
+    publishDir "results/$sample_id/stats/"
 
     input:
     tuple sample_id, assembler, file(assembly), file(mapping) from IN_GAP_ASSESSMENT
