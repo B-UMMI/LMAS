@@ -289,7 +289,7 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
         Ns = sum(df_assembler_reference['#N'].astype('int').tolist())
 
         # Assembly metrics
-        for x in np.linspace(0, 1, 10):
+        for x in list(range(0,11)):
             # NAx
             nax = utils.get_Nx(mapped_contigs, x)
             df_na = df_na.append({'Reference': reference_name, 'Assembler': assembler,
