@@ -99,6 +99,8 @@ def make_plot(misassembly_trace, misassembly_contigs):
 
         fig.update_layout(plot_bgcolor='rgb(255,255,255)',
                           xaxis=dict(zeroline=False, gridcolor='#DCDCDC'))
+        fig.update_xaxes(showline=True, linewidth=1, linecolor='#DCDCDC', gridcolor='#DCDCDC')
+
 
         plot(fig, filename='{}_misassembly.html'.format(sample), auto_open=False)
         fig.write_json(file='{}_misassembly.json'.format(sample))

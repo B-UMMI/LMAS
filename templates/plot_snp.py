@@ -134,6 +134,8 @@ def main(dataframes):
                               xaxis=dict(showline=True, zeroline=True,
                                          linewidth=1, linecolor='black',
                                          gridcolor='#DCDCDC'))
+            fig.update_xaxes(showline=True, linewidth=1, linecolor='#DCDCDC', gridcolor='#DCDCDC')
+
 
             html_filename = '{0}_{1}_snps.html'.format(
                 sample, reference.replace(' ', '_'))
