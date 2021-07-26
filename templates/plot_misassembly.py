@@ -156,7 +156,7 @@ def main(dataframes):
                     starts = list(coords['Ref Start'])
                     stops = list(coords['Ref End'])
                     for i in range(len(starts)):
-                        text='<b>Misassembly</b>: ' + ' '.join(coords['Misassembly'].unique()) + '<br> <b>Contig:</b> ' + ' '.join(list(map(str, coords['Contig'].unique()))
+                        text='<b>Misassembly</b>: ' + ' '.join(coords['Misassembly'].unique()) + '<br> <b>Contig:</b> ' + ' '.join(list(map(str, coords['Contig'].unique())))
                         
                         # trace with misassembly location - one per block
                         fig.add_trace(go.Scatter(x=[starts[i], stops[i]],
