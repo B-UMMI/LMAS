@@ -5,7 +5,7 @@ A set of **default parameters** is provided, but these can be easily altered by 
 ``params.config`` file, or by passing the new value when executing the workflow with nextflow.
 There are three main parameters in LMAS: **``--reference``, ``--fastq`` and ``--md``**. 
 
-The **triple reference sequences** can be passed with the ``--reference`` parameter, and ``--fastq`` receives the 
+The **reference sequences**, in a single multifasta file, can be passed with the ``--reference`` parameter, and ``--fastq`` receives the 
 **raw data** for assembly. The raw data is a collection of sequence fragments from the references and can be either 
 obtained *in silico* or from real sequencing platforms. Users can pass text information, in a markdown file, 
 on input samples to be presented in the report with the ``--md`` parameter.
@@ -105,7 +105,7 @@ metaSPAdes
 ^^^^^^^^^^
 * **Param:** :code:`--metaspadesKmers`
 
-* **Definition:** String with list of k-mer sizes or 'auto'
+* **Definition:** String with the list of k-mer sizes or 'auto'
 
 * **Default:** 'auto'
 
@@ -113,7 +113,7 @@ SPAdes
 ^^^^^^
 * **Param:** :code:`--spadesKmers`
 
-* **Definition:** String with list of k-mer sizes or 'auto'
+* **Definition:** String with the list of k-mer sizes or 'auto'
 
 * **Default:** 'auto'
 
@@ -147,7 +147,7 @@ Value for minimum contig length, in basepairs.
 
 Mapped reads threshold
 ^^^^^^^^^^^^^^^^^^^^^^^
-Value for minimum percentage of read aligning to the contig to be considered as mapped.
+Value for the minimum percentage of a read length aligning to the contig to be considered as mapped.
 
 * **Param:** :code:`--mapped_reads_threshold`
 

@@ -8,79 +8,55 @@ Global Metrics
 Global Table Metrics
 ^^^^^^^^^^^^^^^^^^^^^
 
-Global table metrics are presented both for the **Original Assembly** and for the **Filtered Assembly**.
+Global table metrics are presented both for the **Original Assembly** and the **Filtered Assembly**.
 Assemblies are filtered by a minimum contig size, defined in the ``--minLength`` parameter. 
 
-Contigs
-"""""""
-* Total number of contigs in an assembly;
-* Calculated for the **Original Assembly** and the **Filtered Assembly**, by minimum contig size as defined in the ``--minLength`` parameter; 
+Contig sizes
+"""""""""""""
 
-Basepairs
-"""""""""
-* Total number of basepairs in an assembly;
-* Calculated for the **Original Assembly** and the **Filtered Assembly**, by minimum contig size as defined in the ``--minLength`` parameter;
+* **Contigs:** Total number of contigs in the assembly;
+* **Basepairs:** Total number of basepairs in the assembly;
+* **Maximum contig size:** The length, in basepairs, of the largest contig in the assembly;
+* **‘N’s:** Number of uncalled bases;
+* **Mapped reads:** Percentage of mapped reads to an assembly (A read is considered mapped if at least *x* % of the read sequence aligns to a contig in the assembly, as defined in the ``--mapped_reads_threshold`` parameter);
 
-Maximum Contig Size
-"""""""""""""""""""
-* Lenght, in basepairs, of the largest contig in an assembly;
-* Calculated for the **Original Assembly**.
 
-Nx
-"""
-* Length for which the collection of all contigs of that length or longer in an assembly covers at least *x* % of the total length of the assembled contigs;
-* Calculated for the **Original Assembly** and the **Filtered Assembly**, by minimum contig size as defined in the ``--minLength`` parameter; 
-* **Default target value:** 50 %
-
-Mapped Reads
+Contiguity
 """"""""""""
-* Percentage of mapped reads to an assembly;
-* A read is considered mapped if at least *x* % of the read sequence aligns to a contig in the assembly, as defined in the ``--mapped_reads_threshold`` parameter;
-* Calculated for the **Original Assembly**.
-* **Default threshold:** 0.75 %
 
-Number of 'N's
-""""""""""""""
-* Total of 'N's in assembly basepairs;
-* Calculated for the **Original Assembly** and the **Filtered Assembly**, by minimum contig size as defined in the ``--minLength`` parameter;
+* **Nx (where 0 < x ⩽ 100):** Length for which the collection of all assembled sequences of that length or longer in an assembly covers at least a given percentage of the total length of the assembly (Default target value of 50%);
 
-Missassembled Contigs
-"""""""""""""""""""""
-* Number of missassembled contigs;
-* Calculated for the **Filtered Assembly**, by minimum contig size as defined in the ``--minLength`` parameter;
+Misassembly
+""""""""""""
+* **Misassemblies:** Number of missassembled contigs;
+
 
 Global Plot Metrics
 ^^^^^^^^^^^^^^^^^^^^
 Global plot metrics are presented for the **Filtered Assembly**.
 Assemblies are filtered by a minimum contig size, defined in the ``--minLength`` parameter. 
 
-Contig size distribution per assembler
-"""""""""""""""""""""""""""""""""""""""
+Contig sizes
+""""""""""""
 
-This plot contains a **boxplot** for each assembler representing the size distribution of contigs that align to any of the reference genomes.
-Unmapped contigs are represented in a **scatter plot** as red circles. 
+* **Contig size distribution per assembler:** For each assembler in LMAS, a boxplot is computed representing the size distribution of contigs that align to any of the reference replicons. The unmapped contigs, if present, are represented in a red scatterplot overlapping the boxplot. 
+* **Gap size distribution per assembler:** For each assembler in LMAS, a boxplot is computed representing the distribution of gap sizes. Gaps are calculated in relation to the assembled sequences that align to any of the reference replicons, with 1 basepair or more in length. 
 
-Gap size distribution per assembler
-""""""""""""""""""""""""""""""""""""
+Misassembly
+""""""""""""
+* **Misassembled contigs:** Scatter plot for misassembled contigs per assembler, the size of the misassembled contigs, and the number of breakpoint events.  The distribution on contig size for all misassembled contigs is represented in a boxplot. The type of misassembly is presented as hoover text for each misassembly event. 
 
-This plot contains a **boxplot** for each assembler representing the distribution of gap sizes in comparison to the reference genomes.
+The following misassembly types are identified:
 
-Misassembled contigs
-""""""""""""""""""""
+* *Chimera:* a contig has two or more sequence blocks mapping to different reference replicons;
+* *Insertion:* a sequence block (≥50 basepairs) which is not present in any of the reference replicons has been introduced into the contig by the assembly process;
+* *Deletion:* a sequence block (≥50 basepairs) of the reference replicon is missing from the contig created by the assembly process;
+* *Inversion:* a contig has at least two sequence blocks mapping to the same replicon but reversed end to end, i.e. one of the blocks maps to the sense strand and the other to the antisense strand in the reference while both are in the same strand in the contig, or vice-versa;
+* *Rearrangement:* a contig has at least two sequence blocks mapping to the same replicon, in the same orientation, in a different order than in the reference sequence;
+* *Translocation:* a contig has at least two sequence blocks abutting in the contig but mapping non-collinearly (over 1000 base pairs apart) to the reference replicon;
+* *Duplication:* a sequence block of a contig maps at least twice to the reference replicon in different alignment blocks;
+* *Inconsistency:* a contig has at least two sequence blocks abutting in the contig but fails to be classified in any of the previous categories.
 
-This plot contains a **scatter plot** for misassembled contigs per assembler. The *y-axis* represents the number of blocks the misassembled 
-contig was broken into in the mapping process, and the *x-axis* its size in basepairs. 
-Information of the **type of misassembly** is available as hover text for the type of misassembly. 
-
-Types of misassembly detected:
-
-- Inversion
-- Insertion
-- Deletion
-- Translocation
-- Chimera
-
-Additionally, a **boxplot** representing the contig size distribution for all misassembled contigs is available.
 
 Per Reference Metrics
 ---------------------
@@ -91,119 +67,68 @@ Assemblies are filtered by a minimum contig size, defined in the ``--minLength``
 Reference Table Metrics
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Contig sizes
+"""""""""""""
+* **Contigs:** The total number of contigs in the assembly that align to the reference replicon;
+* **Basepairs:** The total number of bases in the assembly that align to the reference replicon;
+* **Number of ‘N’s:** Number of uncalled bases (N's) in the contigs that align to the reference replicon.
+
+COMPASS
+""""""""
+Implemented as defined by `Bradnam et al, 2013 <https://doi.org/10.1186/2047-217X-2-10>`_,
+the COMPASS is a set of metrics defining how much of the reference is covered by alignments of contigs.
+
+* **Breadth of Coverage:** Ratio of covered sequence on the reference by aligned contigs;
+* **Multiplicity:** Ratio of the length of alignable assembled sequence to covered sequence on the reference;
+* **Validity:** Ratio of the length of the alignable assembled sequence to total basepairs in the aligned contigs;
+* **Parsimony:** Cost of the assembly (multiplicity over validity);
+
 Contiguity
 """"""""""
-* Longest single alignment between the assembly and the reference, relative to the reference length;
-* Implemented as defined by `Wick & Holt, 2021 <https://doi.org/10.12688/f1000research.21782.4>`_.
-
-Multiplicity
-""""""""""""
-* Ratio of the length of alignable assembled sequence to covered sequence on the reference;
-* Implemented as defined by `Bradnam et al, 2013 <https://doi.org/10.1186/2047-217X-2-10>`_.
-
-Validity
-"""""""""
-* Ratio of the length of alignable assembled sequence to total basepairs in the aligned contings;
-* Implemented as defined by `Bradnam et al, 2013 <https://doi.org/10.1186/2047-217X-2-10>`_.
-
-Parsimony
-"""""""""
-* Cost of the assembly (multiplicity over validity);
-* How many bases of assembled sequence need to be inspected, in order to find one base of real, validatable sequence;
-* Implemented as defined by `Bradnam et al, 2013 <https://doi.org/10.1186/2047-217X-2-10>`_.
+* **Contiguity:** longest single alignment between the assembly and the reference, relative to the reference length;
+* **NAx (where 0 < x ⩽ 100):** Length for which the collection of aligned assembled sequences of that length or longer in an assembly covers at least a given percentage of the total length of the reference replicon;
+* **NGx (where 0 < x ⩽ 100):** Length for which the collection of aligned contigs of that length or longer covers at least a given percentage of the sequence of the reference.
+* **Lx (where 0 < x ⩽ 100):** Minimal number of contigs that cover x % of the sequence of the reference;
 
 Identity
-"""""""""
-* Ratio of identical basepairs in all aligned contigs to the reference.
+""""""""""""
+* **Identity:** Ratio of identical basepairs in all aligned contigs to the reference;
+* **Lowest identity:** Identity of the lowest scoring contig to the reference.
 
-Lowest Identity
-"""""""""""""""
-* Identity of the lowest scoring contig to the reference.
+Misassembly
+""""""""""""
 
-Breadth of Coverage
-"""""""""""""""""""
-* Ratio of covered sequence on the reference by aligned contigs;
-* Implemented as defined by `Bradnam et al, 2013 <https://doi.org/10.1186/2047-217X-2-10>`_.
-
-Aligned Contigs
-"""""""""""""""
-* Number of aligned contigs to the reference.
-
-Missassembled Contigs
-"""""""""""""""""""""
-* Number of aligned contigs with misassemblies.
-
-Lx
-"""
-* Minimal number of contigs that cover *x* % of the sequence of the reference;
-* Implemented as defined by `Gurevich et al, 2013 <https://dx.doi.org/10.1093%2Fbioinformatics%2Fbtt086>`_;
-* **Default target:** 90 %
-
-NAx
-"""
-* Length for which the collection of all aligned contigs of that length or longer covers at least *x* % of the total length of the aligned assembled contigs;
-* Implemented as defined by `Gurevich et al, 2013 <https://dx.doi.org/10.1093%2Fbioinformatics%2Fbtt086>`_;
-* **Default target:** 50 %
-
-NGx
-"""
-* Length for which the collection of all aligned contigs of that length or longer covers at least *x* % of the sequence of the reference.
-* Implemented as defined by `Gurevich et al, 2013 <https://dx.doi.org/10.1093%2Fbioinformatics%2Fbtt086>`_;
-* **Default target:** 50 %
-
-Aligned Basepairs
-"""""""""""""""""
-* Total basepairs aligned to to the reference.
-
-Number of 'N'
-"""""""""""""
-* Total of 'N' basepairs in the contigs aligned to to the reference.
+* **Misassemblies:** Number of aligned contigs that contain a misassembly event;
 
 Reference Plot Metrics
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Genome Fragmentation
-""""""""""""""""""""
+Data for assemblers who fail to produce sequences that align to the reference aren't present in the plots.
 
-**Scatter plot** representing the *number of contigs* (x-axis) per *breath of coverage* (y-axis) of the reference per assembler.
-Data for assemblers who fail to produce sequences that align to the reference aren't present.
 
-Lx Metric
+COMPASS
+""""""""
+
+* **Genome Fragmentation:** Scatter plot representing the number of contigs per breadth of coverage of the reference, per assembler.
+
+Contiguity
+"""""""""""
+
+* **NAx (where 0 < x ⩽ 100):** Line plot of the length for which the collection of all aligned contigs of that length or longer covers at least *x* % of the total length of the aligned assembled contigs, from 0 to 100%;
+* **NGx (where 0 < x ⩽ 100):** Line plot for the length for which the collection of all aligned contigs of that length or longer covers at least *x* % of the sequence of the reference, from 0 to 100%;
+* **Lx (where 0 < x ⩽ 100):** Line plot for minimal number of contigs (L Metric) that cover the sequence of the reference, from 0 to 100%;
+
+Identity
 """"""""""
-**Line plot** for minimal number of contigs (L Metric) that cover the sequence of the reference, from 0 to 100%.
 
-NAx Metric
-"""""""""""
-**Line plot** the length for which the collection of all aligned contigs of that length or longer covers at least 
-*x* % of the total length of the aligned assembled contigs (NA Metric), from 0 to 100%.
+* **Pls Metric:** Scatter plot for the Phred-like score per contig, per assembler;
+* **Gaps:** Location of gaps in comparison to the reference sequence, per assembler, with the cumulative number of gaps per position in the reference. Gaps with 1 basepair or more in length are considered; 
+* **SNPs:** Location of substitutions in comparison to the reference sequence, per assembler, with the indication of the substitution type and coordinate in the reference. Additionally, the cumulative number of SNPs per position in the reference is presented;
 
-NGx Metric
-"""""""""""
-**Line plot** for the length for which the collection of all aligned contigs of that length or longer covers at least 
-*x* % of the sequence of the reference (NG metric), from 0 to 100%.
-
-PLS Metric
-"""""""""""
-**Scatter plot** for the Phred-like score (PLS) per contig, per assembler. 
-Data for assemblers who fail to produce sequences that align to the reference aren't present.
-
-The Phred-like score for each contig is obtained as following:
+The Pls or Phred-like score is a scoring function based on the identity of each aligned contig to the reference replicon.
+For each contig, it is obtained as following:
 
 .. image:: ../resources/phred.png
     :alt: PLS 
     :align: center
     :scale: 100 %
-
-Gaps
-""""
-Location of **gaps** in comparison to the reference sequence, per assembler. Length of gap, in basepairs, and coordinates in the reference
-is available as hover text. 
-The **histogram** of the cumulative number of gaps per position in the reference is available above the gap location plot. 
-Data for assemblers who fail to produce sequences that align to the reference aren't present.
-
-SNPs
-""""
-Location of **substitutions** in comparison to the reference sequence, per assembler. Substitution type and coordinate in the reference 
-is available as hover text.
-The **histogram** of the cumulative number of substitutions per position in the reference is avaiable above the SNP location plot. 
-Data for assemblers who fail to produce sequences that align to the reference aren't present.

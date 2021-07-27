@@ -6,7 +6,7 @@
 LMAS's
 ======
 
-.. figure:: resources/LMAS_ascii.png
+.. figure:: resources/LMAS_ascii.jpeg
    :align: center
    :alt: LMAS Logo
 
