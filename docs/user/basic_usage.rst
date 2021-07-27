@@ -1,18 +1,22 @@
 Basic Usage
 ===========
 
-To use LMAS, the triple reference sequences must be passed with the ``--reference`` parameter, and ``--fastq`` 
-receives the short-read paired-end raw data for assembly. The raw data is a collection of sequence fragments 
+To use LMAS, the **reference sequences** must be passed with the ``--reference`` parameter, and ``--fastq`` 
+receives the **short-read paired-end raw data** for assembly. 
+
+The optional parameter ``--md`` allows the user to pass information on input samples, in a markdown file, to be 
+presented in the LMAS report. 
+
+All complete genomes (reference linear replicons) should be provided in a single file. 
+Due to the ambiguous starting position of a circular replicon, an assembled contig will typically not align to 
+the reference in a single unbroken alignment. Therefore, the linearized replicons are concatenated 
+three times by LMAS to ensure that contigs can fully align even with start-end overlap and regardless of 
+their starting position relative to that of the reference. 
+
+The raw data is a collection of sequence fragments 
 from the references and can be either obtained *in silico* or from real sequencing platforms.
 
-The optional parameter ``--md`` allows the user to pass information on input samples to be presented in the report. 
-
-Each reference should be provided in a single file where the linearized replicons are concatenated three times to ensure 
-that contigs can fully align even with start-end overlap and regardless of their starting position relative to that of 
-the reference. The short-read data can originate from real raw sequence data of the mock communities or simulated 
-samples from the reference sequence provided.
-
-.. warning:: By default, LMAS expects the input data in a ``data/`` folder, with the triple reference in ``data/reference/*.fasta``, the read data in ``data/fastq/*_{1,2}.*``, and the markdown file in ``data/*.md``.
+.. warning:: By default, LMAS expects the input data in a ``data/`` folder, with the reference sequences in ``data/reference/*.fasta``, the read data in ``data/fastq/*_{1,2}.*``, and the markdown file in ``data/*.md``.
 
 When you clone it, LMAS has the following folder structure:
 
@@ -40,14 +44,14 @@ When you clone it, LMAS has the following folder structure:
 * The ``containers.config``, ``nextflow.config``, ``params.config``, ``profiles.config`` and ``resources.config`` are LMAS configuration files.
 * The ``bin/`` and ``templates/`` folders contain custom LMAS code for data processing.
 * The ``docs/`` folder contains LMAS documentation source files.
-* The ``docker/`` folder contains the dockerfile for LMAS base container.
+* The ``docker/`` folder contains the dockerfile for LMAS' base container.
 * The ``resources/`` folder contains the LMAS report compiled code.
 
 
 Customizing LMAS workflow configuration
 ---------------------------------------
 
-Users can customize the **workflow execution** either by using **command line options**, with ``--<name of parameter> <option>``
+Users can customize the **workflow execution** either by using **command-line options**, with ``--<name of parameter> <option>``
 or by modifying a simple **plain-text configuration file**, where parameters are set as key-value pairs.
 
 There are four configuration files in LMAS:
@@ -60,7 +64,7 @@ This is Nextflow main configuration file. **It should not be edited**.
 params.config
 ^^^^^^^^^^^^^
 
-The ``params.config`` file includes all available paramenters for LMAS and their respective default values.
+The ``params.config`` file includes all available parameters for LMAS and their respective default values.
 
 containers.config 
 ^^^^^^^^^^^^^^^^^
@@ -68,26 +72,26 @@ containers.config
 The ``containers.config`` file includes the container directive for each process in LMAS. 
 These containers are retrieved from **dockerhub** if they do not exist locally yet. 
 
-.. warning:: You can change the container string to any other value, but it should point to an image that exist on dockerhub or locally.
+.. warning:: You can change the container string to any other value, but it should point to an image that exists on dockerhub or locally.
 
 profiles.config 
 ^^^^^^^^^^^^^^^
 
 The ``profiles.config`` file includes a set of pre-made profiles with all possible combinations of executors and container engines. 
-You can add new ones or modify existing one.
+You can add new ones or modify an existing one.
 
 resources.config 
 ^^^^^^^^^^^^^^^^
  
-The ``resources.config`` file includes the **cpus** and **memory** directives provided for each assembler in LMAS. 
+The ``resources.config`` file includes the **CPUs** and **memory** directives provided for each assembler in LMAS. 
 
-.. warning:: The **memory** directive increments automatically when a task if retried. If the directive is set to ``{16.Gb*task.attempt}``, the memory used will be 16 Gb multiplied by the number of attempts. 
+.. warning:: The **memory** directive increments automatically when a task is retried. If the directive is set to ``{16.Gb*task.attempt}``, the memory used will be 16 Gb multiplied by the number of attempts. 
 
 
 ZymoBIOMICS Microbial Community Standard Data
 -------------------------------------------------
 
-As proof-of-concept,the eight bacterial genomes and four plasmids of the 
+As a proof-of-concept, the eight bacterial genomes and four plasmids of the 
 `ZymoBIOMICS Microbial Community Standards <https://www.zymoresearch.com/collections/zymobiomics-microbial-community-standards>`_ 
 were used as reference. Raw sequence data of the mock communities, with an even and logarithmic distribution of species, 
 and a simulated sample of the evenly distributed reads were generated from the genomes. 
@@ -98,7 +102,7 @@ The even and log distributed raw sequence data is available at https://www.ebi.a
 https://www.ebi.ac.uk/ena/browser/view/ERR2935805, respectively. 
 
 A script to download and structure the ZymoBIOMICS data to be used as **default input** for LMAS is provided, 
-included in LMAS repository. To run it, simply execute: 
+included in LMAS' repository. To run it, simply execute: 
 
 .. code-block:: bash
 
