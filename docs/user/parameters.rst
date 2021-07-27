@@ -3,7 +3,7 @@ Parameters
 
 A set of **default parameters** is provided, but these can be easily altered by either editing the 
 ``params.config`` file, or by passing the new value when executing the workflow with nextflow.
-There are three main parameters in LMAS: **reference, fastq and md**. 
+There are three main parameters in LMAS: **``--reference``, ``--fastq`` and ``--md``**. 
 
 The **triple reference sequences** can be passed with the ``--reference`` parameter, and ``--fastq`` receives the 
 **raw data** for assembly. The raw data is a collection of sequence fragments from the references and can be either 
