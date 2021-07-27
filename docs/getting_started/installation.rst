@@ -1,10 +1,21 @@
 Installation
 ============
 
-Before installing LMAS, a few dependencies must be installed in your system.
+LMAS can be installed through Github (https://github.com/cimendes/LMAS).
+It requires a `Nextflow <https://www.nextflow.io/>`_ installation (version ≥ 21.04.1) 
+and can be used on any POSIX compatible system (Linux, OS X, etc). All components of LMAS are executed in `Docker containers<https://www.docker.com/>`_, 
+being a container engine required. 
 
-Nextflow
---------
+Nextflow allows integration with multiple alternatives, such as `Shifter <https://github.com/NERSC/shifter/>`_ or 
+`Singularity <https://singularity.hpcng.org/>`_, so a particular one isn’t required. 
+
+To ensure the robustness of custom python code for the quality assessment of assemblies, **continuous integration** of the python templates 
+is performed with `pytest <https://docs.pytest.org/en/6.2.x/>`_ and `GitHub Actions <https://github.com/features/actions>`_. 
+
+Below it's a step by step guide on how to install LMAS and all it's dependencies.
+
+Step 1. Nextflow
+-----------------
 
 `Nextflow <https://www.nextflow.io/>`_ (version 20.01.0 or higher) can be used on any POSIX compatible system (Linux, OS X, etc). 
 It requires BASH and Java 8 (or higher) to be installed. 
@@ -13,8 +24,8 @@ It requires BASH and Java 8 (or higher) to be installed.
 
     Instructions on how to install Nextflow are available `here <https://www.nextflow.io/docs/latest/getstarted.html>`_
 
-Container engine
-----------------
+Step 2. Container engine
+-------------------------
 
 All components of LMAS are executed in docker containers, which means that you’ll need to have a container engine 
 installed. The container engines available are the ones supported by Nextflow:
@@ -50,8 +61,8 @@ https://www.docker.com/community-edition#/download.
 To run docker as anon-root user, you'll need to following the instructions
 on the website: https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
 
-Clone LMAS
------------
+Step 3. Clone LMAS
+-------------------
 
 You can clone this repository with git.
 
