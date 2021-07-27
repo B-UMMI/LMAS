@@ -10,15 +10,16 @@ LMAS's
    :align: center
    :alt: LMAS Logo
 
-Short-read metagenomic assembly: finding the best fit in a world of options.
+**Short-read (meta)genomic assembly: finding the best fit in a world of options.**
 
 This is the documentation for LMAS, an automated workflow enabling the benchmarking of traditional and 
 metagenomic prokaryotic *de novo* assembly software using defined mock communities. 
-In its current form, **10 assemblers** are implemented in LMAS, with several steps having been 
-implemented to ensure the transparency and reproducibility of the results with the use of Nextflow and software containers.
-The results are presented in an **interactive HTML report** where selected global and reference 
-specific performance metrics can be explored.
+The results are presented in an interactive HTML report where selected global and reference specific performance metrics can be explored.
 
+In its current form, **10 assemblers** are implemented in LMAS, with several steps having been 
+implemented to ensure the transparency and reproducibility of the results with the use of *Nextflow* and *container software*.
+
+LMAS is open source and available at https://github.com/cimendes/LMAS 
 
 .. _Getting Started:
 
