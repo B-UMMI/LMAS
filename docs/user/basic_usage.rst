@@ -93,10 +93,10 @@ ZymoBIOMICS Microbial Community Standard Data
 
 As a proof-of-concept, the eight bacterial genomes and four plasmids of the 
 `ZymoBIOMICS Microbial Community Standards <https://www.zymoresearch.com/collections/zymobiomics-microbial-community-standards>`_ 
-were used as reference. Raw sequence data of the mock communities, with an even and logarithmic distribution of species, 
-and a simulated sample of the evenly distributed reads were generated from the genomes. 
+were used as reference. Raw sequence data of the mock communities, with an even and logarithmic distribution of species both from a 
+real sequencing run and a simulated dataset, with and without error, matching the real data distribution of species, were used as input for LMAS. 
 
-The triple-reference sequences and the mock sample are available at zenodo: https://zenodo.org/record/4588970#.YEeA83X7RhE
+The reference sequences and the mock sample are available at zenodo: https://doi.org/10.5281/zenodo.4588969
 
 The even and log distributed raw sequence data is available at https://www.ebi.ac.uk/ena/browser/view/ERR2984773 and 
 https://www.ebi.ac.uk/ena/browser/view/ERR2935805, respectively. 
@@ -119,10 +119,16 @@ The files will be saved in the following structure:
     │   ├── ERR2935805_2.fq.gz
     │   ├── ERR2984773_1.fq.gz
     │   ├── ERR2984773_2.fq.gz
-    │   ├── mockSample_1.fq.gz
-    │   └── mockSample_2.fq.gz
+    │   ├── EMS_1.fq.gz
+    │   ├── EMS_2.fq.gz
+    │   ├── ENN_1.fq.gz
+    │   ├── ENN_2.fq.gz
+    │   ├── LHS_1.fq.gz
+    │   ├── LHS_2.fq.gz
+    │   ├── LNN_1.fq.gz
+    │   └── LNN_2.fq.gz
     └── reference
-        └── Zymos_Genomes_triple_chromosomes.fasta
+        └── ZymoBIOMICS_genomes.fasta?download=1
         
 This is already the expected input for LMAS. To execute LMAS you simply need to call the ``LMAS.nf`` execution file with Nextflow.
 
