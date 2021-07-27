@@ -61,7 +61,7 @@ The following misassembly types are identified:
 Per Reference Metrics
 ---------------------
 
-Metrics per reference are calculated with ``minimap2`` mapping results between the the **Filtered Assembly** and the **tripled reference sequences**.
+Metrics per reference are calculated with ``minimap2`` mapping results between the the **Filtered Assembly** and the **reference sequences**.
 Assemblies are filtered by a minimum contig size, defined in the ``--minLength`` parameter. 
 
 Reference Table Metrics
