@@ -1,11 +1,6 @@
 Create a Mock Community for LMAS
 ==================================
 
-Triple Reference
-----------------
-
-.. warning:: In construction
-
 Read Data
 ---------
 
@@ -18,7 +13,7 @@ It provides models for Illumina HiSeq, NovaSeq and Miseq to realistically estima
 Installation
 :::::::::::::
 
-`InSilicoSeq <https://github.com/HadrienG/InSilicoSeq>`_ can be installed througn conda or pip. It requires ``python >= 3.5``. 
+`InSilicoSeq <https://github.com/HadrienG/InSilicoSeq>`_ can be installed through conda or pip. It requires ``python >= 3.5``. 
 
 .. code-block:: bash
 
@@ -34,14 +29,27 @@ To generate mock communities, the following command can be used:
 
 .. code-block:: bash
 
-    iss generate --genomes triplegenomes.fasta --model hiseq --output issreads 
+    iss generate --genomes genomes.fasta --model hiseq --output issreads 
 
-where ``triplegenomes.fasta`` should be replaced by a (multi-)fasta file containing the triple reference genome(s) 
+where ``genomes.fasta`` should be replaced by a (multi-)fasta file containing the reference genome(s) 
 from which the simulated reads will be generated.
 
 InSilicoSeq comes with 3 error models that can be passed with the ``--model`` parameter: ``MiSeq``, ``HiSeq`` and ``NovaSeq``
-You can change the number of cpus with the ``--cpus`` parameters, and the number of reads to generate with the 
+You can change the number of CPUs with the ``--cpus`` parameters, and the total number of reads to generate with the 
 ``-n`` parameter. 
+
+Alternatively, a model can be created based on existing sequencing data after alignment with the reference sequences. 
+
+.. code-block:: bash
+
+    iss model -b ref.bam -o my_model
+
+And be used to generate the read data with the  ``--model`` parameter:
+
+.. code-block:: bash
+
+    iss generate --genomes genomes.fasta --model my_model.npz --output issreads 
+
 
 The mock reads will be saved with the ``issreads`` prefix. 
 

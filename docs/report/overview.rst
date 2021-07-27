@@ -23,6 +23,7 @@ Report Overview
 
 The top portion of the report contains information on the input samples and overall performance of the assemblers in LMAS.
 This is divided into three tabs:
+
 * Overview
 * Performance
 * About us
