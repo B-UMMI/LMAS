@@ -9,15 +9,19 @@ Selection Criteria
 -------------------
 
 Open-source tools, with clear documentation describing the methodology implemented, were favoured. 
-The collection of tools were ordered by date of last update and a Docker container for the top 10 assemblers 
-was created with the latest released version, with the version used as tag. 
-In the case of tools with no release, the container was compiled with latest version in the default branch of the 
-source repository, using the date of the last update as tag.
+The collection of tools were ordered by the date of the last update and a Docker container for the top 10 assemblers 
+was created with the latest released version, with the version used as the tag. 
+In the case of tools with no release, the container was compiled with the latest version in the default branch of the 
+source repository, using the date of the last update as the tag.
 
 Assemblers in LMAS
 ------------------
 
-Assemblers benchmarked in LMAS, in aphabetical order:
+n its current form, 10 assemblers are implemented in LMAS.
+To change the version of a particular assembler is as simple as substituting the container for the process 
+of that assembler in LMAS’ container configuration file (see https://lmas.readthedocs.io/en/latest/user/basic_usage.html#containers-config).
+
+Assemblers benchmarked in LMAS, in alphabetical order:
 
 BCALM2
 ^^^^^^
@@ -47,7 +51,7 @@ IDBA
 ^^^^
 
 Published by `Peng et al. 2012 <https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/bts174>`_, it's 
-a **De Brujin graph assembler for assembling reads from single-cell sequencing or metagenomic sequencing technologies** with 
+a **De Bruijn graph assembler for assembling reads from single-cell sequencing or metagenomic sequencing technologies** with 
 uneven sequencing depths. It employs multiple depth relative thresholds to remove erroneous k-mers in both low-depth and 
 high-depth regions. The technique of local assembly with paired-end information is used to solve the branch problem of 
 low-depth short repeat regions. To speed up the process, an error correction step is conducted to correct reads of 
@@ -63,7 +67,7 @@ MINIA
 This tool, published by `Chikhi & Rizk, 2013 <https://almob.biomedcentral.com/articles/10.1186/1748-7188-8-22>`_ in 
 *Algorithms for Molecular Biology*, performs the assembly on a data structure based on unitigs produced by the BCALM 
 software and using graph simplifications that are heavily inspired by the SPAdes assembler. Minia is a short-read 
-traditional assembler based on **de Bruijn graph using a single k-mer length**.
+traditional assembler based on **De Bruijn graph using a single k-mer length**.
 
 * **Source code:** https://github.com/GATB/minia
 * **Date of last update:** 04/03/2021
@@ -75,7 +79,7 @@ MEGAHIT
 MEGAHIT, published by `Li et al. 2015 <https://academic.oup.com/bioinformatics/article/31/10/1674/177884>`_, is a 
 *de novo* assembler for **assembling large and complex metagenomics data** in a time- and cost-efficient manner. 
 It makes use of the succinct **de Bruijn graph, with a multiple k-mer size** strategy. In each iteration, MEGAHIT cleans 
-potentially erroneous edges by removing tips, merging bubbles and removing low local coverage edges, specially 
+potentially erroneous edges by removing tips, merging bubbles and removing low local coverage edges, especially 
 useful for metagenomics which suffers from non-uniform sequencing depths.
 
 * **Source code:** https://github.com/voutcn/megahit
@@ -85,10 +89,10 @@ useful for metagenomics which suffers from non-uniform sequencing depths.
 METASPADES
 ^^^^^^^^^^
 
-SPAdes started out as a tool aiming to resolve uneven coverage in single cell genome data, but later metaSPAdes 
-was released, building **specific metagenomic pipeline on top of SPAdes**. It was published by `Nurk et al. 2017 <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5411777/>`_, 
-and like SPAdes, it uses **multiple k-mer sizes of de Bruijn graph**, starting with lowest kmer size and adding 
-hypothetical kmers to connect graph.
+SPAdes started as a tool aiming to resolve uneven coverage in single-cell genome data, but later metaSPAdes 
+was released, building a **specific metagenomic pipeline on top of SPAdes**. It was published by `Nurk et al. 2017 <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5411777/>`_, 
+and like SPAdes, it uses **multiple k-mer sizes of the De Bruijn graph**, starting with the lowest k-mer size and adding 
+hypothetical k-mers to connect the graph.
 
 * **Source code:** https://github.com/ablab/spades
 * **Date of last update:** 11/03/2021
@@ -109,8 +113,8 @@ tries to obtain good contiguity by using **multiple k-mers** longer than mate le
 SPADES
 ^^^^^^
 
-A tool aiming to resolve uneven coverage in **single cell genome data through multiple k-mer sizes of De Brujin graphs**. 
-It starts with the smallest k-mer size and and adds hypotetical k-mers to connect graph. It was published by
+A tool aiming to resolve uneven coverage in **single-cell genome data through multiple k-mer sizes of De Bruijn graphs**. 
+It starts with the smallest k-mer size and adds hypothetical k-mers to connect the graph. It was published by
 `Bankevich et al. 2012 <https://pubmed.ncbi.nlm.nih.gov/22506599/>`_. 
 
 * **Source code:** https://github.com/ablab/spades
@@ -134,8 +138,8 @@ VELVETOPTIMIZER
 This optimizing pipeline, developed by Torsten Seeman, is still unpublished but extends the original Velvet assembler by 
 performing **several de Bruijn assemblies with variable k-mer sizes**. It searches a supplied hash value range for the optimum, estimates 
 the expected coverage and then searches for the optimum coverage cutoff. It uses Velvet's internal mechanism for estimating 
-insert lengths for paired end libraries. It can optimise the assemblies by either the default optimisation condition or by a 
-user supplied one. It outputs the results to a subdirectory and records all its operations in a logfile.
+insert lengths for paired-end libraries. It can optimise the assemblies by either the default optimisation condition or by a 
+user-supplied one. It outputs the results to a subdirectory and records all its operations in a logfile.
 
 * **Source code:** https://github.com/tseemann/VelvetOptimiser
 * **Date of last update:** 21/01/2017
