@@ -12,7 +12,7 @@ Nextflow allows integration with multiple alternatives, such as `Shifter <https:
 To ensure the robustness of custom python code for the quality assessment of assemblies, **continuous integration** of the python templates 
 is performed with `pytest <https://docs.pytest.org/en/6.2.x/>`_ and `GitHub Actions <https://github.com/features/actions>`_. 
 
-Below it's a step by step guide on how to install LMAS and all it's dependencies.
+Below it's a step by step guide on how to install LMAS and all its dependencies.
 
 Step 1. Nextflow
 -----------------
@@ -58,7 +58,7 @@ Docker
 
 Docker can be installed following the instructions on the website:
 https://www.docker.com/community-edition#/download.
-To run docker as anon-root user, you'll need to following the instructions
+To run docker as a non-root user, you'll need to follow the instructions
 on the website: https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
 
 Step 3. Clone LMAS
@@ -70,5 +70,5 @@ You can clone this repository with git.
 
     git clone https://github.com/cimendes/LMAS.git 
 
-All files will be in your local machine.
+All files will be on your local machine.
 The main execution file for Nextflow is ``LMAS.nf``. 
