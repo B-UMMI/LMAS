@@ -1,13 +1,16 @@
 cff-version: 1.0.0
 message: "If you use this software, please cite it as below."
 authors:
-  - family-names: Mendes
-    given-names: Inês
+  - family-names: "Mendes"
+    given-names: "Ines"
+    orcid: "https://orcid.org/0000-0002-3090-7426"
   - family-names: Vila-Cerqueira
     given-names: Pedro
+    orcid: "https://orcid.org/0000-0002-6121-8906"
   - family-names: Ramirez
     given-names: Mário
-title: LMAS: Last Metagenomic Assembler Standing
+    orcid: "https://orcid.org/0000-0002-4084-6233"
+title: "LMAS: Last (Meta)genomic Assembler Standing"
 version: 1.0.0
 date-released: 2021-07-28
 keywords:
@@ -16,4 +19,4 @@ keywords:
   - benchmark
   - assembly quality assessment
 license: "GPL-3.0"
-contact: cimendes@medicina.ulisboa.pt
+contact: "cimendes@medicina.ulisboa.pt"
