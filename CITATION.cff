@@ -1,0 +1,19 @@
+cff-version: 1.0.0
+message: If you use this software, please cite it as below.
+authors:
+  - family-names: Mendes
+    given-names: Inês
+  - family-names: Vila-Cerqueira
+    given-names: Pedro
+  - family-names: Ramirez
+    given-names: Mário
+title: LMAS: Last Metagenomic Assembler Standing
+version: 1.0.0
+date-released: 2021-07-28
+keywords:
+  - shotgun Metagenomics
+  - de novo assembly
+  - benchmark
+  - assembly quality assessment
+license: "GPL-3.0"
+contact: "cimendes@medicina.ulisboa.pt"
