@@ -290,6 +290,9 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
 
         # Assembly metrics
         for x in list(range(0,11)):
+
+            x = round(x*0.1,2) # turn decimal
+
             # NAx
             nax = utils.get_Nx(mapped_contigs, x)
             df_na = df_na.append({'Reference': reference_name, 'Assembler': assembler,
