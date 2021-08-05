@@ -94,3 +94,4 @@ widgetsnbextension
 zipp
 scipy
 plotly
+psutil
