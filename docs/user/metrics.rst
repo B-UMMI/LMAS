@@ -11,8 +11,8 @@ Global Table Metrics
 Global table metrics are presented both for the **Original Assembly** and the **Filtered Assembly**.
 Assemblies are filtered by a minimum contig size, defined in the ``--minLength`` parameter. 
 
-Contig sizes
-"""""""""""""
+General contig information
+"""""""""""""""""""""""""""
 
 * **Contigs:** Total number of contigs in the assembly;
 * **Basepairs:** Total number of basepairs in the assembly;
@@ -26,7 +26,7 @@ Contiguity
 
 * **Nx (where 0 < x ⩽ 100):** Length for which the collection of all assembled sequences of that length or longer in an assembly covers at least a given percentage of the total length of the assembly (Default target value of 50%);
 
-Misassembly
+Misassemblies
 """"""""""""
 * **Misassemblies:** Number of missassembled contigs;
 
@@ -36,13 +36,13 @@ Global Plot Metrics
 Global plot metrics are presented for the **Filtered Assembly**.
 Assemblies are filtered by a minimum contig size, defined in the ``--minLength`` parameter. 
 
-Contig sizes
-""""""""""""
+General contig information
+"""""""""""""""""""""""""""
 
 * **Contig size distribution per assembler:** For each assembler in LMAS, a boxplot is computed representing the size distribution of contigs that align to any of the reference replicons. The unmapped contigs, if present, are represented in a red scatterplot overlapping the boxplot. 
 * **Gap size distribution per assembler:** For each assembler in LMAS, a boxplot is computed representing the distribution of gap sizes. Gaps are calculated in relation to the assembled sequences that align to any of the reference replicons, with 1 basepair or more in length. 
 
-Misassembly
+Misassemblies
 """"""""""""
 * **Misassembled contigs:** Scatter plot for misassembled contigs per assembler, the size of the misassembled contigs, and the number of breakpoint events.  The distribution on contig size for all misassembled contigs is represented in a boxplot. The type of misassembly is presented as hoover text for each misassembly event. 
 
@@ -67,8 +67,8 @@ Assemblies are filtered by a minimum contig size, defined in the ``--minLength``
 Reference Table Metrics
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Contig sizes
-"""""""""""""
+General contig information
+"""""""""""""""""""""""""""
 * **Contigs:** The total number of contigs in the assembly that align to the reference replicon;
 * **Basepairs:** The total number of bases in the assembly that align to the reference replicon;
 * **Number of ‘N’s:** Number of uncalled bases (N's) in the contigs that align to the reference replicon.
