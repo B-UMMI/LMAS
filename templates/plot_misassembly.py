@@ -155,8 +155,10 @@ def main(dataframes):
                     assemblers_in_plot.append(assembler)
                     starts = list(coords['Ref Start'])
                     stops = list(coords['Ref End'])
+                    misassembly_list = list(coords['Misassembly'])
+                    contigs_list = list(map(str, coords['Contig']))
                     for i in range(len(starts)):
-                        text='<b>Misassembly</b>: ' + ' '.join(coords['Misassembly'].unique()) + '<br> <b>Contig:</b> ' + ' '.join(list(map(str, coords['Contig'].unique())))
+                        text='<b>Misassembly</b>: ' + misassembly_list[i] + '<br> <b>Contig:</b> ' + contigs_list[i]
                         
                         # trace with misassembly location - one per block
                         fig.add_trace(go.Scatter(x=[starts[i], stops[i]],
