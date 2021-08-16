@@ -296,15 +296,15 @@ def parse_paf_files(sample_id, df, mapping, reference, assembler, n_target, l_ta
             # NAx
             nax = utils.get_Nx(mapped_contigs, x)
             df_na = df_na.append({'Reference': reference_name, 'Assembler': assembler,
-                                  'NAx': x, 'Basepairs': nax}, ignore_index=True)
+                                  'NAx': round(x*100), 'Basepairs': nax}, ignore_index=True)
             # NGx
             ngx = utils.get_NGx(mapped_contigs, len(seq)/3, x)
             df_ng = df_ng.append({'Reference': reference_name, 'Assembler': assembler,
-                                  'NGx': x, 'Basepairs': ngx}, ignore_index=True)
+                                  'NGx': round(x*100), 'Basepairs': ngx}, ignore_index=True)
             # Lx
             lx = utils.get_Lx(mapped_contigs, len(seq)/3, x)
             df_lx = df_lx.append({'Reference': reference_name, 'Assembler': assembler,
-                                  'Lx': x, 'nContigs': lx}, ignore_index=True)
+                                  'Lx': round(x*100), 'nContigs': lx}, ignore_index=True)
 
         na50 = utils.get_Nx(mapped_contigs, n_target)
         ng50 = utils.get_NGx(mapped_contigs, len(seq)/3, n_target)
