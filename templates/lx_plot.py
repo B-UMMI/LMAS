@@ -60,7 +60,7 @@ def main(c90files, l_target):
                     i += 1
             # add target line
             fig_Lx.add_shape(type="line", yref="paper",
-                             x0=l_target, y0=0, x1=l_target, y1=1,
+                             x0=l_target*100, y0=0, x1=l_target*100, y1=1,
                              line=dict(color="#D3D3D3", width=4,dash="dashdot"))
 
             fig_Lx.update_layout(xaxis_title="L(x) %",
