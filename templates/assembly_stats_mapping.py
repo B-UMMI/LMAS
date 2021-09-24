@@ -169,20 +169,22 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
         # Contiguity
         for x in np.arange(0.0, 10.1, 0.1):
 
+            x = round(x,1)
+
             # NAx
             nax = utils.get_Nx(mapped_contigs, x)
             df_na = df_na.append({'Reference': alignment_dict['Reference'], 'Assembler': assembler,
-                                  'NAx': round(x*100), 'Basepairs': nax}, ignore_index=True)
+                                  'NAx': round(x*10), 'Basepairs': nax}, ignore_index=True)
             # NGx
             ngx = utils.get_NGx(
                 mapped_contigs, alignment_dict['Reference_Length'], x)
             df_ng = df_ng.append({'Reference': alignment_dict['Reference'], 'Assembler': assembler,
-                                  'NGx': round(x*100), 'Basepairs': ngx}, ignore_index=True)
+                                  'NGx': round(x*10), 'Basepairs': ngx}, ignore_index=True)
             # Lx
             lx = utils.get_Lx(
                 mapped_contigs, alignment_dict['Reference_Length'], x)
             df_lx = df_lx.append({'Reference': alignment_dict['Reference'], 'Assembler': assembler,
-                                  'Lx': round(x*100), 'nContigs': lx}, ignore_index=True)
+                                  'Lx': round(x*10), 'nContigs': lx}, ignore_index=True)
 
         na50 = utils.get_Nx(mapped_contigs, n_target)
         ng50 = utils.get_NGx(
@@ -255,6 +257,9 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
             "aligned_basepairs": sum_ci,
             "Ns": Ns,
         }
+
+        logger.debug("  - Stats json: {}".format(
+            mapping_stats_dict["ReferenceTables"][alignment_dict['Reference']]))
 
     return df_na, df_ng, df_lx, df_phred, df_coverage, mapping_stats_dict
 

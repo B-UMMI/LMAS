@@ -80,7 +80,10 @@ def test_parse_paf_files():
 
     for alignment_dict in alignment_dictitonary_list:
 
-        assert alignment_dict['Longest_Alignment'] <= alignment_dict['Reference_Length']
+        if alignment_dict['Longest_Alignment'] > 0:
+            assert len(alignment_dict['Contigs']) > 0
+        else:
+            assert len(alignment_dict['Contigs']) == 0
 
         sum_covered_bases = assembly_stats_mapping.get_covered_bases(
             alignment_dict['Covered_Bases'], alignment_dict['Reference_Length'])
@@ -95,6 +98,12 @@ def test_parse_paf_files():
             seq = "".join(s.strip() for s in references.__next__())
             if reference_name == alignment_dict['Reference']:
                 assert alignment_dict['Reference_Length'] == seq/3
+
+        sum_contig_length = 0
+        for contig in alignment_dict['Contigs'].keys():
+            sum_contig_length += alignment_dict['Contigs'][contig]['Length']
+        
+        assert alignment_dict['Longest_Alignment'] <= sum_contig_length
 
 
 def test_get_mapping_stats():
@@ -140,5 +149,12 @@ def test_get_mapping_stats():
             assert json_dic['ReferenceTables'][reference]['aligned_basepairs'] == 0 
 
 
-    # test nax df
-    print(to_plot_nax.columns)
+    # test dfs
+    assert sorted(list(to_plot_nax.columns)) == ['Assembler', 'Basepairs', 'NAx', 'Reference']
+    assert sorted(list(to_plot_ngx.columns)) == ['Assembler', 'Basepairs', 'NGx', 'Reference']
+    assert sorted(list(to_plot_lx.columns)) == ['Assembler', 'Lx', 'Reference', 'nContigs']
+
+    target = list(range(0,101, 1))
+    assert sorted(list(to_plot_nax['NAx'].unique())) == target
+    assert sorted(list(to_plot_ngx['NGx'].unique())) == target
+    assert sorted(list(to_plot_lx['Lx'].unique())) == target
