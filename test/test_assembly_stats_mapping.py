@@ -116,12 +116,16 @@ def test_get_mapping_stats():
 
     to_plot_nax, to_plot_ngx, to_plot_lx, to_plot_phred, to_plot_coverage, json_dic = assembly_stats_mapping.mapping_stats(
         "pytest_sample", "pytest_assembler", df, alignment_dictitonary_list, 0.5, 0.9)
+    
+    reference_list = []
 
     # test JSON DICT for report
     assert list(json_dic.keys()) == ['sample_id', 'ReferenceTables']
     assert json_dic['sample_id'] == "pytest_sample"
     for reference in json_dic['ReferenceTables']:
-        print(json_dic['ReferenceTables'][reference])
+
+        reference_list.append(reference)
+
         assert json_dic['ReferenceTables'][reference]['assembler'] == "pytest_assembler"
 
         # test COMPASS
@@ -158,3 +162,17 @@ def test_get_mapping_stats():
     assert sorted(list(to_plot_nax['NAx'].unique())) == target
     assert sorted(list(to_plot_ngx['NGx'].unique())) == target
     assert sorted(list(to_plot_lx['Lx'].unique())) == target
+
+    # test PLS
+    assert sorted(list(to_plot_phred.columns)) == ['Assembler', 'Contig', 'Contig Length', 'Phred Quality Score', 'Reference']
+    assert list(to_plot_phred['Assembler'].unique()) == ['pytest_assembler']
+    assert sorted(list(to_plot_phred['Reference'].unique())) == sorted(reference_list)
+
+    for alignment_dictitonary in alignment_dictitonary_list:
+        for contig in alignment_dictitonary['Contigs']:
+            assert assembly_stats_mapping.get_phred_quality_score( alignment_dictitonary['Contigs'][contig]['Identity']) ==  alignment_dictitonary['Contigs'][contig]['Phred']
+            if alignment_dictitonary['Contigs'][contig]['Phred'] == 60:
+                assert round(alignment_dictitonary['Contigs'][contig]['Identity']) == 1 # TODO: some cases identity > 1. How??? 
+            else:
+                print(alignment_dictitonary['Contigs'][contig]['Phred'])
+                assert alignment_dictitonary['Contigs'][contig]['Identity'] < 1

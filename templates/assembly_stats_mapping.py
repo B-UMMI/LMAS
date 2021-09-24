@@ -105,6 +105,18 @@ def get_covered_bases(covered_bases_list, ref_len):
     return len(covered_bases)
 
 
+def get_identity(n_identity):
+    """
+    Calculates the average and lowest identity from a list of values (identity of each individual contig)
+    :param n_identity: list with identity of each mapping contig
+    :return float with average identity, float with lowest identity
+    """
+    identity = (sum(n_identity)/len(n_identity)
+                ) if len(n_identity) > 0 else 0
+    lowest_identity = min(n_identity) if len(n_identity) > 0 else 0
+    return identity, lowest_identity
+
+
 def get_phred_quality_score(identity):
     """
     Using the formula -log10(1-identity)*10, receives the identity of a contig and outputs the corresponding phred
@@ -169,7 +181,7 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
         # Contiguity
         for x in np.arange(0.0, 10.1, 0.1):
 
-            x = round(x,1)
+            x = round(x, 1)
 
             # NAx
             nax = utils.get_Nx(mapped_contigs, x)
@@ -198,6 +210,7 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
         for contig in alignment_dict['Contigs'].keys():
             sum_contig_length += alignment_dict['Contigs'][contig]['Length']
 
+            # TODO: Sometimes this value is > 1..... 
             alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
                 alignment_dict['Contigs'][contig]['Length']
             n_identity.append(alignment_dict['Contigs'][contig]['Identity'])
@@ -211,9 +224,7 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
                                         'Phred Quality Score': alignment_dict['Contigs'][contig]['Phred']
                                         }, ignore_index=True)
 
-        identity = (sum(n_identity)/len(n_identity)
-                    ) if len(n_identity) > 0 else 0
-        lowest_identity = min(n_identity) if len(n_identity) > 0 else 0
+        identity, lowest_identity = get_identity(n_identity)
 
         # Contiguity
         contiguity = alignment_dict['Longest_Alignment'] / \

@@ -1,5 +1,8 @@
 FROM python:3.8.0-slim-buster
-MAINTAINER Inês Mendes <cimendes@medicina.ulisboa.pt>
+
+LABEL software="python" \
+    software.version="3.9.7" \
+    author="Inês Mendes <cimendes@medicina.ulisboa.pt>"
 
 WORKDIR /data
 

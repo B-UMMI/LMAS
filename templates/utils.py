@@ -153,7 +153,7 @@ def get_Nx(alignment_lengths, target):
     """
     Calculate NAx (x=target) form a list of contig lenghts
     :param alignment_lengths: list of aligned contig length sizes (unordered)
-    :param target: percentage of total genome length
+    :param target: percentage of total genome length, in float
     :return: na50 of the aligned contigs (also called NA50
     """
     sorted_lengths = sorted(
