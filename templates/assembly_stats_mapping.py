@@ -159,6 +159,7 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
 
         df_assembler_reference = df_assembler[df_assembler['Mapped']
                                               == alignment_dict['Reference']]
+
         mapped_contigs = df_assembler_reference['Contig Len'].astype(
             'int').tolist()
 
@@ -225,8 +226,9 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
 
         coverage = sum_ci / sum_ri
 
-        #validity = sum_ai / sum_si #TODO Using sum of aligned blocks, even after adjusting to remove insertions, gives results > 1 sometimes
-        validity = sum_ci / sum_si
+        # TODO Using sum of aligned blocks, even after adjusting to remove insertions, gives results > 1 sometimes
+        validity = sum_ai / sum_si
+        #validity = sum_ci / sum_si
 
         multiplicity = sum_ai / sum_ci
 
@@ -283,7 +285,8 @@ def parse_paf_file(paf_filename, reference):
         seq = "".join(s.strip() for s in references.__next__())
         reference_length = int(len(seq)/3)
 
-        logger.debug("  - {} with {} basepairs".format(reference_name, reference_length))
+        logger.debug(
+            "  - {} with {} basepairs".format(reference_name, reference_length))
 
         alignment_dict = {'Reference': reference_name,
                           'Reference_Length': reference_length, 'Longest_Alignment': 0,
@@ -311,9 +314,9 @@ def parse_paf_file(paf_filename, reference):
                         alignment_dict['Contigs'][contig_name]['Base_Matches'] += matching_bases
                         alignment_dict['Contigs'][contig_name]['Covered_Bases'].append([
                             start, end])
-                        alignment_dict['Longest_Alignment'] = max(
-                            alignment_dict['Longest_Alignment'], end - start)
 
+                    alignment_dict['Longest_Alignment'] = max(
+                        alignment_dict['Longest_Alignment'], end - start)
                     alignment_dict['Covered_Bases'].append([start, end])
                     alignment_dict['Alignment_Blocks'].append(alignment_block)
 

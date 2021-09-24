@@ -100,7 +100,7 @@ def test_parse_paf_files():
 def test_get_mapping_stats():
 
     df = utils.parse_assemblies(
-        "pytest", "pytest", ASSEMBLY_TEST, MAPPING_TEST)
+        "pytest_sample", "pytest_assembler", ASSEMBLY_TEST, MAPPING_TEST)
     
     alignment_dictitonary_list = assembly_stats_mapping.parse_paf_file(
         MAPPING_TEST, REFERENCE_TEST)
@@ -108,6 +108,7 @@ def test_get_mapping_stats():
     to_plot_nax, to_plot_ngx, to_plot_lx, to_plot_phred, to_plot_coverage, json_dic = assembly_stats_mapping.mapping_stats(
         "pytest_sample", "pytest_assembler", df, alignment_dictitonary_list, 0.5, 0.9)
 
+    # test JSON DICT for report
     assert list(json_dic.keys()) == ['sample_id', 'ReferenceTables']
     assert json_dic['sample_id'] == "pytest_sample"
     for reference in json_dic['ReferenceTables']:
@@ -115,15 +116,29 @@ def test_get_mapping_stats():
         assert json_dic['ReferenceTables'][reference]['assembler'] == "pytest_assembler"
 
         # test COMPASS
-        assert 0 < json_dic['ReferenceTables'][reference]['breadth_of_coverage'] <= 1
-        #assert 0 < json_dic['ReferenceTables'][reference]['validity'] <= 1 #TODO Still failing!
-        assert 0 < json_dic['ReferenceTables'][reference]['multiplicity']
-        assert 0 < json_dic['ReferenceTables'][reference]['parsimony'] # TODO <= 1? 
+        assert 0 < round(json_dic['ReferenceTables'][reference]['breadth_of_coverage'], 4) <= 1
+        #assert 0 < round(json_dic['ReferenceTables'][reference]['validity'], 4) <= 1 #TODO Still failing!
+        #assert 0 < json_dic['ReferenceTables'][reference]['multiplicity']
+        #assert 0 < json_dic['ReferenceTables'][reference]['parsimony'] # TODO <= 1? 
 
         # test Identity
         assert 0 < json_dic['ReferenceTables'][reference]['identity'] <= 1
         assert json_dic['ReferenceTables'][reference]['lowest_identity'] <= json_dic['ReferenceTables'][reference]['identity']
 
-        # TODO conditional testing! , there's a bug with the number of aligned contigs
-       # assert json_dic['ReferenceTables'][reference]['aligned_contigs'] > 0 if json_dic['ReferenceTables'][reference]['breadth_of_coverage'] > 0
+        # test contiguity
+        assert json_dic['ReferenceTables'][reference]['contiguity'] >= 0
+        if json_dic['ReferenceTables'][reference]['contiguity'] == 0:
+            assert json_dic['ReferenceTables'][reference]['aligned_contigs'] == 0 
+            assert json_dic['ReferenceTables'][reference]['aligned_basepairs'] == 0
 
+        # conditional testing
+        if json_dic['ReferenceTables'][reference]['breadth_of_coverage'] > 0:
+           assert json_dic['ReferenceTables'][reference]['aligned_contigs'] > 0 
+           assert json_dic['ReferenceTables'][reference]['aligned_basepairs'] > 0 
+        elif json_dic['ReferenceTables'][reference]['breadth_of_coverage'] == 0:
+            assert json_dic['ReferenceTables'][reference]['aligned_contigs'] == 0 
+            assert json_dic['ReferenceTables'][reference]['aligned_basepairs'] == 0 
+
+
+    # test nax df
+    print(to_plot_nax.columns)
