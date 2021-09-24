@@ -11,8 +11,10 @@ pytest.fail
     Status for the test (Pass or Fail)
 """
 import csv
+import json
 import pytest
 from contextlib import contextmanager
+from itertools import groupby
 from templates import assembly_stats_mapping
 from templates import utils
 
@@ -42,6 +44,8 @@ def not_raises(exception, msg):
 # GLOBAL VARIABLES - TEST FILES
 ASSEMBLY_TEST = "test/data/assembly.fasta"
 MAPPING_TEST = "test/data/assembly.paf"
+REFERENCE_TEST = "test/data/triple_reference.fasta"
+
 
 def test_get_mapped_contigs_with_ref():
 
@@ -64,15 +68,62 @@ def test_parse_assemblies():
         '#N', 'Assembler', 'Contig', 'Contig Len', 'Mapped', 'Sample', 'index']
     assert len(df.Mapped.unique()) == 12
 
-"""
+
 def test_parse_paf_files():
+
+    references = (x[1] for x in groupby(
+        open(REFERENCE_TEST, "r"), lambda line: line[0] == ">"))
+    alignment_dictitonary_list = assembly_stats_mapping.parse_paf_file(
+        MAPPING_TEST, REFERENCE_TEST)
+
+    assert len(alignment_dictitonary_list) == len([_ for _ in references])/2
+
+    for alignment_dict in alignment_dictitonary_list:
+
+        assert alignment_dict['Longest_Alignment'] <= alignment_dict['Reference_Length']
+
+        sum_covered_bases = assembly_stats_mapping.get_covered_bases(
+            alignment_dict['Covered_Bases'], alignment_dict['Reference_Length'])
+        assert sum_covered_bases <= alignment_dict['Reference_Length']
+
+        # TODO check with Mário
+        #assert sum(alignment_dict['Alignment_Blocks']) <= alignment_dict['Reference_Length']
+        #assert sum(alignment_dict['Alignment_Blocks']) >= sum_covered_bases
+
+        for header in references:
+            reference_name = header.__next__()[1:].strip()
+            seq = "".join(s.strip() for s in references.__next__())
+            if reference_name == alignment_dict['Reference']:
+                assert alignment_dict['Reference_Length'] == seq/3
+
+
+def test_get_mapping_stats():
 
     df = utils.parse_assemblies(
         "pytest", "pytest", ASSEMBLY_TEST, MAPPING_TEST)
+    
+    alignment_dictitonary_list = assembly_stats_mapping.parse_paf_file(
+        MAPPING_TEST, REFERENCE_TEST)
 
-    to_plot_nax, to_plot_ngx, to_plot_lx, to_plot_phred, json_dic = assembly_stats_mapping.parse_paf_files("pytest", df,
-                                                                                                           MAPPING_TEST, 
-                                                                                                           "test/data/triple_reference.fasta", "pytest",
-                                                                                                           50, 50)
-    print(json_dic)
-"""
+    to_plot_nax, to_plot_ngx, to_plot_lx, to_plot_phred, to_plot_coverage, json_dic = assembly_stats_mapping.mapping_stats(
+        "pytest_sample", "pytest_assembler", df, alignment_dictitonary_list, 0.5, 0.9)
+
+    assert list(json_dic.keys()) == ['sample_id', 'ReferenceTables']
+    assert json_dic['sample_id'] == "pytest_sample"
+    for reference in json_dic['ReferenceTables']:
+        print(json_dic['ReferenceTables'][reference])
+        assert json_dic['ReferenceTables'][reference]['assembler'] == "pytest_assembler"
+
+        # test COMPASS
+        assert 0 < json_dic['ReferenceTables'][reference]['breadth_of_coverage'] <= 1
+        #assert 0 < json_dic['ReferenceTables'][reference]['validity'] <= 1 #TODO Still failing!
+        assert 0 < json_dic['ReferenceTables'][reference]['multiplicity']
+        assert 0 < json_dic['ReferenceTables'][reference]['parsimony'] # TODO <= 1? 
+
+        # test Identity
+        assert 0 < json_dic['ReferenceTables'][reference]['identity'] <= 1
+        assert json_dic['ReferenceTables'][reference]['lowest_identity'] <= json_dic['ReferenceTables'][reference]['identity']
+
+        # TODO conditional testing! , there's a bug with the number of aligned contigs
+       # assert json_dic['ReferenceTables'][reference]['aligned_contigs'] > 0 if json_dic['ReferenceTables'][reference]['breadth_of_coverage'] > 0
+

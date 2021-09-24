@@ -77,7 +77,7 @@ def parse_paf(paf_file):
             if int(line[11]) != 0 or line[1] != line[9]:
 
                 cigar = line[-1]
-                exact_matches, snp, indel = utils.parse_cs(cigar)
+                exact_matches, snp, indel, _ = utils.parse_cs(cigar)
 
                 contig_dict = {'contig length': contig_len,
                                'query start': int(query_start),
