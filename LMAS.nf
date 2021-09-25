@@ -55,6 +55,9 @@ IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {
 
 IN_reference_raw.into{ TO_TRIPLE; TO_REPORT}
 
+//      Assemblers
+// TODO - Validate if they are not all false
+
 // SET CHANNELS FOR ASSEMBLERS
 IN_fastq_raw.into{
     IN_PROCESS_READS;
@@ -68,7 +71,7 @@ IN_fastq_raw.into{
     IN_IDBA;
     IN_SPADES;
     IN_SKESA;
-    IN_VELVETOPTIMIZER;
+    IN_VELVETOPTIMISER;
     IN_TO_MAP} //mapping channel - minimap2
 
 // TRIPLE THE REFERENCE REPLICONS
@@ -109,6 +112,9 @@ process ABYSS {
     tag {sample_id}
     publishDir "results/$sample_id/assembly/abyss/"
 
+    when:
+    params.abyss
+
     input:
     tuple sample_id, file(fastq) from IN_ABYSS
     val KmerSize from Channel.value(params.abyssKmerSize)
@@ -143,6 +149,9 @@ if ( !params.bcalmKmerSize.toString().isNumber() ){
 process BCALM2 {
     tag {sample_id}
     publishDir "results/$sample_id/assembly/bcalm2/"
+
+    when:
+    params.bcalm
 
     input:
     tuple sample_id, file(fastq) from IN_BCALM2
@@ -179,6 +188,9 @@ IN_error_correction = Channel.value(GATB_error_correction)
 process GATBMINIAPIPELINE {
     tag {sample_id}
     publishDir "results/$sample_id/assembly/GATBMiniaPipeline/"
+
+    when:
+    params.gatb_minia
 
     input:
     tuple sample_id, file(fastq_pair) from IN_GATB_MINIA_PIPELINE
@@ -222,6 +234,9 @@ process MINIA {
     tag {sample_id}
     publishDir "results/$sample_id/assembly/MINIA/"
 
+    when:
+    params.minia
+
     input:
     tuple sample_id, file(fastq) from IN_MINIA
     val kmer from IN_MINIA_kmer
@@ -253,6 +268,9 @@ IN_megahit_kmers = Channel.value(params.megahitKmers)
 process MEGAHIT {
     tag { sample_id }
     publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*_megahit*.fasta'
+
+    when:
+    params.megahit
 
     input:
     tuple sample_id, file(fastq_pair) from IN_MEGAHIT
@@ -291,6 +309,9 @@ process METASPADES {
     tag { sample_id }
     publishDir "results/$sample_id/assembly/metaSPAdes/"
 
+    when:
+    params.metaspades
+
     input:
     tuple sample_id, file(fastq_pair) from IN_METASPADES
     val kmers from IN_metaspades_kmers
@@ -321,6 +342,9 @@ process METASPADES {
 process UNICYCLER {
     tag { sample_id }
     publishDir "results/$sample_id/assembly/unicycler"
+
+    when:
+    params.unicycler
 
     input:
     tuple sample_id, file(fastq_pair) from IN_UNICYCLER
@@ -357,6 +381,9 @@ process SPADES {
     tag { sample_id }
     publishDir "results/$sample_id/assembly/SPAdes/", pattern: '*.fasta'
 
+    when:
+    params.spades
+
     input:
     tuple sample_id, file(fastq_pair) from IN_SPADES
     val kmers from IN_spades_kmers
@@ -387,6 +414,9 @@ process SKESA {
     tag { sample_id }
     publishDir "results/$sample_id/assembly/SKESA/"
 
+    when:
+    params.skesa
+
     input:
     tuple sample_id, file(fastq_pair) from IN_SKESA
 
@@ -408,29 +438,32 @@ process SKESA {
 }
 
 
-//      VELVETOPTIMIZER
-process VELVETOPTIMIZER {
+//      VELVETOPTIMISER
+process VELVETOPTIMISER {
     tag { sample_id }
     publishDir "results/$sample_id/assembly/VelvetOtimiser"
 
+    when:
+    params.velvetoptimiser
+
     input:
-    tuple sample_id, file(fastq_pair) from IN_VELVETOPTIMIZER
+    tuple sample_id, file(fastq_pair) from IN_VELVETOPTIMIsER
 
     output:
-    tuple sample_id, val("VelvetOptimizer"), file('*.fasta') into OUT_VELVETOPTIMIZER
-    file(".*version") into VELVETOPTIMIZER_VERSION
+    tuple sample_id, val("VelvetOptimiser"), file('*.fasta') into OUT_VELVETOPTIMISER
+    file(".*version") into VELVETOPTIMISER_VERSION
 
     script:
     """
     VelvetOptimiser.pl --version | awk -F ' ' '{print \$2}' | awk NF > .${sample_id}_VelvetOptimiser_version
     {
-        VelvetOptimiser.pl -v -s $params.velvetoptimizer_hashs -e $params.velvetoptimizer_hashe -t $task.cpus \
+        VelvetOptimiser.pl -v -s $params.velvetoptimiser_hashs -e $params.velvetoptimiser_hashe -t $task.cpus \
         -f '-shortPaired -fastq.gz -separate ${fastq_pair[0]} ${fastq_pair[1]}'
-        mv auto_data*/contigs.fa ${sample_id}_velvetoptimizer.fasta
+        mv auto_data*/contigs.fa ${sample_id}_velvetoptimiser.fasta
         echo pass > .status
     } || {
         echo fail > .status
-        :> ${sample_id}_velvetoptimizer.fasta
+        :> ${sample_id}_velvetoptimiser.fasta
     }
     rm -r auto_data* || true
     """
@@ -440,6 +473,9 @@ process VELVETOPTIMIZER {
 //      IDBA
 process reformat_IDBA {
     tag { sample_id }
+
+    when:
+    params.idba
 
     input:
     tuple sample_id, file(fastq_pair) from IN_IDBA
@@ -454,6 +490,9 @@ process reformat_IDBA {
 process IDBA {
     tag { sample_id }
     publishDir "results/$sample_id/assembly/IDBA-UD/"
+
+    when:
+    params.idba
 
     input:
     tuple sample_id, file(fasta_reads_single) from  REFORMAT_IDBA
@@ -485,7 +524,7 @@ BCALM2_VERSION.mix(GATB_VERSION,
                     UNICYCLER_VERSION,
                     SPADES_VERSION,
                     SKESA_VERSION,
-                    VELVETOPTIMIZER_VERSION,
+                    VELVETOPTIMISER_VERSION,
                     IDBA_VERSION).set{ALL_VERSIONS}
 
 process PROCESS_VERSION {
@@ -508,7 +547,7 @@ OUT_BCALM2.mix(OUT_GATB,
                   OUT_UNICYCLER,
                   OUT_SPADES,
                   OUT_SKESA,
-                  OUT_VELVETOPTIMIZER,
+                  OUT_VELVETOPTIMISER,
                   OUT_IDBA).set{ALL_ASSEMBLERS}
 
 ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
