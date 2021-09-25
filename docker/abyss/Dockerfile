@@ -10,4 +10,8 @@ LABEL software="abyss" \
 
 WORKDIR /NGStools
 
-RUN conda install -c bioconda abyss
+RUN apt-get --allow-releaseinfo-change update \
+  && apt-get install procps -y 
+
+RUN conda install abyss -c bioconda \
+  && conda clean -a
