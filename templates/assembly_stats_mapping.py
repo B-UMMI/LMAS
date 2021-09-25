@@ -240,10 +240,10 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
         coverage = sum_ci / sum_ri
 
         # TODO Using sum of aligned blocks, even after adjusting to remove insertions, gives results > 1 sometimes
-        validity = sum_ai / sum_si
+        validity = sum_ai / sum_si if sum_si != 0 else 0
         #validity = sum_ci / sum_si
 
-        multiplicity = sum_ai / sum_ci
+        multiplicity = sum_ai / sum_ci if sum_ci != 0 else 0
 
         parsimony = multiplicity / validity if validity != 0 else 0
 
