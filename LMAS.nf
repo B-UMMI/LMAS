@@ -58,6 +58,7 @@ IN_reference_raw.into{ TO_TRIPLE; TO_REPORT}
 // SET CHANNELS FOR ASSEMBLERS
 IN_fastq_raw.into{
     IN_PROCESS_READS;
+    IN_ABYSS;
     IN_BCALM2;
     IN_GATB_MINIA_PIPELINE;
     IN_MINIA;
@@ -85,13 +86,6 @@ process PROCESS_REFERENCE{
 // SET CHANNELS FOR REFERENCE
 OUT_REFERENCE_TRIPLE.into{IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS}
 
-
-// ASSEMBLERS
-//      BCALM 2
-if ( !params.bcalmKmerSize.toString().isNumber() ){
-    exit 1, "'bcalmKmerSize' parameter must be a number. Provided value: '${params.bcalmKmerSize}'"
-}
-
 process PROCESS_READS{
     tag {sample_id}
 
@@ -103,6 +97,47 @@ process PROCESS_READS{
 
     script:
     template "process_reads.py"
+}
+
+// ASSEMBLERS
+//      ABYSS
+if ( !params.abyssKmerSize.toString().isNumber() ){
+    exit 1, "'bcalmKmerSize' parameter must be a number. Provided value: '${params.abyssKmerSize}'"
+}
+
+process ABYSS {
+    tag {sample_id}
+    publishDir "results/$sample_id/assembly/abyss/"
+
+    input:
+    tuple sample_id, file(fastq) from IN_ABYSS
+    val KmerSize from Channel.value(params.abyssKmerSize)
+    val BloomSize from Channel.value(params.abyssBloomSize)
+
+    output:
+    tuple sample_id, val("ABYSS"), file("*_ABYSS.fasta") into OUT_ABYSS
+    file(".*version") into ABYSS_VERSION
+
+    script:
+    """
+    abyss-pe version | grep "ABySS" | awk -F ' ' '{print \$3}' > .${sample_id}_ABYSS_version
+    {
+        abyss-pe name='${sample_id}' j=$task.cpus k=$KmerSize B=$BloomSize in='$fastq'
+        mv ${sample_id}-contigs.fa ${sample_id}_ABYSS.fasta
+        echo pass > .status
+    } || {
+        echo fail > .status
+        :> ${sample_id}_ABYSS.fasta
+    }
+    # remove temp files
+    rm list_reads *.fa || true
+    """
+}
+
+
+//      BCALM 2
+if ( !params.bcalmKmerSize.toString().isNumber() ){
+    exit 1, "'bcalmKmerSize' parameter must be a number. Provided value: '${params.bcalmKmerSize}'"
 }
 
 process BCALM2 {
