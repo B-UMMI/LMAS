@@ -8,7 +8,6 @@ LABEL software="abyss" \
     about.license="https://github.com/bcgsc/abyss/blob/master/LICENSE" \
     author="Inês Mendes <cimendes@medicina.ulisboa.pt>"
 
-
 WORKDIR /NGStools
 
 RUN conda install -c bioconda abyss
