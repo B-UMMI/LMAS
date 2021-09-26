@@ -946,7 +946,7 @@ process compile_reports {
     file misassembly_per_ref from MISASSEMBLY_PER_REF
     file plot_misassembly_per_ref from OUT_MISASSEMBLY_REFERENCE
     file about_md from Channel.fromPath(params.md)
-    file containers_config from Channel.fromPath("${workflow.projectDir}/containers.config")
+    file containers_config from Channel.fromPath("${workflow.projectDir}/configs/containers.config")
 
     output:
     file "pipeline_report*.json"
