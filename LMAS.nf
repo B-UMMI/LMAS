@@ -447,7 +447,7 @@ process VELVETOPTIMISER {
     params.velvetoptimiser
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_VELVETOPTIMIsER
+    tuple sample_id, file(fastq_pair) from IN_VELVETOPTIMISER
 
     output:
     tuple sample_id, val("VelvetOptimiser"), file('*.fasta') into OUT_VELVETOPTIMISER
