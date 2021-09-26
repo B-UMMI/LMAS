@@ -41,10 +41,10 @@ RUN wget https://github.com/broadinstitute/pilon/releases/download/v1.24/pilon-1
     mv pilon-1.24.jar pilon
 
 #get spades
-RUN wget http://cab.spbu.ru/files/release3.15.3/SPAdes-3.15.3-Linux.tar.gz &&\
+RUN wget http://cab.spbu.ru/files/release3.6.2/SPAdes-3.6.2-Linux.tar.gz &&\
     mkdir spades &&\
-    tar -xzvf SPAdes-3.15.3-Linux.tar.gz -C spades --strip-components 1 &&\
-    rm SPAdes-3.15.3-Linux.tar.gz
+    tar -xzvf SPAdes-3.6.2-Linux.tar.gz -C spades --strip-components 1 &&\
+    rm SPAdes-3.6.2-Linux.tar.gz
 
 #get samtools and bcftools
 RUN wget https://github.com/samtools/samtools/releases/download/1.13/samtools-1.13.tar.bz2 &&\
