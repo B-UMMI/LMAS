@@ -318,7 +318,10 @@ process reformat_METAHIPMER2 {
     tuple sample_id, file('*.fasta') into REFORMAT_METAHIPMER2
 
     script:
-    "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta"
+    """
+    reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta"
+    sed 's/>/@/g' ${sample_id}_reads.fasta
+    ""
 }
 
 IN_METAHIPMER2_kmer = Channel.value(params.metahipmer2Kmers)
