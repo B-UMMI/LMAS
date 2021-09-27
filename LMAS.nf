@@ -686,7 +686,7 @@ process ASSEMBLY_STATS_GLOBAL {
     publishDir "results/$sample_id/stats/assembly"
 
     input:
-    tuple sample_id, assembler, file(assembly), file(read_mapping_all), file(read_mapping_filtered) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING_ALL, by: [0,1]).join(OUT_READ_MAPPING_ALL, by: [0,1])
+    tuple sample_id, assembler, file(assembly), file(read_mapping_all), file(read_mapping_filtered) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING_ALL, by: [0,1]).join(OUT_READ_MAPPING_FILTERED, by: [0,1])
 
     output:
     file "*report.json" into OUT_ASSEMBLY_STATS_GLOBAL_JSON
