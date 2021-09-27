@@ -60,7 +60,8 @@ if __file__.endswith(".command.sh"):
     SAMPLE_ID = '$sample_id'
     ASSEMBLER = '$assembler'
     ASSEMBLY = '$assembly'
-    READ_MAPPING_STATS = '$read_mapping'
+    READ_MAPPING_STATS_ALL = '$read_mapping_all'
+    READ_MAPPING_STATS_FILTERED = "$read_mapping_filtered"
     MIN_LEN = "$params.minLength"
     N_TARGET = float("$params.n_target")
     logger.debug("Running {} with parameters:".format(
@@ -68,7 +69,8 @@ if __file__.endswith(".command.sh"):
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
     logger.debug("ASSEMBLER: {}".format(ASSEMBLER))
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
-    logger.debug("READ_MAPPING_STATS: {}".format(READ_MAPPING_STATS))
+    logger.debug("READ_MAPPING_STATS_ALL: {}".format(READ_MAPPING_STATS_ALL))
+    logger.debug("READ_MAPPING_STATS_FILTERED: {}".format(READ_MAPPING_STATS_FILTERED))
     logger.debug("MIN_LEN: {}".format(MIN_LEN))
     logger.debug("N_TARGET: {}".format(N_TARGET))
 
@@ -97,7 +99,7 @@ def get_contig_lists(fasta, min_len):
     return contigs_len, contigs_len_over_1000, Ns_all, Ns_over_1000
 
 
-def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
+def main(sample_id, assembler, assembly, read_mapping_stats_all, read_mapping_stats_filtered, min_len, n_target):
     
 
     contigs, contigs_over_min_len, Ns_all, Ns_over_1000 = get_contig_lists(utils.fasta_iter(assembly), min_len)
@@ -106,12 +108,20 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
     n50_contigs_over_min_len = utils.get_Nx(contigs_over_min_len, n_target)
 
     # get read mapping stats
-    with open(read_mapping_stats) as f:
+    with open(read_mapping_stats_all) as f:
         assembly_stats_json = json.load(f)
         if assembly_stats_json[sample_id]["assembler"] == assembler:
-            mapped_reads = assembly_stats_json[sample_id]["mapped_reads"]
+            mapped_reads_all = assembly_stats_json[sample_id]["mapped_reads"]
         else:
-            mapped_reads = 0
+            mapped_reads_all = 0
+            logger.error(assembly_stats_json)
+    
+    with open(read_mapping_stats_filtered) as f:
+        assembly_stats_json = json.load(f)
+        if assembly_stats_json[sample_id]["assembler"] == assembler:
+            mapped_reads_filtered = assembly_stats_json[sample_id]["mapped_reads"]
+        else:
+            mapped_reads_filtered = 0
             logger.error(assembly_stats_json)
 
     with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
@@ -123,12 +133,13 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
                     "basepairs": sum(contigs),
                     "max_contig_size": max(contigs) if len(contigs) > 0 else 0,
                     "N{}".format(int(n_target*100)): n50_contigs,
-                    "mapped_reads": mapped_reads,
+                    "mapped_reads": mapped_reads_all,
                     "Ns": Ns_all},
                 "filtered": {
                         "contigs": len(contigs_over_min_len),
                         "basepairs": sum(contigs_over_min_len),
                         "N{}".format(int(n_target*100)): n50_contigs_over_min_len,
+                        "mapped_reads": mapped_reads_filtered,
                         "Ns": Ns_over_1000}
                 }
 
@@ -141,4 +152,4 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
                                     f'{n50_contigs_over_min_len}']))
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY,READ_MAPPING_STATS, MIN_LEN, N_TARGET)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY,READ_MAPPING_STATS_ALL, READ_MAPPING_STATS_FILTERED, MIN_LEN, N_TARGET)

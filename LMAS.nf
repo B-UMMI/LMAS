@@ -594,26 +594,28 @@ OUT_ABYSS.mix(OUT_BCALM2,
                 OUT_UNICYCLER,
                 OUT_VELVETOPTIMISER).set{ALL_ASSEMBLERS}
 
-ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING}
+ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING_ALL}
 
 THRESHOLD = Channel.value(params.mapped_reads_threshold)
+THRESHOLD.into{THRESHOLD_ALL; THRESHOLD_FILTERED}
+
 // READ MAPPING
-process READ_MAPPING{
+process READ_MAPPING_ALL{
 
     tag { assembler }
 
     publishDir "results/$sample_id/mapping/reads"
 
     input:
-    tuple sample_id, assembler, assembly from TO_READ_MAPPING
-    each THRESHOLD
+    tuple sample_id, assembler, assembly from TO_READ_MAPPING_ALL
+    each THRESHOLD_ALL
 
     output:
-    file("*_read_mapping.txt") optional true
-    tuple sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING optional true
+    file("*_read_mapping_all.txt") optional true
+    tuple sample_id, assembler, file("*_read_mapping_report_all.json") into OUT_READ_MAPPING optional true
 
     script:
-    template "read_mapping.py"
+    template "read_mapping.py all"
 }
 
 // ASSEMBLY STATS GLOBAL
@@ -669,6 +671,8 @@ process FILTER_ASSEMBLY {
     "reformat.sh in=${assembly} out=filtered_${assembly} minlength=${minLen}"
 }
 
+OUT_FILTERED.into{ IN_ASSEMBLY_MAPPING; IN_READ_MAPPING_FILTERED}
+
 // ASSEMBLY MAPPING
 process ASSEMBLY_MAPPING{
 
@@ -677,7 +681,7 @@ process ASSEMBLY_MAPPING{
     publishDir "results/$sample_id/mapping/assembly"
 
     input:
-    tuple sample_id, assembler, file(assembly) from OUT_FILTERED
+    tuple sample_id, assembler, file(assembly) from IN_ASSEMBLY_MAPPING
     each reference from IN_MAPPING_CONTIGS
 
     output:
@@ -689,6 +693,25 @@ process ASSEMBLY_MAPPING{
 }
 
 OUT_ASSEMBLY_MAPPING.into{ IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT; IN_SNP_ASSESSMENT; IN_MISASSEMBLY}
+
+// READ MAPPING
+process READ_MAPPING_FILTERED{
+
+    tag { assembler }
+
+    publishDir "results/$sample_id/mapping/reads"
+
+    input:
+    tuple sample_id, assembler, assembly from IN_READ_MAPPING_FILTERED
+    each THRESHOLD_FILTERED
+
+    output:
+    file("*_read_mapping_filtered.txt") optional true
+    tuple sample_id, assembler, file("*_read_mapping_report_filtered.json") into OUT_READ_MAPPING optional true
+
+    script:
+    template "read_mapping.py filtered"
+}
 
 process ASSEMBLY_STATS_MAPPING {
 

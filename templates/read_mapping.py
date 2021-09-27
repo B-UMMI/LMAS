@@ -23,6 +23,7 @@ Inês Mendes, cimendes@medicina.ulisboa.pt
 https://github.com/cimendes
 """
 
+import sys
 import os
 import subprocess
 from subprocess import PIPE
@@ -58,7 +59,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("THRESHOLD: {}".format(THRESHOLD))
 
 
-def main(sample_id, assembler, assembly, fastq, basedir, threshold):
+def main(sample_id, assembler, assembly, fastq, basedir, threshold, mode):
     # get correct fastq files from directory
     all_readfiles = glob.glob(os.path.join(basedir, '/'.join(fastq.split('/')[:-1]), '*'))
     logger.debug("Read files found: {}".format(all_readfiles))
@@ -123,7 +124,7 @@ def main(sample_id, assembler, assembly, fastq, basedir, threshold):
         with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
             fh.write(str(mapped_reads * 100))
 
-        with open("{}_{}_read_mapping_report.json".format(sample_id, assembler), "w") as json_report:
+        with open("{}_{}_read_mapping_report_{}.json".format(sample_id, assembler, mode), "w") as json_report:
             json_dic = {
                 sample_id: {
                     "assembler": assembler,
@@ -133,4 +134,5 @@ def main(sample_id, assembler, assembly, fastq, basedir, threshold):
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ, BASEDIR, THRESHOLD)
+    mode = sys.argv[1]
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ, BASEDIR, THRESHOLD, mode)
