@@ -122,22 +122,22 @@ process ABYSS {
     val BloomSize from Channel.value(params.abyssBloomSize)
 
     output:
-    tuple sample_id, val("ABYSS"), file("*_ABYSS.fasta") into OUT_ABYSS
+    tuple sample_id, val("ABySS"), file("*_ABySS.fasta") into OUT_ABYSS
     file(".*version") into ABYSS_VERSION
 
     script:
     """
-    abyss-pe version | grep "ABySS" | awk -F ' ' '{print \$3}' > .${sample_id}_ABYSS_version
+    abyss-pe version | grep "ABySS" | awk -F ' ' '{print \$3}' > .${sample_id}_ABySS_version
     {
         abyss-pe name='${sample_id}' j=$task.cpus k=$KmerSize B=$BloomSize in='$fastq'
-        mv ${sample_id}-contigs.fa ${sample_id}_ABYSS.fasta
+        mv ${sample_id}-contigs.fa ${sample_id}_ABySS.fasta
         echo pass > .status
     } || {
         echo fail > .status
-        :> ${sample_id}_ABYSS.fasta
+        :> ${sample_id}_ABySS.fasta
     }
     # remove temp files
-    rm list_reads *.fa || true
+    rm  *.dot* *.hist *.path* || true
     """
 }
 
@@ -612,44 +612,10 @@ process READ_MAPPING_ALL{
 
     output:
     file("*_read_mapping_all.txt") optional true
-    tuple sample_id, assembler, file("*_read_mapping_report_all.json") into OUT_READ_MAPPING optional true
+    tuple sample_id, assembler, file("*_read_mapping_report_all.json") into OUT_READ_MAPPING_ALL optional true
 
     script:
     template "read_mapping.py all"
-}
-
-// ASSEMBLY STATS GLOBAL
-process ASSEMBLY_STATS_GLOBAL {
-    tag { assembler }
-
-    publishDir "results/$sample_id/stats/assembly"
-
-    input:
-    tuple sample_id, assembler, file(assembly), file(read_mapping) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING, by: [0,1])
-
-    output:
-    file "*report.json" into OUT_ASSEMBLY_STATS_GLOBAL_JSON
-    file "*.csv" into OUT_ASSEMBLY_STATS_GLOBAL_TSV
-
-    script:
-    template "assembly_stats_global.py"
-}
-
-
-process PROCESS_ASSEMBLY_STATS_GLOBAL {
-
-    publishDir "results/stats"
-
-    input:
-    file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
-    file json_report from OUT_ASSEMBLY_STATS_GLOBAL_JSON.collect()
-
-    output:
-    file "global_assembly_stats.json" into PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
-
-    script:
-    template "process_assembly_stats_global.py"
-
 }
 
 // FILTER ASSEMBLY
@@ -707,10 +673,43 @@ process READ_MAPPING_FILTERED{
 
     output:
     file("*_read_mapping_filtered.txt") optional true
-    tuple sample_id, assembler, file("*_read_mapping_report_filtered.json") into OUT_READ_MAPPING optional true
+    tuple sample_id, assembler, file("*_read_mapping_report_filtered.json") into OUT_READ_MAPPING_FILTERED optional true
 
     script:
     template "read_mapping.py filtered"
+}
+
+// ASSEMBLY STATS GLOBAL
+process ASSEMBLY_STATS_GLOBAL {
+    tag { assembler }
+
+    publishDir "results/$sample_id/stats/assembly"
+
+    input:
+    tuple sample_id, assembler, file(assembly), file(read_mapping_all), file(read_mapping_filtered) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING_ALL, by: [0,1]).join(OUT_READ_MAPPING_ALL, by: [0,1])
+
+    output:
+    file "*report.json" into OUT_ASSEMBLY_STATS_GLOBAL_JSON
+    file "*.csv" into OUT_ASSEMBLY_STATS_GLOBAL_TSV
+
+    script:
+    template "assembly_stats_global.py"
+}
+
+process PROCESS_ASSEMBLY_STATS_GLOBAL {
+
+    publishDir "results/stats"
+
+    input:
+    file assembly_stats_global_files from OUT_ASSEMBLY_STATS_GLOBAL_TSV.collect()
+    file json_report from OUT_ASSEMBLY_STATS_GLOBAL_JSON.collect()
+
+    output:
+    file "global_assembly_stats.json" into PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
+
+    script:
+    template "process_assembly_stats_global.py"
+
 }
 
 process ASSEMBLY_STATS_MAPPING {
