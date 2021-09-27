@@ -321,7 +321,7 @@ process reformat_METAHIPMER2 {
     """
     reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta"
     sed 's/>/@/g' ${sample_id}_reads.fasta
-    ""
+    """
 }
 
 IN_METAHIPMER2_kmer = Channel.value(params.metahipmer2Kmers)
