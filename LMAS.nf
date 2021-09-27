@@ -320,7 +320,7 @@ process reformat_METAHIPMER2 {
     script:
     """
     reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta
-    sed 's/>/@/g' ${sample_id}_reads.fasta
+    sed -i 's/>/@/g' ${sample_id}_reads.fasta
     """
 }
 
