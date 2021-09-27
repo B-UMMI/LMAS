@@ -9,7 +9,7 @@ Selection Criteria
 -------------------
 
 Open-source tools, with clear documentation describing the methodology implemented, were favoured. 
-The collection of tools were ordered by the date of the last update and a Docker container for the top 10 assemblers 
+The collection of tools were ordered by the date of the last update and a Docker container for the top 12 assemblers 
 was created with the latest released version, with the version used as the tag. 
 In the case of tools with no release, the container was compiled with the latest version in the default branch of the 
 source repository, using the date of the last update as the tag.
@@ -17,11 +17,23 @@ source repository, using the date of the last update as the tag.
 Assemblers in LMAS
 ------------------
 
-n its current form, 10 assemblers are implemented in LMAS.
+In its current form, 12 assemblers are implemented in LMAS.
 To change the version of a particular assembler is as simple as substituting the container for the process 
 of that assembler in LMAS’ container configuration file (see https://lmas.readthedocs.io/en/latest/user/basic_usage.html#containers-config).
 
 Assemblers benchmarked in LMAS, in alphabetical order:
+
+AbYSS
+^^^^^^
+
+This assembler, published by `Jackman et al, 2017 <http://doi.org/10.1101/gr.214346.116>`_ in 
+*Genome Research*, is a *de novo* sequence assembler intended for short paired-end reads and genomes of all sizes.
+It follows the model of Minia, wherein a probabilistic Bloom filter representation is used to encode the de Bruijn 
+graph, reducing memory requirements for de novo assembly. **It's a traditional single k-mer value De Bruijn assembler.**
+
+* **Source code:** https://github.com/bcgsc/abyss
+* **Date of last release:** 22/04/2021
+* **Container:** `cimendes/abyss:2.3.1-1 <https://hub.docker.com/repository/docker/cimendes/abyss>`_ 
 
 BCALM2
 ^^^^^^
@@ -32,7 +44,7 @@ of input k-mers into buckets, parallel compaction of the buckets, and a parallel
 the compacted strings into unitigs. **It's a traditional single k-mer value De Bruijn assembler.**
 
 * **Source code:** https://github.com/GATB/bcalm
-* **Date of last update:** 22/05/2020
+* **Date of last release:** 22/05/2020
 * **Container:** `cimendes/bcalm:2.2.3-1 <https://hub.docker.com/repository/docker/cimendes/bcalm>`_ 
 
 GATB-Minia Pipeline
@@ -44,11 +56,11 @@ It was developed to extend the Minia assembler to use **De Bruijn algorithm with
 **It was developed explicitly to handle metagenomic data.**
 
 * **Source code:** https://github.com/GATB/gatb-minia-pipeline
-* **Date of last update:** 31/07/2020
+* **Date of last release:** 31/07/2020
 * **Container:** `cimendes/gatb-minia-pipeline:31.07.2020-1 <https://hub.docker.com/repository/docker/cimendes/gatb-minia-pipeline>`_
 
-IDBA
-^^^^
+IDBA-UD
+^^^^^^^ 
 
 Published by `Peng et al. 2012 <https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/bts174>`_, it's 
 a **De Bruijn graph assembler for assembling reads from single-cell sequencing or metagenomic sequencing technologies** with 
@@ -58,20 +70,8 @@ low-depth short repeat regions. To speed up the process, an error correction ste
 high-depth regions that can be aligned to high confidence contigs.
 
 * **Source code:** https://github.com/loneknightpy/idba
-* **Date of last update:** 31/12/2016
+* **Date of last release:** 11/07/2016
 * **Container:** `cimendes/idba:1.1.3-1 <https://hub.docker.com/repository/docker/cimendes/idba>`_
-
-MINIA
-^^^^^
-
-This tool, published by `Chikhi & Rizk, 2013 <https://almob.biomedcentral.com/articles/10.1186/1748-7188-8-22>`_ in 
-*Algorithms for Molecular Biology*, performs the assembly on a data structure based on unitigs produced by the BCALM 
-software and using graph simplifications that are heavily inspired by the SPAdes assembler. Minia is a short-read 
-traditional assembler based on **De Bruijn graph using a single k-mer length**.
-
-* **Source code:** https://github.com/GATB/minia
-* **Date of last update:** 04/03/2021
-* **Container:** `cimendes/minia:3.2.4-1 <https://hub.docker.com/repository/docker/cimendes/minia>`_ 
 
 MEGAHIT
 ^^^^^^^
@@ -83,8 +83,20 @@ potentially erroneous edges by removing tips, merging bubbles and removing low l
 useful for metagenomics which suffers from non-uniform sequencing depths.
 
 * **Source code:** https://github.com/voutcn/megahit
-* **Date of last update:** 15/10/2019
+* **Date of last release:** 15/10/2019
 * **Container:** `cimendes/megahit-assembler:1.2.9-1 <https://hub.docker.com/repository/docker/cimendes/megahit-assembler>`_
+
+MetaHipMer2
+^^^^^^^^^^^^
+
+MetaHipMer2, published by `Georganas et al. 2018 <https://doi.org/10.1109/SC.2018.00013>`_, is a 
+a high-quality and high-performance metagenome assembler that employs an iterative de Bruijn graph approach. 
+MetaHipMer leverages a specialized scaffolding algorithm that produces long scaffolds and accommodates 
+the idiosyncrasies of metagenomes.
+
+* **Source code:** https://bitbucket.org/berkeleylab/mhm2
+* **Date of last release:** 13/10/2020
+* **Container:** `cimendes/mhm2:v2.0.0-65-gaad446d-generic <https://hub.docker.com/repository/docker/cimendes/mhm2>`_
 
 METASPADES
 ^^^^^^^^^^
@@ -95,8 +107,21 @@ and like SPAdes, it uses **multiple k-mer sizes of the De Bruijn graph**, starti
 hypothetical k-mers to connect the graph.
 
 * **Source code:** https://github.com/ablab/spades
-* **Date of last update:** 11/03/2021
-* **Container:** `cimendes/spades:3.15.0-1 <https://hub.docker.com/repository/docker/cimendes/spades>`_
+* **Date of last release:** 23/07/2021
+* **Container:** `cimendes/spades:3.15.3-1 <https://hub.docker.com/repository/docker/cimendes/spades>`_
+
+
+MINIA
+^^^^^
+
+This tool, published by `Chikhi & Rizk, 2013 <https://almob.biomedcentral.com/articles/10.1186/1748-7188-8-22>`_ in 
+*Algorithms for Molecular Biology*, performs the assembly on a data structure based on unitigs produced by the BCALM 
+software and using graph simplifications that are heavily inspired by the SPAdes assembler. Minia is a short-read 
+traditional assembler based on **De Bruijn graph using a single k-mer length**.
+
+* **Source code:** https://github.com/GATB/minia
+* **Date of last release:** 26/05/2021
+* **Container:** `cimendes/minia:3.2.6-1 <https://hub.docker.com/repository/docker/cimendes/minia>`_ 
 
 SKESA
 ^^^^^
@@ -107,8 +132,8 @@ tries to obtain good contiguity by using **multiple k-mers** longer than mate le
 `Souvorov et al. 2018 <https://genomebiology.biomedcentral.com/articles/10.1186/s13059-018-1540-z>`_. 
 
 * **Source code:** https://github.com/ncbi/SKESA
-* **Date of last update:** 14/03/2020
-* **Container:** `cimendes/skesa:2.4.0-1 <https://hub.docker.com/repository/docker/cimendes/skesa>`_
+* **Date of last update:** 02/04/2021
+* **Container:** `cimendes/skesa:2.5.0-1 <https://hub.docker.com/repository/docker/cimendes/skesa>`_
 
 SPADES
 ^^^^^^
@@ -118,8 +143,8 @@ It starts with the smallest k-mer size and adds hypothetical k-mers to connect t
 `Bankevich et al. 2012 <https://pubmed.ncbi.nlm.nih.gov/22506599/>`_. 
 
 * **Source code:** https://github.com/ablab/spades
-* **Date of last update:** 11/03/2021
-* **Container:** `cimendes/spades:3.15.0-1 <https://hub.docker.com/repository/docker/cimendes/spades>`_
+* **Date of last release:** 23/07/2021
+* **Container:** `cimendes/spades:3.15.3-1 <https://hub.docker.com/repository/docker/cimendes/spades>`_
 
 UNICYCLER
 ^^^^^^^^^
@@ -129,8 +154,8 @@ When assembling Illumina-only read sets where it functions as a SPAdes-optimiser
 **multiple k-mer values**. It was published by `Wick et al. 2017 <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005595>`_.
 
 * **Source code:** https://github.com/rrwick/Unicycler
-* **Date of last update:** 20/07/2020
-* **Container:** `cimendes/unicycler:0.4.8-1 <https://hub.docker.com/repository/docker/cimendes/unicycler>`_
+* **Date of last release:** 03/05/2021
+* **Container:** `cimendes/unicycler:0.4.9-1 <https://hub.docker.com/repository/docker/cimendes/unicycler>`_
 
 VELVETOPTIMIZER
 ^^^^^^^^^^^^^^^
