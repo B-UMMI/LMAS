@@ -49,6 +49,7 @@ if __file__.endswith(".command.sh"):
     FASTQ = '$params.fastq'
     BASEDIR = '$baseDir'
     THRESHOLD = '$THRESHOLD'
+    MODE = "$mode"
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
@@ -134,5 +135,4 @@ def main(sample_id, assembler, assembly, fastq, basedir, threshold, mode):
 
 
 if __name__ == '__main__':
-    mode = sys.argv[1]
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ, BASEDIR, THRESHOLD, mode)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ, BASEDIR, THRESHOLD, MODE)

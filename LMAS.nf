@@ -615,7 +615,8 @@ process READ_MAPPING_ALL{
     tuple sample_id, assembler, file("*_read_mapping_report_all.json") into OUT_READ_MAPPING_ALL optional true
 
     script:
-    template "read_mapping.py all"
+    mode = all
+    template "read_mapping.py"
 }
 
 // FILTER ASSEMBLY
@@ -676,7 +677,8 @@ process READ_MAPPING_FILTERED{
     tuple sample_id, assembler, file("*_read_mapping_report_filtered.json") into OUT_READ_MAPPING_FILTERED optional true
 
     script:
-    template "read_mapping.py filtered"
+    mode = 'filtered'
+    template "read_mapping.py"
 }
 
 // ASSEMBLY STATS GLOBAL
