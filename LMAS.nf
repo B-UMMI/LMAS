@@ -615,7 +615,7 @@ process READ_MAPPING_ALL{
     tuple sample_id, assembler, file("*_read_mapping_report_all.json") into OUT_READ_MAPPING_ALL optional true
 
     script:
-    mode = all
+    mode = "all"
     template "read_mapping.py"
 }
 
