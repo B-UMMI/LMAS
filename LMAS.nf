@@ -596,9 +596,6 @@ OUT_ABYSS.mix(OUT_BCALM2,
 
 ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING_ALL}
 
-THRESHOLD = Channel.value(params.mapped_reads_threshold)
-THRESHOLD.into{THRESHOLD_ALL; THRESHOLD_FILTERED}
-
 // READ MAPPING
 process READ_MAPPING_ALL{
 
@@ -608,7 +605,6 @@ process READ_MAPPING_ALL{
 
     input:
     tuple sample_id, assembler, assembly from TO_READ_MAPPING_ALL
-    each THRESHOLD_ALL
 
     output:
     file("*_read_mapping_all.txt") optional true
@@ -670,7 +666,6 @@ process READ_MAPPING_FILTERED{
 
     input:
     tuple sample_id, assembler, assembly from IN_READ_MAPPING_FILTERED
-    each THRESHOLD_FILTERED
 
     output:
     file("*_read_mapping_filtered.txt") optional true

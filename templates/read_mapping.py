@@ -48,7 +48,7 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY = '$assembly'
     FASTQ = '$params.fastq'
     BASEDIR = '$baseDir'
-    THRESHOLD = '$THRESHOLD'
+    THRESHOLD = '$params.mapped_reads_threshold'
     MODE = "$mode"
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
