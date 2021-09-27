@@ -65,7 +65,7 @@ IN_fastq_raw.into{
     IN_BCALM2;
     IN_GATB_MINIA_PIPELINE;
     IN_IDBA;
-    IN_METAHIPMER
+    IN_METAHIPMER2;
     IN_MINIA;
     IN_MEGAHIT;
     IN_METASPADES;
