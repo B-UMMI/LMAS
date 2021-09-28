@@ -105,6 +105,27 @@ def get_covered_bases(covered_bases_list, ref_len):
     return len(covered_bases)
 
 
+def get_aligned_bases(alignment_coods):
+    """
+    Get number of bases that align to a reference in a contig.
+    :param alignment_coods: list containing list with query start in the contig,
+                            query end in the contig, and size of the deletion to be removed
+    :return: length of bases in a contig that align to a reference
+    """
+    sorted_list = sorted(alignment_coods, key=lambda x: x[0])
+
+    aligned_bases = set()
+    deletions = 0
+    for item in sorted_list:
+        deletions += item[2]
+        start, stop = map(int, item[:2])
+        for base in range(start, stop):
+            aligned_bases.add(base)
+
+    alignment_block_len = len(aligned_bases) - deletions
+    return alignment_block_len
+
+
 def get_identity(n_identity):
     """
     Calculates the average and lowest identity from a list of values (identity of each individual contig)
@@ -206,11 +227,12 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
 
         # Calculate identity and Phred Score for all the contigs:
         sum_contig_length = 0
+        alignment_block_list = []
         n_identity = []
         for contig in alignment_dict['Contigs'].keys():
             sum_contig_length += alignment_dict['Contigs'][contig]['Length']
 
-            # TODO: Sometimes this value is > 1..... 
+            # TODO: Sometimes this value is > 1.....
             alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
                 alignment_dict['Contigs'][contig]['Length']
             n_identity.append(alignment_dict['Contigs'][contig]['Identity'])
@@ -223,6 +245,18 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
                                         'Contig Length': alignment_dict['Contigs'][contig]['Length'],
                                         'Phred Quality Score': alignment_dict['Contigs'][contig]['Phred']
                                         }, ignore_index=True)
+            
+            # adjusted to remove deletions. If a contig is broken into multiple blocks
+            # the coords are adjusted when calculating the length 
+            if len(alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords']) > 1:
+                alignment_block_len = get_aligned_bases(
+                    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'])
+                alignment_block_list.append(alignment_block_len)
+            else:
+                alignment_block_len = alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][1] - \
+                    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][0] - \
+                    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][2]
+                alignment_block_list.append(alignment_block_len)
 
         identity, lowest_identity = get_identity(n_identity)
 
@@ -234,14 +268,12 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
         sum_ci = get_covered_bases(
             alignment_dict['Covered_Bases'], alignment_dict['Reference_Length'])
         sum_ri = alignment_dict['Reference_Length']
-        sum_ai = sum(alignment_dict['Alignment_Blocks'])
+        sum_ai = sum(alignment_block_list)
         sum_si = sum_contig_length
 
         coverage = sum_ci / sum_ri
 
-        # TODO Using sum of aligned blocks, even after adjusting to remove insertions, gives results > 1 sometimes
         validity = sum_ai / sum_si if sum_si != 0 else 0
-        #validity = sum_ci / sum_si
 
         multiplicity = sum_ai / sum_ci if sum_ci != 0 else 0
 
@@ -306,7 +338,7 @@ def parse_paf_file(paf_filename, reference):
 
         alignment_dict = {'Reference': reference_name,
                           'Reference_Length': reference_length, 'Longest_Alignment': 0,
-                          'Covered_Bases': [], 'Alignment_Blocks': [], 'Contigs': {}}
+                          'Covered_Bases': [], 'Contigs': {}}
 
         with open(paf_filename) as paf:
             for line in paf:
@@ -319,13 +351,15 @@ def parse_paf_file(paf_filename, reference):
                     # number of residue matches
                     matching_bases = int(parts[9])
 
-                    # alignment block length
-                    deletion_length = utils.parse_cs_deletion(parts[-1])
-                    alignment_block = int(parts[10]) - deletion_length
+                    # alignment block length -  excluding deletion
+                    deletion_length = utils.cs_parse_deletion(parts[-1])
+                    alignment_block_list = [
+                        int(parts[2]), int(parts[3]), deletion_length]
 
                     if contig_name not in alignment_dict['Contigs'].keys():
                         alignment_dict['Contigs'][contig_name] = {'Length': contig_length, 'Base_Matches': matching_bases,
-                                                                  'Identity': None, 'Phred': None, 'Covered_Bases': [[start, end]]}
+                                                                  'Identity': None, 'Phred': None, 'Covered_Bases': [[start, end]],
+                                                                  'Alignment_Blocks_Coords': [alignment_block_list]}
                     else:
                         alignment_dict['Contigs'][contig_name]['Base_Matches'] += matching_bases
                         alignment_dict['Contigs'][contig_name]['Covered_Bases'].append([
@@ -334,7 +368,8 @@ def parse_paf_file(paf_filename, reference):
                     alignment_dict['Longest_Alignment'] = max(
                         alignment_dict['Longest_Alignment'], end - start)
                     alignment_dict['Covered_Bases'].append([start, end])
-                    alignment_dict['Alignment_Blocks'].append(alignment_block)
+                    alignment_dict['Contigs'][contig_name]['Alignment_Blocks_Coords'].append(
+                        alignment_block_list)
 
         alignment_dictitonary_list.append(alignment_dict)
 

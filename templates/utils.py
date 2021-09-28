@@ -257,7 +257,7 @@ def parse_cs(string):
     return exact_matches, snps, indel
 
 
-def parse_cs_deletion(string):
+def cs_parse_deletion(string):
     """
     Parses PAF's cigar string to obtain the length of the deletion
     """
@@ -268,6 +268,9 @@ def parse_cs_deletion(string):
         deletion_lenght += len(deletion)
     
     return deletion_lenght
+
+def cs_get_matched_bases(string):
+    return sum(map(int, re.findall(r':([\d]+)', string)))
 
 
 def adjust_reference_coord(coord, ref_len):

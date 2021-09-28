@@ -130,9 +130,9 @@ def test_get_mapping_stats():
 
         # test COMPASS
         assert 0 < round(json_dic['ReferenceTables'][reference]['breadth_of_coverage'], 4) <= 1
-        #assert 0 < round(json_dic['ReferenceTables'][reference]['validity'], 4) <= 1 #TODO Still failing!
-        #assert 0 < json_dic['ReferenceTables'][reference]['multiplicity']
-        #assert 0 < json_dic['ReferenceTables'][reference]['parsimony'] # TODO <= 1? 
+        assert 0 < round(json_dic['ReferenceTables'][reference]['validity'], 4) <= 1
+        assert 0 < json_dic['ReferenceTables'][reference]['multiplicity']
+        assert 0 < json_dic['ReferenceTables'][reference]['parsimony'] # TODO should this be <= 1 
 
         # test Identity
         assert 0 < json_dic['ReferenceTables'][reference]['identity'] <= 1
