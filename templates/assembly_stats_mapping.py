@@ -122,7 +122,8 @@ def get_aligned_bases(alignment_coods):
         for base in range(start, stop):
             aligned_bases.add(base)
 
-    alignment_block_len = len(aligned_bases) - deletions
+    #alignment_block_len = len(aligned_bases) - deletions
+    alignment_block_len = len(aligned_bases)
     return alignment_block_len
 
 
@@ -253,9 +254,11 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
                     alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'])
                 alignment_block_list.append(alignment_block_len)
             else:
+                #alignment_block_len = alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][1] - \
+                #    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][0] - \
+                #    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][2]
                 alignment_block_len = alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][1] - \
-                    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][0] - \
-                    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][2]
+                    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][0]
                 alignment_block_list.append(alignment_block_len)
 
         identity, lowest_identity = get_identity(n_identity)
