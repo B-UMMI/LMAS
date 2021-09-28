@@ -280,7 +280,7 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
 
         multiplicity = sum_ai / sum_ci if sum_ci != 0 else 0
 
-        parsimony = multiplicity / validity if validity != 0 else 0
+        parsimony = sum_si / sum_ci if sum_ci != 0 else 0
 
         # Update Coverage Dataframe
         df_coverage = df_coverage.append({'Reference': alignment_dict['Reference'],
