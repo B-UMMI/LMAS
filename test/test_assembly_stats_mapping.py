@@ -63,7 +63,7 @@ def test_parse_assemblies():
     df = utils.parse_assemblies(
         "pytest", "pytest", ASSEMBLY_TEST, MAPPING_TEST)
 
-    assert df.shape == (516, 7)
+    assert df.shape == (515, 7)
     assert sorted(df.columns) == [
         '#N', 'Assembler', 'Contig', 'Contig Len', 'Mapped', 'Sample', 'index']
     assert len(df.Mapped.unique()) == 12
@@ -138,6 +138,7 @@ def test_get_mapping_stats():
         assert 0 < json_dic['ReferenceTables'][reference]['identity'] <= 1
         assert json_dic['ReferenceTables'][reference]['lowest_identity'] <= json_dic['ReferenceTables'][reference]['identity']
 
+
         # test contiguity
         assert json_dic['ReferenceTables'][reference]['contiguity'] >= 0
         if json_dic['ReferenceTables'][reference]['contiguity'] == 0:
@@ -174,5 +175,4 @@ def test_get_mapping_stats():
             if alignment_dictitonary['Contigs'][contig]['Phred'] == 60:
                 assert round(alignment_dictitonary['Contigs'][contig]['Identity']) == 1 # TODO: some cases identity > 1. How??? 
             else:
-                print(alignment_dictitonary['Contigs'][contig]['Phred'])
                 assert alignment_dictitonary['Contigs'][contig]['Identity'] < 1
