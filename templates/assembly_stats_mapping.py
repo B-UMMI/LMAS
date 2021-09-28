@@ -109,20 +109,17 @@ def get_aligned_bases(alignment_coods):
     """
     Get number of bases that align to a reference in a contig.
     :param alignment_coods: list containing list with query start in the contig,
-                            query end in the contig, and size of the deletion to be removed
+                            query end in the contig
     :return: length of bases in a contig that align to a reference
     """
     sorted_list = sorted(alignment_coods, key=lambda x: x[0])
 
     aligned_bases = set()
-    deletions = 0
     for item in sorted_list:
-        deletions += item[2]
-        start, stop = map(int, item[:2])
+        start, stop = map(int, item[:])
         for base in range(start, stop):
             aligned_bases.add(base)
 
-    #alignment_block_len = len(aligned_bases) - deletions
     alignment_block_len = len(aligned_bases)
     return alignment_block_len
 
@@ -247,16 +244,13 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
                                         'Phred Quality Score': alignment_dict['Contigs'][contig]['Phred']
                                         }, ignore_index=True)
             
-            # adjusted to remove deletions. If a contig is broken into multiple blocks
+            # If a contig is broken into multiple blocks
             # the coords are adjusted when calculating the length 
             if len(alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords']) > 1:
                 alignment_block_len = get_aligned_bases(
                     alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'])
                 alignment_block_list.append(alignment_block_len)
             else:
-                #alignment_block_len = alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][1] - \
-                #    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][0] - \
-                #    alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][2]
                 alignment_block_len = alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][1] - \
                     alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'][0][0]
                 alignment_block_list.append(alignment_block_len)
@@ -354,10 +348,9 @@ def parse_paf_file(paf_filename, reference):
                     # number of residue matches
                     matching_bases = int(parts[9])
 
-                    # alignment block length -  excluding deletion
-                    deletion_length = utils.cs_parse_deletion(parts[-1])
+                    # alignment block length - save coords in contig
                     alignment_block_list = [
-                        int(parts[2]), int(parts[3]), deletion_length]
+                        int(parts[2]), int(parts[3])]
 
                     if contig_name not in alignment_dict['Contigs'].keys():
                         alignment_dict['Contigs'][contig_name] = {'Length': contig_length, 'Base_Matches': matching_bases,
