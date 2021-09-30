@@ -63,7 +63,7 @@ if __file__.endswith(".command.sh"):
 def map_to_assembly(assembly, reads, sample_id, assembler,threshold, n_reads_total):
 
     mapped_reads = 0
-    
+
     cli = [
         "minimap2",
         "--sr",
@@ -140,7 +140,7 @@ def main(sample_id, assembler, assembly, filtered_assembly, fastq, basedir, thre
     with open("{}_{}_read_mapping_filtered.txt".format(sample_id, assembler), 'w') as fh:
         fh.write(str(mapped_reads_filtered * 100))
 
-    with open("{}_{}_read_mapping_report.json".format(sample_id, assembler, mode), "w") as json_report:
+    with open("{}_{}_read_mapping_report.json".format(sample_id, assembler), "w") as json_report:
         json_dic = {
             sample_id: {
                 "assembler": assembler,
