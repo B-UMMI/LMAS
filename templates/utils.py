@@ -286,3 +286,36 @@ def adjust_reference_coord(coord, ref_len):
         return (coord - ref_len)
     else:
         return (coord - (2 * ref_len))
+
+
+def check_overlap(list_of_coords):
+    """
+    Function that takes a list of coords and checks if there is an overlap
+    :param list_of_coords: list of lists containing start (0 based, closed) and stop (0 based, open) positions
+    return: True if there is an overlap, False otherwise
+    """
+    sorted_list_of_coords = sorted(list_of_coords, key=lambda x: x[0])
+    list_of_ranges = []
+    for coods in sorted_list_of_coords:
+        x = range(coods[0],coods[1])
+        list_of_ranges.append(set(x))
+    for i in range(len(list_of_ranges)-1):
+        if len(list_of_ranges[i].intersection(list_of_ranges[i+1])) > 0:
+            return True
+    return False
+
+def get_check_overlap(list_of_coords):
+    """
+    Function that takes a list of coords and returns a list with overlap lengths 
+    :param list_of_coords: list of lists containing start (0 based, closed) and stop (0 based, open) positions
+    return: list with overlap lengths 
+    """
+    sorted_list_of_coords = sorted(list_of_coords, key=lambda x: x[0])
+    list_of_ranges = []
+    overlaps = []
+    for coods in sorted_list_of_coords:
+        x = range(coods[0],coods[1])
+        list_of_ranges.append(set(x))
+    for i in range(len(list_of_ranges)-1):
+        overlaps.append(len(list_of_ranges[i].intersection(list_of_ranges[i+1])))
+    return overlaps

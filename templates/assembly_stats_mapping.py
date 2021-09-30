@@ -84,6 +84,18 @@ if __file__.endswith(".command.sh"):
     logger.debug("L_TARGET: {}".format(L_TARGET))
 
 
+def get_adjusted_basematches(contig_coords, base_matches):
+    """
+    Get the sum of the length of the overlaps, if they exist, when a contig is 
+    broken into multiple alignment blocks. 
+    :param contig_coords: list of lists containing start (0 based, closed) and stop (0 based, open) positions
+    :param base_matches: current number of base matches as reported in the PAF file
+    :returns: int with adjusted number of base matches, removing the overlaps
+    """
+    overlap_len = sum(utils.get_check_overlap(contig_coords))
+    return base_matches - overlap_len
+
+
 def get_covered_bases(covered_bases_list, ref_len):
     """
     Get ration of reference lengths (adjusted for triple reference) covered by mapping contigs
@@ -243,9 +255,9 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
                                         'Contig Length': alignment_dict['Contigs'][contig]['Length'],
                                         'Phred Quality Score': alignment_dict['Contigs'][contig]['Phred']
                                         }, ignore_index=True)
-            
+
             # If a contig is broken into multiple blocks
-            # the coords are adjusted when calculating the length 
+            # the coords are adjusted when calculating the length
             if len(alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords']) > 1:
                 alignment_block_len = get_aligned_bases(
                     alignment_dict['Contigs'][contig]['Alignment_Blocks_Coords'])
@@ -342,8 +354,12 @@ def parse_paf_file(paf_filename, reference):
                 parts = line.strip().split('\t')
                 if parts[5] == reference_name:
                     # parse values from PAF file
+                    # contig info
                     contig_name, contig_length = parts[0], int(parts[1])
-                    start, end = int(parts[7]), int(parts[8])
+                    contig_start, contig_end = int(parts[2]), int(parts[3])
+
+                    # coords in reference
+                    ref_start, ref_end = int(parts[7]), int(parts[8])
 
                     # number of residue matches
                     matching_bases = int(parts[9])
@@ -354,18 +370,29 @@ def parse_paf_file(paf_filename, reference):
 
                     if contig_name not in alignment_dict['Contigs'].keys():
                         alignment_dict['Contigs'][contig_name] = {'Length': contig_length, 'Base_Matches': matching_bases,
-                                                                  'Identity': None, 'Phred': None, 'Covered_Bases': [[start, end]],
-                                                                  'Alignment_Blocks_Coords': [alignment_block_list]}
+                                                                  'Identity': None, 'Phred': None, 'Covered_Bases': [[ref_start, ref_end]],
+                                                                  'Alignment_Blocks_Coords': [alignment_block_list],
+                                                                  'Contig_Coords': [[contig_start, contig_end]]}
                     else:
+                        alignment_dict['Contigs'][contig_name]['Contig_Coords'].append(
+                            [contig_start, contig_end])
                         alignment_dict['Contigs'][contig_name]['Base_Matches'] += matching_bases
                         alignment_dict['Contigs'][contig_name]['Covered_Bases'].append([
-                            start, end])
+                            ref_start, ref_end])
 
                     alignment_dict['Longest_Alignment'] = max(
-                        alignment_dict['Longest_Alignment'], end - start)
-                    alignment_dict['Covered_Bases'].append([start, end])
+                        alignment_dict['Longest_Alignment'], ref_end - ref_start)
+                    alignment_dict['Covered_Bases'].append(
+                        [ref_start, ref_end])
                     alignment_dict['Contigs'][contig_name]['Alignment_Blocks_Coords'].append(
                         alignment_block_list)
+
+        # calculate base matches compensating for possible overlap
+        for contig_name in alignment_dict['Contigs']:
+            if utils.check_overlap(alignment_dict['Contigs'][contig_name]['Contig_Coords']):
+                adjusted_matching_bases = get_adjusted_basematches(
+                    alignment_dict['Contigs'][contig_name]['Contig_Coords'], alignment_dict['Contigs'][contig_name]['Base_Matches'])
+                alignment_dict['Contigs'][contig_name]['Base_Matches'] = adjusted_matching_bases
 
         alignment_dictitonary_list.append(alignment_dict)
 

@@ -69,6 +69,15 @@ def test_parse_assemblies():
     assert len(df.Mapped.unique()) == 12
 
 
+def test_contig_overlaps():
+    list_with_overlap = [[0, 100], [90, 200]]
+    list_without_overlap = [[0, 100], [100, 200]]
+
+    assert utils.check_overlap(list_with_overlap)
+    assert not utils.check_overlap(list_without_overlap)
+    assert sum(utils.get_check_overlap(list_with_overlap)) == 10
+
+
 def test_parse_paf_files():
 
     references = (x[1] for x in groupby(
@@ -132,7 +141,7 @@ def test_get_mapping_stats():
         assert 0 < round(json_dic['ReferenceTables'][reference]['breadth_of_coverage'], 4) <= 1
         assert 0 < round(json_dic['ReferenceTables'][reference]['validity'], 4) <= 1
         assert 0 < json_dic['ReferenceTables'][reference]['multiplicity']
-        assert 0 < json_dic['ReferenceTables'][reference]['parsimony']  # TODO should this be <= 1 
+        assert 0 < json_dic['ReferenceTables'][reference]['parsimony']
 
         # test Identity
         assert 0 < json_dic['ReferenceTables'][reference]['identity'] <= 1
@@ -173,6 +182,6 @@ def test_get_mapping_stats():
         for contig in alignment_dictitonary['Contigs']:
             assert assembly_stats_mapping.get_phred_quality_score( alignment_dictitonary['Contigs'][contig]['Identity']) ==  alignment_dictitonary['Contigs'][contig]['Phred']
             if alignment_dictitonary['Contigs'][contig]['Phred'] == 60:
-                assert round(alignment_dictitonary['Contigs'][contig]['Identity']) == 1 # TODO: some cases identity > 1. How??? 
+                assert alignment_dictitonary['Contigs'][contig]['Identity'] <= 1 # TODO: some cases identity > 1. How??? 
             else:
                 assert alignment_dictitonary['Contigs'][contig]['Identity'] < 1
