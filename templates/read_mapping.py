@@ -50,7 +50,6 @@ if __file__.endswith(".command.sh"):
     FASTQ = '$params.fastq'
     BASEDIR = '$baseDir'
     THRESHOLD = '$params.mapped_reads_threshold'
-    MODE = "$mode"
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
