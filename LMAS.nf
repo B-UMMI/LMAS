@@ -598,25 +598,6 @@ OUT_ABYSS.mix(OUT_BCALM2,
 
 ALL_ASSEMBLERS.into{ TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING_ALL}
 
-// READ MAPPING
-process READ_MAPPING_ALL{
-
-    tag { assembler }
-
-    publishDir "results/$sample_id/mapping/reads"
-
-    input:
-    tuple sample_id, assembler, assembly from TO_READ_MAPPING_ALL
-
-    output:
-    file("*_read_mapping_all.txt") optional true
-    tuple sample_id, assembler, file("*_read_mapping_report_all.json") into OUT_READ_MAPPING_ALL optional true
-
-    script:
-    mode = "all"
-    template "read_mapping.py"
-}
-
 // FILTER ASSEMBLY
 IN_minLen = Channel.value(params.minLength)
 
@@ -638,6 +619,25 @@ process FILTER_ASSEMBLY {
 
 OUT_FILTERED.into{ IN_ASSEMBLY_MAPPING; IN_READ_MAPPING_FILTERED}
 
+// READ MAPPING
+process READ_MAPPING_ALL{
+
+    tag { assembler }
+
+    publishDir "results/$sample_id/mapping/reads"
+
+    input:
+    tuple sample_id, assembler, assembly, filtered_assembly from TO_READ_MAPPING_ALL.join(IN_READ_MAPPING_FILTERED, by: [0,1])
+
+    output:
+    file("*_read_mapping_*.txt") optional true
+    tuple sample_id, assembler, file("*_read_mapping_report.json") into OUT_READ_MAPPING optional true
+
+    script:
+    template "read_mapping.py"
+}
+
+
 // ASSEMBLY MAPPING
 process ASSEMBLY_MAPPING{
 
@@ -653,30 +653,12 @@ process ASSEMBLY_MAPPING{
     tuple sample_id, assembler, file(assembly), file("*.paf") into OUT_ASSEMBLY_MAPPING
 
     script:
-    "minimap2 --cs -N 0 -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_${assembler}.paf"
+    "minimap2 --cs -N 50 --secondary=no -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} > ${sample_id}_${assembler}.paf"
 
 }
 
 OUT_ASSEMBLY_MAPPING.into{ IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT; IN_SNP_ASSESSMENT; IN_MISASSEMBLY}
 
-// READ MAPPING
-process READ_MAPPING_FILTERED{
-
-    tag { assembler }
-
-    publishDir "results/$sample_id/mapping/reads"
-
-    input:
-    tuple sample_id, assembler, assembly from IN_READ_MAPPING_FILTERED
-
-    output:
-    file("*_read_mapping_filtered.txt") optional true
-    tuple sample_id, assembler, file("*_read_mapping_report_filtered.json") into OUT_READ_MAPPING_FILTERED optional true
-
-    script:
-    mode = 'filtered'
-    template "read_mapping.py"
-}
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
@@ -685,7 +667,7 @@ process ASSEMBLY_STATS_GLOBAL {
     publishDir "results/$sample_id/stats/assembly"
 
     input:
-    tuple sample_id, assembler, file(assembly), file(read_mapping_all), file(read_mapping_filtered) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING_ALL, by: [0,1]).join(OUT_READ_MAPPING_FILTERED, by: [0,1])
+    tuple sample_id, assembler, file(assembly), file(read_mapping) from TO_GLOBAL_STATS.join(OUT_READ_MAPPING, by: [0,1])
 
     output:
     file "*report.json" into OUT_ASSEMBLY_STATS_GLOBAL_JSON

@@ -46,6 +46,7 @@ if __file__.endswith(".command.sh"):
     SAMPLE_ID = '$sample_id'
     ASSEMBLER = '$assembler'
     ASSEMBLY = '$assembly'
+    FILTERED_ASSEMBLY = '$filtered_assembly'
     FASTQ = '$params.fastq'
     BASEDIR = '$baseDir'
     THRESHOLD = '$params.mapped_reads_threshold'
@@ -55,22 +56,13 @@ if __file__.endswith(".command.sh"):
     logger.debug("SAMPLE_ID: {}".format(SAMPLE_ID))
     logger.debug("ASSEMBLER: {}".format(ASSEMBLER))
     logger.debug("ASSEMBLY: {}".format(ASSEMBLY))
+    logger.debug("FILTERED_ASSEMBLY: {}".format(FILTERED_ASSEMBLY))
     logger.debug("FASTQ: {}".format(FASTQ))
     logger.debug("BASEDIR: {}".format(BASEDIR))
     logger.debug("THRESHOLD: {}".format(THRESHOLD))
 
-
-def main(sample_id, assembler, assembly, fastq, basedir, threshold, mode):
-    # get correct fastq files from directory
-    all_readfiles = glob.glob(os.path.join(basedir, '/'.join(fastq.split('/')[:-1]), '*'))
-    logger.debug("Read files found: {}".format(all_readfiles))
-    reads = []
-    for file in all_readfiles:
-        if sample_id in file:
-            reads.append(file)
-    logger.debug("Matching read files: {}".format(reads))
-
-    # call minimap2
+def map_to_assembly(assembly, reads, sample_id, assembler,threshold, n_reads_total):
+        # call minimap2 - original assembly
     cli = [
         "minimap2",
         "--sr",
@@ -81,7 +73,7 @@ def main(sample_id, assembler, assembly, fastq, basedir, threshold, mode):
         reads[0],
         reads[1],
         ">",
-        "{}_{}_read_mapping.paf".format(sample_id, assembler)
+        "{}_{}_read_mapping_original.paf".format(sample_id, assembler)
     ]
 
     logger.debug("Running minimap2 subprocess with command: {}".format(' '.join(cli)))
@@ -104,35 +96,58 @@ def main(sample_id, assembler, assembly, fastq, basedir, threshold, mode):
 
     if p.returncode == 0:
         # count number of reads mapping
-        with open("{}_{}_read_mapping.paf".format(sample_id, assembler)) as fh:
+        with open("{}_{}_read_mapping_original.paf".format(sample_id, assembler)) as fh:
             csv_paf_file = csv.reader(fh, delimiter='\t')
             n_reads_mapping = 0
             for row in csv_paf_file:
                 if int(row[10]) >= (int(row[1]) * float(threshold)):
                     n_reads_mapping += 1
-        logger.debug("Number of reads mapping: {}".format(n_reads_mapping))
+        logger.debug("Number of reads mapping to assembly: {}".format(n_reads_mapping))
 
-        # get total number of reads
-        n_reads_total = (sum(1 for line in gzip.open(reads[0], 'rb'))/4)+(sum(1 for line in gzip.open(reads[1], 'rb'))/4)
-        logger.debug("Number of reads in fastq file: {}".format(n_reads_total))
 
         try:
             mapped_reads = n_reads_mapping / n_reads_total
-            logger.debug("Percentage of mapped reads: {}".format(mapped_reads))
+            logger.debug("Percentage of mapped reads to assembly: {}".format(mapped_reads))
         except ZeroDivisionError:
             mapped_reads = 0
 
-        with open("{}_{}_read_mapping.txt".format(sample_id, assembler), 'w') as fh:
-            fh.write(str(mapped_reads * 100))
+    return mapped_reads
 
-        with open("{}_{}_read_mapping_report_{}.json".format(sample_id, assembler, mode), "w") as json_report:
-            json_dic = {
-                sample_id: {
-                    "assembler": assembler,
-                    "mapped_reads": mapped_reads * 100
-            }}
-            json_report.write(json.dumps(json_dic, separators=(",", ":")))
+
+def main(sample_id, assembler, assembly, filtered_assembly, fastq, basedir, threshold, mode):
+    # get correct fastq files from directory
+    all_readfiles = glob.glob(os.path.join(basedir, '/'.join(fastq.split('/')[:-1]), '*'))
+    logger.debug("Read files found: {}".format(all_readfiles))
+    reads = []
+    for file in all_readfiles:
+        if sample_id in file:
+            reads.append(file)
+    logger.debug("Matching read files: {}".format(reads))
+
+    # get total number of reads
+    n_reads_total = (sum(1 for line in gzip.open(reads[0], 'rb'))/4)+(sum(1 for line in gzip.open(reads[1], 'rb'))/4)
+    logger.debug("Number of reads in fastq file: {}".format(n_reads_total))
+
+
+    # map to original assembly
+    mapped_reads_original = map_to_assembly(assembly, reads, sample_id, assembler,threshold, n_reads_total)
+    with open("{}_{}_read_mapping_original.txt".format(sample_id, assembler), 'w') as fh:
+        fh.write(str(mapped_reads_original * 100))
+
+    # map to filtered assembly
+    mapped_reads_filtered = map_to_assembly(filtered_assembly, reads, sample_id, assembler,threshold, n_reads_total)
+    with open("{}_{}_read_mapping_filtered.txt".format(sample_id, assembler), 'w') as fh:
+        fh.write(str(mapped_reads_filtered * 100))
+
+    with open("{}_{}_read_mapping_report.json".format(sample_id, assembler, mode), "w") as json_report:
+        json_dic = {
+            sample_id: {
+                "assembler": assembler,
+                "mapped_reads_original": mapped_reads_original * 100,
+                "mapped_reads_filtered": mapped_reads_filtered * 100
+        }}
+        json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FASTQ, BASEDIR, THRESHOLD, MODE)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FILTERED_ASSEMBLY, FASTQ, BASEDIR, THRESHOLD, MODE)
