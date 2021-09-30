@@ -113,7 +113,7 @@ def map_to_assembly(assembly, reads, sample_id, assembler,threshold, n_reads_tot
     return mapped_reads
 
 
-def main(sample_id, assembler, assembly, filtered_assembly, fastq, basedir, threshold, mode):
+def main(sample_id, assembler, assembly, filtered_assembly, fastq, basedir, threshold):
     # get correct fastq files from directory
     all_readfiles = glob.glob(os.path.join(basedir, '/'.join(fastq.split('/')[:-1]), '*'))
     logger.debug("Read files found: {}".format(all_readfiles))
@@ -149,4 +149,4 @@ def main(sample_id, assembler, assembly, filtered_assembly, fastq, basedir, thre
 
 
 if __name__ == '__main__':
-    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FILTERED_ASSEMBLY, FASTQ, BASEDIR, THRESHOLD, MODE)
+    main(SAMPLE_ID, ASSEMBLER, ASSEMBLY, FILTERED_ASSEMBLY, FASTQ, BASEDIR, THRESHOLD)
