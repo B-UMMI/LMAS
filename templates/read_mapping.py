@@ -61,12 +61,14 @@ if __file__.endswith(".command.sh"):
     logger.debug("THRESHOLD: {}".format(THRESHOLD))
 
 def map_to_assembly(assembly, reads, sample_id, assembler,threshold, n_reads_total):
-        # call minimap2 - original assembly
+
+    mapped_reads = 0
+    
     cli = [
         "minimap2",
         "--sr",
         "-k21",
-        "-N0"
+        "-N5"
         "--secondary=no",
         assembly,
         reads[0],
