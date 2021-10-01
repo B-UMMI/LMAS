@@ -17,7 +17,7 @@ COLOURS = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c',
 ASSEMBLER_NAMES = ["BCALM2", "GATBMiniaPipeline", "MINIA", "MEGAHIT", "metaSPAdes", "Unicycler", "SPAdes",
                    "SKESA", "VelvetOptimiser", "IDBA-UD"]
 
-ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
+ASSEMBLER_PROCESS_LIST = ["ABYSS", "BCALM2", "GATBMINIAPIPELINE", "MINIA", "METAHIPMER2", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
                           "SKESA", "VELVETOPTIMISER", "IDBA"]
 
 
