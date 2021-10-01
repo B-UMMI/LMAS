@@ -157,7 +157,7 @@ When assembling Illumina-only read sets where it functions as a SPAdes-optimiser
 * **Date of last release:** 03/05/2021
 * **Container:** `cimendes/unicycler:0.4.9-1 <https://hub.docker.com/repository/docker/cimendes/unicycler>`_
 
-VELVETOPTIMIZER
+VELVETOPTIMISER
 ^^^^^^^^^^^^^^^
 
 This optimizing pipeline, developed by Torsten Seeman, is still unpublished but extends the original Velvet assembler by 

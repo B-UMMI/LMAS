@@ -101,4 +101,3 @@ def main(phred_files):
 
 if __name__ == '__main__':
     main(PHRED_FILES)
-    #main(['subENN_MEGAHIT_phred.csv', 'subENN_SKESA_phred.csv', 'subENN_SPAdes_phred.csv', 'subENN_metaSPAdes_phred.csv', 'mockSample_Unicycler_phred.csv', 'subENN_MINIA_phred.csv', 'subENN_Unicycler_phred.csv', 'mockSample_BCALM2_phred.csv', 'mockSample_metaSPAdes_phred.csv', 'mockSample_MEGAHIT_phred.csv', 'mockSample_SPAdes_phred.csv', 'mockSample_VelvetOptimizer_phred.csv', 'mockSample_MINIA_phred.csv', 'subENN_BCALM2_phred.csv', 'mockSample_IDBA-UD_phred.csv', 'subENN_IDBA-UD_phred.csv', 'mockSample_SKESA_phred.csv', 'subENN_VelvetOptimizer_phred.csv', 'mockSample_GATBMiniaPipeline_phred.csv'])

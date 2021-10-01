@@ -117,9 +117,9 @@ SPAdes
 
 * **Default:** 'auto'
 
-VelvetOptimizer
+VelvetOptimiser
 ^^^^^^^^^^^^^^^
-* **Param:** :code:`--velvetoptimizer_hashs`
+* **Param:** :code:`--velvetoptimiser_hashs`
 
 * **Definition:** Start K-mer size value
 
@@ -127,7 +127,7 @@ VelvetOptimizer
 
 ------------  
 
-* **Param:** :code:`--velvetoptimizer_hashe`
+* **Param:** :code:`--velvetoptimiser_hashe`
 
 * **Definition:** End K-mer size value
 

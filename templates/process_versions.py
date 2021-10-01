@@ -46,7 +46,7 @@ ASSEMBLER_PROCESS_DICT = {
     "Unicycler": "UNICYCLER",
     "SPAdes": "SPADES",
     "SKESA": "SKESA",
-    "VelvetOptimiser": "VELVETOPTIMIZER",
+    "VelvetOptimiser": "VELVETOPTIMISER",
     "IDBA": "IDBA"}
 
 

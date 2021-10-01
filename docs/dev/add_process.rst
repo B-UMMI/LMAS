@@ -17,7 +17,7 @@ The current available assemblers are:
 * SKESA
 * SPADES
 * UNICYCLER
-* VELVETOPTIMIZER
+* VELVETOPTIMISER
 
 To add an assembler, it must be ensured that **short-read paired-end sequence data** can be provided as input. 
 
@@ -91,7 +91,7 @@ It should look like:
         IN_IDBA;
         IN_SPADES;
         IN_SKESA;
-        IN_VELVETOPTIMIZER;
+        IN_VELVETOPTIMISER;
         IN_NEW_ASSEMBLER; // new channel added
         IN_TO_MAP} //mapping channel - minimap2
 
@@ -161,7 +161,7 @@ It should look like:
                         UNICYCLER_VERSION,
                         SPADES_VERSION,
                         SKESA_VERSION,
-                        VELVETOPTIMIZER_VERSION,
+                        VELVETOPTIMISER_VERSION,
                         NEW_ASSEMBLER_VERSION,  // new channel added 
                         IDBA_VERSION).set{ALL_VERSIONS}
 
@@ -182,7 +182,7 @@ It should look like:
                     OUT_UNICYCLER,
                     OUT_SPADES,
                     OUT_SKESA,
-                    OUT_VELVETOPTIMIZER,
+                    OUT_VELVETOPTIMISER,
                     OUT_NEW_ASSEMBLER,   // new channel added 
                     OUT_IDBA).set{ALL_ASSEMBLERS}
 
