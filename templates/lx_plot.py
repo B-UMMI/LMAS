@@ -23,13 +23,15 @@ logger = utils.get_logger(__file__)
 if __file__.endswith(".command.sh"):
     LX_FILES = '$lx_files '.split()
     L_TARGET = float("$params.l_target")
+    SCALE = '$scale'
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("C90_FILES: {}".format(LX_FILES))
     logger.debug("L_TARGET: {}".format(L_TARGET))
+    logger.debug("SCALE: {}".format(SCALE))
 
 
-def main(c90files, l_target):
+def main(c90files, l_target, scale):
 
     df_Lx = pd.DataFrame(columns=['Sample', 'Reference', 'Assembler', 'Lx', 'nContigs'])
     #df_Lx = pd.concat((pd.read_csv(f) for f in c90files))
@@ -68,6 +70,7 @@ def main(c90files, l_target):
                                  plot_bgcolor='rgb(255,255,255)',
                                  xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                             gridcolor='#DCDCDC'))
+            fig_Lx.update_xaxes(type=scale)
 
             plot(fig_Lx, filename='{0}_{1}_lx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_Lx.to_json()
@@ -86,4 +89,4 @@ def main(c90files, l_target):
 
 
 if __name__ == '__main__':
-    main(LX_FILES, L_TARGET)
+    main(LX_FILES, L_TARGET, SCALE)

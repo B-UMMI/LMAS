@@ -23,13 +23,15 @@ logger = utils.get_logger(__file__)
 if __file__.endswith(".command.sh"):
     NGX_FILES = '$ngx_files '.split()
     N_TARGET = float("$params.n_target")
+    SCALE = '$scale'
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("NAX_FILES: {}".format(NGX_FILES))
     logger.debug("N_TARGET: {}".format(N_TARGET))
+    logger.debug("SCALE: {}".format(SCALE))
 
 
-def main(ngx_files, n_target):
+def main(ngx_files, n_target, scale):
 
     df_ngx = pd.DataFrame(columns=['Sample', 'Reference', 'Assembler', 'NGx', 'Basepairs'])
 
@@ -66,6 +68,8 @@ def main(ngx_files, n_target):
                                   plot_bgcolor='rgb(255,255,255)',
                                   xaxis=dict(showline=True, zeroline=False, linewidth=1, linecolor='black',
                                              gridcolor='#DCDCDC'))
+            
+            fig_ngx.update_xaxes(type=scale)
 
             plot(fig_ngx, filename='{0}_{1}_ngx.html'.format(sample, reference.replace(' ', '_')), auto_open=False)
             plot_species = fig_ngx.to_json()
@@ -83,5 +87,5 @@ def main(ngx_files, n_target):
 
 
 if __name__ == '__main__':
-    main(NGX_FILES, N_TARGET)
+    main(NGX_FILES, N_TARGET, SCALE)
 

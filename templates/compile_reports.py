@@ -589,31 +589,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
 
 if __name__ == "__main__":
-    """
-    READS_NUMBER=['ERR2935805_reads_report.json', 'ENN_reads_report.json', 'LNN_reads_report.json', 'ERR2984773_reads_report.json', 'EHS_reads_report.json', 'LHS_reads_report.json']
-    ASSEMBLY_STATS_REPORT = "global_assembly_stats.json"
-    MAIN_JS = "main.js.zip"
-    MAPPING_STATS_REPORT = "global_assembly_mapping_stats.json"
-    LMAS_LOGO = "lmas.zip"
-    PIPELINE_STATS =  "pipeline_stats.txt"
-    CONTIG_SIZE_DISTRIBUTION =  ['EHS_contig_size_distribution.json', 'ENN_contig_size_distribution.json', 'ERR2935805_contig_size_distribution.json', 'ERR2984773_contig_size_distribution.json', 'LHS_contig_size_distribution.json', 'LNN_contig_size_distribution.json']
-    COMPLETNESS_JSON = "completness_plots.json"
-    REFERENCE_FILE = "triple_reference.fasta"
-    LX_JSON = "lx.json"
-    NAX_JSON = "nax.json"
-    NGX_JSON = "ngx.json"
-    SHRIMP_JSON = "phred.json"
-    GAP_REFERENCE_JSON = "gaps_in_reference.json"
-    SNP_REFERENCE_JSON = "snps_in_reference.json"
-    GAP_HISTOGRAM = ['EHS_gap_distance_histogram.json', 'ENN_gap_distance_histogram.json', 'ERR2935805_gap_distance_histogram.json', 'ERR2984773_gap_distance_histogram.json', 'LHS_gap_distance_histogram.json', 'LNN_gap_distance_histogram.json']
-    MISASSEMBLY_PLOT = ['EHS_misassembly.json', 'ENN_misassembly.json', 'ERR2935805_misassembly.json', 'ERR2984773_misassembly.json', 'LHS_misassembly.json', 'LNN_misassembly.json']
-    MISASSEMBLY_REPORT= "misassembly_report.json"
-    MIN_CONTIG_SIZE = 1000
-    VERSIONS_JSON = "versions.json"
-    MISASSEMBLY_PER_REF = "misassembly_report_per_ref.json"
-    ABOUT_MD =  "about.md"
-    CONTAINERS = "containers.config"
-    """
+
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,

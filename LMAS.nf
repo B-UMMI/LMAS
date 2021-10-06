@@ -55,6 +55,18 @@ IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {
 
 IN_reference_raw.into{ TO_TRIPLE; TO_REPORT}
 
+// Optional parameters
+def plot_mode_expected = ['linear', 'log'] as Set
+def plot_parameter_diff = plot_mode_expected - params.plot_scale
+if (plot_parameter_diff.size() > 1){
+        println "[Pipeline warning] Parameter --plot_scale is not valid! Running with default 'linear'\n"
+        Channel.from('linear').set {IN_PLOT_SCALE}
+    } else {
+        Channel.from(params.plot_scale).set {IN_PLOT_SCALE}
+    }
+IN_PLOT_SCALE.into{IN_PLOT_SCALE_1; IN_PLOT_SCALE_2; IN_PLOT_SCALE_3}
+
+
 //      Assemblers
 // TODO - Validate if they are not all false
 
@@ -753,6 +765,7 @@ process PLOT_LX {
 
     input:
     file lx_files from OUT_LX_PLOT.collect()
+    val(scale) from IN_PLOT_SCALE_1
 
     output:
     file("*.html")
@@ -768,6 +781,7 @@ process PLOT_NAX {
 
     input:
     file nax_files from OUT_NAX_PLOT.collect()
+    val(scale) from IN_PLOT_SCALE_2
 
     output:
     file("*.html")
@@ -783,6 +797,7 @@ process PLOT_NGX {
 
     input:
     file ngx_files from OUT_NGX_PLOT.collect()
+    val(scale) from IN_PLOT_SCALE_3
 
     output:
     file("*.html")
