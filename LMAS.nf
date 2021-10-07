@@ -1029,7 +1029,7 @@ process compile_reports {
     file 'pipeline_report*.json'
     file 'index.html'
     file 'main.js'
-    file 'lmas.jpg'
+    file '*.jpg'
     file 'performance_metadata.json'
     file 'reference_metadata.json'
 
