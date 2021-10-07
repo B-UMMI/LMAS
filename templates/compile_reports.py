@@ -367,10 +367,14 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                 assembler = main_data_tables_js[sample_id]["GlobalTable"][i]["assembler"]
                 try:
                     main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"][
-                        "misassembled_contigs"] = misassembly_json[sample_id][assembler]
+                        "misassembled_contigs"] = misassembly_json[sample_id][assembler]['misassembled_contigs']
+                    main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"][
+                        "misassembly_events"] = misassembly_json[sample_id][assembler]['misassembly_events']
                 except KeyError:
                     main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"][
                         "misassembled_contigs"] = 0
+                    main_data_tables_js[sample_id]["GlobalTable"][i]["filtered"][
+                        "misassembly_events"] = 0
 
     # add mapping stats
     logger.debug('Processing {0} data...'.format(mapping_stats_report))
@@ -402,13 +406,17 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                                 index = references.index(reference)
                                 ref_name = references[index]
                                 try:
-                                    item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][ref_name]
+                                    item['misassembled_contigs'] = misassembly_stats[sample_id][assembler][0][ref_name]["misassembled_contigs"]
+                                    item['misassembly_events'] = misassembly_stats[sample_id][assembler][0][ref_name]["misassembly_events"]
                                 except KeyError:
                                     item['misassembled_contigs'] = 0
+                                    item['misassembly_events'] = 0
                             else:
                                 item['misassembled_contigs'] = 0
+                                item['misassembly_events'] = 0
                         except KeyError:
                             item['misassembled_contigs'] = 0
+                            item['misassembly_events'] = 0
 
     for sample_id in main_data_tables_js.keys():
         main_data_plots_js[sample_id] = {}
