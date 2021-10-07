@@ -39,7 +39,7 @@ ASSEMBLER_PROCESS_DICT = {
     "ABySS": "ABYSS",
     "BCALM2": "BCALM2",
     "GATBMiniaPipeline": "GATBMINIAPIPELINE",
-    "MetaHipMer2": "MetaHipMer2",
+    "MetaHipMer2": "METAHIPMER2",
     "MINIA": "MINIA",
     "MEGAHIT": "MEGAHIT",
     'metaSPAdes': "METASPADES",
