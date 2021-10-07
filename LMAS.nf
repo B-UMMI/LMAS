@@ -37,9 +37,6 @@ if ( !params.abyssKmerSize.toString().isNumber() ) {
 if ( !params.bcalmKmerSize.toString().isNumber() ) {
     exit 1, "ERROR: '--bcalmKmerSize' parameter must be a number. Provided value: '${params.bcalmKmerSize}'"
 }
-if ( !params.gatbkmer.toString().isNumber() ) {
-    exit 1, "ERROR: '--gatbkmer' parameter must be a number. Provided value: '${params.gatbkmer}'"
-}
 if ( !params.gatb_besst_iter.toString().isNumber() ) {
     exit 1, "ERROR: '--gatb_besst_iter' parameter must be a number. Provided value: '${params.gatb_besst_iter}'"
 }
