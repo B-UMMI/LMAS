@@ -36,7 +36,7 @@ if __file__.endswith(".command.sh"):
 
 
 ASSEMBLER_PROCESS_DICT = {
-    "ABySS": "ABySS",
+    "ABySS": "ABYSS",
     "BCALM2": "BCALM2",
     "GATBMiniaPipeline": "GATBMINIAPIPELINE",
     "MetaHipMer2": "MetaHipMer2",
