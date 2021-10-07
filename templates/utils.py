@@ -153,7 +153,7 @@ def get_Nx(alignment_lengths, target):
     """
     Calculate NAx (x=target) form a list of contig lenghts
     :param alignment_lengths: list of aligned contig length sizes (unordered)
-    :param target: percentage of total genome length, in float
+    :param target: percentage of total genome length, in float, from 0 to 1 (float)
     :return: na50 of the aligned contigs (also called NA50
     """
     sorted_lengths = sorted(
@@ -175,7 +175,7 @@ def get_NGx(alignment_lengths, reference_length, target):
     Calculate NGx (x=target) form a list of contig lenghts
     :param alignment_lengths: list of aligned contig length sizes (unordered)
     :param reference_length: genome gize
-    :param target: percentage of known genome size
+    :param target: percentage of known genome size, from 0 to 1 (float)
     :return: nx of the aligned contigs
     """
     sorted_lengths = sorted(
@@ -196,7 +196,7 @@ def get_Lx(alignment_lengths, ref_len, target):
     Returns the number of contigs, ordered by length, that cover at least 'target'% of the reference sequence.
     :param alignment_lengths: list with length of mapped contigs for the reference
     :param ref_len: int with the expected reference length
-    :param target: target % of the reference sequence for Lx metric
+    :param target: target % of the reference sequence for Lx metric, from 0 to 1 (float)
     :return: int with the number of contigs that represent
     """
     sorted_lengths = sorted(
