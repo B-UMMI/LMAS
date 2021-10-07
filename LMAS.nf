@@ -34,9 +34,6 @@ if (!params.abyss && !params.bcalm && !params.gatb_minia && !params.idba && !par
 if ( !params.abyssKmerSize.toString().isNumber() ) {
     exit 1, "ERROR: '--bcalmKmerSize' parameter must be a number. Provided value: '${params.abyssKmerSize}'"
 }
-if ( !params.abyssBloomSize.toString().isNumber() ) {
-    exit 1, "ERROR: '--abyssBloomSize' parameter must be a number. Provided value: '${params.abyssBloomSize}'"
-}
 if ( !params.bcalmKmerSize.toString().isNumber() ) {
     exit 1, "ERROR: '--bcalmKmerSize' parameter must be a number. Provided value: '${params.bcalmKmerSize}'"
 }
