@@ -356,7 +356,7 @@ process METAHIPMER2 {
     """
     mhm2.py -h | grep "version" |  awk -F ' ' '{print \$3}' > .${sample_id}_MetaHipMer2_version
     {
-        mhm2.py -r $fasta_reads_single -k $kmer -s 0 --max-kmer-store 20 --procs $task.cpus  --max-rpcs-in-flight 50 --pin core --shared-heap 20
+        mhm2.py -r $fasta_reads_single -k $kmer -s 0 --max-kmer-store 20 --procs $task.cpus  --max-rpcs-in-flight 50 --pin core --shared-heap 800mb
         mv mhm2-run*/final_assembly.fasta ${sample_id}_MetaHipMer2.fasta
         echo pass > .status
     } || {
