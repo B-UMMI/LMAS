@@ -109,9 +109,11 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
     with open(read_mapping_stats) as f:
         assembly_stats_json = json.load(f)
         if assembly_stats_json[sample_id]["assembler"] == assembler:
-            mapped_reads = assembly_stats_json[sample_id]["mapped_reads"]
+            mapped_reads_all = assembly_stats_json[sample_id]["mapped_reads_original"]
+            mapped_reads_filtered = assembly_stats_json[sample_id]["mapped_reads_filtered"]
         else:
-            mapped_reads = 0
+            mapped_reads_all = 0
+            mapped_reads_filtered = 0
             logger.error(assembly_stats_json)
 
     with open("{}_{}_report.json".format(sample_id, assembler), "w") as json_report:
@@ -123,12 +125,13 @@ def main(sample_id, assembler, assembly, read_mapping_stats, min_len, n_target):
                     "basepairs": sum(contigs),
                     "max_contig_size": max(contigs) if len(contigs) > 0 else 0,
                     "N{}".format(int(n_target*100)): n50_contigs,
-                    "mapped_reads": mapped_reads,
+                    "mapped_reads": mapped_reads_all,
                     "Ns": Ns_all},
                 "filtered": {
                         "contigs": len(contigs_over_min_len),
                         "basepairs": sum(contigs_over_min_len),
                         "N{}".format(int(n_target*100)): n50_contigs_over_min_len,
+                        "mapped_reads": mapped_reads_filtered,
                         "Ns": Ns_over_1000}
                 }
 

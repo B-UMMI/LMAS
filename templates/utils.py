@@ -15,10 +15,10 @@ COLOURS = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c',
            '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ebdb75', '#b15928']
 
 ASSEMBLER_NAMES = ["BCALM2", "GATBMiniaPipeline", "MINIA", "MEGAHIT", "metaSPAdes", "Unicycler", "SPAdes",
-                   "SKESA", "VelvetOptimizer", "IDBA-UD"]
+                   "SKESA", "VelvetOptimiser", "IDBA-UD"]
 
-ASSEMBLER_PROCESS_LIST = ["BCALM2", "GATBMINIAPIPELINE", "MINIA", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
-                          "SKESA", "VELVETOPTIMIZER", "IDBA"]
+ASSEMBLER_PROCESS_LIST = ["ABYSS", "BCALM2", "GATBMINIAPIPELINE", "MINIA", "METAHIPMER2", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
+                          "SKESA", "VELVETOPTIMISER", "IDBA"]
 
 
 def get_logger(filepath, level=logging.DEBUG):
@@ -153,7 +153,7 @@ def get_Nx(alignment_lengths, target):
     """
     Calculate NAx (x=target) form a list of contig lenghts
     :param alignment_lengths: list of aligned contig length sizes (unordered)
-    :param target: percentage of total genome length
+    :param target: percentage of total genome length, in float, from 0 to 1 (float)
     :return: na50 of the aligned contigs (also called NA50
     """
     sorted_lengths = sorted(
@@ -175,7 +175,7 @@ def get_NGx(alignment_lengths, reference_length, target):
     Calculate NGx (x=target) form a list of contig lenghts
     :param alignment_lengths: list of aligned contig length sizes (unordered)
     :param reference_length: genome gize
-    :param target: percentage of known genome size
+    :param target: percentage of known genome size, from 0 to 1 (float)
     :return: nx of the aligned contigs
     """
     sorted_lengths = sorted(
@@ -196,7 +196,7 @@ def get_Lx(alignment_lengths, ref_len, target):
     Returns the number of contigs, ordered by length, that cover at least 'target'% of the reference sequence.
     :param alignment_lengths: list with length of mapped contigs for the reference
     :param ref_len: int with the expected reference length
-    :param target: target % of the reference sequence for Lx metric
+    :param target: target % of the reference sequence for Lx metric, from 0 to 1 (float)
     :return: int with the number of contigs that represent
     """
     sorted_lengths = sorted(
@@ -257,6 +257,22 @@ def parse_cs(string):
     return exact_matches, snps, indel
 
 
+def cs_parse_deletion(string):
+    """
+    Parses PAF's cigar string to obtain the length of the deletion
+    """
+    deletion_lenght = 0
+
+    deletions = re.findall(r'-([a-z]+)', string)
+    for deletion in deletions:
+        deletion_lenght += len(deletion)
+    
+    return deletion_lenght
+
+def cs_get_matched_bases(string):
+    return sum(map(int, re.findall(r':([\d]+)', string)))
+
+
 def adjust_reference_coord(coord, ref_len):
     """
 
@@ -270,3 +286,36 @@ def adjust_reference_coord(coord, ref_len):
         return (coord - ref_len)
     else:
         return (coord - (2 * ref_len))
+
+
+def check_overlap(list_of_coords):
+    """
+    Function that takes a list of coords and checks if there is an overlap
+    :param list_of_coords: list of lists containing start (0 based, closed) and stop (0 based, open) positions
+    return: True if there is an overlap, False otherwise
+    """
+    sorted_list_of_coords = sorted(list_of_coords, key=lambda x: x[0])
+    list_of_ranges = []
+    for coods in sorted_list_of_coords:
+        x = range(coods[0],coods[1])
+        list_of_ranges.append(set(x))
+    for i in range(len(list_of_ranges)-1):
+        if len(list_of_ranges[i].intersection(list_of_ranges[i+1])) > 0:
+            return True
+    return False
+
+def get_check_overlap(list_of_coords):
+    """
+    Function that takes a list of coords and returns a list with overlap lengths 
+    :param list_of_coords: list of lists containing start (0 based, closed) and stop (0 based, open) positions
+    return: list with overlap lengths 
+    """
+    sorted_list_of_coords = sorted(list_of_coords, key=lambda x: x[0])
+    list_of_ranges = []
+    overlaps = []
+    for coods in sorted_list_of_coords:
+        x = range(coods[0],coods[1])
+        list_of_ranges.append(set(x))
+    for i in range(len(list_of_ranges)-1):
+        overlaps.append(len(list_of_ranges[i].intersection(list_of_ranges[i+1])))
+    return overlaps
