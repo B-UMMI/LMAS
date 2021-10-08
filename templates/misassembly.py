@@ -26,6 +26,7 @@ https://github.com/cimendes
 
 import math
 import os
+from re import S
 import pandas as pd
 from plotly.offline import plot
 import plotly.graph_objects as go
@@ -341,18 +342,29 @@ def main(sample_id, assembler, assembly, mapping):
     mis_contigs = classify_misassembled_contigs(filtered_paf_dict)
 
     # global report
+    mis_events = 0
+    for contig in mis_contigs.keys():
+        mis_events += len(mis_contigs[contig]['misassembly'])
+
     report_data = {"sample": sample_id, "assembler": assembler,
-                   "misassembled_contigs": len(mis_contigs.keys())}
+                   "misassembled_contigs": len(mis_contigs.keys()),
+                   "misassembly_events": mis_events}
+    
+    logger.debug("Misassembly global report: {}".format(report_data))
 
     # reference report
     reference_report = {"sample": sample_id,
-                        "assembler": assembler, 'reference': {}}
+                        "assembler": assembler, "reference": {}}
+
     for contig in mis_contigs.keys():
         for reference in mis_contigs[contig]['reference']:
             if reference not in reference_report['reference'].keys():
-                reference_report['reference'][reference] = 1
+                reference_report['reference'][reference] = {"misassembled_contigs": 1, "misassembly_events": len(mis_contigs[contig]['misassembly'])}
             else:
-                reference_report['reference'][reference] += 1
+                reference_report['reference'][reference]["misassembled_contigs"] += 1
+                reference_report['reference'][reference]["misassembly_events"] += len(mis_contigs[contig]['misassembly'])
+    
+    logger.debug("Misassembly reference report: {}".format(reference_report))
 
     # make plot trace - global
     make_plot(mis_contigs, sample_id, assembler)
