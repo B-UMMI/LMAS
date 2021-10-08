@@ -40,14 +40,14 @@ if ( !params.bcalmKmerSize.toString().isNumber() ) {
 if ( !params.gatb_besst_iter.toString().isNumber() ) {
     exit 1, "ERROR: '--gatb_besst_iter' parameter must be a number. Provided value: '${params.gatb_besst_iter}'"
 }
-if ( params.metaspadesKmers.toString().split(" ").size() <= 1 ) {
-    if (params.metaspadesKmers.toString() != 'auto') {
-        exit 1, "ERROR: '--metaspadesKmers' parameter must be a sequence of space separated numbers or 'auto'. Provided value: ${params.metaspadesKmers}"
+if ( params.metaspadesKmerSize.toString().split(" ").size() <= 1 ) {
+    if (params.metaspadesKmerSize.toString() != 'auto') {
+        exit 1, "ERROR: '--metaspadesKmerSize' parameter must be a sequence of space separated numbers or 'auto'. Provided value: ${params.metaspadesKmerSize}"
     }
 }
-if ( params.spadesKmers.toString().split(" ").size() <= 1 ){
-    if (params.spadesKmers.toString() != 'auto'){
-        exit 1, "ERROR: '--spadesKmers' parameter must be a sequence of space separated numbers or 'auto'. Provided value: ${params.spadesKmers}"
+if ( params.spadesKmerSize.toString().split(" ").size() <= 1 ){
+    if (params.spadesKmerSize.toString() != 'auto'){
+        exit 1, "ERROR: '--spadesKmerSize' parameter must be a sequence of space separated numbers or 'auto'. Provided value: ${params.spadesKmerSize}"
     }
 }
 if ( !params.minLength.toString().isNumber() ) {
@@ -213,7 +213,7 @@ process BCALM2 {
 }
 
 //      GATB MINIA Pipeline
-GATB_error_correction = params.GATB_error_correction ? 'true' : 'false'
+GATB_error_correction = params.gatb_error_correction ? 'true' : 'false'
 
 process GATBMINIAPIPELINE {
     tag { sample_id }
@@ -224,7 +224,7 @@ process GATBMINIAPIPELINE {
 
     input:
     tuple sample_id, file(fastq_pair) from IN_GATB_MINIA_PIPELINE
-    val kmer_list from Channel.value(params.gatbkmer)
+    val kmer_list from Channel.value(params.gatbKmerSize)
     val do_error_correction from GATB_error_correction
     val besst_iter from Channel.value(params.gatb_besst_iter)
 
@@ -314,7 +314,7 @@ process MEGAHIT {
 
     input:
     tuple sample_id, file(fastq_pair) from IN_MEGAHIT
-    val kmers from Channel.value(params.megahitKmers)
+    val kmers from Channel.value(params.megahitKmerSize)
 
     output:
     tuple sample_id, val('MEGAHIT'), file('*_MEGAHIT.fasta') into OUT_MEGAHIT
@@ -364,7 +364,7 @@ process METAHIPMER2 {
 
     input:
     tuple sample_id, file(fasta_reads_single) from  REFORMAT_METAHIPMER2
-    val kmer from Channel.value(params.metahipmer2Kmers)
+    val kmer from Channel.value(params.metahipmer2KmerSize)
 
     output:
     tuple sample_id, val('MetaHipMer2'), file('*_MetaHipMer2.fasta') into OUT_METAHIPMER2
@@ -397,7 +397,7 @@ process METASPADES {
 
     input:
     tuple sample_id, file(fastq_pair) from IN_METASPADES
-    val kmers from Channel.value(params.metaspadesKmers)
+    val kmers from Channel.value(params.metaspadesKmerSize)
 
     output:
     tuple sample_id, val('metaSPAdes'), file('*_metaspades.fasta') into OUT_METASPADES
@@ -432,7 +432,7 @@ process MINIA {
 
     input:
     tuple sample_id, file(fastq) from IN_MINIA
-    val kmer from Channel.value(params.miniakmer)
+    val kmer from Channel.value(params.miniaKmerSize)
 
     output:
     tuple sample_id, val('MINIA'), file('*_minia.fasta') into OUT_MINIA
@@ -495,7 +495,7 @@ process SPADES {
 
     input:
     tuple sample_id, file(fastq_pair) from IN_SPADES
-    val kmers from Channel.value(params.spadesKmers)
+    val kmers from Channel.value(params.spadesKmerSize)
 
     output:
     tuple sample_id, val('SPAdes'), file('*_spades.fasta') into OUT_SPADES
