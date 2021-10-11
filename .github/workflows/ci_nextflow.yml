@@ -21,4 +21,4 @@ jobs:
           sudo mv nextflow /usr/local/bin/
       - name: Basic workflow tests
         run: |
-          nextflow run ${GITHUB_WORKSPACE} --config conf/test.config
+          nextflow run ${GITHUB_WORKSPACE} --config configs/test.config
