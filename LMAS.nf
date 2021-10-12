@@ -118,6 +118,9 @@ IN_fastq_raw.into {
 
 // TRIPLE THE REFERENCE REPLICONS
 process PROCESS_REFERENCE {
+
+    label 'process_script'
+
     input:
     file reference_fasta from TO_TRIPLE
 
@@ -132,7 +135,9 @@ process PROCESS_REFERENCE {
 OUT_REFERENCE_TRIPLE.into { IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS }
 
 process PROCESS_READS {
+
     tag { sample_id }
+    label 'process_script'
 
     input:
     tuple sample_id, file(fastq) from IN_PROCESS_READS
@@ -147,6 +152,7 @@ process PROCESS_READS {
 // ASSEMBLERS
 //      ABYSS
 process ABYSS {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/abyss/"
@@ -181,6 +187,7 @@ process ABYSS {
 
 //      BCALM 2
 process BCALM2 {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/bcalm2/"
@@ -218,6 +225,7 @@ process BCALM2 {
 GATB_error_correction = params.gatb_error_correction ? 'true' : 'false'
 
 process GATBMINIAPIPELINE {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/GATBMiniaPipeline/"
@@ -263,6 +271,7 @@ process GATBMINIAPIPELINE {
 
 //      IDBA
 process reformat_IDBA {
+
     tag { sample_id }
     label 'process_assembly'
 
@@ -280,6 +289,7 @@ process reformat_IDBA {
 }
 
 process IDBA {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/IDBA-UD/"
@@ -311,6 +321,7 @@ process IDBA {
 
 //      MEGAHIT
 process MEGAHIT {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*_megahit*.fasta'
@@ -346,6 +357,7 @@ process MEGAHIT {
 
 //      METAHIPMER2
 process reformat_METAHIPMER2 {
+
     tag { sample_id }
     label 'process_assembly'
 
@@ -363,6 +375,7 @@ process reformat_METAHIPMER2 {
 }
 
 process METAHIPMER2 {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/MetaHipMer2/"
@@ -397,6 +410,7 @@ process METAHIPMER2 {
 
 //      METASPADES
 process METASPADES {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/metaSPAdes/"
@@ -433,6 +447,7 @@ process METASPADES {
 
 //      MINIA
 process MINIA {
+
     tag {sample_id}
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/MINIA/"
@@ -467,6 +482,7 @@ process MINIA {
 
 //      SKESA
 process SKESA {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/SKESA/"
@@ -498,6 +514,7 @@ process SKESA {
 
 //      SPADES
 process SPADES {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/SPAdes/", pattern: '*.fasta'
@@ -533,6 +550,7 @@ process SPADES {
 
 //      UNICYCLER
 process UNICYCLER {
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/unicycler"
@@ -566,6 +584,7 @@ process UNICYCLER {
 
 //      VELVETOPTIMISER
 process VELVETOPTIMISER {
+    
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/VelvetOtimiser"
