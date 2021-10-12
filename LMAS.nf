@@ -128,7 +128,7 @@ process PROCESS_REFERENCE {
     file 'triple_reference.fasta' into OUT_REFERENCE_TRIPLE
 
     script:
-    template 'process_reference.py'
+    template "process_reference.py"
 }
 
 // SET CHANNELS FOR REFERENCE
@@ -146,7 +146,7 @@ process PROCESS_READS {
     file '*_reads_report.json' into PROCESS_READS
 
     script:
-    template 'process_reads.py'
+    template "process_reads.py"
 }
 
 // ASSEMBLERS
@@ -584,7 +584,7 @@ process UNICYCLER {
 
 //      VELVETOPTIMISER
 process VELVETOPTIMISER {
-    
+
     tag { sample_id }
     label 'process_assembly'
     publishDir "results/$sample_id/assembly/VelvetOtimiser"
@@ -640,7 +640,7 @@ process PROCESS_VERSION {
     file 'versions.json' into VERSIONS_JSON
 
     script:
-    template 'process_versions.py'
+    template "process_versions.py"
 }
 
 // ASSEMBLY COLLECTION
@@ -693,7 +693,7 @@ process READ_MAPPING{
     tuple sample_id, assembler, file('*_read_mapping_report.json') into OUT_READ_MAPPING
 
     script:
-    template 'read_mapping.py'
+    template "read_mapping.py"
 }
 
 // ASSEMBLY MAPPING
@@ -735,7 +735,7 @@ process ASSEMBLY_STATS_GLOBAL {
     file '*.csv' into OUT_ASSEMBLY_STATS_GLOBAL_TSV
 
     script:
-    template 'assembly_stats_global.py'
+    template "assembly_stats_global.py"
 }
 
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
@@ -751,7 +751,7 @@ process PROCESS_ASSEMBLY_STATS_GLOBAL {
     file 'global_assembly_stats.json' into PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
 
     script:
-    template 'process_assembly_stats_global.py'
+    template "process_assembly_stats_global.py"
 
 }
 
@@ -775,7 +775,7 @@ process ASSEMBLY_STATS_MAPPING {
     file '*_phred.csv' into OUT_PHRED
 
     script:
-    template 'assembly_stats_mapping.py'
+    template "assembly_stats_mapping.py"
 
 }
 
@@ -791,7 +791,7 @@ process PROCESS_ASSEMBLY_STATS_MAPPING {
     file 'global_assembly_mapping_stats.json' into PROCESS_ASSEMBLY_STATS_MAPPING_OUT
 
     script:
-    template 'process_assembly_stats_mapping.py'
+    template "process_assembly_stats_mapping.py"
 
 }
 
@@ -808,7 +808,7 @@ process PROCESS_COMPLETNESS {
     file 'completness_plots.json' into PLOT_PROCESS_COMPLETNESS
 
     script:
-    template 'completness_plot.py'
+    template "completness_plot.py"
 }
 
 process PLOT_LX {
@@ -825,7 +825,7 @@ process PLOT_LX {
     file 'lx.json' into PLOT_LX
 
     script:
-    template 'lx_plot.py'
+    template "lx_plot.py"
 }
 
 process PLOT_NAX {
@@ -842,7 +842,7 @@ process PLOT_NAX {
     file 'nax.json' into PLOT_NAX
 
     script:
-    template 'nax_plot.py'
+    template "nax_plot.py"
 }
 
 process PLOT_NGX {
@@ -859,7 +859,7 @@ process PLOT_NGX {
     file 'ngx.json' into PLOT_NGX
 
     script:
-    template 'ngx_plot.py'
+    template "ngx_plot.py"
 }
 
 process PROCESS_SHRIMP_PLOT {
@@ -875,7 +875,7 @@ process PROCESS_SHRIMP_PLOT {
     file 'phred.json' into PLOT_PHRED
 
     script:
-    template 'shrimp_plot.py'
+    template "shrimp_plot.py"
 }
 
 process PLOT_CONTIG_DISTRIBUTION {
@@ -891,7 +891,7 @@ process PLOT_CONTIG_DISTRIBUTION {
     file '*.json' into PLOT_CONTIG_DISTRIBUTION
 
     script:
-    template 'plot_contig_size.py'
+    template "plot_contig_size.py"
 }
 
 process GAP_ASSESSMENT {
@@ -909,7 +909,7 @@ process GAP_ASSESSMENT {
     file '*_gaps.csv' into OUT_GAP_PLOT_REF
 
     script:
-    template 'gap_assessment.py'
+    template "gap_assessment.py"
 }
 
 process PLOT_GAP_BOXPLOT {
@@ -925,7 +925,7 @@ process PLOT_GAP_BOXPLOT {
     file '*gap_distance_histogram.json' into OUT_GAP_HISTOGRAM
 
     script:
-    template 'plot_gap_sizes.py'
+    template "plot_gap_sizes.py"
 
 }
 
@@ -942,7 +942,7 @@ process PLOT_GAP_REFERENCE {
     file '*.json' into OUT_GAP_REFERENCE
 
     script:
-    template 'plot_gap_reference.py'
+    template "plot_gap_reference.py"
 }
 
 process SNP_ASSESSMENT {
@@ -959,7 +959,7 @@ process SNP_ASSESSMENT {
     file '*_snps.csv' into OUT_SNP_PLOT_REF
 
     script:
-    template 'snp_assessment.py'
+    template "snp_assessment.py"
 }
 
 process PLOT_SNP_REFERENCE {
@@ -975,7 +975,7 @@ process PLOT_SNP_REFERENCE {
     file '*.json' into OUT_SNP_REFERENCE
 
     script:
-    template 'plot_snp.py'
+    template "plot_snp.py"
 }
 
 process MISASSEMBLY {
@@ -994,7 +994,7 @@ process MISASSEMBLY {
     file '*_misassembly.csv' into PLOT_MISASSEMBLY_REF
 
     script:
-    template 'misassembly.py'
+    template "misassembly.py"
 
 }
 
@@ -1016,7 +1016,7 @@ process PROCESS_MISASSEMBLY {
     file 'misassembly_report_per_ref.json' into MISASSEMBLY_PER_REF
 
     script:
-    template 'process_misassembly.py'
+    template "process_misassembly.py"
 
 }
 
@@ -1033,7 +1033,7 @@ process PLOT_MISASSEMBLY {
     file '*.json' into OUT_MISASSEMBLY_REFERENCE
 
     script:
-    template 'plot_misassembly.py'
+    template "plot_misassembly.py"
 
 }
 
@@ -1082,7 +1082,7 @@ process compile_reports {
     file 'reference_metadata.json'
 
     script:
-    template 'compile_reports.py'
+    template "compile_reports.py"
 }
 
 workflow.onComplete {
