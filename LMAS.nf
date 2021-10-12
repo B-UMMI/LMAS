@@ -5,9 +5,9 @@ import CollectInitialMetadata
 
 // Pipeline version
 if (workflow.commitId){
-    version = "1.1.0 $workflow.revision"
+    version = "1.1.1 $workflow.revision"
 } else {
-    version = "1.1.0 (local version)"
+    version = "1.1.1 (local version)"
 }
 
 // Help message
@@ -118,6 +118,9 @@ IN_fastq_raw.into {
 
 // TRIPLE THE REFERENCE REPLICONS
 process PROCESS_REFERENCE {
+
+    label 'process_script'
+
     input:
     file reference_fasta from TO_TRIPLE
 
@@ -125,14 +128,16 @@ process PROCESS_REFERENCE {
     file 'triple_reference.fasta' into OUT_REFERENCE_TRIPLE
 
     script:
-    template 'process_reference.py'
+    template "process_reference.py"
 }
 
 // SET CHANNELS FOR REFERENCE
 OUT_REFERENCE_TRIPLE.into { IN_MAPPING_CONTIGS; IN_ASSEMBLY_STATS_MAPPING; IN_GAP_STATS; IN_SNP_STATS }
 
 process PROCESS_READS {
+
     tag { sample_id }
+    label 'process_script'
 
     input:
     tuple sample_id, file(fastq) from IN_PROCESS_READS
@@ -141,13 +146,15 @@ process PROCESS_READS {
     file '*_reads_report.json' into PROCESS_READS
 
     script:
-    template 'process_reads.py'
+    template "process_reads.py"
 }
 
 // ASSEMBLERS
 //      ABYSS
 process ABYSS {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/abyss/"
 
     when:
@@ -180,7 +187,9 @@ process ABYSS {
 
 //      BCALM 2
 process BCALM2 {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/bcalm2/"
 
     when:
@@ -216,7 +225,9 @@ process BCALM2 {
 GATB_error_correction = params.gatb_error_correction ? 'true' : 'false'
 
 process GATBMINIAPIPELINE {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/GATBMiniaPipeline/"
 
     when:
@@ -260,7 +271,9 @@ process GATBMINIAPIPELINE {
 
 //      IDBA
 process reformat_IDBA {
+
     tag { sample_id }
+    label 'process_assembly'
 
     when:
     params.idba
@@ -276,7 +289,9 @@ process reformat_IDBA {
 }
 
 process IDBA {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/IDBA-UD/"
 
     when:
@@ -306,7 +321,9 @@ process IDBA {
 
 //      MEGAHIT
 process MEGAHIT {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*_megahit*.fasta'
 
     when:
@@ -340,7 +357,9 @@ process MEGAHIT {
 
 //      METAHIPMER2
 process reformat_METAHIPMER2 {
+
     tag { sample_id }
+    label 'process_assembly'
 
     when:
     params.metahipmer2
@@ -356,7 +375,9 @@ process reformat_METAHIPMER2 {
 }
 
 process METAHIPMER2 {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/MetaHipMer2/"
 
     when:
@@ -389,7 +410,9 @@ process METAHIPMER2 {
 
 //      METASPADES
 process METASPADES {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/metaSPAdes/"
 
     when:
@@ -424,7 +447,9 @@ process METASPADES {
 
 //      MINIA
 process MINIA {
+
     tag {sample_id}
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/MINIA/"
 
     when:
@@ -457,7 +482,9 @@ process MINIA {
 
 //      SKESA
 process SKESA {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/SKESA/"
 
     when:
@@ -487,7 +514,9 @@ process SKESA {
 
 //      SPADES
 process SPADES {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/SPAdes/", pattern: '*.fasta'
 
     when:
@@ -521,7 +550,9 @@ process SPADES {
 
 //      UNICYCLER
 process UNICYCLER {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/unicycler"
 
     when:
@@ -553,7 +584,9 @@ process UNICYCLER {
 
 //      VELVETOPTIMISER
 process VELVETOPTIMISER {
+
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/VelvetOtimiser"
 
     when:
@@ -598,6 +631,8 @@ ABYSS_VERSION.mix(BCALM2_VERSION,
 
 process PROCESS_VERSION {
 
+    label 'process_script'
+
     input:
     file version from ALL_VERSIONS.collect()
 
@@ -605,7 +640,7 @@ process PROCESS_VERSION {
     file 'versions.json' into VERSIONS_JSON
 
     script:
-    template 'process_versions.py'
+    template "process_versions.py"
 }
 
 // ASSEMBLY COLLECTION
@@ -627,6 +662,7 @@ ALL_ASSEMBLERS.into { TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING_ALL }
 process FILTER_ASSEMBLY {
 
     tag { sample_id; assembler }
+    label 'process_script'
     publishDir "results/$sample_id/assembly/filtered/"
 
     input:
@@ -646,7 +682,7 @@ OUT_FILTERED.into { IN_ASSEMBLY_MAPPING; IN_READ_MAPPING_FILTERED }
 process READ_MAPPING{
 
     tag { assembler }
-
+    label 'process_mapping'
     publishDir "results/$sample_id/mapping/reads"
 
     input:
@@ -657,14 +693,14 @@ process READ_MAPPING{
     tuple sample_id, assembler, file('*_read_mapping_report.json') into OUT_READ_MAPPING
 
     script:
-    template 'read_mapping.py'
+    template "read_mapping.py"
 }
 
 // ASSEMBLY MAPPING
 process ASSEMBLY_MAPPING{
 
     tag { sample_id; assembler }
-
+    label 'process_mapping'
     publishDir "results/$sample_id/mapping/assembly"
 
     input:
@@ -686,8 +722,9 @@ OUT_ASSEMBLY_MAPPING.into { IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT; IN
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
-    tag { assembler }
 
+    tag { assembler }
+    label 'process_script'
     publishDir "results/$sample_id/stats/assembly"
 
     input:
@@ -698,11 +735,12 @@ process ASSEMBLY_STATS_GLOBAL {
     file '*.csv' into OUT_ASSEMBLY_STATS_GLOBAL_TSV
 
     script:
-    template 'assembly_stats_global.py'
+    template "assembly_stats_global.py"
 }
 
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
+    label 'process_script'
     publishDir 'results/stats'
 
     input:
@@ -713,14 +751,14 @@ process PROCESS_ASSEMBLY_STATS_GLOBAL {
     file 'global_assembly_stats.json' into PROCESS_ASSEMBLY_STATS_GLOBAL_OUT
 
     script:
-    template 'process_assembly_stats_global.py'
+    template "process_assembly_stats_global.py"
 
 }
 
 process ASSEMBLY_STATS_MAPPING {
 
     tag { assembler }
-
+    label 'process_script'
     publishDir "results/$sample_id/stats/"
 
     input:
@@ -737,12 +775,13 @@ process ASSEMBLY_STATS_MAPPING {
     file '*_phred.csv' into OUT_PHRED
 
     script:
-    template 'assembly_stats_mapping.py'
+    template "assembly_stats_mapping.py"
 
 }
 
 process PROCESS_ASSEMBLY_STATS_MAPPING {
 
+    label 'process_script'
     publishDir 'results/stats/'
 
     input:
@@ -752,12 +791,13 @@ process PROCESS_ASSEMBLY_STATS_MAPPING {
     file 'global_assembly_mapping_stats.json' into PROCESS_ASSEMBLY_STATS_MAPPING_OUT
 
     script:
-    template 'process_assembly_stats_mapping.py'
+    template "process_assembly_stats_mapping.py"
 
 }
 
 process PROCESS_COMPLETNESS {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -768,11 +808,12 @@ process PROCESS_COMPLETNESS {
     file 'completness_plots.json' into PLOT_PROCESS_COMPLETNESS
 
     script:
-    template 'completness_plot.py'
+    template "completness_plot.py"
 }
 
 process PLOT_LX {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -784,11 +825,12 @@ process PLOT_LX {
     file 'lx.json' into PLOT_LX
 
     script:
-    template 'lx_plot.py'
+    template "lx_plot.py"
 }
 
 process PLOT_NAX {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -800,11 +842,12 @@ process PLOT_NAX {
     file 'nax.json' into PLOT_NAX
 
     script:
-    template 'nax_plot.py'
+    template "nax_plot.py"
 }
 
 process PLOT_NGX {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -816,11 +859,12 @@ process PLOT_NGX {
     file 'ngx.json' into PLOT_NGX
 
     script:
-    template 'ngx_plot.py'
+    template "ngx_plot.py"
 }
 
 process PROCESS_SHRIMP_PLOT {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -831,11 +875,12 @@ process PROCESS_SHRIMP_PLOT {
     file 'phred.json' into PLOT_PHRED
 
     script:
-    template 'shrimp_plot.py'
+    template "shrimp_plot.py"
 }
 
 process PLOT_CONTIG_DISTRIBUTION {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -846,12 +891,13 @@ process PLOT_CONTIG_DISTRIBUTION {
     file '*.json' into PLOT_CONTIG_DISTRIBUTION
 
     script:
-    template 'plot_contig_size.py'
+    template "plot_contig_size.py"
 }
 
 process GAP_ASSESSMENT {
 
     tag { assembler }
+    label 'process_script'
     publishDir "results/$sample_id/stats/"
 
     input:
@@ -863,11 +909,12 @@ process GAP_ASSESSMENT {
     file '*_gaps.csv' into OUT_GAP_PLOT_REF
 
     script:
-    template 'gap_assessment.py'
+    template "gap_assessment.py"
 }
 
 process PLOT_GAP_BOXPLOT {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -878,12 +925,13 @@ process PLOT_GAP_BOXPLOT {
     file '*gap_distance_histogram.json' into OUT_GAP_HISTOGRAM
 
     script:
-    template 'plot_gap_sizes.py'
+    template "plot_gap_sizes.py"
 
 }
 
 process PLOT_GAP_REFERENCE {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -894,12 +942,13 @@ process PLOT_GAP_REFERENCE {
     file '*.json' into OUT_GAP_REFERENCE
 
     script:
-    template 'plot_gap_reference.py'
+    template "plot_gap_reference.py"
 }
 
 process SNP_ASSESSMENT {
 
     tag { assembler }
+    label 'process_script'
 
     input:
     tuple sample_id, assembler, file(assembly), file(mapping) from IN_SNP_ASSESSMENT
@@ -910,11 +959,12 @@ process SNP_ASSESSMENT {
     file '*_snps.csv' into OUT_SNP_PLOT_REF
 
     script:
-    template 'snp_assessment.py'
+    template "snp_assessment.py"
 }
 
 process PLOT_SNP_REFERENCE {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -925,12 +975,13 @@ process PLOT_SNP_REFERENCE {
     file '*.json' into OUT_SNP_REFERENCE
 
     script:
-    template 'plot_snp.py'
+    template "plot_snp.py"
 }
 
 process MISASSEMBLY {
 
     tag { assembler }
+    label 'process_script'
 
     input:
     tuple sample_id, assembler, file(assembly), file(mapping) from IN_MISASSEMBLY
@@ -943,12 +994,13 @@ process MISASSEMBLY {
     file '*_misassembly.csv' into PLOT_MISASSEMBLY_REF
 
     script:
-    template 'misassembly.py'
+    template "misassembly.py"
 
 }
 
 process PROCESS_MISASSEMBLY {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -964,12 +1016,13 @@ process PROCESS_MISASSEMBLY {
     file 'misassembly_report_per_ref.json' into MISASSEMBLY_PER_REF
 
     script:
-    template 'process_misassembly.py'
+    template "process_misassembly.py"
 
 }
 
 process PLOT_MISASSEMBLY {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -980,7 +1033,7 @@ process PLOT_MISASSEMBLY {
     file '*.json' into OUT_MISASSEMBLY_REFERENCE
 
     script:
-    template 'plot_misassembly.py'
+    template "plot_misassembly.py"
 
 }
 
@@ -992,6 +1045,7 @@ OUT_ASSEMBLY_STATS_GLOBAL_JSON.set{master_report}
 
 process compile_reports {
 
+    label 'process_script'
     publishDir 'report/', mode: 'copy'
 
     input:
@@ -1028,7 +1082,7 @@ process compile_reports {
     file 'reference_metadata.json'
 
     script:
-    template 'compile_reports.py'
+    template "compile_reports.py"
 }
 
 workflow.onComplete {
