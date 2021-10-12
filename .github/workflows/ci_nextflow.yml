@@ -22,7 +22,7 @@ jobs:
       - name: Basic workflow tests
         run: |
           nextflow run ${GITHUB_WORKSPACE} -profile docker --fastq "test/data/*_{1,2}.*" \
-          --reference "test/data/triple_reference.fasta" --max_cpus 2 --max_memory 4.Gb \
+          --reference "test/data/triple_reference.fasta" --max_cpus 2 --max_memory 4.GB \
           --abyss false --bcalm false --gatb_minia false --idba false --metahipmer2 false \
           --minia false --megahit false --metaspades false --spades false --unicycler false \
           --velvetoptimiser false
