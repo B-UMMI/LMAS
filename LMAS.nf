@@ -148,6 +148,7 @@ process PROCESS_READS {
 //      ABYSS
 process ABYSS {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/abyss/"
 
     when:
@@ -181,6 +182,7 @@ process ABYSS {
 //      BCALM 2
 process BCALM2 {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/bcalm2/"
 
     when:
@@ -217,6 +219,7 @@ GATB_error_correction = params.gatb_error_correction ? 'true' : 'false'
 
 process GATBMINIAPIPELINE {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/GATBMiniaPipeline/"
 
     when:
@@ -261,6 +264,7 @@ process GATBMINIAPIPELINE {
 //      IDBA
 process reformat_IDBA {
     tag { sample_id }
+    label 'process_assembly'
 
     when:
     params.idba
@@ -277,6 +281,7 @@ process reformat_IDBA {
 
 process IDBA {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/IDBA-UD/"
 
     when:
@@ -307,6 +312,7 @@ process IDBA {
 //      MEGAHIT
 process MEGAHIT {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*_megahit*.fasta'
 
     when:
@@ -341,6 +347,7 @@ process MEGAHIT {
 //      METAHIPMER2
 process reformat_METAHIPMER2 {
     tag { sample_id }
+    label 'process_assembly'
 
     when:
     params.metahipmer2
@@ -357,6 +364,7 @@ process reformat_METAHIPMER2 {
 
 process METAHIPMER2 {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/MetaHipMer2/"
 
     when:
@@ -390,6 +398,7 @@ process METAHIPMER2 {
 //      METASPADES
 process METASPADES {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/metaSPAdes/"
 
     when:
@@ -425,6 +434,7 @@ process METASPADES {
 //      MINIA
 process MINIA {
     tag {sample_id}
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/MINIA/"
 
     when:
@@ -458,6 +468,7 @@ process MINIA {
 //      SKESA
 process SKESA {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/SKESA/"
 
     when:
@@ -488,6 +499,7 @@ process SKESA {
 //      SPADES
 process SPADES {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/SPAdes/", pattern: '*.fasta'
 
     when:
@@ -522,6 +534,7 @@ process SPADES {
 //      UNICYCLER
 process UNICYCLER {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/unicycler"
 
     when:
@@ -554,6 +567,7 @@ process UNICYCLER {
 //      VELVETOPTIMISER
 process VELVETOPTIMISER {
     tag { sample_id }
+    label 'process_assembly'
     publishDir "results/$sample_id/assembly/VelvetOtimiser"
 
     when:
@@ -598,6 +612,8 @@ ABYSS_VERSION.mix(BCALM2_VERSION,
 
 process PROCESS_VERSION {
 
+    label 'process_script'
+
     input:
     file version from ALL_VERSIONS.collect()
 
@@ -627,6 +643,7 @@ ALL_ASSEMBLERS.into { TO_FILTER; TO_GLOBAL_STATS; TO_READ_MAPPING_ALL }
 process FILTER_ASSEMBLY {
 
     tag { sample_id; assembler }
+    label 'process_script'
     publishDir "results/$sample_id/assembly/filtered/"
 
     input:
@@ -646,7 +663,7 @@ OUT_FILTERED.into { IN_ASSEMBLY_MAPPING; IN_READ_MAPPING_FILTERED }
 process READ_MAPPING{
 
     tag { assembler }
-
+    label 'process_mapping'
     publishDir "results/$sample_id/mapping/reads"
 
     input:
@@ -664,7 +681,7 @@ process READ_MAPPING{
 process ASSEMBLY_MAPPING{
 
     tag { sample_id; assembler }
-
+    label 'process_mapping'
     publishDir "results/$sample_id/mapping/assembly"
 
     input:
@@ -686,8 +703,9 @@ OUT_ASSEMBLY_MAPPING.into { IN_ASSEMBLY_MAPPING_FOR_STATS; IN_GAP_ASSESSMENT; IN
 
 // ASSEMBLY STATS GLOBAL
 process ASSEMBLY_STATS_GLOBAL {
-    tag { assembler }
 
+    tag { assembler }
+    label 'process_script'
     publishDir "results/$sample_id/stats/assembly"
 
     input:
@@ -703,6 +721,7 @@ process ASSEMBLY_STATS_GLOBAL {
 
 process PROCESS_ASSEMBLY_STATS_GLOBAL {
 
+    label 'process_script'
     publishDir 'results/stats'
 
     input:
@@ -720,7 +739,7 @@ process PROCESS_ASSEMBLY_STATS_GLOBAL {
 process ASSEMBLY_STATS_MAPPING {
 
     tag { assembler }
-
+    label 'process_script'
     publishDir "results/$sample_id/stats/"
 
     input:
@@ -743,6 +762,7 @@ process ASSEMBLY_STATS_MAPPING {
 
 process PROCESS_ASSEMBLY_STATS_MAPPING {
 
+    label 'process_script'
     publishDir 'results/stats/'
 
     input:
@@ -758,6 +778,7 @@ process PROCESS_ASSEMBLY_STATS_MAPPING {
 
 process PROCESS_COMPLETNESS {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -773,6 +794,7 @@ process PROCESS_COMPLETNESS {
 
 process PLOT_LX {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -789,6 +811,7 @@ process PLOT_LX {
 
 process PLOT_NAX {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -805,6 +828,7 @@ process PLOT_NAX {
 
 process PLOT_NGX {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -821,6 +845,7 @@ process PLOT_NGX {
 
 process PROCESS_SHRIMP_PLOT {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -836,6 +861,7 @@ process PROCESS_SHRIMP_PLOT {
 
 process PLOT_CONTIG_DISTRIBUTION {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -852,6 +878,7 @@ process PLOT_CONTIG_DISTRIBUTION {
 process GAP_ASSESSMENT {
 
     tag { assembler }
+    label 'process_script'
     publishDir "results/$sample_id/stats/"
 
     input:
@@ -868,6 +895,7 @@ process GAP_ASSESSMENT {
 
 process PLOT_GAP_BOXPLOT {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -884,6 +912,7 @@ process PLOT_GAP_BOXPLOT {
 
 process PLOT_GAP_REFERENCE {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -900,6 +929,7 @@ process PLOT_GAP_REFERENCE {
 process SNP_ASSESSMENT {
 
     tag { assembler }
+    label 'process_script'
 
     input:
     tuple sample_id, assembler, file(assembly), file(mapping) from IN_SNP_ASSESSMENT
@@ -915,6 +945,7 @@ process SNP_ASSESSMENT {
 
 process PLOT_SNP_REFERENCE {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -931,6 +962,7 @@ process PLOT_SNP_REFERENCE {
 process MISASSEMBLY {
 
     tag { assembler }
+    label 'process_script'
 
     input:
     tuple sample_id, assembler, file(assembly), file(mapping) from IN_MISASSEMBLY
@@ -949,6 +981,7 @@ process MISASSEMBLY {
 
 process PROCESS_MISASSEMBLY {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -970,6 +1003,7 @@ process PROCESS_MISASSEMBLY {
 
 process PLOT_MISASSEMBLY {
 
+    label 'process_script'
     publishDir 'results/plots/', pattern: '*.html'
 
     input:
@@ -992,6 +1026,7 @@ OUT_ASSEMBLY_STATS_GLOBAL_JSON.set{master_report}
 
 process compile_reports {
 
+    label 'process_script'
     publishDir 'report/', mode: 'copy'
 
     input:
