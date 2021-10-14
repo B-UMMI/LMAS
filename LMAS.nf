@@ -27,11 +27,6 @@ if (params.reference instanceof Boolean) {
 if (params.fastq instanceof Boolean) {
     exit 1, "ERROR: '--fastq' must be a path pattern. Provided value:'$params.fastq'"
 }
-if (!params.md) {
-    Channel.from("skip").set { IN_MD }
-} else {
-    Channel.from(params.plot_scale).set { IN_MD }
-}
 
 //      Assemblers
 if (!params.abyss && !params.bcalm && !params.gatb_minia && !params.idba && !params.metahipmer2 && !params.minia && !params.megahit && !params.metaspades && !params.spades && !params.skesa && !params.unicycler && !params.velvetoptimiser){
@@ -94,6 +89,8 @@ IN_fastq_raw = Channel.fromFilePairs(params.fastq, size: -1).ifEmpty {
 IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {
     exit 1, "No reference fasta file provided with pattern:'${params.reference}'" }
 IN_reference_raw.into { TO_TRIPLE; TO_REPORT }
+
+IN_MD = Channel.from(params.md).ifEmpty {'skip'}
 
 //      Optional parameters
 if (plot_parameter_diff.size() > 1){
