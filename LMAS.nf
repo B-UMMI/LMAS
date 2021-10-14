@@ -27,6 +27,11 @@ if (params.reference instanceof Boolean) {
 if (params.fastq instanceof Boolean) {
     exit 1, "ERROR: '--fastq' must be a path pattern. Provided value:'$params.fastq'"
 }
+if (!params.md) {
+    Channel.from("skip").set { IN_MD }
+} else {
+    Channel.from(params.plot_scale).set { IN_MD }
+}
 
 //      Assemblers
 if (!params.abyss && !params.bcalm && !params.gatb_minia && !params.idba && !params.metahipmer2 && !params.minia && !params.megahit && !params.metaspades && !params.spades && !params.skesa && !params.unicycler && !params.velvetoptimiser){
@@ -1041,8 +1046,6 @@ process PLOT_MISASSEMBLY {
 Compiles the reports from every process
 **/
 
-OUT_ASSEMBLY_STATS_GLOBAL_JSON.set{master_report}
-
 process compile_reports {
 
     label 'process_script'
@@ -1070,7 +1073,7 @@ process compile_reports {
     file versions_json from VERSIONS_JSON
     file misassembly_per_ref from MISASSEMBLY_PER_REF
     file plot_misassembly_per_ref from OUT_MISASSEMBLY_REFERENCE
-    file about_md from Channel.fromPath(params.md)
+    file about_md from IN_MD
     file containers_config from Channel.fromPath("${workflow.projectDir}/configs/containers.config")
 
     output:

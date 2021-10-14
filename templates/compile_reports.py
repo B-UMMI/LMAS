@@ -564,7 +564,7 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     # add about markdown
     about_md_to_write = '` `'
-    if os.path.exists(about_md):
+    if os.path.exists(about_md) or about_md != 'skip':
         with open(about_md, 'r') as file:
             about_md_to_write = '`' + file.read() + '`'
 
