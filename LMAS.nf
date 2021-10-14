@@ -90,7 +90,7 @@ IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {
     exit 1, "No reference fasta file provided with pattern:'${params.reference}'" }
 IN_reference_raw.into { TO_TRIPLE; TO_REPORT }
 
-IN_MD = Channel.from(params.md).ifEmpty {'skip'}
+IN_MD = Channel.fromPath(params.md).ifEmpty {'skip'}
 
 //      Optional parameters
 if (plot_parameter_diff.size() > 1){
