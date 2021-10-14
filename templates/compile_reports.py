@@ -564,9 +564,12 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
 
     # add about markdown
     about_md_to_write = '` `'
-    if os.path.exists(about_md) or about_md != 'skip':
-        with open(about_md, 'r') as file:
-            about_md_to_write = '`' + file.read() + '`'
+    if  about_md != 'skip':
+        if os.path.exists(about_md):
+            with open(about_md, 'r') as file:
+                about_md_to_write = '`' + file.read() + '`'
+    else:
+        about_md_to_write = '`No information provided.`'
 
     with open("performance_metadata.json", "w") as json_fh:
         json_fh.write(json.dumps(performance_metadata, separators=(",", ":")))
