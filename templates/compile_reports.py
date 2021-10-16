@@ -524,52 +524,60 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
             gap_reference_json, sample_id))
         with open(gap_reference_json) as gap_ref_fh:
             plot_json = json.load(gap_ref_fh)
-            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                for x in reference_plots:
-                    reference_plots_json = json.loads(x)
-                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {
-                            "gaps": reference_plots_json}
-                    else:
-                        main_data_plots_js[sample_id]["PlotData"][reference]["gaps"] = reference_plots_json
+            try:
+                for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                    for x in reference_plots:
+                        reference_plots_json = json.loads(x)
+                        if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                            main_data_plots_js[sample_id]["PlotData"][reference] = {
+                                "gaps": reference_plots_json}
+                        else:
+                            main_data_plots_js[sample_id]["PlotData"][reference]["gaps"] = reference_plots_json
+            except KeyError:
+                pass
 
         # SNP plot
         logger.debug('Processing {0} data for {1}...'.format(
             snp_reference_json, sample_id))
         with open(snp_reference_json) as snp_ref_fh:
             plot_json = json.load(snp_ref_fh)
-            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                for x in reference_plots:
-                    reference_plots_json = json.loads(x)
-                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {
-                            "snps": reference_plots_json}
-                    else:
-                        main_data_plots_js[sample_id]["PlotData"][reference]["snps"] = reference_plots_json
+            try:
+                for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                    for x in reference_plots:
+                        reference_plots_json = json.loads(x)
+                        if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                            main_data_plots_js[sample_id]["PlotData"][reference] = {
+                                "snps": reference_plots_json}
+                        else:
+                            main_data_plots_js[sample_id]["PlotData"][reference]["snps"] = reference_plots_json
+            except KeyError:
+                pass
+
         # MISASSEMBLY plot
         logger.debug('Processing {0} data for {1}...'.format(
             plot_misassembly_per_reference_json, sample_id))
         with open(plot_misassembly_per_reference_json) as misassembly_ref_fh:
             plot_json = json.load(misassembly_ref_fh)
-            for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
-                for x in reference_plots:
-                    reference_plots_json = json.loads(x)
-                    if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
-                        main_data_plots_js[sample_id]["PlotData"][reference] = {
-                            "misassembly": reference_plots_json}
-                    else:
-                        main_data_plots_js[sample_id]["PlotData"][reference]["misassembly"] = reference_plots_json
+            try:
+                for reference, reference_plots in plot_json[sample_id]["PlotData"].items():
+                    for x in reference_plots:
+                        reference_plots_json = json.loads(x)
+                        if reference not in main_data_plots_js[sample_id]["PlotData"].keys():
+                            main_data_plots_js[sample_id]["PlotData"][reference] = {
+                                "misassembly": reference_plots_json}
+                        else:
+                            main_data_plots_js[sample_id]["PlotData"][reference]["misassembly"] = reference_plots_json
+            except KeyError:
+                pass
 
     #logger.debug("Report data dictionary: {}".format(main_data_plots_js))
 
     # add about markdown
     about_md_to_write = '` `'
-    if  about_md != 'skip':
-        if os.path.exists(about_md):
-            with open(about_md, 'r') as file:
-                about_md_to_write = '`' + file.read() + '`'
-    else:
-        about_md_to_write = '`No information provided.`'
+
+    if os.path.exists(about_md):
+        with open(about_md, 'r') as file:
+            about_md_to_write = '`' + file.read() + '`'
 
     with open("performance_metadata.json", "w") as json_fh:
         json_fh.write(json.dumps(performance_metadata, separators=(",", ":")))

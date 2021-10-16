@@ -159,3 +159,4 @@ test/misassembly_test_all.json
 docs/resources/.DS_Store
 .DS_Store
 results/
+report/

@@ -806,7 +806,7 @@ process PROCESS_COMPLETNESS {
     file coverage_files from OUT_COVERAGE_PER_CONTIG.collect()
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file 'completness_plots.json' into PLOT_PROCESS_COMPLETNESS
 
     script:
@@ -823,7 +823,7 @@ process PLOT_LX {
     val(scale) from IN_PLOT_SCALE_1
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file 'lx.json' into PLOT_LX
 
     script:
@@ -840,7 +840,7 @@ process PLOT_NAX {
     val(scale) from IN_PLOT_SCALE_2
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file 'nax.json' into PLOT_NAX
 
     script:
@@ -857,7 +857,7 @@ process PLOT_NGX {
     val(scale) from IN_PLOT_SCALE_3
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file 'ngx.json' into PLOT_NGX
 
     script:
@@ -873,7 +873,7 @@ process PROCESS_SHRIMP_PLOT {
     file phred_files from OUT_PHRED.collect()
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file 'phred.json' into PLOT_PHRED
 
     script:
@@ -889,7 +889,7 @@ process PLOT_CONTIG_DISTRIBUTION {
     file dataframes from OUT_DF_ASSEMBLY_STATS_MAPPING.collect()
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file '*.json' into PLOT_CONTIG_DISTRIBUTION
 
     script:
@@ -923,7 +923,7 @@ process PLOT_GAP_BOXPLOT {
     file gap_distance_json from OUT_GAP_DISTANCE.collect()
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file '*gap_distance_histogram.json' into OUT_GAP_HISTOGRAM
 
     script:
@@ -940,7 +940,7 @@ process PLOT_GAP_REFERENCE {
     file gap_coords_dataframes from OUT_GAP_PLOT_REF.collect()
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file '*.json' into OUT_GAP_REFERENCE
 
     script:
@@ -973,7 +973,7 @@ process PLOT_SNP_REFERENCE {
     file snp_coords_dataframes from OUT_SNP_PLOT_REF.collect()
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file '*.json' into OUT_SNP_REFERENCE
 
     script:
@@ -1012,7 +1012,7 @@ process PROCESS_MISASSEMBLY {
     file report_per_reference from MISASSEMBLY_DICTIONARY.collect()
 
     output: 
-    file '*.html'
+    file '*.html' optional true
     file '*_misassembly.json' into OUT_MISASSEMBLY_PLOT
     file 'misassembly_report.json' into OUT_MISASSEMBLY_REPORT
     file 'misassembly_report_per_ref.json' into MISASSEMBLY_PER_REF
@@ -1031,7 +1031,7 @@ process PLOT_MISASSEMBLY {
     file misassembly_dataframes from PLOT_MISASSEMBLY_REF.collect()
 
     output:
-    file '*.html'
+    file '*.html' optional true
     file '*.json' into OUT_MISASSEMBLY_REFERENCE
 
     script:
