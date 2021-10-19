@@ -28,7 +28,8 @@ Contiguity
 
 Misassemblies
 """"""""""""
-* **Misassemblies:** Number of missassembled contigs;
+* **Misassembled contigs:** Number of missassembled contigs;
+* **Misassembly events:** Number of misassembly events in the assembly;
 
 
 Global Plot Metrics
@@ -98,7 +99,8 @@ Identity
 Misassembly
 """"""""""""
 
-* **Misassemblies:** Number of aligned contigs that contain a misassembly event;
+* **Misassembled contigs:** Number of aligned contigs that contain a misassembly event;
+* **Misassembly events:** Number of misassembly events in the aligned contigs;
 
 Reference Plot Metrics
 ^^^^^^^^^^^^^^^^^^^^^^^
