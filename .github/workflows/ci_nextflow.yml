@@ -1,0 +1,28 @@
+name: CI - Nextflow test
+# This workflow is triggered on pushes and PRs to the repository.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nxf_ver: ['21.04.1']
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Install Nextflow
+        run: |
+          export NXF_VER=${{ matrix.nxf_ver }}
+          wget -qO- get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+      - name: Basic workflow tests
+        run: |
+          nextflow run ${GITHUB_WORKSPACE} -profile docker --fastq "test/data/tiny_{1,2}.*" \
+          --reference "test/data/tiny_reference.fasta" --max_cpus 2 --max_memory 4.GB \
+          --abyss false --bcalm false --gatb_minia false --idba false --metahipmer2 false \
+          --minia false --megahit false --metaspades false --spades false --unicycler false \
+          --velvetoptimiser false

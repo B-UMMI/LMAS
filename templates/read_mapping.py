@@ -121,7 +121,7 @@ def main(sample_id, assembler, assembly, filtered_assembly, fastq, basedir, thre
     logger.debug("Read files found: {}".format(all_readfiles))
     reads = []
     for file in all_readfiles:
-        if sample_id in file:
+        if sample_id in file and 'fq' in file:
             reads.append(file)
     logger.debug("Matching read files: {}".format(reads))
 

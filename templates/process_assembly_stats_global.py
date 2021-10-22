@@ -116,6 +116,7 @@ def main(assembly_stats_global_file, stats_json, n_target):
                                 "contigs": 0,
                                 "basepairs": 0,
                                 "N{}".format(int(n_target*100)): 0,
+                                "mapped_reads": 0,
                                 "Ns": 0}
                         })
 
