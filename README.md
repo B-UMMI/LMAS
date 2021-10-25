@@ -211,8 +211,8 @@ A bash script to download and structure the ZymoBIOMICS data to be used as input
 
       sh get_data.sh
 
-Running this scipt downloads the [eight bacterial genomes and four plasmids of the ZymoBIOMICS Microbial Community Standards](https://zenodo.org/record/4588970#.YEeA83X7RhE) were used as the triple reference. 
-It contains tripled complete sequences for the following species:
+Running this scipt downloads the [eight bacterial genomes and four plasmids of the ZymoBIOMICS Microbial Community Standards](https://zenodo.org/record/4588970#.YEeA83X7RhE) were used as reference. 
+It contains complete sequences for the following species:
 - *Bacillus subtilis* 
 - *Enterococcus faecalis*
 - *Escherichia coli*
