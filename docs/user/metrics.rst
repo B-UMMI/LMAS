@@ -86,7 +86,7 @@ the COMPASS is a set of metrics defining how much of the reference is covered by
 
 Contiguity
 """"""""""
-* **Contiguity:** longest single alignment between the assembly and the reference, relative to the reference length;
+* **LSA:** longest single alignment between the assembly and the reference, relative to the reference length;
 * **NAx (where 0 < x ⩽ 100):** Length for which the collection of aligned assembled sequences of that length or longer in an assembly covers at least a given percentage of the total length of the reference replicon;
 * **NGx (where 0 < x ⩽ 100):** Length for which the collection of aligned contigs of that length or longer covers at least a given percentage of the sequence of the reference.
 * **Lx (where 0 < x ⩽ 100):** Minimal number of contigs that cover x % of the sequence of the reference;
