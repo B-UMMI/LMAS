@@ -589,7 +589,7 @@ process VELVETOPTIMISER {
 
     tag { sample_id }
     label 'process_assembly'
-    publishDir "results/$sample_id/assembly/VelvetOtimiser"
+    publishDir "results/$sample_id/assembly/VelvetOptimiser"
 
     when:
     params.velvetoptimiser
