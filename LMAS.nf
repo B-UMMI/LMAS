@@ -326,7 +326,7 @@ process MEGAHIT {
 
     tag { sample_id }
     label 'process_assembly'
-    publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*_megahit*.fasta'
+    publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*.fasta'
 
     when:
     params.megahit
