@@ -237,7 +237,7 @@ Simulated samples of the evenly and log distributed reads, with and without erro
 
 After downloading the data you can simply run LMAS, with default parameters, with the following command:
 
-      docker run LMAS.nf -profile docker
+      nextflow run LMAS.nf -profile docker
 
 ## Citation and Contacts
 
