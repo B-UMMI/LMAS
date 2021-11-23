@@ -3,13 +3,6 @@
 import Helper
 import CollectInitialMetadata
 
-// Pipeline version
-if (workflow.commitId){
-    version = "1.1.2 $workflow.revision"
-} else {
-    version = "1.1.2 (local version)"
-}
-
 // Help message
 params.help = false
 if (params.help){
