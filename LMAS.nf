@@ -7,9 +7,9 @@ import CollectInitialMetadata
 
 // Pipeline version
 if (workflow.commitId){
-    version = "1.1.1 $workflow.revision"
+    version = "1.1.3 $workflow.revision"
 } else {
-    version = "1.1.1 (local version)"
+    version = "1.1.3 (local version)"
 }
 
 // Help message
@@ -328,7 +328,7 @@ process MEGAHIT {
 
     tag { sample_id }
     label 'process_assembly'
-    publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*_megahit*.fasta'
+    publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*.fasta'
 
     when:
     params.megahit
@@ -591,7 +591,7 @@ process VELVETOPTIMISER {
 
     tag { sample_id }
     label 'process_assembly'
-    publishDir "results/$sample_id/assembly/VelvetOtimiser"
+    publishDir "results/$sample_id/assembly/VelvetOptimiser"
 
     when:
     params.velvetoptimiser

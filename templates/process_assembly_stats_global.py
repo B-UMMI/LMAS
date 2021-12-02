@@ -36,6 +36,10 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY_STATS_GLOBAL_FILE = '$assembly_stats_global_files'.split()
     ASSEMBLY_STATS_GLOBAL_FILE_JSON = "$json_report".split()
     N_TARGET = float("$params.n_target")
+    ASSEMBLER_SKIP = {"ABySS":json.loads("$params.abyss"), "BCALM2": json.loads("$params.bcalm"), "GATBMiniaPipeline": json.loads("$params.gatb_minia"), 
+                       "MetaHipMer2": json.loads("$params.metahipmer2"), "MINIA": json.loads("$params.minia"), "MEGAHIT": json.loads("$params.megahit"), 
+                       "metaSPAdes": json.loads("$params.metaspades"), "Unicycler": json.loads("$params.unicycler"), "SPAdes": json.loads("$params.spades"),
+                       "SKESA": json.loads("$params.skesa"), "VelvetOptimiser": json.loads("$params.velvetoptimiser"), "IDBA-UD": json.loads("$params.idba")}
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("ASSEMBLY_STATS_GLOBAL_FILE: {}".format(
@@ -44,36 +48,12 @@ if __file__.endswith(".command.sh"):
         ASSEMBLY_STATS_GLOBAL_FILE_JSON))
     logger.debug("N_TARGET: {}".format(
         N_TARGET))
+    logger.debug("ASSEMBLER_STATUS: {}".format(
+        ASSEMBLER_SKIP))
 
 
-def main(assembly_stats_global_file, stats_json, n_target):
+def main(assembly_stats_global_file, stats_json, n_target, assembler_skip):
 
-    # Write CSV file report
-    """
-    data = {}
-    for file in assembly_stats_global_file:
-        sample = os.path.basename(file).split('_')[0]
-
-        if sample not in data.keys():
-            data[sample] = [file]
-        else:
-            data[sample].append(file)
-    print(data)
-    print(data.keys())
-    for sample in data.keys():
-        print(sample)
-        print(data[sample])
-        with open(sample + '.csv', "w") as csv_file:
-            csv_file.write(','.join(['Assembler', 'Contigs', 'Basepairs', 'Max contig size', 'N50',
-                                     'contigs>1000bp (%)', 'Basepairs in contigs>1000bp (%)', 'N50 in contigs>1000bp'])
-                           + '\\n')
-            for item in data[sample]:
-                print(item)
-                with open(item, 'r') as stats_file:
-                    data = stats_file.read().replace('\\n', '')
-                    print(data)
-                    csv_file.write(data + '\\n')
-    """
     # Write JSON file report
     with open("global_assembly_stats.json", "w") as json_report:
         main_json = {}
@@ -100,25 +80,26 @@ def main(assembly_stats_global_file, stats_json, n_target):
 
         # Add missing data for non-successful assemblies
         for assembler in utils.ASSEMBLER_NAMES:
-            for sample_id in main_json.keys():
-                if not any(d['assembler'] == assembler for d in main_json[sample_id]["GlobalTable"]):
-                    main_json[sample_id]["GlobalTable"].append(
-                        {
-                            "assembler": assembler,
-                            "original": {
-                                "contigs": 0,
-                                "basepairs": 0,
-                                "max_contig_size": 0,
-                                "N{}".format(int(n_target*100)): 0,
-                                "mapped_reads": 0,
-                                "Ns": 0},
-                            "filtered": {
-                                "contigs": 0,
-                                "basepairs": 0,
-                                "N{}".format(int(n_target*100)): 0,
-                                "mapped_reads": 0,
-                                "Ns": 0}
-                        })
+            if assembler_skip[assembler]:
+                for sample_id in main_json.keys():
+                    if not any(d['assembler'] == assembler for d in main_json[sample_id]["GlobalTable"]):
+                        main_json[sample_id]["GlobalTable"].append(
+                            {
+                                "assembler": assembler,
+                                "original": {
+                                    "contigs": 0,
+                                    "basepairs": 0,
+                                    "max_contig_size": 0,
+                                    "N{}".format(int(n_target*100)): 0,
+                                    "mapped_reads": 0,
+                                    "Ns": 0},
+                                "filtered": {
+                                    "contigs": 0,
+                                    "basepairs": 0,
+                                    "N{}".format(int(n_target*100)): 0,
+                                    "mapped_reads": 0,
+                                    "Ns": 0}
+                            })
 
         # sort final dictionary by assembler
         for sample in main_json.keys():
@@ -129,4 +110,4 @@ def main(assembly_stats_global_file, stats_json, n_target):
 
 
 if __name__ == '__main__':
-    main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON, N_TARGET)
+    main(ASSEMBLY_STATS_GLOBAL_FILE, ASSEMBLY_STATS_GLOBAL_FILE_JSON, N_TARGET, ASSEMBLER_SKIP)

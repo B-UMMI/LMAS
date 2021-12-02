@@ -201,7 +201,7 @@ workflow was executed. To open the report simply click on the **index.html** fil
 your default browser. 
 
 LMAS comes pre-packaged with the JS source code for the interactive report, available in the `resources/` folder. 
-The source code for the report is available in the [lmas_report](https://github.com/cimendes/lmas_report) repository. 
+The source code for the report is available in the [LMAS.js](https://github.com/B-UMMI/LMAS.js) repository. 
 
 ## Quick Start
 
@@ -238,7 +238,7 @@ Simulated samples of the evenly and log distributed reads, with and without erro
 
 After downloading the data you can simply run LMAS, with default parameters, with the following command:
 
-      docker run LMAS.nf -profile docker
+      nextflow run LMAS.nf -profile docker
 
 ## Citation and Contacts
 
