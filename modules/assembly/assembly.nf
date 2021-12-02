@@ -1,3 +1,6 @@
+nextflow.enable.dsl=2
+
+// ASSEMBLERS
 process ABYSS {
 
     tag { sample_id }
@@ -8,13 +11,13 @@ process ABYSS {
     params.abyss
 
     input:
-    tuple sample_id, file(fastq) from IN_ABYSS
-    val KmerSize from Channel.value(params.abyssKmerSize)
-    val BloomSize from Channel.value(params.abyssBloomSize)
+    tuple val(sample_id), path(fastq)
+    val KmerSize 
+    val BloomSize 
 
     output:
-    tuple sample_id, val('ABySS'), file('*_ABySS.fasta') into OUT_ABYSS
-    file '.*version' into ABYSS_VERSION
+    tuple val(sample_id), val('ABySS'), path('*_ABySS.fasta'), emit: assembly
+    path('.*version'), emit: version
 
     script:
     """
@@ -42,12 +45,12 @@ process BCALM2 {
     params.bcalm
 
     input:
-    tuple sample_id, file(fastq) from IN_BCALM2
-    val KmerSize from Channel.value(params.bcalmKmerSize)
+    tuple val(sample_id), path(fastq) 
+    val KmerSize 
 
     output:
-    tuple sample_id, val('BCALM2'), file('*_BCALM2.fasta') into OUT_BCALM2
-    file '.*version' into BCALM2_VERSION
+    tuple val(sample_id), val('BCALM2'), path('*_BCALM2.fasta'), emit: assembly
+    path('.*version'), emit: version 
 
     script:
     """
@@ -77,14 +80,14 @@ process GATBMINIAPIPELINE {
     params.gatb_minia
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_GATB_MINIA_PIPELINE
-    val kmer_list from Channel.value(params.gatbKmerSize)
-    val do_error_correction from GATB_error_correction
-    val besst_iter from Channel.value(params.gatb_besst_iter)
+    tuple val(sample_id), path(fastq_pair)
+    val kmer_list
+    val do_error_correction
+    val besst_iter
 
     output:
-    tuple sample_id, val('GATBMiniaPipeline'), file('*_GATBMiniaPipeline.fasta') into OUT_GATB
-    file '.*version' into GATB_VERSION
+    tuple val(sample_id), val('GATBMiniaPipeline'), path('*_GATBMiniaPipeline.fasta'), emit: assembly
+    path('.*version'), emit: version 
 
     script:
     """
@@ -121,10 +124,10 @@ process reformat_IDBA {
     params.idba
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_IDBA
+    tuple val(sample_id), path(fastq_pair)
 
     output:
-    tuple sample_id, file('*.fasta') into REFORMAT_IDBA
+    tuple val(sample_id), file('*.fasta') 
 
     script:
     "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta"
@@ -140,11 +143,11 @@ process IDBA {
     params.idba
 
     input:
-    tuple sample_id, file(fasta_reads_single) from  REFORMAT_IDBA
+    tuple val(sample_id), path(fasta_reads_single)
 
     output:
-    tuple sample_id, val('IDBA-UD'), file('*_IDBA-UD.fasta') into OUT_IDBA
-    file '.*version' into IDBA_VERSION
+    tuple val(sample_id), val('IDBA-UD'), file('*_IDBA-UD.fasta'), emit: assembly
+    path('.*version'), emit: version 
 
     script:
     """
@@ -165,18 +168,18 @@ process MEGAHIT {
 
     tag { sample_id }
     label 'process_assembly'
-    publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*_megahit*.fasta'
+    publishDir "results/$sample_id/assembly/MEGAHIT/", pattern: '*.fasta'
 
     when:
     params.megahit
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_MEGAHIT
-    val kmers from Channel.value(params.megahitKmerSize)
+    tuple val(sample_id), path(fastq_pair)
+    val kmers
 
     output:
-    tuple sample_id, val('MEGAHIT'), file('*_MEGAHIT.fasta') into OUT_MEGAHIT
-    file '.*version' into MEGAHIT_VERSION
+    tuple val(sample_id), val('MEGAHIT'), path('*_MEGAHIT.fasta'), emit: assembly
+    path('.*version'), emit: version
 
     script:
     """
@@ -205,10 +208,10 @@ process reformat_METAHIPMER2 {
     params.metahipmer2
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_METAHIPMER2
+    tuple val(sample_id), path(fastq_pair)
 
     output:
-    tuple sample_id, file('*.fastq') into REFORMAT_METAHIPMER2
+    tuple val(sample_id), path('*.fastq')
 
     script:
     "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fastq"
@@ -224,12 +227,12 @@ process METAHIPMER2 {
     params.metahipmer2
 
     input:
-    tuple sample_id, file(fasta_reads_single) from  REFORMAT_METAHIPMER2
-    val kmer from Channel.value(params.metahipmer2KmerSize)
+    tuple val(sample_id), path(fasta_reads_single)
+    val kmer
 
     output:
-    tuple sample_id, val('MetaHipMer2'), file('*_MetaHipMer2.fasta') into OUT_METAHIPMER2
-    file '.*version' into METAHIPMER2_VERSION
+    tuple val(sample_id), val('MetaHipMer2'), file('*_MetaHipMer2.fasta'), emit: assembly
+    path('.*version'), emit: version
 
     script:
     """
@@ -258,12 +261,12 @@ process METASPADES {
     params.metaspades
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_METASPADES
-    val kmers from Channel.value(params.metaspadesKmerSize)
+    tuple val(sample_id), path(fastq_pair)
+    val kmers
 
     output:
-    tuple sample_id, val('metaSPAdes'), file('*_metaspades.fasta') into OUT_METASPADES
-    file '.*version' into METASPADES_VERSION
+    tuple val(sample_id), val('metaSPAdes'), path('*_metaspades.fasta'), emit: assembly
+    path('.*version'), emit: version
 
     script:
     """
@@ -294,12 +297,12 @@ process MINIA {
     params.minia
 
     input:
-    tuple sample_id, file(fastq) from IN_MINIA
-    val kmer from Channel.value(params.miniaKmerSize)
+    tuple val(sample_id), path(fastq)
+    val kmer
 
     output:
-    tuple sample_id, val('MINIA'), file('*_minia.fasta') into OUT_MINIA
-    file '.*version' into MINIA_VERSION
+    tuple val(sample_id), val('MINIA'), path('*_minia.fasta'), emit: assembly
+    path('.*version'), emit: version
 
     script:
     """
@@ -328,11 +331,11 @@ process SKESA {
     params.skesa
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_SKESA
+    tuple val(sample_id), path(fastq_pair)
 
     output:
-    tuple sample_id, val('SKESA'), file('*_skesa.fasta') into OUT_SKESA
-    file '.*version' into SKESA_VERSION
+    tuple val(sample_id), val('SKESA'), path('*_skesa.fasta'), emit: assembly
+    path('.*version'), emit: version 
 
     script:
     """
@@ -359,12 +362,12 @@ process SPADES {
     params.spades
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_SPADES
-    val kmers from Channel.value(params.spadesKmerSize)
+    tuple val(sample_id), file(fastq_pair) 
+    val kmers
 
     output:
-    tuple sample_id, val('SPAdes'), file('*_spades.fasta') into OUT_SPADES
-    file '.*version' into SPADES_VERSION
+    tuple val(sample_id), val('SPAdes'), path('*_spades.fasta'), emit: assembly
+    path('.*version'), emit: version
 
     script:
     """
@@ -394,11 +397,11 @@ process UNICYCLER {
     params.unicycler
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_UNICYCLER
+    tuple val(sample_id), file(fastq_pair)
 
     output:
-    tuple sample_id, val('Unicycler'), file('*_unicycler.fasta') into OUT_UNICYCLER
-    file '.*version' into UNICYCLER_VERSION
+    tuple val(sample_id), val('Unicycler'), path('*_unicycler.fasta'), emit: assembly
+    path('.*version'), emit: version
 
     script:
     """
@@ -421,17 +424,17 @@ process VELVETOPTIMISER {
 
     tag { sample_id }
     label 'process_assembly'
-    publishDir "results/$sample_id/assembly/VelvetOtimiser"
+    publishDir "results/$sample_id/assembly/VelvetOptimiser"
 
     when:
     params.velvetoptimiser
 
     input:
-    tuple sample_id, file(fastq_pair) from IN_VELVETOPTIMISER
+    tuple val(sample_id), path(fastq_pair)
 
     output:
-    tuple sample_id, val('VelvetOptimiser'), file('*.fasta') into OUT_VELVETOPTIMISER
-    file '.*version' into VELVETOPTIMISER_VERSION
+    tuple val(sample_id), val('VelvetOptimiser'), path('*.fasta'), emit: assembly
+    path('.*version'), emit: version
 
     script:
     """
@@ -448,4 +451,64 @@ process VELVETOPTIMISER {
     }
     rm -r auto_data* || true
     """
+}
+
+// WORKFLOW
+workflow assembly_wf {
+
+    abyssKmerSize = Channel.value(params.abyssKmerSize)
+    abyssBloomSize = Channel.value(params.abyssBloomSize)
+    bcalmKmerSize = Channel.value(params.bcalmKmerSize)
+    gatbKmerSize = Channel.value(params.gatbKmerSize)
+    GATB_error_correction = params.gatb_error_correction ? 'true' : 'false'
+    gatb_besst_iter = Channel.value(params.gatb_besst_iter)
+    megahitKmerSize = Channel.value(params.megahitKmerSize)
+    metahipmer2KmerSize = Channel.value(params.metahipmer2KmerSize)
+    metaspadesKmerSize = Channel.value(params.metaspadesKmerSize)
+    miniaKmerSize = Channel.value(params.miniaKmerSize)
+    spadesKmerSize = Channel.value(params.spadesKmerSize)
+
+    take:
+    IN_fastq_raw
+
+    main:
+    ABYSS(IN_fastq_raw, abyssKmerSize, abyssBloomSize)
+    BCALM2(IN_fastq_raw, bcalmKmerSize)
+    GATBMINIAPIPELINE(IN_fastq_raw, gatbKmerSize, GATB_error_correction, gatb_besst_iter)
+    reformat_IDBA(IN_fastq_raw)
+    IDBA(reformat_IDBA.out)
+    MEGAHIT(IN_fastq_raw, megahitKmerSize)
+    reformat_METAHIPMER2(IN_fastq_raw)
+    METAHIPMER2(reformat_METAHIPMER2.out, metahipmer2KmerSize)
+    METASPADES(IN_fastq_raw, metaspadesKmerSize)
+    MINIA(IN_fastq_raw, miniaKmerSize)
+    SKESA(IN_fastq_raw)
+    SPADES(IN_fastq_raw, spadesKmerSize)
+    UNICYCLER(IN_fastq_raw)
+    VELVETOPTIMISER(IN_fastq_raw)
+
+    emit:
+    all_assemblies = ABYSS.out.assembly | mix(BCALM2.out.assembly, 
+                                              GATBMINIAPIPELINE.out.assembly,
+                                              IDBA.out.assembly,
+                                              MEGAHIT.out.assembly,
+                                              METAHIPMER2.out.assembly,
+                                              METASPADES.out.assembly,
+                                              MINIA.out.assembly,
+                                              SKESA.out.assembly,
+                                              SPADES.out.assembly,
+                                              UNICYCLER.out.assembly,
+                                              VELVETOPTIMISER.out.assembly)
+    all_versions = ABYSS.out.version | mix(BCALM2.out.version, 
+                                           GATBMINIAPIPELINE.out.version,
+                                           IDBA.out.version,
+                                           MEGAHIT.out.version,
+                                           METAHIPMER2.out.version,
+                                           METASPADES.out.version,
+                                           MINIA.out.version,
+                                           SKESA.out.version,
+                                           SPADES.out.version,
+                                           UNICYCLER.out.version,
+                                           VELVETOPTIMISER.out.version) | collect
+
 }
