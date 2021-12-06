@@ -10,7 +10,7 @@ import CheckParams
 ========================================================================================
 */
 
-include { PROCESS_REFERENCE ; PROCESS_READS ; PROCESS_VERSION } from './modules/processing/processing'
+include { PROCESS_REFERENCE ; PROCESS_READS ; PROCESS_VERSION } from './modules/preprocessing/preprocessing'
 include { assembly_wf } from './modules/assembly/assembly'
 include { mapping_wf } from './modules/mapping/mapping'
 
