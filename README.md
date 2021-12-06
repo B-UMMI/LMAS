@@ -76,7 +76,7 @@ To use LMAS the following options are available:
       Input parameters:
          --fastq                    Path expression to paired-end fastq files.
                                     (default: data/fastq/*_{1,2}.*)
-         --reference                Path to triple-genome reference fasta file.
+         --reference                Path to the genome reference fasta file.
                                     (default: data/reference/*.fasta)
          --md                       Path to markdown with input sample description for report (optional).
                                     (default: data/*.md)
@@ -210,7 +210,7 @@ A bash script to download and structure the ZymoBIOMICS data to be used as input
 
       sh get_data.sh
 
-Running this scipt downloads the [eight bacterial genomes and four plasmids of the ZymoBIOMICS Microbial Community Standards](https://zenodo.org/record/4588970#.YEeA83X7RhE) were used as the triple reference. 
+Running this scipt downloads the [eight bacterial genomes and four plasmids of the ZymoBIOMICS Microbial Community Standards](https://zenodo.org/record/4588970#.YEeA83X7RhE) were used as reference. 
 It contains tripled complete sequences for the following species:
 - *Bacillus subtilis* 
 - *Enterococcus faecalis*
