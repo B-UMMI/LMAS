@@ -13,7 +13,7 @@ import CheckParams
 include { PROCESS_REFERENCE ; PROCESS_READS ; PROCESS_VERSION } from './modules/preprocessing/preprocessing'
 include { assembly_wf } from './modules/assembly/assembly'
 include { mapping_wf } from './modules/mapping/mapping'
-include { COMPILE_REPORT } from './modules/report/report.nf'
+include { report_wf } from './modules/report/report.nf'
 
 /*
 ========================================================================================
@@ -307,7 +307,6 @@ workflow {
     //  Main parameters
     IN_fastq_raw = Channel.fromFilePairs(params.fastq, size: -1).ifEmpty {exit 1, "No fastq files provided with pattern:'${params.fastq}'"}
     IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {exit 1, "No reference fasta file provided with pattern:'${params.reference}'"}
-    IN_MD = Channel.fromPath(params.md).ifEmpty {'No information provided.'}
 
     //  Optional parameters
     def plot_mode_expected = ['linear', 'log'] as Set
@@ -346,11 +345,7 @@ workflow {
     PROCESS_MISASSEMBLY(MISASSEMBLY.out.trace_pkl | collect, MISASSEMBLY.out.contig_length_pkl | collect, MISASSEMBLY.out.misassembly_json | collect, MISASSEMBLY.out.misassembled_reference_json | collect)
     PLOT_MISASSEMBLY(MISASSEMBLY.out.csv | collect)
     
-    pipeline_stats = Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
-    js = Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
-    lmas_png = Channel.fromPath("${workflow.projectDir}/resources/lmas.zip")
-    containers_config = Channel.fromPath("${workflow.projectDir}/configs/containers.config")
-    COMPILE_REPORT(PROCESS_READS.out, mapping_wf.out.stats_global, pipeline_stats, js, lmas_png, IN_reference_raw, PLOT_CONTIG_DISTRIBUTION.out.json, mapping_wf.out.stats_mapping, PROCESS_COMPLETNESS.out.json, PLOT_LX.out.json, PROCESS_SHRIMP_PLOT.out.json, PLOT_GAP_REFERENCE.out.json, PLOT_SNP_REFERENCE.out.json, PLOT_GAP_BOXPLOT.out.json, PROCESS_MISASSEMBLY.out.json, PROCESS_MISASSEMBLY.out.report_json, PLOT_NAX.out.json, PLOT_NGX.out.json, PROCESS_VERSION.out, PROCESS_MISASSEMBLY.out.reference_json, PLOT_MISASSEMBLY.out.json, IN_MD, containers_config)
+    report_wf(PROCESS_READS.out, mapping_wf.out.stats_global, IN_reference_raw, PLOT_CONTIG_DISTRIBUTION.out.json, mapping_wf.out.stats_mapping, PROCESS_COMPLETNESS.out.json, PLOT_LX.out.json, PROCESS_SHRIMP_PLOT.out.json, PLOT_GAP_REFERENCE.out.json, PLOT_SNP_REFERENCE.out.json, PLOT_GAP_BOXPLOT.out.json, PROCESS_MISASSEMBLY.out.json, PROCESS_MISASSEMBLY.out.report_json, PLOT_NAX.out.json, PLOT_NGX.out.json, PROCESS_VERSION.out, PROCESS_MISASSEMBLY.out.reference_json, PLOT_MISASSEMBLY.out.json)
 }
 
 workflow.onComplete {
