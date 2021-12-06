@@ -1,5 +1,6 @@
 nextflow.enable.dsl=2
 
+// PROCESSES
 process PROCESS_REFERENCE {
 
     label 'process_script'

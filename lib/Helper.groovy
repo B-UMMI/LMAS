@@ -53,7 +53,7 @@ class Help {
         println "Input parameters:"
         println "    --fastq                    Path expression to paired-end fastq files." 
         println "                               (default: $params.fastq)"
-        println "    --reference                Path to triple-genome reference fasta file."
+        println "    --reference                Path to the genome reference fasta file."
         println "                               (default: $params.reference)"
         println "    --md                       Path to markdown with input sample description for report (optional)."
         println "                               (default: $params.md)"

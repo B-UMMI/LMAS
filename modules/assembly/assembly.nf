@@ -1,6 +1,6 @@
 nextflow.enable.dsl=2
 
-// ASSEMBLERS
+// PROCESSES
 process ABYSS {
 
     tag { sample_id }
