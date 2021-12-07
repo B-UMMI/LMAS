@@ -30,6 +30,7 @@ process PROCESS_READS {
     template "process_reads.py"
 }
 
+// WORKFLOW
 workflow preprocessing_wf {
 
     take:
