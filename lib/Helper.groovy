@@ -23,20 +23,6 @@ class Help {
 
     }
 
-    static void complete_info(nextflow.script.WorkflowMetadata wf) {
-
-        println ""
-        println "Pipeline execution summary"
-        println "=========================="
-        println "Completed at                 : $wf.complete"
-        println "Duration                     : $wf.duration"
-        println "Success                      : $wf.success"
-        println "Work directory               : $wf.workDir"
-        println "Exit status                  : $wf.exitStatus"
-        println ""
-
-    }
-
     static def print_help(Map params) {
 
         println ""
@@ -46,9 +32,6 @@ class Help {
         println "         |︶|        |____|_|  |_/_/ \\_\\___/"
         println ""
         println "         Last Metagenomic Assembler Standing"
-        println ""
-        println "Basic Usage: "
-        println "    nextflow run LMAS.nf"
         println ""
         println "Input parameters:"
         println "    --fastq                    Path expression to paired-end fastq files." 
@@ -157,27 +140,4 @@ class Help {
         println "                               (default $params.max_time)"
     }
 
-}
-
-class CollectInitialMetadata {
-
-    public static void print_metadata(nextflow.script.WorkflowMetadata workflow){
-
-        def metadataJson = "{'nfMetadata':{'scriptId':'${workflow.scriptId}',\
-                            'scriptName':'${workflow.scriptName}',\
-                            'profile':'${workflow.profile}',\
-                            'container':'${workflow.container}',\
-                            'containerEngine':'${workflow.containerEngine}',\
-                            'commandLine':'${workflow.commandLine}',\
-                            'runName':'${workflow.runName}',\
-                            'sessionId':'${workflow.sessionId}',\
-                            'projectDir':'${workflow.projectDir}',\
-                            'launchDir':'${workflow.launchDir}',\
-                            'startTime':'${workflow.start}'}}"
-
-        def json = metadataJson.replaceAll("'", '"')
-
-        def jsonFile = new File(".metadata.json")
-        jsonFile.write json
-    }
 }

@@ -63,7 +63,7 @@ workflow report_wf {
     pipeline_stats = Channel.fromPath("${workflow.projectDir}/pipeline_stats.txt")
     js = Channel.fromPath("${workflow.projectDir}/resources/main.js.zip")
     lmas_png = Channel.fromPath("${workflow.projectDir}/resources/lmas.zip")
-    containers_config = Channel.fromPath("${workflow.projectDir}/configs/containers.config")
+    containers_config = Channel.fromPath("${workflow.projectDir}/conf/containers.config")
     
     take:
     reads_info

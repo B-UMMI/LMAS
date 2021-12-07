@@ -51,7 +51,6 @@ if (params.containsKey('reference')) {
 }
 
 Help.start_info(infoMap, "$workflow.start", "$workflow.profile", "$workflow.manifest.version")
-CollectInitialMetadata.print_metadata(workflow)
 
 /*
 ========================================================================================
