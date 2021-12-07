@@ -77,7 +77,7 @@ To use LMAS the following options are available:
       Input parameters:
          --fastq                    Path expression to paired-end fastq files.
                                     (default: data/fastq/*_{1,2}.*)
-         --reference                Path to triple-genome reference fasta file.
+         --reference                Path to the genome reference fasta file.
                                     (default: data/reference/*.fasta)
          --md                       Path to markdown with input sample description for report (optional).
                                     (default: data/*.md)
