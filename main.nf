@@ -60,7 +60,7 @@ Help.start_info(infoMap, "$workflow.start", "$workflow.profile", "$workflow.mani
 
 workflow {
     //  Main parameters
-    IN_fastq_raw = Channel.fromFilePairs(params.fastq, size: -1).ifEmpty {exit 1, "No fastq files provided with pattern:'${params.fastq}'"}
+    IN_fastq_raw = Channel.fromFilePairs(params.fastq).ifEmpty {exit 1, "No fastq files provided with pattern:'${params.fastq}'"}
     IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {exit 1, "No reference fasta file provided with pattern:'${params.reference}'"}
 
 
