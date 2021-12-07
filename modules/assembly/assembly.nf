@@ -1,6 +1,24 @@
 nextflow.enable.dsl=2
 
 // PROCESSES
+process REFORMAT {
+
+    tag { sample_id }
+    label 'process_assembly'
+
+    when:
+    params.idba || params.metahipmer2
+
+    input:
+    tuple val(sample_id), path(fastq_pair)
+
+    output:
+    tuple val(sample_id), file('*.fasta') 
+
+    script:
+    "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta"
+}
+
 process ABYSS {
 
     tag { sample_id }
@@ -115,24 +133,6 @@ process GATBMINIAPIPELINE {
     """
 }
 
-process reformat_IDBA {
-
-    tag { sample_id }
-    label 'process_assembly'
-
-    when:
-    params.idba
-
-    input:
-    tuple val(sample_id), path(fastq_pair)
-
-    output:
-    tuple val(sample_id), file('*.fasta') 
-
-    script:
-    "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta"
-}
-
 process IDBA {
 
     tag { sample_id }
@@ -197,24 +197,6 @@ process MEGAHIT {
     }
     rm -r megahit || true
     """
-}
-
-process reformat_METAHIPMER2 {
-
-    tag { sample_id }
-    label 'process_assembly'
-
-    when:
-    params.metahipmer2
-
-    input:
-    tuple val(sample_id), path(fastq_pair)
-
-    output:
-    tuple val(sample_id), path('*.fastq')
-
-    script:
-    "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fastq"
 }
 
 process METAHIPMER2 {
@@ -472,14 +454,13 @@ workflow assembly_wf {
     IN_fastq_raw
 
     main:
+    REFORMAT(IN_fastq_raw)
     ABYSS(IN_fastq_raw, abyssKmerSize, abyssBloomSize)
     BCALM2(IN_fastq_raw, bcalmKmerSize)
     GATBMINIAPIPELINE(IN_fastq_raw, gatbKmerSize, GATB_error_correction, gatb_besst_iter)
-    reformat_IDBA(IN_fastq_raw)
-    IDBA(reformat_IDBA.out)
+    IDBA(REFORMAT.out)
     MEGAHIT(IN_fastq_raw, megahitKmerSize)
-    reformat_METAHIPMER2(IN_fastq_raw)
-    METAHIPMER2(reformat_METAHIPMER2.out, metahipmer2KmerSize)
+    METAHIPMER2(REFORMAT.out, metahipmer2KmerSize)
     METASPADES(IN_fastq_raw, metaspadesKmerSize)
     MINIA(IN_fastq_raw, miniaKmerSize)
     SKESA(IN_fastq_raw)

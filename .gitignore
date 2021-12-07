@@ -160,3 +160,4 @@ docs/resources/.DS_Store
 .DS_Store
 results/
 report/
+!modules/
