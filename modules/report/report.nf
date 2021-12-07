@@ -1,6 +1,20 @@
 nextflow.enable.dsl=2
 
 // PROCESSES
+process COMPILE_VERSIONS {
+
+    label 'process_script'
+
+    input:
+    file version
+
+    output:
+    file 'versions.json'
+
+    script:
+    template "process_versions.py"
+}
+
 process COMPILE_REPORT {
 
     label 'process_script'
@@ -67,11 +81,12 @@ workflow report_wf {
     misassembly_report
     plot_nax
     plot_ngx
-    version_info
     misassembly_reference
     plot_misassembly
+    version_file
 
     main:
-    COMPILE_REPORT(reads_info, stats_global, pipeline_stats, js, lmas_png, reference, plot_contig_distribution, stats_mapping, plot_completness, plot_lx, plot_phred, plot_gap_reference, plot_snp_reference, plot_gap_boxplot, misassembly_info, misassembly_report, plot_nax, plot_ngx, version_info, misassembly_reference, plot_misassembly, IN_MD, containers_config)
+    COMPILE_VERSIONS(version_file)
+    COMPILE_REPORT(reads_info, stats_global, pipeline_stats, js, lmas_png, reference, plot_contig_distribution, stats_mapping, plot_completness, plot_lx, plot_phred, plot_gap_reference, plot_snp_reference, plot_gap_boxplot, misassembly_info, misassembly_report, plot_nax, plot_ngx, COMPILE_VERSIONS.out, misassembly_reference, plot_misassembly, IN_MD, containers_config)
 
 }

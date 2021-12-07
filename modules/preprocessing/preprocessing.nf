@@ -30,16 +30,17 @@ process PROCESS_READS {
     template "process_reads.py"
 }
 
-process PROCESS_VERSION {
+workflow preprocessing_wf {
 
-    label 'process_script'
+    take:
+    reference
+    fastq
 
-    input:
-    file version
+    main:
+    PROCESS_REFERENCE(reference)
+    PROCESS_READS(fastq)
 
-    output:
-    file 'versions.json'
-
-    script:
-    template "process_versions.py"
+    emit:
+    triple_reference = PROCESS_REFERENCE.out
+    reads_info = PROCESS_READS.out
 }

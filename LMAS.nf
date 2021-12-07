@@ -10,7 +10,7 @@ import CheckParams
 ========================================================================================
 */
 
-include { PROCESS_REFERENCE ; PROCESS_READS ; PROCESS_VERSION } from './modules/preprocessing/preprocessing'
+include { preprocessing_wf } from './modules/preprocessing/preprocessing'
 include { assembly_wf } from './modules/assembly/assembly'
 include { mapping_wf } from './modules/mapping/mapping'
 include { report_wf } from './modules/report/report.nf'
@@ -320,14 +320,11 @@ workflow {
 
 
     // LMAS Steps
-    PROCESS_REFERENCE(IN_reference_raw)
-    PROCESS_READS(IN_fastq_raw)
+    preprocessing_wf(IN_reference_raw, IN_fastq_raw)
 
     assembly_wf(IN_fastq_raw)
 
-    PROCESS_VERSION(assembly_wf.out.all_versions)
-
-    mapping_wf(assembly_wf.out.all_assemblies, PROCESS_REFERENCE.out)
+    mapping_wf(assembly_wf.out.all_assemblies, preprocessing_wf.out.triple_reference)
  
     PROCESS_COMPLETNESS(mapping_wf.out.boc_csv | collect)
     PLOT_LX(mapping_wf.out.lx_csv, IN_PLOT_SCALE)
@@ -336,16 +333,16 @@ workflow {
     PROCESS_SHRIMP_PLOT(mapping_wf.out.phred_csv)
     PLOT_CONTIG_DISTRIBUTION(mapping_wf.out.df_csv)
 
-    GAP_ASSESSMENT(mapping_wf.out.paf, PROCESS_REFERENCE.out)
+    GAP_ASSESSMENT(mapping_wf.out.paf, preprocessing_wf.out.triple_reference)
     PLOT_GAP_BOXPLOT(GAP_ASSESSMENT.out.json)
     PLOT_GAP_REFERENCE(GAP_ASSESSMENT.out.csv)
-    SNP_ASSESSMENT(mapping_wf.out.paf, PROCESS_REFERENCE.out)
+    SNP_ASSESSMENT(mapping_wf.out.paf, preprocessing_wf.out.triple_reference)
     PLOT_SNP_REFERENCE(SNP_ASSESSMENT.out.csv)
     MISASSEMBLY(mapping_wf.out.paf)
     PROCESS_MISASSEMBLY(MISASSEMBLY.out.trace_pkl | collect, MISASSEMBLY.out.contig_length_pkl | collect, MISASSEMBLY.out.misassembly_json | collect, MISASSEMBLY.out.misassembled_reference_json | collect)
     PLOT_MISASSEMBLY(MISASSEMBLY.out.csv | collect)
     
-    report_wf(PROCESS_READS.out, mapping_wf.out.stats_global, IN_reference_raw, PLOT_CONTIG_DISTRIBUTION.out.json, mapping_wf.out.stats_mapping, PROCESS_COMPLETNESS.out.json, PLOT_LX.out.json, PROCESS_SHRIMP_PLOT.out.json, PLOT_GAP_REFERENCE.out.json, PLOT_SNP_REFERENCE.out.json, PLOT_GAP_BOXPLOT.out.json, PROCESS_MISASSEMBLY.out.json, PROCESS_MISASSEMBLY.out.report_json, PLOT_NAX.out.json, PLOT_NGX.out.json, PROCESS_VERSION.out, PROCESS_MISASSEMBLY.out.reference_json, PLOT_MISASSEMBLY.out.json)
+    report_wf(preprocessing_wf.out.reads_info, mapping_wf.out.stats_global, IN_reference_raw, PLOT_CONTIG_DISTRIBUTION.out.json, mapping_wf.out.stats_mapping, PROCESS_COMPLETNESS.out.json, PLOT_LX.out.json, PROCESS_SHRIMP_PLOT.out.json, PLOT_GAP_REFERENCE.out.json, PLOT_SNP_REFERENCE.out.json, PLOT_GAP_BOXPLOT.out.json, PROCESS_MISASSEMBLY.out.json, PROCESS_MISASSEMBLY.out.report_json, PLOT_NAX.out.json, PLOT_NGX.out.json, PROCESS_MISASSEMBLY.out.reference_json, PLOT_MISASSEMBLY.out.json, assembly_wf.out.all_versions)
 }
 
 workflow.onComplete {
