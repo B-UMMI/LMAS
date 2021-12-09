@@ -180,31 +180,29 @@ To use LMAS the following options are available:
                                     (default 3d)
 
 
-LMAS configuration files
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Using the configuration files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are four configuration files in LMAS:
+There are four configuration files in LMAS. Besides `nextflow.config`, which is in the main folder of the project,
+all others are located in the `conf` folder.
 
-nextflow.config
-^^^^^^^^^^^^^^^
+- **nextflow.config**
 
 This is Nextflow main configuration file.
 The resource parameters are available here, and can be changed directly here. 
 
 .. warning:: The **memory** and **cpu** directives increment automatically when a task is retried. If the directive is set to ``{16.Gb*task.attempt}``, the memory used will be 16 Gb multiplied by the number of attempts. By default LMAS is set to run a maximum of 2 retires per process. If the maximum resources are reached before the maximum number of tries, these won't be incremented beyond the defined limit.
 
-params.config
-^^^^^^^^^^^^^
+- **params.config**
 
 The ``params.config`` file includes all available parameters for LMAS and their respective default values.
 
-containers.config 
-^^^^^^^^^^^^^^^^^
+- **containers.config**
 
 The ``containers.config`` file includes the container directive for each process in LMAS. 
 These containers are retrieved from **dockerhub** if they do not exist locally yet. 
 
-.. warning:: You can change the container string to any other value, but it should point to an image that exists on dockerhub or locally.
+.. warning:: You can change the container string to any other value, but it should point to an nextflow-compatible container that exists on a repository, like `DockerHub <https://hub.docker.com/>`_ or `Quay <>`_, or locally.
 
 profiles.config 
 ^^^^^^^^^^^^^^^
