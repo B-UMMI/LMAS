@@ -38,6 +38,8 @@ a **container engine installation**, such as `Docker <https://www.docker.com/>`_
 or `Singularity <https://singularity.hpcng.org/>`_.
 
 The **local installation of the LMAS workflow**, including the Docker containers, requires 7.3 gigabytes (GB) 
-of free disk space. The **default requirements to execute the workflow** are at least 20 GB of memory and 4 CPUs. 
+of free disk space. The **default requirements to execute the workflow** are at least 32 GB of memory and 8 CPUs, with 
+a maximum of 100 GB of memory and 32 CPU. This can be easily adjusted but might compromise the performance of the 
+assemblers contained in LMAS. The assemblers can be skipped individually through the use of parameters. 
 The disk space required for execution depends greatly on the size of the input data but, in average, LMAS generates 
 approximately 17 GB of data per GB of input data.
