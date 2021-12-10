@@ -4,6 +4,7 @@
 ![Pytest CI](https://github.com/cimendes/LMAS/actions/workflows/ci_templates.yml/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/lmas/badge/?version=latest)](https://lmas.readthedocs.io/en/latest/?badge=latest)
 
+[![Nextflow](https://img.shields.io/badge/nextflow-DLS2-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
 [![Nextflow](https://img.shields.io/badge/nextflow-%E2%89%A520.01.0-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -60,6 +61,16 @@ You can clone this repository with `git clone git@github.com:cimendes/LMAS.git`,
 
 ## Running LMAS
 
+To run LMAS you can simply call it with:
+
+    ./LMAS <options>
+   
+If no option or `--help` is provided, LMAS will display its help message. Otherwise, the `--fastq` and `--reference` options are mandatory. By default they are set to `'data/fastq/*_{1,2}.*'` and `'data/reference/*.fasta'` respectively.
+
+Alternatively you can call LMAS directly with Nextflow:
+
+      nextflow run main.nf <options>
+
 To use LMAS the following options are available:
 
 
@@ -69,9 +80,6 @@ To use LMAS the following options are available:
          |︶|        |____|_|  |_/_/ \_\___/
 
          Last Metagenomic Assembler Standing
-
-      Basic Usage: 
-         nextflow run LMAS.nf
 
       Input parameters:
          --fastq                    Path expression to paired-end fastq files.
@@ -184,10 +192,10 @@ The raw data is a collection of sequence fragments from the references, and can 
 sequencing platforms. 
 
 Users can customize the workflow execution either by using command line options or by modifying a simple plain-text 
-configuration file (`configs/params.config`), where parameters are set as key-value pairs. The version of tools used can also 
-be changed by providing new container tags in the appropriate configuration file (`contigs/containers.config`).
+configuration file (`conf/params.config`), where parameters are set as key-value pairs. The version of tools used can also 
+be changed by providing new container tags in the appropriate configuration file (`conf/containers.config`).
 
-Users can select what profile to use with the `-profile` option. Several configurations are availabel in the profile configuration file (`contigs/profiles.config`). For a local execution we recommend running LMAS with either `-profile docker` or `-profile singularity`. HPC compatibility is available for SLURM, SGE, LSF, among others. 
+Users can select what profile to use with the `-profile` option. Several configurations are availabel in the profile configuration file (`conf/profiles.config`). For a local execution we recommend running LMAS with either `-profile docker` or `-profile singularity`. HPC compatibility is available for SLURM, SGE, LSF, among others. 
 
 
 ## Output and Report
@@ -211,7 +219,7 @@ A bash script to download and structure the ZymoBIOMICS data to be used as input
       sh get_data.sh
 
 Running this scipt downloads the [eight bacterial genomes and four plasmids of the ZymoBIOMICS Microbial Community Standards](https://zenodo.org/record/4588970#.YEeA83X7RhE) were used as reference. 
-It contains tripled complete sequences for the following species:
+It contains complete sequences for the following species:
 - *Bacillus subtilis* 
 - *Enterococcus faecalis*
 - *Escherichia coli*
@@ -236,6 +244,10 @@ Simulated samples of the evenly and log distributed reads, with and without erro
 [DOI Dataset](https://doi.org/10.5281/zenodo.4588970)
 
 After downloading the data you can simply run LMAS, with default parameters, with the following command:
+
+      ./LMAS -profile docker
+
+or
 
       nextflow run LMAS.nf -profile docker
 

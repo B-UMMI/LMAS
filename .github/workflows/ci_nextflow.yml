@@ -26,3 +26,5 @@ jobs:
           --abyss false --bcalm false --gatb_minia false --idba false --metahipmer2 false \
           --minia false --megahit false --metaspades false --spades false --unicycler false \
           --velvetoptimiser false
+          FILE=report/index.html 
+          if [ ! -f "$FILE" ]; then echo "Run failed!"; exit 1; else echo "Run successful!"; fi
