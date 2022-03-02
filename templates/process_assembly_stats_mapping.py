@@ -36,7 +36,9 @@ if __file__.endswith(".command.sh"):
     ASSEMBLER_SKIP = {"ABySS":json.loads("$params.abyss"), "BCALM2": json.loads("$params.bcalm"), "GATBMiniaPipeline": json.loads("$params.gatb_minia"), 
                        "MetaHipMer2": json.loads("$params.metahipmer2"), "MINIA": json.loads("$params.minia"), "MEGAHIT": json.loads("$params.megahit"), 
                        "metaSPAdes": json.loads("$params.metaspades"), "Unicycler": json.loads("$params.unicycler"), "SPAdes": json.loads("$params.spades"),
-                       "SKESA": json.loads("$params.skesa"), "VelvetOptimiser": json.loads("$params.velvetoptimiser"), "IDBA-UD": json.loads("$params.idba")}
+                       "SKESA": json.loads("$params.skesa"), "VelvetOptimiser": json.loads("$params.velvetoptimiser"), "IDBA-UD": json.loads("$params.idba"),
+                       "RAVEN": json.loads("$params.raven"),"FLYE": json.loads("$params.flye"), "METAFLYE": json.loads("$params.metaflye"),
+                       "RA": json.loads("$params.ra"),"WTDBG2": json.loads("$params.wtdbg2")}
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("ASSEMBLY_STATS_GLOBAL_FILE_JSON: {}".format(
