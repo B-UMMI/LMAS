@@ -435,7 +435,7 @@ process VELVETOPTIMISER {
     """
 }
 
-// WORKFLOW
+// WORKFLOWS
 workflow assembly_wf {
 
     abyssKmerSize = Channel.value(params.abyssKmerSize)
@@ -470,26 +470,27 @@ workflow assembly_wf {
 
     emit:
     all_assemblies = ABYSS.out.assembly | mix(BCALM2.out.assembly, 
-                                              GATBMINIAPIPELINE.out.assembly,
-                                              IDBA.out.assembly,
-                                              MEGAHIT.out.assembly,
-                                              METAHIPMER2.out.assembly,
-                                              METASPADES.out.assembly,
-                                              MINIA.out.assembly,
-                                              SKESA.out.assembly,
-                                              SPADES.out.assembly,
-                                              UNICYCLER.out.assembly,
-                                              VELVETOPTIMISER.out.assembly)
+                                            GATBMINIAPIPELINE.out.assembly,
+                                            IDBA.out.assembly,
+                                            MEGAHIT.out.assembly,
+                                            METAHIPMER2.out.assembly,
+                                            METASPADES.out.assembly,
+                                            MINIA.out.assembly,
+                                            SKESA.out.assembly,
+                                            SPADES.out.assembly,
+                                            UNICYCLER.out.assembly,
+                                            VELVETOPTIMISER.out.assembly)
     all_versions = ABYSS.out.version | mix(BCALM2.out.version, 
-                                           GATBMINIAPIPELINE.out.version,
-                                           IDBA.out.version,
-                                           MEGAHIT.out.version,
-                                           METAHIPMER2.out.version,
-                                           METASPADES.out.version,
-                                           MINIA.out.version,
-                                           SKESA.out.version,
-                                           SPADES.out.version,
-                                           UNICYCLER.out.version,
-                                           VELVETOPTIMISER.out.version) | collect
+                                        GATBMINIAPIPELINE.out.version,
+                                        IDBA.out.version,
+                                        MEGAHIT.out.version,
+                                        METAHIPMER2.out.version,
+                                        METASPADES.out.version,
+                                        MINIA.out.version,
+                                        SKESA.out.version,
+                                        SPADES.out.version,
+                                        UNICYCLER.out.version,
+                                        VELVETOPTIMISER.out.version) | collect
 
 }
+
