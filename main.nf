@@ -5,6 +5,7 @@ import Helper
 import CheckParams
 
 include { LMAS } from './workflows/lmas.nf'
+include { LONGLMAS } from './workflows/longlmas.nf'
 
 /*
 ========================================================================================
@@ -55,10 +56,12 @@ IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {exit 1, "No refer
 
  workflow {
     if (params.wf == "default") {
-        LMAS(IN_reference_raw, IN_fastq_raw)
-        
 
-    } else (params.wf == "long") {
+        LMAS(IN_reference_raw, IN_fastq_raw)
+
+    } else if (params.wf == "long") {
+
+        LONGLMAS(IN_reference_raw, IN_fastq_raw)
     }
 }
 
