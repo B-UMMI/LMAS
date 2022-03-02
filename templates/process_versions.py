@@ -47,7 +47,12 @@ ASSEMBLER_PROCESS_DICT = {
     "SPAdes": "SPADES",
     "SKESA": "SKESA",
     "VelvetOptimiser": "VELVETOPTIMISER",
-    "IDBA": "IDBA"}
+    "IDBA": "IDBA",
+    "RAVEN": "RAVEN",
+    "FLYE": "FLYE",
+    "METAFLYE": "METAFLYE",
+    "RA": "RA",
+    "WTDBG2": "WTDBG2"}
 
 
 def main(versions):

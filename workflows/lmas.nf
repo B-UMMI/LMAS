@@ -28,16 +28,16 @@ workflow LMAS {
     assembly_wf(IN_fastq_raw)
 
     mapping_wf(assembly_wf.out.all_assemblies, 
-            preprocessing_wf.out.triple_reference)
+               preprocessing_wf.out.triple_reference)
 
     postprocessing_wf(preprocessing_wf.out.triple_reference,
-                    mapping_wf.out.boc_csv, 
-                    mapping_wf.out.lx_csv, 
-                    mapping_wf.out.nax_csv,
-                    mapping_wf.out.ngx_csv,
-                    mapping_wf.out.phred_csv,
-                    mapping_wf.out.df_csv,
-                    mapping_wf.out.paf)
+                      mapping_wf.out.boc_csv, 
+                      mapping_wf.out.lx_csv, 
+                      mapping_wf.out.nax_csv,
+                      mapping_wf.out.ngx_csv,
+                      mapping_wf.out.phred_csv,
+                      mapping_wf.out.df_csv,
+                      mapping_wf.out.paf)
 
     report_wf(preprocessing_wf.out.reads_info, 
             mapping_wf.out.stats_global, 

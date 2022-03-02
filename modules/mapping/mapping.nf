@@ -18,7 +18,7 @@ process FILTER_ASSEMBLY {
     "reformat.sh in=${assembly} out=filtered_${assembly} minlength=${minLen}"
 }
 
-process READ_MAPPING{
+process READ_MAPPING {
 
     tag { assembler }
     label 'process_mapping'
@@ -33,6 +33,23 @@ process READ_MAPPING{
 
     script:
     template "read_mapping.py"
+}
+
+process LONG_READ_MAPPING {
+
+    tag { assembler }
+    label 'process_mapping'
+    publishDir "results/$sample_id/mapping/reads"
+
+    input:
+    tuple val(sample_id), val(assembler), path(assembly), path(filtered_assembly)
+
+    output:
+    path('*_read_mapping_*.txt') optional true
+    tuple val(sample_id), val(assembler), path('*_read_mapping_report.json'), emit: read_mapping_json
+
+    script:
+    template "read_mapping_ont.py"
 }
 
 process ASSEMBLY_MAPPING{
@@ -128,7 +145,7 @@ process PROCESS_ASSEMBLY_STATS_MAPPING {
 }
 
 
-// WORKFLOW
+// WORKFLOWS
 workflow mapping_wf {   
 
     minLength = Channel.value(params.minLength) 
@@ -142,6 +159,35 @@ workflow mapping_wf {
     READ_MAPPING(assembly | join(FILTER_ASSEMBLY.out, by:[0,1]))
     ASSEMBLY_MAPPING(FILTER_ASSEMBLY.out, triple_reference)
     ASSEMBLY_STATS_GLOBAL(assembly | join(READ_MAPPING.out.read_mapping_json, by:[0,1]))
+    PROCESS_ASSEMBLY_STATS_GLOBAL(ASSEMBLY_STATS_GLOBAL.out.tsv | collect, ASSEMBLY_STATS_GLOBAL.out.json | collect)
+    ASSEMBLY_STATS_MAPPING(ASSEMBLY_MAPPING.out, triple_reference)
+    PROCESS_ASSEMBLY_STATS_MAPPING(ASSEMBLY_STATS_MAPPING.out.json | collect)
+
+    emit:
+    paf = ASSEMBLY_MAPPING.out
+    stats_global = PROCESS_ASSEMBLY_STATS_GLOBAL.out
+    stats_mapping = PROCESS_ASSEMBLY_STATS_MAPPING.out
+    boc_csv = ASSEMBLY_STATS_MAPPING.out.boc_csv | collect
+    lx_csv = ASSEMBLY_STATS_MAPPING.out.lx_csv | collect
+    nax_csv = ASSEMBLY_STATS_MAPPING.out.nax_csv | collect
+    ngx_csv = ASSEMBLY_STATS_MAPPING.out.ngx_csv | collect
+    phred_csv = ASSEMBLY_STATS_MAPPING.out.phred_csv | collect
+    df_csv = ASSEMBLY_STATS_MAPPING.out.df_csv | collect
+}
+
+workflow long_mapping_wf {   
+
+    minLength = Channel.value(params.minLength) 
+
+    take:
+    assembly
+    triple_reference
+
+    main:
+    FILTER_ASSEMBLY(assembly, minLength)
+    LONG_READ_MAPPING(assembly | join(FILTER_ASSEMBLY.out, by:[0,1]))
+    ASSEMBLY_MAPPING(FILTER_ASSEMBLY.out, triple_reference)
+    ASSEMBLY_STATS_GLOBAL(assembly | join(LONG_READ_MAPPING.out.read_mapping_json, by:[0,1]))
     PROCESS_ASSEMBLY_STATS_GLOBAL(ASSEMBLY_STATS_GLOBAL.out.tsv | collect, ASSEMBLY_STATS_GLOBAL.out.json | collect)
     ASSEMBLY_STATS_MAPPING(ASSEMBLY_MAPPING.out, triple_reference)
     PROCESS_ASSEMBLY_STATS_MAPPING(ASSEMBLY_STATS_MAPPING.out.json | collect)
