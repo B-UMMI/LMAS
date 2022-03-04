@@ -4,9 +4,9 @@ class Params {
 
         // mode
         if (!params.wf) {print_error("'--wf' parameter missing")}
-        def allowed_modes = ["default", "long", "hybrid", "all"] as Set
+        def allowed_modes = ["default", "Illumina", "illumina", "hybrid", "Hybrid", "ont", "ONT"] as Set
         def mode_parameter_diff = allowed_modes - params.wf
-        if (mode_parameter_diff.size() > 3){
+        if (mode_parameter_diff.size() > 6){
                 print_error("[Pipeline warning] Parameter --wf $params.wf is not valid in the pipeline! Allowed values: 'default', 'long', 'hybrid', 'all'")
     }
         

@@ -32,6 +32,6 @@ jobs:
         run: |
           nextflow run ${GITHUB_WORKSPACE} -profile docker --fastq "test/data/tinyont.fastq.gz" \
           --reference "test/data/tiny_reference.fasta" --max_cpus 2 --max_memory 4.GB \
-          --wf long --flye false --metaflye false --ra false --wtdbg2 false
+          --wf ont --flye false --metaflye false --ra false --wtdbg2 false
           FILE=report/index.html 
           if [ ! -f "$FILE" ]; then echo "Run failed!"; exit 1; else echo "Run successful!"; fi

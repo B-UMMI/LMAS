@@ -55,13 +55,20 @@ IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {exit 1, "No refer
 
 
  workflow {
-    if (params.wf == "default") {
+    if (params.wf == "default" || params.wf == "Illumina" || params.wf == "illumina") {
 
         LMAS(IN_reference_raw, IN_fastq_raw)
 
-    } else if (params.wf == "long") {
+    } else if (params.wf == "ONT" || params.wf == "ont")  {
 
         LONGLMAS(IN_reference_raw, IN_fastq_raw)
+
+    } else if (params.wf == "Hybrid" || params.wf == "hybrid")  {
+
+        HYBRIDLMAS(IN_reference_raw, IN_fastq_raw)
+
+    } else {
+        exit 1, "Unrecogized --wf parameter: '${params.wf}'"
     }
 }
 
