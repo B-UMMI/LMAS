@@ -5,7 +5,7 @@
 */
 
 include { preprocessing_wf } from '../modules/preprocessing/preprocessing'
-include { assembly_wf } from '../modules/assembly/longassembly'
+include { longassembly_wf } from '../modules/assembly/longassembly'
 include { long_mapping_wf } from '../modules/mapping/mapping'
 include { postprocessing_wf } from '../modules/postprocessing/postprocessing.nf'
 include { report_wf } from '../modules/report/report.nf'
@@ -25,7 +25,7 @@ workflow LONGLMAS {
     main:
     preprocessing_wf(IN_reference_raw, IN_fastq_raw)
 
-    assembly_wf(IN_fastq_raw)
+    longassembly_wf(IN_fastq_raw)
 
     long_mapping_wf(assembly_wf.out.all_assemblies, 
                     preprocessing_wf.out.triple_reference)

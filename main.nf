@@ -71,14 +71,6 @@ IN_reference_raw = Channel.fromPath(params.reference).ifEmpty {exit 1, "No refer
         }
 
         LONGLMAS(IN_reference_raw, IN_fastq_raw)
-
-    } else if (params.wf == "Hybrid" || params.wf == "hybrid")  {
-
-        IN_fastq_raw = Channel.fromFilePairs(params.fastq).ifEmpty {exit 1, "No fastq files provided with pattern:'${params.fastq}'"}
-        IN_ont_raw = Channel.fromFilePairs(params.ont).ifEmpty {exit 1, "No fastq files provided with pattern:'${params.ont}'"}
-
-        HYBRIDLMAS(IN_reference_raw, IN_fastq_raw, IN_ont_raw)
-
     } else {
         exit 1, "Unrecogized --wf parameter: '${params.wf}'"
     }

@@ -192,7 +192,7 @@ process WTDBG2{
 
 
 // WORKFLOWS
-workflow assembly_wf {
+workflow longassembly_wf {
 
     take:
     IN_fastq_raw
