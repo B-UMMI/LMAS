@@ -205,13 +205,11 @@ workflow assembly_wf {
     WTDBG2(IN_fastq_raw)
 
     emit:
-    all_assemblies = RAVEN.out.assembly | mix(CANU.out.assembly,
-                                              FLYE.out.assembly,
+    all_assemblies = RAVEN.out.assembly | mix(FLYE.out.assembly,
                                               METAFLYE.out.assembly,
                                               RA.out.assembly,
                                               WTDBG2.out.assembly)
-    all_versions = RAVEN.out.version | mix(CANU.out.version,
-                                           FLYE.out.version,
+    all_versions = RAVEN.out.version | mix(FLYE.out.version,
                                            METAFLYE.out.version,
                                            RA.out.version,
                                            WTDBG2.out.version) | collect
