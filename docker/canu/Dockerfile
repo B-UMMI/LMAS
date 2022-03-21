@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM continuumio/miniconda3
 
 LABEL software="CANU" \
     software.version="2.2" \
@@ -8,15 +8,11 @@ LABEL software="CANU" \
     about.license="https://github.com/marbl/canu/blob/master/README.licenses" \
     author="Inês Mendes <cimendes@medicina.ulisboa.pt>"
 
-RUN apt-get update
+# System essentials
+RUN conda install -c conda-forge -c bioconda -c defaults canu=2.2
 
-WORKDIR /NGStools
+# Set up workdir for installation 
+WORKDIR /data
 
-# -- General Dependencies ---
-RUN apt-get install -y wget curl python python3 zlib1g-dev build-essential procps
-
-# -- canu ---
-RUN curl -L https://github.com/marbl/canu/releases/download/v2.2/canu-2.2.Linux-amd64.tar.xz --output canu-2.2.Linux.tar.xz &&\
-    tar -xJf canu-2.2.*.tar.xz
-
-ENV PATH="/NGStools/canu-2.2/bin:$PATH"
+# PS for nextflow
+RUN apt-get install -y procps

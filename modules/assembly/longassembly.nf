@@ -1,6 +1,44 @@
 nextflow.enable.dsl=2
 
 // PROCESSES
+process CANU {
+
+    tag { sample_id }
+    label 'process_assembly'
+    publishDir "results/$sample_id/assembly/CANU/"
+
+    when:
+    params.canu
+
+    input:
+    tuple val(sample_id), path(fastq)
+
+    output:
+    tuple val(sample_id), val('CANU'), path('*_CANU.fasta'), emit: assembly
+    path('.*version'), emit: version
+
+    script:
+    """
+    canu --version | awk -F ' ' '{print \$2}' > .${sample_id}_CANU_version
+    {
+        canu -p assembly -d canu_out \
+        genomeSize="${params.canu_genomesize}" -nanopore "${fastq}" \
+        maxThreads="${task.cpus}" merylMemory="${task.memory.toGiga()}G" \
+        merylThreads="${task.cpus}" hapThreads="${task.cpus}" batMemory="${task.memory.toGiga()}G" \
+        redMemory="${task.memory.toGiga()}G" redThreads="${task.cpus}" \
+        oeaMemory="${task.memory.toGiga()}G" oeaThreads="${task.cpus}" \
+        corMemory="${task.memory.toGiga()}G" corThreads="${task.cpus}"
+        
+        mv canu_out/assembly.contigs.fasta ${sample_id}_CANU.fasta
+        echo pass > .status
+    } || {
+        echo fail > .status
+        :> ${sample_id}_CANU.fasta
+    }
+    rm -r canu_out || true
+    """
+}
+
 process RAVEN {
 
     tag { sample_id }
@@ -167,11 +205,13 @@ workflow assembly_wf {
     WTDBG2(IN_fastq_raw)
 
     emit:
-    all_assemblies = RAVEN.out.assembly | mix(FLYE.out.assembly,
+    all_assemblies = RAVEN.out.assembly | mix(CANU.out.assembly,
+                                              FLYE.out.assembly,
                                               METAFLYE.out.assembly,
                                               RA.out.assembly,
                                               WTDBG2.out.assembly)
-    all_versions = RAVEN.out.version | mix(FLYE.out.version,
+    all_versions = RAVEN.out.version | mix(CANU.out.version,
+                                           FLYE.out.version,
                                            METAFLYE.out.version,
                                            RA.out.version,
                                            WTDBG2.out.version) | collect
