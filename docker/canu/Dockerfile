@@ -13,10 +13,10 @@ RUN apt-get update
 WORKDIR /NGStools
 
 # -- General Dependencies ---
-RUN apt-get install -y wget curl python python3 zlib1g-dev build-essential
+RUN apt-get install -y wget curl python python3 zlib1g-dev build-essential procps
 
 # -- canu ---
 RUN curl -L https://github.com/marbl/canu/releases/download/v2.2/canu-2.2.Linux-amd64.tar.xz --output canu-2.2.Linux.tar.xz &&\
-    tar -xJf canu-2.2.*.tar.xz.
+    tar -xJf canu-2.2.*.tar.xz
 
 ENV PATH="/NGStools/canu-2.2/bin:$PATH"
