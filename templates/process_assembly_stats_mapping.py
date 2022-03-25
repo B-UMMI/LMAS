@@ -39,15 +39,44 @@ if __file__.endswith(".command.sh"):
                        "SKESA": json.loads("$params.skesa"), "VelvetOptimiser": json.loads("$params.velvetoptimiser"), "IDBA-UD": json.loads("$params.idba"),
                        "RAVEN": json.loads("$params.raven"),"FLYE": json.loads("$params.flye"), "METAFLYE": json.loads("$params.metaflye"),
                        "RA": json.loads("$params.ra"),"WTDBG2": json.loads("$params.wtdbg2")}
+    MODE = "$params.wf"
+
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("ASSEMBLY_STATS_GLOBAL_FILE_JSON: {}".format(
         ASSEMBLY_STATS_GLOBAL_FILE_JSON))
     logger.debug("ASSEMBLER_SKIP: {}".format(
         ASSEMBLER_SKIP))
+    logger.debug("MODE: {}".format(
+        MODE))
+    
 
 
-def main(stats_json, assembler_skip):
+def main(stats_json, assembler_skip, mode):
+
+    if mode == "default" or mode == "Illumina" or mode == "illumina":
+        assembler_skip["RAVEN"] = False
+        assembler_skip["FLYE"] = False
+        assembler_skip["METAFLYE"] = False
+        assembler_skip["RA"] = False
+        assembler_skip["WTDBG2"] = False
+
+    elif mode == "ONT" or mode == "ont":
+        assembler_skip["ABySS"] = False
+        assembler_skip["BCALM2"] = False
+        assembler_skip["GATBMiniaPipeline"] = False
+        assembler_skip["MetaHipMer2"] = False
+        assembler_skip["MINIA"] = False
+        assembler_skip["MEGAHIT"] = False
+        assembler_skip["metaSPAdes"] = False
+        assembler_skip["Unicycler"] = False
+        assembler_skip["SPAdes"] = False
+        assembler_skip["SKESA"] = False
+        assembler_skip["VelvetOptimiser"] = False
+        assembler_skip["IDBA-UD"] = False
+
+    else:
+        pass
 
     # Write JSON file report
     with open("global_assembly_mapping_stats.json", "w") as json_report:
@@ -104,4 +133,4 @@ def main(stats_json, assembler_skip):
 
 
 if __name__ == '__main__':
-    main(ASSEMBLY_STATS_GLOBAL_FILE_JSON, ASSEMBLER_SKIP)
+    main(ASSEMBLY_STATS_GLOBAL_FILE_JSON, ASSEMBLER_SKIP, MODE)
