@@ -20,6 +20,12 @@ if (params.help){
     exit 0
 }
 
+params.version = false
+if (params.version){
+    println("LMAS version $workflow.manifest.version")
+    exit 0
+}
+
 /*
 ========================================================================================
     VALIDATE INPUTS
