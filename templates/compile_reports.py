@@ -217,21 +217,22 @@ def process_performance_data(pipeline_stats, versions_json, containers_config):
     with open(pipeline_stats, "r") as pipeline_stats_file:
         csvreader = csv.reader(pipeline_stats_file, delimiter='\t')
         for row in csvreader:
-            if row[2] in utils.ASSEMBLER_PROCESS_LIST:
-                if row[2] not in performance.keys():
-                    performance[row[2]] = {"cpus": [_cpu_load_parser(row[8], row[15], row[13])],
+            process_name = row[2].split(':')[-1]
+            if process_name in utils.ASSEMBLER_PROCESS_LIST:
+                if process_name not in performance.keys():
+                    performance[process_name] = {"cpus": [_cpu_load_parser(row[8], row[15], row[13])],
                                            "realtime": [_hms(row[13])],
                                            "rss": [_size_coverter(row[17])],
                                            "rchar": [_size_coverter(row[19])],
                                            "wchar": [_size_coverter(row[20])], }
                 else:
-                    performance[row[2]]["cpus"].append(
+                    performance[process_name]["cpus"].append(
                         _cpu_load_parser(row[8], row[15], row[13]))
-                    performance[row[2]]["realtime"].append(_hms(row[13]))
-                    performance[row[2]]["rss"].append(_size_coverter(row[17]))
-                    performance[row[2]]["rchar"].append(
+                    performance[process_name]["realtime"].append(_hms(row[13]))
+                    performance[process_name]["rss"].append(_size_coverter(row[17]))
+                    performance[process_name]["rchar"].append(
                         _size_coverter(row[19]))
-                    performance[row[2]]["wchar"].append(
+                    performance[process_name]["wchar"].append(
                         _size_coverter(row[20]))
 
     performance_metadata = []
