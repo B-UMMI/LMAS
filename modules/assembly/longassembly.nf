@@ -199,7 +199,6 @@ workflow longassembly_wf {
     IN_fastq_raw
 
     main:
-    CANU(IN_fastq_raw)
     RAVEN(IN_fastq_raw)
     FLYE(IN_fastq_raw)
     METAFLYE(IN_fastq_raw)
@@ -207,13 +206,11 @@ workflow longassembly_wf {
     WTDBG2(IN_fastq_raw)
 
     emit:
-    all_assemblies = CANU.out.assembly | mix(RAVEN.out.assembly,
-                                              FLYE.out.assembly,
+    all_assemblies = RAVEN.out.assembly | mix(FLYE.out.assembly,
                                               METAFLYE.out.assembly,
                                               RA.out.assembly,
                                               WTDBG2.out.assembly)
-    all_versions = CANU.out.version | mix(RAVEN.out.version,
-                                           FLYE.out.version,
+    all_versions = RAVEN.out.version | mix(FLYE.out.version,
                                            METAFLYE.out.version,
                                            RA.out.version,
                                            WTDBG2.out.version) | collect

@@ -41,7 +41,7 @@ if __file__.endswith(".command.sh"):
                        "metaSPAdes": json.loads("$params.metaspades"), "Unicycler": json.loads("$params.unicycler"), "SPAdes": json.loads("$params.spades"),
                        "SKESA": json.loads("$params.skesa"), "VelvetOptimiser": json.loads("$params.velvetoptimiser"), "IDBA-UD": json.loads("$params.idba"),
                        "RAVEN": json.loads("$params.raven"),"FLYE": json.loads("$params.flye"), "METAFLYE": json.loads("$params.metaflye"),
-                       "RA": json.loads("$params.ra"),"WTDBG2": json.loads("$params.wtdbg2"), "CANU": json.loads("$params.canu")}
+                       "RA": json.loads("$params.ra"),"WTDBG2": json.loads("$params.wtdbg2")}
     MODE = "$params.wf"
 
     logger.debug("Running {} with parameters:".format(

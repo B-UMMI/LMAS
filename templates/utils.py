@@ -15,10 +15,10 @@ COLOURS = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c',
            '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ebdb75', '#b15928']
 
 ASSEMBLER_NAMES = ["ABySS", "BCALM2", "GATBMiniaPipeline", "MetaHipMer2", "MINIA", "MEGAHIT", "metaSPAdes", "Unicycler", "SPAdes",
-                   "SKESA", "VelvetOptimiser", "IDBA-UD", "RAVEN", "FLYE", "METAFLYE", "RA", "WTDBG2", "CANU"]
+                   "SKESA", "VelvetOptimiser", "IDBA-UD", "RAVEN", "FLYE", "METAFLYE", "RA", "WTDBG2"]
 
 ASSEMBLER_PROCESS_LIST = ["ABYSS", "BCALM2", "GATBMINIAPIPELINE", "MINIA", "METAHIPMER2", "MEGAHIT", "METASPADES", "UNICYCLER", "SPADES",
-                          "SKESA", "VELVETOPTIMISER", "IDBA", "RAVEN", "FLYE", "METAFLYE", "RA", "WTDBG2", "CANU"]
+                          "SKESA", "VELVETOPTIMISER", "IDBA", "RAVEN", "FLYE", "METAFLYE", "RA", "WTDBG2"]
 
 
 def get_logger(filepath, level=logging.DEBUG):
