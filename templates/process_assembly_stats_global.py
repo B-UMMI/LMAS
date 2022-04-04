@@ -80,6 +80,22 @@ def main(assembly_stats_global_file, stats_json, n_target, assembler_skip, mode)
         assembler_skip["SKESA"] = False
         assembler_skip["VelvetOptimiser"] = False
         assembler_skip["IDBA-UD"] = False
+    
+    elif mode == "Hybrid" or mode == "hybrid":
+        assembler_skip["RAVEN"] = False
+        assembler_skip["FLYE"] = False
+        assembler_skip["METAFLYE"] = False
+        assembler_skip["RA"] = False
+        assembler_skip["WTDBG2"] = False
+        assembler_skip["ABySS"] = False
+        assembler_skip["BCALM2"] = False
+        assembler_skip["GATBMiniaPipeline"] = False
+        assembler_skip["MetaHipMer2"] = False
+        assembler_skip["MINIA"] = False
+        assembler_skip["MEGAHIT"] = False
+        assembler_skip["SKESA"] = False
+        assembler_skip["VelvetOptimiser"] = False
+        assembler_skip["IDBA-UD"] = False
 
     else:
         pass
