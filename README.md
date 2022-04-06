@@ -35,19 +35,7 @@ The *de novo* assembly of raw sequence data is a key process when analysing data
 
 ## Instalation
 
-Before installing LMAS, a few dependencies must be installed in your system:
-
-
-### Nextflow
-
-Nextflow (version 20.01.0 or higher) can be used on any POSIX compatible system (Linux, OS X, etc). It requires BASH and 
-Java 8 (or higher) to be installed. More instructions are available [here](https://www.nextflow.io/docs/latest/getstarted.html).
-
-
-### Container Engine
-
-All components of LMAS are executed in docker containers, which means that you’ll need to have a container engine 
-installed. The container engines available are the ones supported by Nextflow:
+All components of LMAS are executed in docker containers, which means that you’ll need to have a container engine  installed. The container engines available are the ones supported by Nextflow:
 
 * [Docker](https://www.nextflow.io/docs/latest/docker.html),
 * [Singularity](https://www.nextflow.io/docs/latest/singularity.html),
@@ -56,12 +44,27 @@ installed. The container engines available are the ones supported by Nextflow:
 If you already have any one of these installed, you are good to go as the provided docker containers are compatible 
 with all engines available. If not, you’ll need to install one.
 
+### Conda
 
-### Clone LMAS
+LMAS can be easily installed through [Conda](https://conda.io/en/latest/), an open source package management system and environment management system that runs on Windows, macOS and Linux. After its installation, LMAS is available on [Bioconda](https://anaconda.org/bioconda/LMAS) and can be easily installed with:
+
+```bash
+conda install -c bioconda lmas
+```
+
+### Manual installation
+
+To install LMAS manually you'll first have to install nextflow. 
+#### Nextflow
+
+Nextflow (version 20.01.0 or higher) can be used on any POSIX compatible system (Linux, OS X, etc). It requires BASH and 
+Java 8 (or higher) to be installed. More instructions are available [here](https://www.nextflow.io/docs/latest/getstarted.html).
+
+#### Clone LMAS
 
 You can clone this repository with `git clone git@github.com:cimendes/LMAS.git`, and all files will be in your local machine.
 
-
+The LMAS wrapper is located in the `bin/` folder can be added to your path.
 ## Running LMAS
 
 To run LMAS you can simply call it with:
