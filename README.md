@@ -6,7 +6,6 @@
 
 [![Nextflow](https://img.shields.io/badge/nextflow-DLS2-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
 [![Nextflow](https://img.shields.io/badge/nextflow-%E2%89%A520.01.0-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
-
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/LMAS/badges/installer/conda.svg)](https://bioconda.github.io/recipes/lmas/README.html) 
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/LMAS/badges/downloads.svg)](https://anaconda.org/bioconda/LMAS)
 
