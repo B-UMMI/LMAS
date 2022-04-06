@@ -6,6 +6,10 @@
 
 [![Nextflow](https://img.shields.io/badge/nextflow-DLS2-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
 [![Nextflow](https://img.shields.io/badge/nextflow-%E2%89%A520.01.0-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
+
+[![Anaconda-Server Badge](https://anaconda.org/bioconda/LMAS/badges/installer/conda.svg)](https://bioconda.github.io/recipes/lmas/README.html) 
+[![Anaconda-Server Badge](https://anaconda.org/bioconda/LMAS/badges/downloads.svg)](https://anaconda.org/bioconda/LMAS)
+
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![run with shifter](https://img.shields.io/badge/run%20with-shifter-lightgrey?labelColor=000000)](https://github.com/NERSC/shifter/)
