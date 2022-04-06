@@ -68,13 +68,13 @@ You can clone this repository with `git clone git@github.com:cimendes/LMAS.git`,
 
 To run LMAS you can simply call it with:
 
-    LMAS <options>
+   LMAS <options>
    
 If no option or `--help` is provided, LMAS will display its help message. Otherwise, the `--fastq` and `--reference` options are mandatory. By default they are set to `'data/fastq/*_{1,2}.*'` and `'data/reference/*.fasta'` respectively.
 
 Alternatively you can call LMAS directly with Nextflow:
 
-      nextflow run main.nf <options>
+   nextflow run main.nf <options>
 
 To use LMAS the following options are available:
 
@@ -250,11 +250,11 @@ Simulated samples of the evenly and log distributed reads, with and without erro
 
 After downloading the data you can simply run LMAS, with default parameters, with the following command:
 
-      ./LMAS -profile docker
+      LMAS -profile docker
 
 or
 
-      nextflow run LMAS.nf -profile docker
+      nextflow run main.nf -profile docker
 
 ## Citation and Contacts
 
