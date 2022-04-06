@@ -64,12 +64,11 @@ Java 8 (or higher) to be installed. More instructions are available [here](https
 
 You can clone this repository with `git clone git@github.com:cimendes/LMAS.git`, and all files will be in your local machine.
 
-The LMAS wrapper is located in the `bin/` folder can be added to your path.
 ## Running LMAS
 
 To run LMAS you can simply call it with:
 
-    ./LMAS <options>
+    LMAS <options>
    
 If no option or `--help` is provided, LMAS will display its help message. Otherwise, the `--fastq` and `--reference` options are mandatory. By default they are set to `'data/fastq/*_{1,2}.*'` and `'data/reference/*.fasta'` respectively.
 
