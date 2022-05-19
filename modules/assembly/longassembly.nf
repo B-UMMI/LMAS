@@ -28,7 +28,7 @@ process CANU {
         redMemory="${task.memory.toGiga()}G" redThreads="${task.cpus}" \
         oeaMemory="${task.memory.toGiga()}G" oeaThreads="${task.cpus}" \
         corMemory="${task.memory.toGiga()}G" corThreads="${task.cpus}" \
-        minInputCoverage=1
+        minInputCoverage=1 useGrid=false
         
         mv canu_out/assembly.contigs.fasta ${sample_id}_CANU.fasta
         echo pass > .status
