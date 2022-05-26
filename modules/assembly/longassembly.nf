@@ -4,7 +4,7 @@ nextflow.enable.dsl=2
 process CANU {
 
     tag { sample_id }
-    label 'process_assembly'
+    label 'process_long_assembly'
     publishDir "results/$sample_id/assembly/CANU/"
 
     when:
@@ -23,12 +23,7 @@ process CANU {
     {
         canu -p assembly -d canu_out \
         genomeSize="${params.canu_genomesize}" -nanopore "${fastq}" \
-        maxThreads="${task.cpus}" merylMemory="${task.memory.toGiga()}G" \
-        merylThreads="${task.cpus}" hapThreads="${task.cpus}" batMemory="${task.memory.toGiga()}G" \
-        redMemory="${task.memory.toGiga()}G" redThreads="${task.cpus}" \
-        oeaMemory="${task.memory.toGiga()}G" oeaThreads="${task.cpus}" \
-        corMemory="${task.memory.toGiga()}G" corThreads="${task.cpus}" \
-        minInputCoverage=1 useGrid=false
+        useGrid="false" minInputCoverage=0.1 stopOnLowCoverage=0.1
         
         mv canu_out/assembly.contigs.fasta ${sample_id}_CANU.fasta
         echo pass > .status
@@ -43,7 +38,7 @@ process CANU {
 process RAVEN {
 
     tag { sample_id }
-    label 'process_assembly'
+    label 'process_long_assembly'
     publishDir "results/$sample_id/assembly/RAVEN/"
 
     when:
@@ -73,7 +68,7 @@ process RAVEN {
 process FLYE {
 
     tag { sample_id }
-    label 'process_assembly'
+    label 'process_long_assembly'
     publishDir "results/$sample_id/assembly/FLYE/"
 
     when:
@@ -104,7 +99,7 @@ process FLYE {
 process METAFLYE {
 
     tag {sample_id}
-    label 'process_assembly'
+    label 'process_long_assembly'
     publishDir "results/$sample_id/assembly/METAFLYE/"
 
     when:
@@ -135,7 +130,7 @@ process METAFLYE {
 process RA{
 
     tag {sample_id}
-    label 'process_assembly'
+    label 'process_long_assembly'
     publishDir "results/$sample_id/assembly/ra/"
 
     when:
@@ -164,7 +159,7 @@ process RA{
 process WTDBG2{
 
     tag {sample_id}
-    label 'process_assembly'
+    label 'process_long_assembly'
     publishDir "results/$sample_id/assembly/wtdbg2/"
 
     when:
