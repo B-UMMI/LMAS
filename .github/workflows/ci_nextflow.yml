@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        nxf_ver: ['21.04.1']
+        nxf_ver: ['21.04.1', '']
     steps:
       - uses: actions/checkout@v2.3.4
       - name: Install Nextflow
@@ -35,7 +35,7 @@ jobs:
       fail-fast: false
       matrix:
         singularity_version: ['3.6.4']
-        nxf_ver: ['20.01.0', '']
+        nxf_ver: ['21.04.1', '']
     steps:
       - uses: actions/checkout@v1
       - uses: eWaterCycle/setup-singularity@v6
