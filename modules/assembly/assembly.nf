@@ -53,41 +53,6 @@ process ABYSS {
     """
 }
 
-process BCALM2 {
-
-    tag { sample_id }
-    label 'process_assembly'
-    publishDir "results/$sample_id/assembly/bcalm2/"
-
-    when:
-    params.bcalm
-
-    input:
-    tuple val(sample_id), path(fastq) 
-    val KmerSize 
-
-    output:
-    tuple val(sample_id), val('BCALM2'), path('*_BCALM2.fasta'), emit: assembly
-    path('.*version'), emit: version 
-
-    script:
-    """
-    ls -1 $fastq  > list_reads
-    bcalm -version | head -n 1 | awk -F ', ' '{print \$2}' | awk -F ' ' '{print \$2}' | awk -F 'v' '{print \$2}' \
-    > .${sample_id}_BCALM2_version
-    {
-        bcalm -in list_reads -out ${sample_id} -kmer-size $KmerSize
-        mv ${sample_id}.unitigs.fa  ${sample_id}_BCALM2.fasta
-        echo pass > .status
-    } || {
-        echo fail > .status
-        :> ${sample_id}_BCALM2.fasta
-    }
-    # remove temp files
-    rm list_reads *.fa || true
-    """
-}
-
 process GATBMINIAPIPELINE {
 
     tag { sample_id }
@@ -440,7 +405,6 @@ workflow assembly_wf {
 
     abyssKmerSize = Channel.value(params.abyssKmerSize)
     abyssBloomSize = Channel.value(params.abyssBloomSize)
-    bcalmKmerSize = Channel.value(params.bcalmKmerSize)
     gatbKmerSize = Channel.value(params.gatbKmerSize)
     GATB_error_correction = params.gatb_error_correction ? 'true' : 'false'
     gatb_besst_iter = Channel.value(params.gatb_besst_iter)
@@ -456,7 +420,6 @@ workflow assembly_wf {
     main:
     REFORMAT(IN_fastq_raw)
     ABYSS(IN_fastq_raw, abyssKmerSize, abyssBloomSize)
-    BCALM2(IN_fastq_raw, bcalmKmerSize)
     GATBMINIAPIPELINE(IN_fastq_raw, gatbKmerSize, GATB_error_correction, gatb_besst_iter)
     IDBA(REFORMAT.out)
     MEGAHIT(IN_fastq_raw, megahitKmerSize)
@@ -469,8 +432,7 @@ workflow assembly_wf {
     VELVETOPTIMISER(IN_fastq_raw)
 
     emit:
-    all_assemblies = ABYSS.out.assembly | mix(BCALM2.out.assembly, 
-                                              GATBMINIAPIPELINE.out.assembly,
+    all_assemblies = ABYSS.out.assembly | mix(GATBMINIAPIPELINE.out.assembly,
                                               IDBA.out.assembly,
                                               MEGAHIT.out.assembly,
                                               METAHIPMER2.out.assembly,
@@ -480,8 +442,7 @@ workflow assembly_wf {
                                               SPADES.out.assembly,
                                               UNICYCLER.out.assembly,
                                               VELVETOPTIMISER.out.assembly)
-    all_versions = ABYSS.out.version | mix(BCALM2.out.version, 
-                                           GATBMINIAPIPELINE.out.version,
+    all_versions = ABYSS.out.version | mix(GATBMINIAPIPELINE.out.version,
                                            IDBA.out.version,
                                            MEGAHIT.out.version,
                                            METAHIPMER2.out.version,
