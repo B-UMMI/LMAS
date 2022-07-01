@@ -23,7 +23,7 @@ jobs:
         run: |
           nextflow run ${GITHUB_WORKSPACE} -profile docker --fastq "test/data/tiny_{1,2}.*" \
           --reference "test/data/tiny_reference.fasta" --max_cpus 2 --max_memory 4.GB \
-          --abyss false --bcalm false --gatb_minia false --idba false --metahipmer2 false \
+          --abyss false --gatb_minia false --idba false --metahipmer2 false \
           --minia false --megahit false --metaspades false --spades false --unicycler false \
           --velvetoptimiser false
           FILE=report/index.html 
@@ -50,7 +50,7 @@ jobs:
         run: |
           nextflow run ${GITHUB_WORKSPACE} -profile singularity --fastq "test/data/tiny_{1,2}.*" \
           --reference "test/data/tiny_reference.fasta" --max_cpus 2 --max_memory 4.GB \
-          --abyss false --bcalm false --gatb_minia false --idba false --metahipmer2 false \
+          --abyss false --gatb_minia false --idba false --metahipmer2 false \
           --minia false --megahit false --metaspades false --spades false --unicycler false \
           --velvetoptimiser false
           FILE=report/index.html 

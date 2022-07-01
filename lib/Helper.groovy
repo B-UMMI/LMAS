@@ -12,7 +12,6 @@ class Help {
         println ""
         int nsamples = info.fastq / 2
         println " Input FastQ                 : $nsamples"
-        println " Reference file              : $info.referece"
         println " Reports are found in        : ./reports"
         println " Results are found in        : ./results"
         println " Profile                     : $profile"
@@ -65,10 +64,6 @@ class Help {
         println "    --abyssBloomSize           Bloom filter size for the ABySS assembler."
         println "                               It must be a sting with a value and an unit."
         println "                               (default: $params.abyssBloomSize)"
-        println "    --bcalm                    Boolean controling the execution of the BCALM2 assembler."
-        println "                               (default: $params.bcalm)"
-        println "    --bcalmKmerSize            K-mer size for the BCALM2 assembler, as an intiger."
-        println "                               (default $params.bcalmKmerSize)"
         println "    --gatb_minia               Boolean controling the execution of the GATB Minia Pipeline assembler."
         println "                               (default: $params.gatb_minia)"
         println "    --gatbKmerSize             K-mer sizes for the GATB Minia Pipeline assembler."

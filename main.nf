@@ -49,11 +49,7 @@ if (params.containsKey('fastq')) {
     infoMap.put('fastq', file(params.fastq).size())
 }
 if (params.containsKey('reference')) {
-    if (file(params.reference) instanceof LinkedList) {
-        infoMap.put('reference', file(params.reference).size())
-    } else {
-        infoMap.put('fasta', 1)
-    }
+    infoMap.put('reference', file(params.reference).getName())
 }
 
 Help.start_info(infoMap, "$workflow.start", "$workflow.profile", "$workflow.manifest.version")
