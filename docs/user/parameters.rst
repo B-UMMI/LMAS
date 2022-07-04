@@ -120,24 +120,6 @@ ABySS
 
 * **Default:** 2G
 
-BCALM2
-^^^^^^
-
-* **Param:** :code:`--bcalm`
-
-* **Definition:** Boolean controling the execution of the BCALM2 assembler.
-
-* **Default:** true
-
-----------------
-
-* **Param:** :code:`--bcalmKmerSize`
-
-* **Definition:** K-mer size for the BCALM2 assembler, as an intiger.
-
-* **Default:** 31
-
-
 GATB Minia Pipeline
 ^^^^^^^^^^^^^^^^^^^
 

@@ -105,10 +105,6 @@ To use LMAS the following options are available:
          --abyssBloomSize           Bloom filter size for the ABySS assembler.
                                     It must be a sting with a value and an unit.
                                     (default: 2G)
-         --bcalm                    Boolean controling the execution of the BCALM2 assembler.
-                                    (default: true)
-         --bcalmKmerSize            K-mer size for the BCALM2 assembler, as an intiger.
-                                    (default 31)
          --gatb_minia               Boolean controling the execution of the GATB Minia Pipeline assembler.
                                     (default: true)
          --gatbKmerSize             K-mer sizes for the GATB Minia Pipeline assembler.

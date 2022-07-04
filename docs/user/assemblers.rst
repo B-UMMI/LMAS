@@ -35,18 +35,6 @@ graph, reducing memory requirements for de novo assembly. **It's a traditional s
 * **Date of last release:** 22/04/2021
 * **Container:** `cimendes/abyss:2.3.1-1 <https://hub.docker.com/repository/docker/cimendes/abyss>`_ 
 
-BCALM2
-^^^^^^
-
-This assembler, published by `Chikhi et al, 2016 <https://academic.oup.com/bioinformatics/article/32/12/i201/2289008>`_ in 
-*Bioinformatics*, is a fast and low memory algorithm for graph compaction, consisting of three stages: careful distribution 
-of input k-mers into buckets, parallel compaction of the buckets, and a parallel reunification step to glue together 
-the compacted strings into unitigs. **It's a traditional single k-mer value De Bruijn assembler.**
-
-* **Source code:** https://github.com/GATB/bcalm
-* **Date of last release:** 22/05/2020
-* **Container:** `cimendes/bcalm:2.2.3-1 <https://hub.docker.com/repository/docker/cimendes/bcalm>`_ 
-
 GATB-Minia Pipeline
 ^^^^^^^^^^^^^^^^^^^
 

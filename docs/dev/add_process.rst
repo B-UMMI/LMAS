@@ -12,7 +12,6 @@ The `assembly.nf <https://github.com/B-UMMI/LMAS/tree/main/modules/assembly/asse
 The current available assemblers are:
 
 * `ABySS <https://github.com/bcgsc/abyss>`_
-* `BCALM 2 <https://github.com/GATB/bcalm>`_ 
 * `GATB-Minia Pipeline <https://github.com/GATB/gatb-minia-pipeline>`_
 * `IDBA <https://github.com/loneknightpy/idba>`_
 * `MEGAHIT <https://github.com/voutcn/megahit>`_
@@ -152,8 +151,7 @@ It should look like:
 
 .. code-block:: bash
 
-    all_assemblies = ABYSS.out.assembly | mix(BCALM2.out.assembly, 
-                                              GATBMINIAPIPELINE.out.assembly,
+    all_assemblies = ABYSS.out.assembly | mix(GATBMINIAPIPELINE.out.assembly,
                                               IDBA.out.assembly,
                                               MEGAHIT.out.assembly,
                                               METAHIPMER2.out.assembly,
@@ -175,8 +173,7 @@ It should look like:
 
 .. code-block:: bash
 
-    all_versions = ABYSS.out.version | mix(BCALM2.out.version, 
-                                           GATBMINIAPIPELINE.out.version,
+    all_versions = ABYSS.out.version | mix(GATBMINIAPIPELINE.out.version,
                                            IDBA.out.version,
                                            MEGAHIT.out.version,
                                            METAHIPMER2.out.version,

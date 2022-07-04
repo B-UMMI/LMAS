@@ -36,7 +36,7 @@ if __file__.endswith(".command.sh"):
     ASSEMBLY_STATS_GLOBAL_FILE = '$assembly_stats_global_files'.split()
     ASSEMBLY_STATS_GLOBAL_FILE_JSON = "$json_report".split()
     N_TARGET = float("$params.n_target")
-    ASSEMBLER_SKIP = {"ABySS":json.loads("$params.abyss"), "BCALM2": json.loads("$params.bcalm"), "GATBMiniaPipeline": json.loads("$params.gatb_minia"), 
+    ASSEMBLER_SKIP = {"ABySS":json.loads("$params.abyss"), "GATBMiniaPipeline": json.loads("$params.gatb_minia"), 
                        "MetaHipMer2": json.loads("$params.metahipmer2"), "MINIA": json.loads("$params.minia"), "MEGAHIT": json.loads("$params.megahit"), 
                        "metaSPAdes": json.loads("$params.metaspades"), "Unicycler": json.loads("$params.unicycler"), "SPAdes": json.loads("$params.spades"),
                        "SKESA": json.loads("$params.skesa"), "VelvetOptimiser": json.loads("$params.velvetoptimiser"), "IDBA-UD": json.loads("$params.idba")}
