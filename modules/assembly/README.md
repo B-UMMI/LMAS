@@ -5,9 +5,7 @@ This module contains the following processes:
 - REFORMAT
   - merges the paired-end read files with [BBtools reformat.sh](https://sourceforge.net/projects/bbmap/)
 - ABYSS 
-  -  Assemble the input fastq data with [ABySS](https://github.com/bcgsc/abyss) assembler. Returns it's assembly and the software version. 
-- BCALM2
-  - Assemble the input fastq data with [BCALM 2](https://github.com/GATB/bcalm) assembler. Returns it's assembly and the software version. 
+  -  Assemble the input fastq data with [ABySS](https://github.com/bcgsc/abyss) assembler. Returns it's assembly and the software version.  
 - GATBMINIAPIPELINE
   - Assemble the input fastq data with [GATB-Minia Pipeline](https://github.com/GATB/gatb-minia-pipeline) assembler. Returns it's assembly and the software version.
 - IDBA
