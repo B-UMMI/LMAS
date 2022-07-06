@@ -202,6 +202,7 @@ def process_performance_data(pipeline_stats, versions_json, containers_config):
     # parse assembler versions
     with open(versions_json) as f:
         assembler_versions = json.load(f)
+    print(assembler_versions)
 
     # parse containers config
     containers = {}
@@ -211,12 +212,15 @@ def process_performance_data(pipeline_stats, versions_json, containers_config):
                 assembler_process = line.split(':')[1].replace('{', '').strip()
                 container = next(f).split('=')[1].replace('"', "").strip()
                 containers[assembler_process] = container
+    print(containers)
 
     # Parse performance data
     performance = {}
     with open(pipeline_stats, "r") as pipeline_stats_file:
         csvreader = csv.reader(pipeline_stats_file, delimiter='\t')
+        next(csvreader)  # skip header
         for row in csvreader:
+            row[2] = row[2].split(':')[1]
             if row[2] in utils.ASSEMBLER_PROCESS_LIST:
                 if row[2] not in performance.keys():
                     performance[row[2]] = {"cpus": [_cpu_load_parser(row[8], row[15], row[13])],
@@ -233,11 +237,13 @@ def process_performance_data(pipeline_stats, versions_json, containers_config):
                         _size_coverter(row[19]))
                     performance[row[2]]["wchar"].append(
                         _size_coverter(row[20]))
+    print(performance)
 
     performance_metadata = []
-
     id_int = 1
     for process_id in performance.keys():
+        print(process_id)
+
         # time
         time_array = performance[process_id]["realtime"]
         mean_time = round(sum(time_array) / len(time_array), 1)
@@ -260,8 +266,18 @@ def process_performance_data(pipeline_stats, versions_json, containers_config):
             sum(performance[process_id]["wchar"]) / len(performance[process_id]["wchar"]))
         wchar_str = _size_compress(avg_wchar)
 
-        performance_metadata.append({"id": id_int, "assembler": process_id, "version": assembler_versions[process_id],
-                                     "container": containers[process_id], "avgTime": mean_time_str, "cpus": cpu_hour,
+        try:
+            assembler_version = assembler_versions[process_id]
+        except KeyError:
+            assembler_version = ''
+
+        try:
+            container = containers[process_id]
+        except KeyError:
+            container = ''
+
+        performance_metadata.append({"id": id_int, "assembler": process_id, "version": assembler_version,
+                                     "container": container, "avgTime": mean_time_str, "cpus": cpu_hour,
                                      "max_rss": rss_str, "avgRead": rchar_str, "avgWrite": wchar_str})
         id_int += 1
 
