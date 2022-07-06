@@ -9,3 +9,5 @@ at the `Faculty of Health Sciences, Ben-Gurion University of the Negev <https://
 
 This project is licensed under the `GPLv3 license <https://github.com/cimendes/LMAS/blob/main/LICENSE>`_.
 The source code of LMAS is available at `<https://github.com/cimendes/LMAS>`_.
+
+If you use LMAS please `cite LMAS repository <https://github.com/cimendes/LMAS/blob/main/CITATION.cff>`_.

@@ -68,7 +68,7 @@ def map_to_assembly(assembly, reads, sample_id, assembler,threshold, n_reads_tot
         "minimap2",
         "--sr",
         "-k21",
-        "-N5"
+        "-N5",
         "--secondary=no",
         assembly,
         reads[0],
@@ -121,12 +121,12 @@ def main(sample_id, assembler, assembly, filtered_assembly, fastq, basedir, thre
     logger.debug("Read files found: {}".format(all_readfiles))
     reads = []
     for file in all_readfiles:
-        if sample_id in file:
+        if sample_id in file and 'fq' in file:
             reads.append(file)
     logger.debug("Matching read files: {}".format(reads))
 
     # get total number of reads
-    n_reads_total = (sum(1 for line in gzip.open(reads[0], 'rb'))/4)+(sum(1 for line in gzip.open(reads[1], 'rb'))/4)
+    n_reads_total = (sum(1 for line in gzip.open(reads[1], 'rb'))/4) * 2
     logger.debug("Number of reads in fastq file: {}".format(n_reads_total))
 
 
@@ -147,6 +147,7 @@ def main(sample_id, assembler, assembly, filtered_assembly, fastq, basedir, thre
                 "mapped_reads_original": mapped_reads_original * 100,
                 "mapped_reads_filtered": mapped_reads_filtered * 100
         }}
+        logger.debug("Number of reads mapped: {}".format(json_dic))
         json_report.write(json.dumps(json_dic, separators=(",", ":")))
 
 

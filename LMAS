@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# This is a wrapper around LMAS-nf. 
+# By default `LMAS` will attempt to execute the main Nextflow pipeline.
+# If no user input is provided, it prints the help message
+
+# If no user input, print usage
+if [[ $# == 0 ]]; then
+    nextflow run main.nf --help
+    exit
+fi
+
+# Run the pipeline
+nextflow run main.nf $@

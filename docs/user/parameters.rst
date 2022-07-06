@@ -120,24 +120,6 @@ ABySS
 
 * **Default:** 2G
 
-BCALM2
-^^^^^^
-
-* **Param:** :code:`--bcalm`
-
-* **Definition:** Boolean controling the execution of the BCALM2 assembler.
-
-* **Default:** true
-
-----------------
-
-* **Param:** :code:`--bcalmKmerSize`
-
-* **Definition:** K-mer size for the BCALM2 assembler, as an intiger.
-
-* **Default:** 31
-
-
 GATB Minia Pipeline
 ^^^^^^^^^^^^^^^^^^^
 
@@ -307,3 +289,58 @@ VelvetOptimiser
 * **Definition:** End K-mer size for the VelvetOptimiser assembler, as an intiger.
 
 * **Default:** 31
+
+
+Execution Resources Parameters
+-------------------------------
+
+CPUs
+^^^^^^^^
+Number of CPUs for the assembly and mapping processes, as an intiger.
+This resource is double for each retry until max_cpus is reached.
+
+* **Param:** :code:`--cpus`
+
+* **Default:** 8
+
+Memory
+^^^^^^^^
+Memory for the assembly and mapping processes, in the format of 'value'.'unit'.
+This resource is double for each retry until max_memory is reached.
+
+* **Param:** :code:`--memory`
+
+* **Default:** 32.Gb
+
+Time
+^^^^^^^^
+Time limit for the assembly and mapping processes, in the format of 'value'.'unit'.
+This resource is double for each retry until max_time is reached.
+
+* **Param:** :code:`--memory`
+
+* **Default:** 24.h 
+
+Max_cpus
+^^^^^^^^
+Maximum number of CPUs for the assembly and mapping processes, as an intiger.
+
+* **Param:** :code:`--max_cpus`
+
+* **Default:** 32
+
+Max_memory
+^^^^^^^^^^^^
+Maximum memory for the assembly and mapping processes, in the format of 'value'.'unit'.
+
+* **Param:** :code:`--max_memory`
+
+* **Default:** 100.Gb
+
+Max_time
+^^^^^^^^^^^^
+Maximum time for the assembly and mapping processes, in the format of 'value'.'unit'.
+
+* **Param:** :code:`--max_memory`
+
+* **Default:** 72.h
