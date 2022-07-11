@@ -132,9 +132,12 @@ def main(dataframes):
     for sample in samples:
         print(sample)
         report_dict[sample] = {"PlotData": {}}
-        references = sorted(frame['Reference'].unique())
+        try:
+            references = sorted(frame['Reference'].unique())
+        except TypeError:
+            references = frame['Reference'].unique()
         for reference in references:
-            print('  ' + reference)
+            print('  ' + str(reference))
             fig = make_subplots(rows=2, cols=1,
                                 row_heights=[0.2, 0.8],
                                 shared_xaxes=True,
@@ -227,7 +230,7 @@ def main(dataframes):
 
 
             html_filename = '{0}_{1}_misassembly.html'.format(
-                sample, reference.replace(' ', '_'))
+                sample, str(reference).replace(' ', '_'))
             plot(fig, filename=html_filename, auto_open=False)
 
             plot_json = fig.to_json()
