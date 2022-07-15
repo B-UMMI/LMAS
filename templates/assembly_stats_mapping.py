@@ -167,8 +167,8 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
     :param mapping: paf file
     :param reference: path triple reference fasta file
     :param assembler: string with assembler name
-    :param n_target: Target percentage reference lenght for NA and NG metrics
-    :param l_target: Target percentage reference lenght for L metric
+    :param n_target: Target percentage reference length for NA and NG metrics
+    :param l_target: Target percentage reference length for L metric
     :return: pandas Dataframe with columns Reference, Assembler and C90
     """
 
