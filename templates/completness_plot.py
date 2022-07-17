@@ -181,5 +181,4 @@ def main(coverage_files):
 
 
 if __name__ == '__main__':
-    #main(COVERAGE_FILES)
-    main(['SRR8073716_MEGAHIT_breadth_of_coverage_contigs.csv', 'SRR8073716_SKESA_breadth_of_coverage_contigs.csv', 'SRR8073716_GATBMiniaPipeline_breadth_of_coverage_contigs.csv', 'SRR8073716_SPAdes_breadth_of_coverage_contigs.csv'])
+    main(COVERAGE_FILES)
