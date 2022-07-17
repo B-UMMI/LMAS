@@ -54,7 +54,7 @@ def plot_data(species_data, sample_id):
     """
     interpolation_xvalues = [0, 40, 80, 160, 320, 640, 1280, 2560]
     interpolation_function = interpolate.interp1d(
-        interpolation_xvalues, np.arange(len(interpolation_xvalues)))
+        interpolation_xvalues, np.arange(len(interpolation_xvalues)), fill_value="extrapolate")
 
     # create a tracer for each assembler data point
     # simpler to manage colors and legends
@@ -181,4 +181,5 @@ def main(coverage_files):
 
 
 if __name__ == '__main__':
-    main(COVERAGE_FILES)
+    #main(COVERAGE_FILES)
+    main(['SRR8073716_MEGAHIT_breadth_of_coverage_contigs.csv', 'SRR8073716_SKESA_breadth_of_coverage_contigs.csv', 'SRR8073716_GATBMiniaPipeline_breadth_of_coverage_contigs.csv', 'SRR8073716_SPAdes_breadth_of_coverage_contigs.csv'])
