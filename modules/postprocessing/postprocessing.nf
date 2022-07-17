@@ -264,6 +264,7 @@ workflow postprocessing_wf {
     phred_csv
     mapping_df_csv
     paf
+    misassembly_paf
 
     main:
     PROCESS_COMPLETNESS(boc_csv | collect)
@@ -277,7 +278,7 @@ workflow postprocessing_wf {
     PLOT_GAP_REFERENCE(GAP_ASSESSMENT.out.csv | collect)
     SNP_ASSESSMENT(paf, triple_reference)
     PLOT_SNP_REFERENCE(SNP_ASSESSMENT.out.csv | collect)
-    MISASSEMBLY(paf)
+    MISASSEMBLY(misassembly_paf)
     PROCESS_MISASSEMBLY(MISASSEMBLY.out.trace_pkl | collect, MISASSEMBLY.out.contig_length_pkl | collect, MISASSEMBLY.out.misassembly_json | collect, MISASSEMBLY.out.misassembled_reference_json | collect)
     PLOT_MISASSEMBLY(MISASSEMBLY.out.csv | collect)
 

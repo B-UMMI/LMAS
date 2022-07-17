@@ -78,7 +78,8 @@ workflow {
                       mapping_wf.out.ngx_csv,
                       mapping_wf.out.phred_csv,
                       mapping_wf.out.df_csv,
-                      mapping_wf.out.paf)
+                      mapping_wf.out.paf,
+                      mapping_wf.out.misassembly_paf)
  
     report_wf(preprocessing_wf.out.reads_info, 
               mapping_wf.out.stats_global, 
