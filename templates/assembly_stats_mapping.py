@@ -203,7 +203,7 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
         df_assembler_reference = df_assembler[df_assembler['Mapped']
                                               == alignment_dict['Reference']]
 
-        mapped_contigs = df_assembler_reference['Contig Len'].astype(
+        mapped_contigs = df_assembler_reference['Contig Len'].unique().astype(
             'int').tolist()
 
         # Uncalled bases
