@@ -82,8 +82,7 @@ def get_position(start, end, cigar):
         if match[0] == '*': 
             substitution = match[1]
             coord += 1
-            if start < coord < end: # sanity check
-                yield coord, substitution
+            yield coord, substitution
 
 
 def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
@@ -100,7 +99,7 @@ def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
 
     with open(paf_file) as paf:
         for line in paf:
-            parts = line.strip().split('\\t')
+            parts = line.strip().split()
             if parts[5] == ref_name:
                 if parts[4] == '+':
                     start, end = int(parts[7]), int(parts[8])
@@ -115,6 +114,7 @@ def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
                         snps.append((utils.adjust_reference_coord(snp[0], ref_len), snp[1]))
                 else:
                     continue
+
     tsv_report.close()
     return snps
 

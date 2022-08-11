@@ -50,6 +50,26 @@ process ASSEMBLY_MAPPING{
 
     script:
     """
+    minimap2 --cs -N 50 --secondary=yes -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} \
+    > ${sample_id}_${assembler}.paf
+    """
+}
+
+process ASSEMBLY_MAPPING_MISASSEMBLY{
+
+    tag { sample_id; assembler }
+    label 'process_mapping'
+    publishDir "results/$sample_id/mapping/assembly"
+
+    input:
+    tuple val(sample_id), val(assembler), path(assembly) 
+    each path(reference)
+
+    output:
+    tuple val(sample_id), val(assembler), path(assembly), path('*.paf')
+
+    script:
+    """
     minimap2 --cs -N 50 --secondary=no -t $task.cpus -r 10000 -g 10000 -x asm20 --eqx ${reference} ${assembly} \
     > ${sample_id}_${assembler}.paf
     """
@@ -141,6 +161,7 @@ workflow mapping_wf {
     FILTER_ASSEMBLY(assembly, minLength)
     READ_MAPPING(assembly | join(FILTER_ASSEMBLY.out, by:[0,1]))
     ASSEMBLY_MAPPING(FILTER_ASSEMBLY.out, triple_reference)
+    ASSEMBLY_MAPPING_MISASSEMBLY(FILTER_ASSEMBLY.out, triple_reference)
     ASSEMBLY_STATS_GLOBAL(assembly | join(READ_MAPPING.out.read_mapping_json, by:[0,1]))
     PROCESS_ASSEMBLY_STATS_GLOBAL(ASSEMBLY_STATS_GLOBAL.out.tsv | collect, ASSEMBLY_STATS_GLOBAL.out.json | collect)
     ASSEMBLY_STATS_MAPPING(ASSEMBLY_MAPPING.out, triple_reference)
@@ -148,6 +169,7 @@ workflow mapping_wf {
 
     emit:
     paf = ASSEMBLY_MAPPING.out
+    misassembly_paf = ASSEMBLY_MAPPING_MISASSEMBLY.out
     stats_global = PROCESS_ASSEMBLY_STATS_GLOBAL.out
     stats_mapping = PROCESS_ASSEMBLY_STATS_MAPPING.out
     boc_csv = ASSEMBLY_STATS_MAPPING.out.boc_csv | collect

@@ -1,0 +1,300 @@
+Contig_165_3.79445	1246	0	1246	+	Staphylococcus_aureus	8156340	7891384	7892630	1246	1246	0	NM:i:0	ms:i:1246	AS:i:1246	nn:i:0	tp:A:P	cm:i:224	s1:i:1234	s2:i:1234	de:f:0	rl:i:0	cs:Z::1246
+Contig_165_3.79445	1246	0	1246	+	Staphylococcus_aureus	8156340	5172604	5173850	1246	1246	0	NM:i:0	ms:i:1246	AS:i:1246	nn:i:0	tp:A:S	cm:i:224	s1:i:1234	de:f:0	rl:i:0	cs:Z::1246
+Contig_165_3.79445	1246	0	1246	+	Staphylococcus_aureus	8156340	2453824	2455070	1246	1246	0	NM:i:0	ms:i:1246	AS:i:1246	nn:i:0	tp:A:S	cm:i:224	s1:i:1234	de:f:0	rl:i:0	cs:Z::1246
+Contig_399_3.96384	1154	0	1154	+	Staphylococcus_aureus	8156340	5881177	5882331	1154	1154	0	NM:i:0	ms:i:1154	AS:i:1154	nn:i:0	tp:A:P	cm:i:202	s1:i:1148	s2:i:1148	de:f:0	rl:i:0	cs:Z::1154
+Contig_399_3.96384	1154	0	1154	+	Staphylococcus_aureus	8156340	3162397	3163551	1154	1154	0	NM:i:0	ms:i:1154	AS:i:1154	nn:i:0	tp:A:S	cm:i:202	s1:i:1148	de:f:0	rl:i:0	cs:Z::1154
+Contig_399_3.96384	1154	0	1154	+	Staphylococcus_aureus	8156340	443617	444771	1154	1154	0	NM:i:0	ms:i:1154	AS:i:1154	nn:i:0	tp:A:S	cm:i:202	s1:i:1148	de:f:0	rl:i:0	cs:Z::1154
+Contig_532_4.48739	1130	0	1130	+	Bacillus_subtilis	12137031	3126774	3127904	1130	1130	0	NM:i:0	ms:i:1130	AS:i:1130	nn:i:0	tp:A:P	cm:i:197	s1:i:1123	s2:i:1123	de:f:0	rl:i:0	cs:Z::1130
+Contig_532_4.48739	1130	0	1130	+	Bacillus_subtilis	12137031	7172451	7173581	1130	1130	0	NM:i:0	ms:i:1130	AS:i:1130	nn:i:0	tp:A:S	cm:i:197	s1:i:1123	de:f:0	rl:i:0	cs:Z::1130
+Contig_532_4.48739	1130	0	1130	+	Bacillus_subtilis	12137031	11218128	11219258	1130	1130	0	NM:i:0	ms:i:1130	AS:i:1130	nn:i:0	tp:A:S	cm:i:197	s1:i:1123	de:f:0	rl:i:0	cs:Z::1130
+Contig_579_4.05566	1080	0	1080	+	Bacillus_subtilis	12137031	7986220	7987300	1080	1080	0	NM:i:0	ms:i:1080	AS:i:1080	nn:i:0	tp:A:P	cm:i:197	s1:i:1071	s2:i:1071	de:f:0	rl:i:0	cs:Z::1080
+Contig_579_4.05566	1080	0	1080	+	Bacillus_subtilis	12137031	3940543	3941623	1080	1080	0	NM:i:0	ms:i:1080	AS:i:1080	nn:i:0	tp:A:S	cm:i:197	s1:i:1071	de:f:0	rl:i:0	cs:Z::1080
+Contig_579_4.05566	1080	0	1080	+	Bacillus_subtilis	12137031	12031897	12032977	1080	1080	0	NM:i:0	ms:i:1080	AS:i:1080	nn:i:0	tp:A:S	cm:i:197	s1:i:1071	de:f:0	rl:i:0	cs:Z::1080
+Contig_870_4.74172	1197	0	1197	+	Staphylococcus_aureus	8156340	2021008	2022205	1197	1197	0	NM:i:0	ms:i:1197	AS:i:1197	nn:i:0	tp:A:P	cm:i:213	s1:i:1192	s2:i:1192	de:f:0	rl:i:0	cs:Z::1197
+Contig_870_4.74172	1197	0	1197	+	Staphylococcus_aureus	8156340	7458568	7459765	1197	1197	0	NM:i:0	ms:i:1197	AS:i:1197	nn:i:0	tp:A:S	cm:i:213	s1:i:1192	de:f:0	rl:i:0	cs:Z::1197
+Contig_870_4.74172	1197	0	1197	+	Staphylococcus_aureus	8156340	4739788	4740985	1197	1197	0	NM:i:0	ms:i:1197	AS:i:1197	nn:i:0	tp:A:S	cm:i:213	s1:i:1192	de:f:0	rl:i:0	cs:Z::1197
+Contig_923_3.8403	1360	0	1360	-	Bacillus_subtilis	12137031	7948603	7949963	1360	1360	0	NM:i:0	ms:i:1360	AS:i:1360	nn:i:0	tp:A:P	cm:i:234	s1:i:1354	s2:i:1354	de:f:0	rl:i:0	cs:Z::1360
+Contig_923_3.8403	1360	0	1360	-	Bacillus_subtilis	12137031	11994280	11995640	1360	1360	0	NM:i:0	ms:i:1360	AS:i:1360	nn:i:0	tp:A:S	cm:i:234	s1:i:1354	de:f:0	rl:i:0	cs:Z::1360
+Contig_923_3.8403	1360	0	1360	-	Bacillus_subtilis	12137031	3902926	3904286	1360	1360	0	NM:i:0	ms:i:1360	AS:i:1360	nn:i:0	tp:A:S	cm:i:234	s1:i:1354	de:f:0	rl:i:0	cs:Z::1360
+Contig_929_4.33903	1073	0	1073	+	Staphylococcus_aureus	8156340	1579960	1581033	1073	1073	0	NM:i:0	ms:i:1073	AS:i:1073	nn:i:0	tp:A:P	cm:i:197	s1:i:1064	s2:i:1064	de:f:0	rl:i:0	cs:Z::1073
+Contig_929_4.33903	1073	0	1073	+	Staphylococcus_aureus	8156340	4298740	4299813	1073	1073	0	NM:i:0	ms:i:1073	AS:i:1073	nn:i:0	tp:A:S	cm:i:197	s1:i:1064	de:f:0	rl:i:0	cs:Z::1073
+Contig_929_4.33903	1073	0	1073	+	Staphylococcus_aureus	8156340	7017520	7018593	1073	1073	0	NM:i:0	ms:i:1073	AS:i:1073	nn:i:0	tp:A:S	cm:i:197	s1:i:1064	de:f:0	rl:i:0	cs:Z::1073
+Contig_1040_4.58274	1005	0	1005	+	Staphylococcus_aureus	8156340	6497384	6498389	1005	1005	0	NM:i:0	ms:i:1005	AS:i:1005	nn:i:0	tp:A:P	cm:i:177	s1:i:1002	s2:i:1002	de:f:0	rl:i:0	cs:Z::1005
+Contig_1040_4.58274	1005	0	1005	+	Staphylococcus_aureus	8156340	3778604	3779609	1005	1005	0	NM:i:0	ms:i:1005	AS:i:1005	nn:i:0	tp:A:S	cm:i:177	s1:i:1002	de:f:0	rl:i:0	cs:Z::1005
+Contig_1040_4.58274	1005	0	1005	+	Staphylococcus_aureus	8156340	1059824	1060829	1005	1005	0	NM:i:0	ms:i:1005	AS:i:1005	nn:i:0	tp:A:S	cm:i:177	s1:i:1002	de:f:0	rl:i:0	cs:Z::1005
+Contig_1261_3.8237	1075	0	1075	-	Bacillus_subtilis	12137031	2165643	2166718	1075	1075	0	NM:i:0	ms:i:1075	AS:i:1075	nn:i:0	tp:A:P	cm:i:196	s1:i:1066	s2:i:1066	de:f:0	rl:i:0	cs:Z::1075
+Contig_1261_3.8237	1075	0	1075	-	Bacillus_subtilis	12137031	6211320	6212395	1075	1075	0	NM:i:0	ms:i:1075	AS:i:1075	nn:i:0	tp:A:S	cm:i:196	s1:i:1066	de:f:0	rl:i:0	cs:Z::1075
+Contig_1261_3.8237	1075	0	1075	-	Bacillus_subtilis	12137031	10256997	10258072	1075	1075	0	NM:i:0	ms:i:1075	AS:i:1075	nn:i:0	tp:A:S	cm:i:196	s1:i:1066	de:f:0	rl:i:0	cs:Z::1075
+Contig_1345_4.27856	1517	0	1517	+	Staphylococcus_aureus	8156340	3733062	3734579	1517	1517	0	NM:i:0	ms:i:1517	AS:i:1517	nn:i:0	tp:A:P	cm:i:267	s1:i:1514	s2:i:1514	de:f:0	rl:i:0	cs:Z::1517
+Contig_1345_4.27856	1517	0	1517	+	Staphylococcus_aureus	8156340	1014282	1015799	1517	1517	0	NM:i:0	ms:i:1517	AS:i:1517	nn:i:0	tp:A:S	cm:i:267	s1:i:1514	de:f:0	rl:i:0	cs:Z::1517
+Contig_1345_4.27856	1517	0	1517	+	Staphylococcus_aureus	8156340	6451842	6453359	1517	1517	0	NM:i:0	ms:i:1517	AS:i:1517	nn:i:0	tp:A:S	cm:i:267	s1:i:1514	de:f:0	rl:i:0	cs:Z::1517
+Contig_1372_4.05193	1002	0	1002	-	Staphylococcus_aureus	8156340	1402790	1403792	1002	1002	0	NM:i:0	ms:i:1002	AS:i:1002	nn:i:0	tp:A:P	cm:i:175	s1:i:992	s2:i:992	de:f:0	rl:i:0	cs:Z::1002
+Contig_1372_4.05193	1002	0	1002	-	Staphylococcus_aureus	8156340	4121570	4122572	1002	1002	0	NM:i:0	ms:i:1002	AS:i:1002	nn:i:0	tp:A:S	cm:i:175	s1:i:992	de:f:0	rl:i:0	cs:Z::1002
+Contig_1372_4.05193	1002	0	1002	-	Staphylococcus_aureus	8156340	6840350	6841352	1002	1002	0	NM:i:0	ms:i:1002	AS:i:1002	nn:i:0	tp:A:S	cm:i:175	s1:i:992	de:f:0	rl:i:0	cs:Z::1002
+Contig_1492_4.3543	1149	0	1149	+	Bacillus_subtilis	12137031	9965848	9966997	1149	1149	0	NM:i:0	ms:i:1149	AS:i:1149	nn:i:0	tp:A:P	cm:i:201	s1:i:1146	s2:i:1146	de:f:0	rl:i:0	cs:Z::1149
+Contig_1492_4.3543	1149	0	1149	+	Bacillus_subtilis	12137031	5920171	5921320	1149	1149	0	NM:i:0	ms:i:1149	AS:i:1149	nn:i:0	tp:A:S	cm:i:201	s1:i:1146	de:f:0	rl:i:0	cs:Z::1149
+Contig_1492_4.3543	1149	0	1149	+	Bacillus_subtilis	12137031	1874494	1875643	1149	1149	0	NM:i:0	ms:i:1149	AS:i:1149	nn:i:0	tp:A:S	cm:i:201	s1:i:1146	de:f:0	rl:i:0	cs:Z::1149
+Contig_1702_4.15025	1218	0	1218	+	Bacillus_subtilis	12137031	8966357	8967575	1218	1218	0	NM:i:0	ms:i:1218	AS:i:1218	nn:i:0	tp:A:P	cm:i:213	s1:i:1206	s2:i:1206	de:f:0	rl:i:0	cs:Z::1218
+Contig_1702_4.15025	1218	0	1218	+	Bacillus_subtilis	12137031	4920680	4921898	1218	1218	0	NM:i:0	ms:i:1218	AS:i:1218	nn:i:0	tp:A:S	cm:i:213	s1:i:1206	de:f:0	rl:i:0	cs:Z::1218
+Contig_1702_4.15025	1218	0	1218	+	Bacillus_subtilis	12137031	875003	876221	1218	1218	0	NM:i:0	ms:i:1218	AS:i:1218	nn:i:0	tp:A:S	cm:i:213	s1:i:1206	de:f:0	rl:i:0	cs:Z::1218
+Contig_1955_4.53592	1078	0	1078	+	Bacillus_subtilis	12137031	7284466	7285544	1078	1078	0	NM:i:0	ms:i:1078	AS:i:1078	nn:i:0	tp:A:P	cm:i:206	s1:i:1069	s2:i:1069	de:f:0	rl:i:0	cs:Z::1078
+Contig_1955_4.53592	1078	0	1078	+	Bacillus_subtilis	12137031	11330143	11331221	1078	1078	0	NM:i:0	ms:i:1078	AS:i:1078	nn:i:0	tp:A:S	cm:i:206	s1:i:1069	de:f:0	rl:i:0	cs:Z::1078
+Contig_1955_4.53592	1078	0	1078	+	Bacillus_subtilis	12137031	3238789	3239867	1078	1078	0	NM:i:0	ms:i:1078	AS:i:1078	nn:i:0	tp:A:S	cm:i:206	s1:i:1069	de:f:0	rl:i:0	cs:Z::1078
+Contig_2043_3.27966	1554	0	1554	+	Bacillus_subtilis	12137031	6130112	6131666	1554	1554	0	NM:i:0	ms:i:1554	AS:i:1554	nn:i:0	tp:A:P	cm:i:283	s1:i:1544	s2:i:1544	de:f:0	rl:i:0	cs:Z::1554
+Contig_2043_3.27966	1554	0	1554	+	Bacillus_subtilis	12137031	10175789	10177343	1554	1554	0	NM:i:0	ms:i:1554	AS:i:1554	nn:i:0	tp:A:S	cm:i:283	s1:i:1544	de:f:0	rl:i:0	cs:Z::1554
+Contig_2043_3.27966	1554	0	1554	+	Bacillus_subtilis	12137031	2084435	2085989	1554	1554	0	NM:i:0	ms:i:1554	AS:i:1554	nn:i:0	tp:A:S	cm:i:283	s1:i:1544	de:f:0	rl:i:0	cs:Z::1554
+Contig_2356_4.66397	1258	0	1102	+	Staphylococcus_aureus	8156340	2269987	2271089	1102	1102	0	NM:i:0	ms:i:1102	AS:i:1102	nn:i:0	tp:A:P	cm:i:194	s1:i:1092	s2:i:1092	de:f:0	rl:i:0	cs:Z::1102
+Contig_2356_4.66397	1258	0	1102	+	Staphylococcus_aureus	8156340	4988767	4989869	1102	1102	0	NM:i:0	ms:i:1102	AS:i:1102	nn:i:0	tp:A:S	cm:i:194	s1:i:1092	de:f:0	rl:i:0	cs:Z::1102
+Contig_2356_4.66397	1258	0	1102	+	Staphylococcus_aureus	8156340	7707547	7708649	1102	1102	0	NM:i:0	ms:i:1102	AS:i:1102	nn:i:0	tp:A:S	cm:i:194	s1:i:1092	de:f:0	rl:i:0	cs:Z::1102
+Contig_2377_3.96519	1916	0	1916	-	Staphylococcus_aureus	8156340	5743134	5745050	1916	1916	0	NM:i:0	ms:i:1916	AS:i:1916	nn:i:0	tp:A:P	cm:i:344	s1:i:1903	s2:i:1903	de:f:0	rl:i:0	cs:Z::1916
+Contig_2377_3.96519	1916	0	1916	-	Staphylococcus_aureus	8156340	305574	307490	1916	1916	0	NM:i:0	ms:i:1916	AS:i:1916	nn:i:0	tp:A:S	cm:i:344	s1:i:1903	de:f:0	rl:i:0	cs:Z::1916
+Contig_2377_3.96519	1916	0	1916	-	Staphylococcus_aureus	8156340	3024354	3026270	1916	1916	0	NM:i:0	ms:i:1916	AS:i:1916	nn:i:0	tp:A:S	cm:i:344	s1:i:1903	de:f:0	rl:i:0	cs:Z::1916
+Contig_2378_3.91021	1568	0	1568	+	Bacillus_subtilis	12137031	2690976	2692544	1568	1568	0	NM:i:0	ms:i:1568	AS:i:1568	nn:i:0	tp:A:P	cm:i:271	s1:i:1556	s2:i:1556	de:f:0	rl:i:0	cs:Z::1568
+Contig_2378_3.91021	1568	0	1568	+	Bacillus_subtilis	12137031	6736653	6738221	1568	1568	0	NM:i:0	ms:i:1568	AS:i:1568	nn:i:0	tp:A:S	cm:i:271	s1:i:1556	de:f:0	rl:i:0	cs:Z::1568
+Contig_2378_3.91021	1568	0	1568	+	Bacillus_subtilis	12137031	10782330	10783898	1568	1568	0	NM:i:0	ms:i:1568	AS:i:1568	nn:i:0	tp:A:S	cm:i:271	s1:i:1556	de:f:0	rl:i:0	cs:Z::1568
+Contig_2445_4.31981	1055	0	1055	-	Staphylococcus_aureus	8156340	2617253	2618308	1055	1055	0	NM:i:0	ms:i:1055	AS:i:1055	nn:i:0	tp:A:P	cm:i:186	s1:i:1049	s2:i:1049	de:f:0	rl:i:0	cs:Z::1055
+Contig_2445_4.31981	1055	0	1055	-	Staphylococcus_aureus	8156340	5336033	5337088	1055	1055	0	NM:i:0	ms:i:1055	AS:i:1055	nn:i:0	tp:A:S	cm:i:186	s1:i:1049	de:f:0	rl:i:0	cs:Z::1055
+Contig_2445_4.31981	1055	0	1055	-	Staphylococcus_aureus	8156340	8054813	8055868	1055	1055	0	NM:i:0	ms:i:1055	AS:i:1055	nn:i:0	tp:A:S	cm:i:186	s1:i:1049	de:f:0	rl:i:0	cs:Z::1055
+Contig_2582_4.61978	1193	0	1193	+	Bacillus_subtilis	12137031	42599	43792	1193	1193	0	NM:i:0	ms:i:1193	AS:i:1193	nn:i:0	tp:A:P	cm:i:231	s1:i:1187	s2:i:1187	de:f:0	rl:i:0	cs:Z::1193
+Contig_2582_4.61978	1193	0	1193	+	Bacillus_subtilis	12137031	4088276	4089469	1193	1193	0	NM:i:0	ms:i:1193	AS:i:1193	nn:i:0	tp:A:S	cm:i:231	s1:i:1187	de:f:0	rl:i:0	cs:Z::1193
+Contig_2582_4.61978	1193	0	1193	+	Bacillus_subtilis	12137031	8133953	8135146	1193	1193	0	NM:i:0	ms:i:1193	AS:i:1193	nn:i:0	tp:A:S	cm:i:231	s1:i:1187	de:f:0	rl:i:0	cs:Z::1193
+Contig_2593_4.42084	1498	0	1498	+	Staphylococcus_aureus	8156340	4719746	4721244	1498	1498	0	NM:i:0	ms:i:1498	AS:i:1498	nn:i:0	tp:A:P	cm:i:265	s1:i:1494	s2:i:1494	de:f:0	rl:i:0	cs:Z::1498
+Contig_2593_4.42084	1498	0	1498	+	Staphylococcus_aureus	8156340	7438526	7440024	1498	1498	0	NM:i:0	ms:i:1498	AS:i:1498	nn:i:0	tp:A:S	cm:i:265	s1:i:1494	de:f:0	rl:i:0	cs:Z::1498
+Contig_2593_4.42084	1498	0	1498	+	Staphylococcus_aureus	8156340	2000966	2002464	1498	1498	0	NM:i:0	ms:i:1498	AS:i:1498	nn:i:0	tp:A:S	cm:i:265	s1:i:1494	de:f:0	rl:i:0	cs:Z::1498
+Contig_2644_4.27298	1086	0	1086	-	Bacillus_subtilis	12137031	1472635	1473721	1086	1086	0	NM:i:0	ms:i:1086	AS:i:1086	nn:i:0	tp:A:P	cm:i:205	s1:i:1078	s2:i:1078	de:f:0	rl:i:0	cs:Z::1086
+Contig_2644_4.27298	1086	0	1086	-	Bacillus_subtilis	12137031	5518312	5519398	1086	1086	0	NM:i:0	ms:i:1086	AS:i:1086	nn:i:0	tp:A:S	cm:i:205	s1:i:1078	de:f:0	rl:i:0	cs:Z::1086
+Contig_2644_4.27298	1086	0	1086	-	Bacillus_subtilis	12137031	9563989	9565075	1086	1086	0	NM:i:0	ms:i:1086	AS:i:1086	nn:i:0	tp:A:S	cm:i:205	s1:i:1078	de:f:0	rl:i:0	cs:Z::1086
+Contig_2721_4.52685	1584	0	1584	+	Bacillus_subtilis	12137031	9193202	9194786	1584	1584	0	NM:i:0	ms:i:1584	AS:i:1584	nn:i:0	tp:A:P	cm:i:269	s1:i:1574	s2:i:1574	de:f:0	rl:i:0	cs:Z::1584
+Contig_2721_4.52685	1584	0	1584	+	Bacillus_subtilis	12137031	5147525	5149109	1584	1584	0	NM:i:0	ms:i:1584	AS:i:1584	nn:i:0	tp:A:S	cm:i:269	s1:i:1574	de:f:0	rl:i:0	cs:Z::1584
+Contig_2721_4.52685	1584	0	1584	+	Bacillus_subtilis	12137031	1101848	1103432	1584	1584	0	NM:i:0	ms:i:1584	AS:i:1584	nn:i:0	tp:A:S	cm:i:269	s1:i:1574	de:f:0	rl:i:0	cs:Z::1584
+Contig_2765_4.10913	1083	0	1083	+	Staphylococcus_aureus	8156340	3728295	3729378	1083	1083	0	NM:i:0	ms:i:1083	AS:i:1083	nn:i:0	tp:A:P	cm:i:198	s1:i:1074	s2:i:1074	de:f:0	rl:i:0	cs:Z::1083
+Contig_2765_4.10913	1083	0	1083	+	Staphylococcus_aureus	8156340	6447075	6448158	1083	1083	0	NM:i:0	ms:i:1083	AS:i:1083	nn:i:0	tp:A:S	cm:i:198	s1:i:1074	de:f:0	rl:i:0	cs:Z::1083
+Contig_2765_4.10913	1083	0	1083	+	Staphylococcus_aureus	8156340	1009515	1010598	1083	1083	0	NM:i:0	ms:i:1083	AS:i:1083	nn:i:0	tp:A:S	cm:i:198	s1:i:1074	de:f:0	rl:i:0	cs:Z::1083
+Contig_2773_4.72826	1032	0	1032	+	Bacillus_subtilis	12137031	8888704	8889736	1032	1032	0	NM:i:0	ms:i:1032	AS:i:1032	nn:i:0	tp:A:P	cm:i:177	s1:i:1022	s2:i:1022	de:f:0	rl:i:0	cs:Z::1032
+Contig_2773_4.72826	1032	0	1032	+	Bacillus_subtilis	12137031	797350	798382	1032	1032	0	NM:i:0	ms:i:1032	AS:i:1032	nn:i:0	tp:A:S	cm:i:177	s1:i:1022	de:f:0	rl:i:0	cs:Z::1032
+Contig_2773_4.72826	1032	0	1032	+	Bacillus_subtilis	12137031	4843027	4844059	1032	1032	0	NM:i:0	ms:i:1032	AS:i:1032	nn:i:0	tp:A:S	cm:i:177	s1:i:1022	de:f:0	rl:i:0	cs:Z::1032
+Contig_2817_4.56238	1078	0	1078	+	Bacillus_subtilis	12137031	6143409	6144487	1078	1078	0	NM:i:0	ms:i:1078	AS:i:1078	nn:i:0	tp:A:P	cm:i:183	s1:i:1071	s2:i:1071	de:f:0	rl:i:0	cs:Z::1078
+Contig_2817_4.56238	1078	0	1078	+	Bacillus_subtilis	12137031	2097732	2098810	1078	1078	0	NM:i:0	ms:i:1078	AS:i:1078	nn:i:0	tp:A:S	cm:i:183	s1:i:1071	de:f:0	rl:i:0	cs:Z::1078
+Contig_2817_4.56238	1078	0	1078	+	Bacillus_subtilis	12137031	10189086	10190164	1078	1078	0	NM:i:0	ms:i:1078	AS:i:1078	nn:i:0	tp:A:S	cm:i:183	s1:i:1071	de:f:0	rl:i:0	cs:Z::1078
+Contig_2819_4.1927	1198	0	1198	+	Bacillus_subtilis	12137031	1887848	1889046	1198	1198	0	NM:i:0	ms:i:1198	AS:i:1198	nn:i:0	tp:A:P	cm:i:230	s1:i:1192	s2:i:1192	de:f:0	rl:i:0	cs:Z::1198
+Contig_2819_4.1927	1198	0	1198	+	Bacillus_subtilis	12137031	9979202	9980400	1198	1198	0	NM:i:0	ms:i:1198	AS:i:1198	nn:i:0	tp:A:S	cm:i:230	s1:i:1192	de:f:0	rl:i:0	cs:Z::1198
+Contig_2819_4.1927	1198	0	1198	+	Bacillus_subtilis	12137031	5933525	5934723	1198	1198	0	NM:i:0	ms:i:1198	AS:i:1198	nn:i:0	tp:A:S	cm:i:230	s1:i:1192	de:f:0	rl:i:0	cs:Z::1198
+Contig_2920_3.81972	1085	0	1085	+	Bacillus_subtilis	12137031	5526057	5527142	1085	1085	0	NM:i:0	ms:i:1085	AS:i:1085	nn:i:0	tp:A:P	cm:i:199	s1:i:1082	s2:i:1082	de:f:0	rl:i:0	cs:Z::1085
+Contig_2920_3.81972	1085	0	1085	+	Bacillus_subtilis	12137031	9571734	9572819	1085	1085	0	NM:i:0	ms:i:1085	AS:i:1085	nn:i:0	tp:A:S	cm:i:199	s1:i:1082	de:f:0	rl:i:0	cs:Z::1085
+Contig_2920_3.81972	1085	0	1085	+	Bacillus_subtilis	12137031	1480380	1481465	1085	1085	0	NM:i:0	ms:i:1085	AS:i:1085	nn:i:0	tp:A:S	cm:i:199	s1:i:1082	de:f:0	rl:i:0	cs:Z::1085
+Contig_2963_3.78511	1202	0	1202	+	Staphylococcus_aureus	8156340	6416000	6417202	1202	1202	0	NM:i:0	ms:i:1202	AS:i:1202	nn:i:0	tp:A:P	cm:i:221	s1:i:1187	s2:i:1187	de:f:0	rl:i:0	cs:Z::1202
+Contig_2963_3.78511	1202	0	1202	+	Staphylococcus_aureus	8156340	978440	979642	1202	1202	0	NM:i:0	ms:i:1202	AS:i:1202	nn:i:0	tp:A:S	cm:i:221	s1:i:1187	de:f:0	rl:i:0	cs:Z::1202
+Contig_2963_3.78511	1202	0	1202	+	Staphylococcus_aureus	8156340	3697220	3698422	1202	1202	0	NM:i:0	ms:i:1202	AS:i:1202	nn:i:0	tp:A:S	cm:i:221	s1:i:1187	de:f:0	rl:i:0	cs:Z::1202
+Contig_2988_6.16386	2278	0	2278	-	Staphylococcus_aureus	8156340	2586018	2588296	2278	2278	0	NM:i:0	ms:i:2278	AS:i:2278	nn:i:0	tp:A:P	cm:i:414	s1:i:2274	s2:i:2274	de:f:0	rl:i:0	cs:Z::2278
+Contig_2988_6.16386	2278	0	2278	+	Staphylococcus_aureus	8156340	2575018	2577296	2278	2278	0	NM:i:0	ms:i:2278	AS:i:2278	nn:i:0	tp:A:S	cm:i:414	s1:i:2274	de:f:0	rl:i:0	cs:Z::2278
+Contig_2988_6.16386	2278	0	2278	-	Staphylococcus_aureus	8156340	5304798	5307076	2278	2278	0	NM:i:0	ms:i:2278	AS:i:2278	nn:i:0	tp:A:S	cm:i:414	s1:i:2274	de:f:0	rl:i:0	cs:Z::2278
+Contig_2988_6.16386	2278	0	2278	+	Staphylococcus_aureus	8156340	8012578	8014856	2278	2278	0	NM:i:0	ms:i:2278	AS:i:2278	nn:i:0	tp:A:S	cm:i:414	s1:i:2274	de:f:0	rl:i:0	cs:Z::2278
+Contig_2988_6.16386	2278	0	2278	+	Staphylococcus_aureus	8156340	5293798	5296076	2278	2278	0	NM:i:0	ms:i:2278	AS:i:2278	nn:i:0	tp:A:S	cm:i:414	s1:i:2274	de:f:0	rl:i:0	cs:Z::2278
+Contig_2988_6.16386	2278	0	2278	-	Staphylococcus_aureus	8156340	8023578	8025856	2278	2278	0	NM:i:0	ms:i:2278	AS:i:2278	nn:i:0	tp:A:S	cm:i:414	s1:i:2274	de:f:0	rl:i:0	cs:Z::2278
+Contig_2995_4.66963	1146	0	1146	+	Staphylococcus_aureus	8156340	5487041	5488187	1146	1146	0	NM:i:0	ms:i:1146	AS:i:1146	nn:i:0	tp:A:P	cm:i:203	s1:i:1130	s2:i:1130	de:f:0	rl:i:0	cs:Z::1146
+Contig_2995_4.66963	1146	0	1146	+	Staphylococcus_aureus	8156340	49481	50627	1146	1146	0	NM:i:0	ms:i:1146	AS:i:1146	nn:i:0	tp:A:S	cm:i:203	s1:i:1130	de:f:0	rl:i:0	cs:Z::1146
+Contig_2995_4.66963	1146	0	1146	+	Staphylococcus_aureus	8156340	2768261	2769407	1146	1146	0	NM:i:0	ms:i:1146	AS:i:1146	nn:i:0	tp:A:S	cm:i:203	s1:i:1130	de:f:0	rl:i:0	cs:Z::1146
+Contig_3165_3.12298	1012	0	1012	+	Bacillus_subtilis	12137031	8009614	8010626	1012	1012	0	NM:i:0	ms:i:1012	AS:i:1012	nn:i:0	tp:A:P	cm:i:173	s1:i:1002	s2:i:1002	de:f:0	rl:i:0	cs:Z::1012
+Contig_3165_3.12298	1012	0	1012	+	Bacillus_subtilis	12137031	3963937	3964949	1012	1012	0	NM:i:0	ms:i:1012	AS:i:1012	nn:i:0	tp:A:S	cm:i:173	s1:i:1002	de:f:0	rl:i:0	cs:Z::1012
+Contig_3165_3.12298	1012	0	1012	+	Bacillus_subtilis	12137031	12055291	12056303	1012	1012	0	NM:i:0	ms:i:1012	AS:i:1012	nn:i:0	tp:A:S	cm:i:173	s1:i:1002	de:f:0	rl:i:0	cs:Z::1012
+Contig_3317_4.73374	1004	0	1004	-	Bacillus_subtilis	12137031	8339611	8340615	1004	1004	0	NM:i:0	ms:i:1004	AS:i:1004	nn:i:0	tp:A:P	cm:i:182	s1:i:991	s2:i:991	de:f:0	rl:i:0	cs:Z::1004
+Contig_3317_4.73374	1004	0	1004	-	Bacillus_subtilis	12137031	248257	249261	1004	1004	0	NM:i:0	ms:i:1004	AS:i:1004	nn:i:0	tp:A:S	cm:i:182	s1:i:991	de:f:0	rl:i:0	cs:Z::1004
+Contig_3317_4.73374	1004	0	1004	-	Bacillus_subtilis	12137031	4293934	4294938	1004	1004	0	NM:i:0	ms:i:1004	AS:i:1004	nn:i:0	tp:A:S	cm:i:182	s1:i:991	de:f:0	rl:i:0	cs:Z::1004
+Contig_3349_3.56008	1027	0	1027	-	Bacillus_subtilis	12137031	6104994	6106021	1027	1027	0	NM:i:0	ms:i:1027	AS:i:1027	nn:i:0	tp:A:P	cm:i:198	s1:i:1016	s2:i:1016	de:f:0	rl:i:0	cs:Z::1027
+Contig_3349_3.56008	1027	0	1027	-	Bacillus_subtilis	12137031	10150671	10151698	1027	1027	0	NM:i:0	ms:i:1027	AS:i:1027	nn:i:0	tp:A:S	cm:i:198	s1:i:1016	de:f:0	rl:i:0	cs:Z::1027
+Contig_3349_3.56008	1027	0	1027	-	Bacillus_subtilis	12137031	2059317	2060344	1027	1027	0	NM:i:0	ms:i:1027	AS:i:1027	nn:i:0	tp:A:S	cm:i:198	s1:i:1016	de:f:0	rl:i:0	cs:Z::1027
+Contig_3353_4.14688	1191	0	1191	+	Bacillus_subtilis	12137031	2537950	2539141	1191	1191	0	NM:i:0	ms:i:1191	AS:i:1191	nn:i:0	tp:A:P	cm:i:224	s1:i:1188	s2:i:1188	de:f:0	rl:i:0	cs:Z::1191
+Contig_3353_4.14688	1191	0	1191	+	Bacillus_subtilis	12137031	6583627	6584818	1191	1191	0	NM:i:0	ms:i:1191	AS:i:1191	nn:i:0	tp:A:S	cm:i:224	s1:i:1188	de:f:0	rl:i:0	cs:Z::1191
+Contig_3353_4.14688	1191	0	1191	+	Bacillus_subtilis	12137031	10629304	10630495	1191	1191	0	NM:i:0	ms:i:1191	AS:i:1191	nn:i:0	tp:A:S	cm:i:224	s1:i:1188	de:f:0	rl:i:0	cs:Z::1191
+Contig_3363_3.87378	1145	0	1145	+	Staphylococcus_aureus	8156340	1577218	1578363	1145	1145	0	NM:i:0	ms:i:1145	AS:i:1145	nn:i:0	tp:A:P	cm:i:215	s1:i:1134	s2:i:1134	de:f:0	rl:i:0	cs:Z::1145
+Contig_3363_3.87378	1145	0	1145	+	Staphylococcus_aureus	8156340	7014778	7015923	1145	1145	0	NM:i:0	ms:i:1145	AS:i:1145	nn:i:0	tp:A:S	cm:i:215	s1:i:1134	de:f:0	rl:i:0	cs:Z::1145
+Contig_3363_3.87378	1145	0	1145	+	Staphylococcus_aureus	8156340	4295998	4297143	1145	1145	0	NM:i:0	ms:i:1145	AS:i:1145	nn:i:0	tp:A:S	cm:i:215	s1:i:1134	de:f:0	rl:i:0	cs:Z::1145
+Contig_3465_4.4945	1201	0	1201	-	Bacillus_subtilis	12137031	289160	290361	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:P	cm:i:212	s1:i:1194	s2:i:1194	de:f:0	rl:i:0	cs:Z::1201
+Contig_3465_4.4945	1201	0	1201	-	Bacillus_subtilis	12137031	4334837	4336038	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:S	cm:i:212	s1:i:1194	de:f:0	rl:i:0	cs:Z::1201
+Contig_3465_4.4945	1201	0	1201	-	Bacillus_subtilis	12137031	8380514	8381715	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:S	cm:i:212	s1:i:1194	de:f:0	rl:i:0	cs:Z::1201
+Contig_3536_4.41016	1083	0	1083	+	Staphylococcus_aureus	8156340	42109	43192	1083	1083	0	NM:i:0	ms:i:1083	AS:i:1083	nn:i:0	tp:A:P	cm:i:187	s1:i:1073	s2:i:1073	de:f:0	rl:i:0	cs:Z::1083
+Contig_3536_4.41016	1083	0	1083	+	Staphylococcus_aureus	8156340	2760889	2761972	1083	1083	0	NM:i:0	ms:i:1083	AS:i:1083	nn:i:0	tp:A:S	cm:i:187	s1:i:1073	de:f:0	rl:i:0	cs:Z::1083
+Contig_3536_4.41016	1083	0	1083	+	Staphylococcus_aureus	8156340	5479669	5480752	1083	1083	0	NM:i:0	ms:i:1083	AS:i:1083	nn:i:0	tp:A:S	cm:i:187	s1:i:1073	de:f:0	rl:i:0	cs:Z::1083
+Contig_3573_4.53893	1176	0	1176	+	Staphylococcus_aureus	8156340	4993722	4994898	1176	1176	0	NM:i:0	ms:i:1176	AS:i:1176	nn:i:0	tp:A:P	cm:i:208	s1:i:1174	s2:i:1174	de:f:0	rl:i:0	cs:Z::1176
+Contig_3573_4.53893	1176	0	1176	+	Staphylococcus_aureus	8156340	7712502	7713678	1176	1176	0	NM:i:0	ms:i:1176	AS:i:1176	nn:i:0	tp:A:S	cm:i:208	s1:i:1174	de:f:0	rl:i:0	cs:Z::1176
+Contig_3573_4.53893	1176	0	1176	+	Staphylococcus_aureus	8156340	2274942	2276118	1176	1176	0	NM:i:0	ms:i:1176	AS:i:1176	nn:i:0	tp:A:S	cm:i:208	s1:i:1174	de:f:0	rl:i:0	cs:Z::1176
+Contig_3613_4.0367	1001	0	1001	-	Bacillus_subtilis	12137031	10212701	10213702	1001	1001	0	NM:i:0	ms:i:1001	AS:i:1001	nn:i:0	tp:A:P	cm:i:183	s1:i:994	s2:i:994	de:f:0	rl:i:0	cs:Z::1001
+Contig_3613_4.0367	1001	0	1001	-	Bacillus_subtilis	12137031	2121347	2122348	1001	1001	0	NM:i:0	ms:i:1001	AS:i:1001	nn:i:0	tp:A:S	cm:i:183	s1:i:994	de:f:0	rl:i:0	cs:Z::1001
+Contig_3613_4.0367	1001	0	1001	-	Bacillus_subtilis	12137031	6167024	6168025	1001	1001	0	NM:i:0	ms:i:1001	AS:i:1001	nn:i:0	tp:A:S	cm:i:183	s1:i:994	de:f:0	rl:i:0	cs:Z::1001
+Contig_3746_4.19135	1708	0	1708	+	Bacillus_subtilis	12137031	3994123	3995831	1708	1708	0	NM:i:0	ms:i:1708	AS:i:1708	nn:i:0	tp:A:P	cm:i:315	s1:i:1704	s2:i:1704	de:f:0	rl:i:0	cs:Z::1708
+Contig_3746_4.19135	1708	0	1708	+	Bacillus_subtilis	12137031	12085477	12087185	1708	1708	0	NM:i:0	ms:i:1708	AS:i:1708	nn:i:0	tp:A:S	cm:i:315	s1:i:1704	de:f:0	rl:i:0	cs:Z::1708
+Contig_3746_4.19135	1708	0	1708	+	Bacillus_subtilis	12137031	8039800	8041508	1708	1708	0	NM:i:0	ms:i:1708	AS:i:1708	nn:i:0	tp:A:S	cm:i:315	s1:i:1704	de:f:0	rl:i:0	cs:Z::1708
+Contig_3767_4.03744	1222	0	787	-	Bacillus_subtilis	12137031	4725663	4726450	787	787	0	NM:i:0	ms:i:787	AS:i:787	nn:i:0	tp:A:P	cm:i:142	s1:i:778	s2:i:778	de:f:0	rl:i:0	cs:Z::787
+Contig_3767_4.03744	1222	0	787	-	Bacillus_subtilis	12137031	679986	680773	787	787	0	NM:i:0	ms:i:787	AS:i:787	nn:i:0	tp:A:S	cm:i:142	s1:i:778	de:f:0	rl:i:0	cs:Z::787
+Contig_3767_4.03744	1222	0	787	-	Bacillus_subtilis	12137031	8771340	8772127	787	787	0	NM:i:0	ms:i:787	AS:i:787	nn:i:0	tp:A:S	cm:i:142	s1:i:778	de:f:0	rl:i:0	cs:Z::787
+Contig_3767_4.03744	1222	737	1222	-	Bacillus_subtilis	12137031	8754713	8755198	481	485	0	NM:i:4	ms:i:465	AS:i:465	nn:i:0	tp:A:P	cm:i:85	s1:i:448	s2:i:448	de:f:0.0082	rl:i:0	cs:Z::455*ac:7*at*tg:5*tg:14
+Contig_3767_4.03744	1222	737	1222	-	Bacillus_subtilis	12137031	4709036	4709521	481	485	0	NM:i:4	ms:i:465	AS:i:465	nn:i:0	tp:A:S	cm:i:85	s1:i:448	de:f:0.0082	rl:i:0	cs:Z::455*ac:7*at*tg:5*tg:14
+Contig_3767_4.03744	1222	737	1222	-	Bacillus_subtilis	12137031	663359	663844	481	485	0	NM:i:4	ms:i:465	AS:i:465	nn:i:0	tp:A:S	cm:i:85	s1:i:448	de:f:0.0082	rl:i:0	cs:Z::455*ac:7*at*tg:5*tg:14
+Contig_3779_3.98738	1050	0	1050	+	Staphylococcus_aureus	8156340	3071817	3072867	1050	1050	0	NM:i:0	ms:i:1050	AS:i:1050	nn:i:0	tp:A:P	cm:i:192	s1:i:1039	s2:i:1039	de:f:0	rl:i:0	cs:Z::1050
+Contig_3779_3.98738	1050	0	1050	+	Staphylococcus_aureus	8156340	353037	354087	1050	1050	0	NM:i:0	ms:i:1050	AS:i:1050	nn:i:0	tp:A:S	cm:i:192	s1:i:1039	de:f:0	rl:i:0	cs:Z::1050
+Contig_3779_3.98738	1050	0	1050	+	Staphylococcus_aureus	8156340	5790597	5791647	1050	1050	0	NM:i:0	ms:i:1050	AS:i:1050	nn:i:0	tp:A:S	cm:i:192	s1:i:1039	de:f:0	rl:i:0	cs:Z::1050
+Contig_3824_4.61692	1072	0	1072	-	Staphylococcus_aureus	8156340	2315852	2316924	1072	1072	0	NM:i:0	ms:i:1072	AS:i:1072	nn:i:0	tp:A:P	cm:i:198	s1:i:1067	s2:i:1067	de:f:0	rl:i:0	cs:Z::1072
+Contig_3824_4.61692	1072	0	1072	-	Staphylococcus_aureus	8156340	7753412	7754484	1072	1072	0	NM:i:0	ms:i:1072	AS:i:1072	nn:i:0	tp:A:S	cm:i:198	s1:i:1067	de:f:0	rl:i:0	cs:Z::1072
+Contig_3824_4.61692	1072	0	1072	-	Staphylococcus_aureus	8156340	5034632	5035704	1072	1072	0	NM:i:0	ms:i:1072	AS:i:1072	nn:i:0	tp:A:S	cm:i:198	s1:i:1067	de:f:0	rl:i:0	cs:Z::1072
+Contig_4123_3.78448	1064	0	1064	+	Bacillus_subtilis	12137031	12061358	12062422	1064	1064	0	NM:i:0	ms:i:1064	AS:i:1064	nn:i:0	tp:A:P	cm:i:195	s1:i:1061	s2:i:1061	de:f:0	rl:i:0	cs:Z::1064
+Contig_4123_3.78448	1064	0	1064	+	Bacillus_subtilis	12137031	8015681	8016745	1064	1064	0	NM:i:0	ms:i:1064	AS:i:1064	nn:i:0	tp:A:S	cm:i:195	s1:i:1061	de:f:0	rl:i:0	cs:Z::1064
+Contig_4123_3.78448	1064	0	1064	+	Bacillus_subtilis	12137031	3970004	3971068	1064	1064	0	NM:i:0	ms:i:1064	AS:i:1064	nn:i:0	tp:A:S	cm:i:195	s1:i:1061	de:f:0	rl:i:0	cs:Z::1064
+Contig_4144_7.47129	1117	0	1117	+	Staphylococcus_aureus	8156340	5296407	5297524	1117	1117	0	NM:i:0	ms:i:1117	AS:i:1117	nn:i:0	tp:A:P	cm:i:184	s1:i:1100	s2:i:1100	de:f:0	rl:i:0	cs:Z::1117
+Contig_4144_7.47129	1117	0	1117	+	Staphylococcus_aureus	8156340	2577627	2578744	1117	1117	0	NM:i:0	ms:i:1117	AS:i:1117	nn:i:0	tp:A:S	cm:i:184	s1:i:1100	de:f:0	rl:i:0	cs:Z::1117
+Contig_4144_7.47129	1117	0	1117	+	Staphylococcus_aureus	8156340	8015187	8016304	1117	1117	0	NM:i:0	ms:i:1117	AS:i:1117	nn:i:0	tp:A:S	cm:i:184	s1:i:1100	de:f:0	rl:i:0	cs:Z::1117
+Contig_4144_7.47129	1117	0	1117	-	Staphylococcus_aureus	8156340	2584570	2585687	1117	1117	0	NM:i:0	ms:i:1117	AS:i:1117	nn:i:0	tp:A:S	cm:i:184	s1:i:1100	de:f:0	rl:i:0	cs:Z::1117
+Contig_4144_7.47129	1117	0	1117	-	Staphylococcus_aureus	8156340	8022130	8023247	1117	1117	0	NM:i:0	ms:i:1117	AS:i:1117	nn:i:0	tp:A:S	cm:i:184	s1:i:1100	de:f:0	rl:i:0	cs:Z::1117
+Contig_4144_7.47129	1117	0	1117	-	Staphylococcus_aureus	8156340	5303350	5304467	1117	1117	0	NM:i:0	ms:i:1117	AS:i:1117	nn:i:0	tp:A:S	cm:i:184	s1:i:1100	de:f:0	rl:i:0	cs:Z::1117
+Contig_4149_4.77068	1132	0	1132	-	Staphylococcus_aureus	8156340	7341074	7342206	1132	1132	0	NM:i:0	ms:i:1132	AS:i:1132	nn:i:0	tp:A:P	cm:i:205	s1:i:1124	s2:i:1124	de:f:0	rl:i:0	cs:Z::1132
+Contig_4149_4.77068	1132	0	1132	-	Staphylococcus_aureus	8156340	4622294	4623426	1132	1132	0	NM:i:0	ms:i:1132	AS:i:1132	nn:i:0	tp:A:S	cm:i:205	s1:i:1124	de:f:0	rl:i:0	cs:Z::1132
+Contig_4149_4.77068	1132	0	1132	-	Staphylococcus_aureus	8156340	1903514	1904646	1132	1132	0	NM:i:0	ms:i:1132	AS:i:1132	nn:i:0	tp:A:S	cm:i:205	s1:i:1124	de:f:0	rl:i:0	cs:Z::1132
+Contig_4270_3.79522	1192	0	1192	-	Bacillus_subtilis	12137031	3592636	3593828	1192	1192	0	NM:i:0	ms:i:1192	AS:i:1192	nn:i:0	tp:A:P	cm:i:214	s1:i:1189	s2:i:1189	de:f:0	rl:i:0	cs:Z::1192
+Contig_4270_3.79522	1192	0	1192	-	Bacillus_subtilis	12137031	11683990	11685182	1192	1192	0	NM:i:0	ms:i:1192	AS:i:1192	nn:i:0	tp:A:S	cm:i:214	s1:i:1189	de:f:0	rl:i:0	cs:Z::1192
+Contig_4270_3.79522	1192	0	1192	-	Bacillus_subtilis	12137031	7638313	7639505	1192	1192	0	NM:i:0	ms:i:1192	AS:i:1192	nn:i:0	tp:A:S	cm:i:214	s1:i:1189	de:f:0	rl:i:0	cs:Z::1192
+Contig_4346_4.76319	1536	0	1536	+	Bacillus_subtilis	12137031	4203325	4204861	1536	1536	0	NM:i:0	ms:i:1536	AS:i:1536	nn:i:0	tp:A:P	cm:i:282	s1:i:1530	s2:i:1530	de:f:0	rl:i:0	cs:Z::1536
+Contig_4346_4.76319	1536	0	1536	+	Bacillus_subtilis	12137031	8249002	8250538	1536	1536	0	NM:i:0	ms:i:1536	AS:i:1536	nn:i:0	tp:A:S	cm:i:282	s1:i:1530	de:f:0	rl:i:0	cs:Z::1536
+Contig_4346_4.76319	1536	0	1536	+	Bacillus_subtilis	12137031	157648	159184	1536	1536	0	NM:i:0	ms:i:1536	AS:i:1536	nn:i:0	tp:A:S	cm:i:282	s1:i:1530	de:f:0	rl:i:0	cs:Z::1536
+Contig_4398_4.44654	1133	0	1133	-	Bacillus_subtilis	12137031	5161743	5162876	1133	1133	0	NM:i:0	ms:i:1133	AS:i:1133	nn:i:0	tp:A:P	cm:i:206	s1:i:1126	s2:i:1126	de:f:0	rl:i:0	cs:Z::1133
+Contig_4398_4.44654	1133	0	1133	-	Bacillus_subtilis	12137031	1116066	1117199	1133	1133	0	NM:i:0	ms:i:1133	AS:i:1133	nn:i:0	tp:A:S	cm:i:206	s1:i:1126	de:f:0	rl:i:0	cs:Z::1133
+Contig_4398_4.44654	1133	0	1133	-	Bacillus_subtilis	12137031	9207420	9208553	1133	1133	0	NM:i:0	ms:i:1133	AS:i:1133	nn:i:0	tp:A:S	cm:i:206	s1:i:1126	de:f:0	rl:i:0	cs:Z::1133
+Contig_4602_4.16803	1240	0	1240	-	Bacillus_subtilis	12137031	5186389	5187629	1240	1240	0	NM:i:0	ms:i:1240	AS:i:1240	nn:i:0	tp:A:P	cm:i:225	s1:i:1233	s2:i:1233	de:f:0	rl:i:0	cs:Z::1240
+Contig_4602_4.16803	1240	0	1240	-	Bacillus_subtilis	12137031	9232066	9233306	1240	1240	0	NM:i:0	ms:i:1240	AS:i:1240	nn:i:0	tp:A:S	cm:i:225	s1:i:1233	de:f:0	rl:i:0	cs:Z::1240
+Contig_4602_4.16803	1240	0	1240	-	Bacillus_subtilis	12137031	1140712	1141952	1240	1240	0	NM:i:0	ms:i:1240	AS:i:1240	nn:i:0	tp:A:S	cm:i:225	s1:i:1233	de:f:0	rl:i:0	cs:Z::1240
+Contig_4672_3.69691	1023	0	1023	-	Staphylococcus_aureus	8156340	3259102	3260125	1023	1023	0	NM:i:0	ms:i:1023	AS:i:1023	nn:i:0	tp:A:P	cm:i:181	s1:i:1010	s2:i:1010	de:f:0	rl:i:0	cs:Z::1023
+Contig_4672_3.69691	1023	0	1023	-	Staphylococcus_aureus	8156340	5977882	5978905	1023	1023	0	NM:i:0	ms:i:1023	AS:i:1023	nn:i:0	tp:A:S	cm:i:181	s1:i:1010	de:f:0	rl:i:0	cs:Z::1023
+Contig_4672_3.69691	1023	0	1023	-	Staphylococcus_aureus	8156340	540322	541345	1023	1023	0	NM:i:0	ms:i:1023	AS:i:1023	nn:i:0	tp:A:S	cm:i:181	s1:i:1010	de:f:0	rl:i:0	cs:Z::1023
+Contig_4729_4.3268	1091	0	1091	-	Bacillus_subtilis	12137031	10129818	10130909	1091	1091	0	NM:i:0	ms:i:1091	AS:i:1091	nn:i:0	tp:A:P	cm:i:192	s1:i:1080	s2:i:1080	de:f:0	rl:i:0	cs:Z::1091
+Contig_4729_4.3268	1091	0	1091	-	Bacillus_subtilis	12137031	2038464	2039555	1091	1091	0	NM:i:0	ms:i:1091	AS:i:1091	nn:i:0	tp:A:S	cm:i:192	s1:i:1080	de:f:0	rl:i:0	cs:Z::1091
+Contig_4729_4.3268	1091	0	1091	-	Bacillus_subtilis	12137031	6084141	6085232	1091	1091	0	NM:i:0	ms:i:1091	AS:i:1091	nn:i:0	tp:A:S	cm:i:192	s1:i:1080	de:f:0	rl:i:0	cs:Z::1091
+Contig_4763_3.69306	1144	0	1144	-	Bacillus_subtilis	12137031	3938376	3939520	1144	1144	0	NM:i:0	ms:i:1144	AS:i:1144	nn:i:0	tp:A:P	cm:i:211	s1:i:1135	s2:i:1135	de:f:0	rl:i:0	cs:Z::1144
+Contig_4763_3.69306	1144	0	1144	-	Bacillus_subtilis	12137031	12029730	12030874	1144	1144	0	NM:i:0	ms:i:1144	AS:i:1144	nn:i:0	tp:A:S	cm:i:211	s1:i:1135	de:f:0	rl:i:0	cs:Z::1144
+Contig_4763_3.69306	1144	0	1144	-	Bacillus_subtilis	12137031	7984053	7985197	1144	1144	0	NM:i:0	ms:i:1144	AS:i:1144	nn:i:0	tp:A:S	cm:i:211	s1:i:1135	de:f:0	rl:i:0	cs:Z::1144
+Contig_4777_4.60703	1272	0	1272	-	Bacillus_subtilis	12137031	9318894	9320166	1272	1272	0	NM:i:0	ms:i:1272	AS:i:1272	nn:i:0	tp:A:P	cm:i:219	s1:i:1257	s2:i:1257	de:f:0	rl:i:0	cs:Z::1272
+Contig_4777_4.60703	1272	0	1272	-	Bacillus_subtilis	12137031	5273217	5274489	1272	1272	0	NM:i:0	ms:i:1272	AS:i:1272	nn:i:0	tp:A:S	cm:i:219	s1:i:1257	de:f:0	rl:i:0	cs:Z::1272
+Contig_4777_4.60703	1272	0	1272	-	Bacillus_subtilis	12137031	1227540	1228812	1272	1272	0	NM:i:0	ms:i:1272	AS:i:1272	nn:i:0	tp:A:S	cm:i:219	s1:i:1257	de:f:0	rl:i:0	cs:Z::1272
+Contig_5022_4.13503	1042	0	1042	+	Staphylococcus_aureus	8156340	81784	82826	1042	1042	0	NM:i:0	ms:i:1042	AS:i:1042	nn:i:0	tp:A:P	cm:i:188	s1:i:1026	s2:i:1026	de:f:0	rl:i:0	cs:Z::1042
+Contig_5022_4.13503	1042	0	1042	+	Staphylococcus_aureus	8156340	5519344	5520386	1042	1042	0	NM:i:0	ms:i:1042	AS:i:1042	nn:i:0	tp:A:S	cm:i:188	s1:i:1026	de:f:0	rl:i:0	cs:Z::1042
+Contig_5022_4.13503	1042	0	1042	+	Staphylococcus_aureus	8156340	2800564	2801606	1042	1042	0	NM:i:0	ms:i:1042	AS:i:1042	nn:i:0	tp:A:S	cm:i:188	s1:i:1026	de:f:0	rl:i:0	cs:Z::1042
+Contig_5047_3.67094	1737	0	1737	+	Staphylococcus_aureus	8156340	7158007	7159744	1737	1737	0	NM:i:0	ms:i:1737	AS:i:1737	nn:i:0	tp:A:P	cm:i:304	s1:i:1727	s2:i:1727	de:f:0	rl:i:0	cs:Z::1737
+Contig_5047_3.67094	1737	0	1737	+	Staphylococcus_aureus	8156340	1720447	1722184	1737	1737	0	NM:i:0	ms:i:1737	AS:i:1737	nn:i:0	tp:A:S	cm:i:304	s1:i:1727	de:f:0	rl:i:0	cs:Z::1737
+Contig_5047_3.67094	1737	0	1737	+	Staphylococcus_aureus	8156340	4439227	4440964	1737	1737	0	NM:i:0	ms:i:1737	AS:i:1737	nn:i:0	tp:A:S	cm:i:304	s1:i:1727	de:f:0	rl:i:0	cs:Z::1737
+Contig_5079_3.92018	1160	0	1160	-	Bacillus_subtilis	12137031	1079731	1080891	1160	1160	0	NM:i:0	ms:i:1160	AS:i:1160	nn:i:0	tp:A:P	cm:i:213	s1:i:1155	s2:i:1155	de:f:0	rl:i:0	cs:Z::1160
+Contig_5079_3.92018	1160	0	1160	-	Bacillus_subtilis	12137031	9171085	9172245	1160	1160	0	NM:i:0	ms:i:1160	AS:i:1160	nn:i:0	tp:A:S	cm:i:213	s1:i:1155	de:f:0	rl:i:0	cs:Z::1160
+Contig_5079_3.92018	1160	0	1160	-	Bacillus_subtilis	12137031	5125408	5126568	1160	1160	0	NM:i:0	ms:i:1160	AS:i:1160	nn:i:0	tp:A:S	cm:i:213	s1:i:1155	de:f:0	rl:i:0	cs:Z::1160
+Contig_5161_3.84759	1201	0	1201	-	Bacillus_subtilis	12137031	2008136	2009337	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:P	cm:i:205	s1:i:1192	s2:i:1192	de:f:0	rl:i:0	cs:Z::1201
+Contig_5161_3.84759	1201	0	1201	-	Bacillus_subtilis	12137031	6053813	6055014	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:S	cm:i:205	s1:i:1192	de:f:0	rl:i:0	cs:Z::1201
+Contig_5161_3.84759	1201	0	1201	-	Bacillus_subtilis	12137031	10099490	10100691	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:S	cm:i:205	s1:i:1192	de:f:0	rl:i:0	cs:Z::1201
+Contig_5177_3.98137	1201	0	1201	+	Bacillus_subtilis	12137031	6187229	6188430	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:P	cm:i:213	s1:i:1188	s2:i:1188	de:f:0	rl:i:0	cs:Z::1201
+Contig_5177_3.98137	1201	0	1201	+	Bacillus_subtilis	12137031	10232906	10234107	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:S	cm:i:213	s1:i:1188	de:f:0	rl:i:0	cs:Z::1201
+Contig_5177_3.98137	1201	0	1201	+	Bacillus_subtilis	12137031	2141552	2142753	1201	1201	0	NM:i:0	ms:i:1201	AS:i:1201	nn:i:0	tp:A:S	cm:i:213	s1:i:1188	de:f:0	rl:i:0	cs:Z::1201
+Contig_5237_3.92872	1002	0	1002	-	Bacillus_subtilis	12137031	10194681	10195683	1002	1002	0	NM:i:0	ms:i:1002	AS:i:1002	nn:i:0	tp:A:P	cm:i:182	s1:i:994	s2:i:994	de:f:0	rl:i:0	cs:Z::1002
+Contig_5237_3.92872	1002	0	1002	-	Bacillus_subtilis	12137031	6149004	6150006	1002	1002	0	NM:i:0	ms:i:1002	AS:i:1002	nn:i:0	tp:A:S	cm:i:182	s1:i:994	de:f:0	rl:i:0	cs:Z::1002
+Contig_5237_3.92872	1002	0	1002	-	Bacillus_subtilis	12137031	2103327	2104329	1002	1002	0	NM:i:0	ms:i:1002	AS:i:1002	nn:i:0	tp:A:S	cm:i:182	s1:i:994	de:f:0	rl:i:0	cs:Z::1002
+Contig_5353_4.13241	1100	0	1100	+	Bacillus_subtilis	12137031	3807889	3808989	1100	1100	0	NM:i:0	ms:i:1100	AS:i:1100	nn:i:0	tp:A:P	cm:i:202	s1:i:1098	s2:i:1098	de:f:0	rl:i:0	cs:Z::1100
+Contig_5353_4.13241	1100	0	1100	+	Bacillus_subtilis	12137031	7853566	7854666	1100	1100	0	NM:i:0	ms:i:1100	AS:i:1100	nn:i:0	tp:A:S	cm:i:202	s1:i:1098	de:f:0	rl:i:0	cs:Z::1100
+Contig_5353_4.13241	1100	0	1100	+	Bacillus_subtilis	12137031	11899243	11900343	1100	1100	0	NM:i:0	ms:i:1100	AS:i:1100	nn:i:0	tp:A:S	cm:i:202	s1:i:1098	de:f:0	rl:i:0	cs:Z::1100
+Contig_5442_3.80173	1755	0	1755	-	Bacillus_subtilis	12137031	8831349	8833104	1755	1755	0	NM:i:0	ms:i:1755	AS:i:1755	nn:i:0	tp:A:P	cm:i:315	s1:i:1754	s2:i:1754	de:f:0	rl:i:0	cs:Z::1755
+Contig_5442_3.80173	1755	0	1755	-	Bacillus_subtilis	12137031	4785672	4787427	1755	1755	0	NM:i:0	ms:i:1755	AS:i:1755	nn:i:0	tp:A:S	cm:i:315	s1:i:1754	de:f:0	rl:i:0	cs:Z::1755
+Contig_5442_3.80173	1755	0	1755	-	Bacillus_subtilis	12137031	739995	741750	1755	1755	0	NM:i:0	ms:i:1755	AS:i:1755	nn:i:0	tp:A:S	cm:i:315	s1:i:1754	de:f:0	rl:i:0	cs:Z::1755
+Contig_5501_3.51638	1058	0	1058	-	Bacillus_subtilis	12137031	5811483	5812541	1058	1058	0	NM:i:0	ms:i:1058	AS:i:1058	nn:i:0	tp:A:P	cm:i:205	s1:i:1045	s2:i:1045	de:f:0	rl:i:0	cs:Z::1058
+Contig_5501_3.51638	1058	0	1058	-	Bacillus_subtilis	12137031	9857160	9858218	1058	1058	0	NM:i:0	ms:i:1058	AS:i:1058	nn:i:0	tp:A:S	cm:i:205	s1:i:1045	de:f:0	rl:i:0	cs:Z::1058
+Contig_5501_3.51638	1058	0	1058	-	Bacillus_subtilis	12137031	1765806	1766864	1058	1058	0	NM:i:0	ms:i:1058	AS:i:1058	nn:i:0	tp:A:S	cm:i:205	s1:i:1045	de:f:0	rl:i:0	cs:Z::1058
+Contig_5550_3.77469	1134	0	1134	-	Bacillus_subtilis	12137031	1222933	1224067	1134	1134	0	NM:i:0	ms:i:1134	AS:i:1134	nn:i:0	tp:A:P	cm:i:205	s1:i:1132	s2:i:1132	de:f:0	rl:i:0	cs:Z::1134
+Contig_5550_3.77469	1134	0	1134	-	Bacillus_subtilis	12137031	9314287	9315421	1134	1134	0	NM:i:0	ms:i:1134	AS:i:1134	nn:i:0	tp:A:S	cm:i:205	s1:i:1132	de:f:0	rl:i:0	cs:Z::1134
+Contig_5550_3.77469	1134	0	1134	-	Bacillus_subtilis	12137031	5268610	5269744	1134	1134	0	NM:i:0	ms:i:1134	AS:i:1134	nn:i:0	tp:A:S	cm:i:205	s1:i:1132	de:f:0	rl:i:0	cs:Z::1134
+Contig_5584_4.55223	1188	0	1188	+	Staphylococcus_aureus	8156340	456050	457238	1188	1188	0	NM:i:0	ms:i:1188	AS:i:1188	nn:i:0	tp:A:P	cm:i:210	s1:i:1173	s2:i:1173	de:f:0	rl:i:0	cs:Z::1188
+Contig_5584_4.55223	1188	0	1188	+	Staphylococcus_aureus	8156340	5893610	5894798	1188	1188	0	NM:i:0	ms:i:1188	AS:i:1188	nn:i:0	tp:A:S	cm:i:210	s1:i:1173	de:f:0	rl:i:0	cs:Z::1188
+Contig_5584_4.55223	1188	0	1188	+	Staphylococcus_aureus	8156340	3174830	3176018	1188	1188	0	NM:i:0	ms:i:1188	AS:i:1188	nn:i:0	tp:A:S	cm:i:210	s1:i:1173	de:f:0	rl:i:0	cs:Z::1188
+Contig_5632_3.85469	1183	0	1183	+	Staphylococcus_aureus	8156340	175986	177169	1183	1183	0	NM:i:0	ms:i:1183	AS:i:1183	nn:i:0	tp:A:P	cm:i:216	s1:i:1175	s2:i:1175	de:f:0	rl:i:0	cs:Z::1183
+Contig_5632_3.85469	1183	0	1183	+	Staphylococcus_aureus	8156340	2894766	2895949	1183	1183	0	NM:i:0	ms:i:1183	AS:i:1183	nn:i:0	tp:A:S	cm:i:216	s1:i:1175	de:f:0	rl:i:0	cs:Z::1183
+Contig_5632_3.85469	1183	0	1183	+	Staphylococcus_aureus	8156340	5613546	5614729	1183	1183	0	NM:i:0	ms:i:1183	AS:i:1183	nn:i:0	tp:A:S	cm:i:216	s1:i:1175	de:f:0	rl:i:0	cs:Z::1183
+Contig_5672_3.67254	1269	0	1269	-	Bacillus_subtilis	12137031	4779690	4780959	1269	1269	0	NM:i:0	ms:i:1269	AS:i:1269	nn:i:0	tp:A:P	cm:i:220	s1:i:1259	s2:i:1259	de:f:0	rl:i:0	cs:Z::1269
+Contig_5672_3.67254	1269	0	1269	-	Bacillus_subtilis	12137031	734013	735282	1269	1269	0	NM:i:0	ms:i:1269	AS:i:1269	nn:i:0	tp:A:S	cm:i:220	s1:i:1259	de:f:0	rl:i:0	cs:Z::1269
+Contig_5672_3.67254	1269	0	1269	-	Bacillus_subtilis	12137031	8825367	8826636	1269	1269	0	NM:i:0	ms:i:1269	AS:i:1269	nn:i:0	tp:A:S	cm:i:220	s1:i:1259	de:f:0	rl:i:0	cs:Z::1269
+Contig_5743_3.78365	1231	0	1231	+	Bacillus_subtilis	12137031	640418	641649	1231	1231	0	NM:i:0	ms:i:1231	AS:i:1231	nn:i:0	tp:A:P	cm:i:217	s1:i:1228	s2:i:1228	de:f:0	rl:i:0	cs:Z::1231
+Contig_5743_3.78365	1231	0	1231	+	Bacillus_subtilis	12137031	8731772	8733003	1231	1231	0	NM:i:0	ms:i:1231	AS:i:1231	nn:i:0	tp:A:S	cm:i:217	s1:i:1228	de:f:0	rl:i:0	cs:Z::1231
+Contig_5743_3.78365	1231	0	1231	+	Bacillus_subtilis	12137031	4686095	4687326	1231	1231	0	NM:i:0	ms:i:1231	AS:i:1231	nn:i:0	tp:A:S	cm:i:217	s1:i:1228	de:f:0	rl:i:0	cs:Z::1231
+Contig_5757_5.03865	1055	0	1055	+	Staphylococcus_aureus	8156340	8100493	8101548	1055	1055	0	NM:i:0	ms:i:1055	AS:i:1055	nn:i:0	tp:A:P	cm:i:184	s1:i:1043	s2:i:1043	de:f:0	rl:i:0	cs:Z::1055
+Contig_5757_5.03865	1055	0	1055	+	Staphylococcus_aureus	8156340	2662933	2663988	1055	1055	0	NM:i:0	ms:i:1055	AS:i:1055	nn:i:0	tp:A:S	cm:i:184	s1:i:1043	de:f:0	rl:i:0	cs:Z::1055
+Contig_5757_5.03865	1055	0	1055	+	Staphylococcus_aureus	8156340	5381713	5382768	1055	1055	0	NM:i:0	ms:i:1055	AS:i:1055	nn:i:0	tp:A:S	cm:i:184	s1:i:1043	de:f:0	rl:i:0	cs:Z::1055
+Contig_5759_5.0551	1000	0	1000	-	Bacillus_subtilis	12137031	2216846	2217846	1000	1000	0	NM:i:0	ms:i:1000	AS:i:1000	nn:i:0	tp:A:P	cm:i:164	s1:i:992	s2:i:992	de:f:0	rl:i:0	cs:Z::1000
+Contig_5759_5.0551	1000	0	1000	-	Bacillus_subtilis	12137031	6262523	6263523	1000	1000	0	NM:i:0	ms:i:1000	AS:i:1000	nn:i:0	tp:A:S	cm:i:164	s1:i:992	de:f:0	rl:i:0	cs:Z::1000
+Contig_5759_5.0551	1000	0	1000	-	Bacillus_subtilis	12137031	10308200	10309200	1000	1000	0	NM:i:0	ms:i:1000	AS:i:1000	nn:i:0	tp:A:S	cm:i:164	s1:i:992	de:f:0	rl:i:0	cs:Z::1000
+Contig_5796_4.23464	1013	0	850	+	Bacillus_subtilis	12137031	7038631	7039481	850	850	0	NM:i:0	ms:i:850	AS:i:850	nn:i:0	tp:A:P	cm:i:150	s1:i:840	s2:i:840	de:f:0	rl:i:0	cs:Z::850
+Contig_5796_4.23464	1013	0	850	+	Bacillus_subtilis	12137031	11084308	11085158	850	850	0	NM:i:0	ms:i:850	AS:i:850	nn:i:0	tp:A:S	cm:i:150	s1:i:840	de:f:0	rl:i:0	cs:Z::850
+Contig_5796_4.23464	1013	0	850	+	Bacillus_subtilis	12137031	2992954	2993804	850	850	0	NM:i:0	ms:i:850	AS:i:850	nn:i:0	tp:A:S	cm:i:150	s1:i:840	de:f:0	rl:i:0	cs:Z::850
+Contig_5852_3.66264	1926	0	1926	+	Staphylococcus_aureus	8156340	7881812	7883738	1926	1926	0	NM:i:0	ms:i:1926	AS:i:1926	nn:i:0	tp:A:P	cm:i:342	s1:i:1915	s2:i:1915	de:f:0	rl:i:0	cs:Z::1926
+Contig_5852_3.66264	1926	0	1926	+	Staphylococcus_aureus	8156340	2444252	2446178	1926	1926	0	NM:i:0	ms:i:1926	AS:i:1926	nn:i:0	tp:A:S	cm:i:342	s1:i:1915	de:f:0	rl:i:0	cs:Z::1926
+Contig_5852_3.66264	1926	0	1926	+	Staphylococcus_aureus	8156340	5163032	5164958	1926	1926	0	NM:i:0	ms:i:1926	AS:i:1926	nn:i:0	tp:A:S	cm:i:342	s1:i:1915	de:f:0	rl:i:0	cs:Z::1926
+Contig_5884_3.98488	1012	0	1012	+	Staphylococcus_aureus	8156340	2477139	2478151	1012	1012	0	NM:i:0	ms:i:1012	AS:i:1012	nn:i:0	tp:A:P	cm:i:184	s1:i:1001	s2:i:1001	de:f:0	rl:i:0	cs:Z::1012
+Contig_5884_3.98488	1012	0	1012	+	Staphylococcus_aureus	8156340	5195919	5196931	1012	1012	0	NM:i:0	ms:i:1012	AS:i:1012	nn:i:0	tp:A:S	cm:i:184	s1:i:1001	de:f:0	rl:i:0	cs:Z::1012
+Contig_5884_3.98488	1012	0	1012	+	Staphylococcus_aureus	8156340	7914699	7915711	1012	1012	0	NM:i:0	ms:i:1012	AS:i:1012	nn:i:0	tp:A:S	cm:i:184	s1:i:1001	de:f:0	rl:i:0	cs:Z::1012
+Contig_5953_3.79771	1068	0	1068	+	Bacillus_subtilis	12137031	2320259	2321327	1068	1068	0	NM:i:0	ms:i:1068	AS:i:1068	nn:i:0	tp:A:P	cm:i:188	s1:i:1055	s2:i:1055	de:f:0	rl:i:0	cs:Z::1068
+Contig_5953_3.79771	1068	0	1068	+	Bacillus_subtilis	12137031	10411613	10412681	1068	1068	0	NM:i:0	ms:i:1068	AS:i:1068	nn:i:0	tp:A:S	cm:i:188	s1:i:1055	de:f:0	rl:i:0	cs:Z::1068
+Contig_5953_3.79771	1068	0	1068	+	Bacillus_subtilis	12137031	6365936	6367004	1068	1068	0	NM:i:0	ms:i:1068	AS:i:1068	nn:i:0	tp:A:S	cm:i:188	s1:i:1055	de:f:0	rl:i:0	cs:Z::1068
+Contig_6160_3.78769	1174	0	1174	-	Bacillus_subtilis	12137031	6310797	6311971	1174	1174	0	NM:i:0	ms:i:1174	AS:i:1174	nn:i:0	tp:A:P	cm:i:213	s1:i:1169	s2:i:1169	de:f:0	rl:i:0	cs:Z::1174
+Contig_6160_3.78769	1174	0	1174	-	Bacillus_subtilis	12137031	2265120	2266294	1174	1174	0	NM:i:0	ms:i:1174	AS:i:1174	nn:i:0	tp:A:S	cm:i:213	s1:i:1169	de:f:0	rl:i:0	cs:Z::1174
+Contig_6160_3.78769	1174	0	1174	-	Bacillus_subtilis	12137031	10356474	10357648	1174	1174	0	NM:i:0	ms:i:1174	AS:i:1174	nn:i:0	tp:A:S	cm:i:213	s1:i:1169	de:f:0	rl:i:0	cs:Z::1174
+Contig_6394_3.59542	1068	0	1068	-	Bacillus_subtilis	12137031	9959255	9960323	1068	1068	0	NM:i:0	ms:i:1068	AS:i:1068	nn:i:0	tp:A:P	cm:i:195	s1:i:1056	s2:i:1056	de:f:0	rl:i:0	cs:Z::1068
+Contig_6394_3.59542	1068	0	1068	-	Bacillus_subtilis	12137031	1867901	1868969	1068	1068	0	NM:i:0	ms:i:1068	AS:i:1068	nn:i:0	tp:A:S	cm:i:195	s1:i:1056	de:f:0	rl:i:0	cs:Z::1068
+Contig_6394_3.59542	1068	0	1068	-	Bacillus_subtilis	12137031	5913578	5914646	1068	1068	0	NM:i:0	ms:i:1068	AS:i:1068	nn:i:0	tp:A:S	cm:i:195	s1:i:1056	de:f:0	rl:i:0	cs:Z::1068
+Contig_6465_3.62732	1096	0	1096	-	Staphylococcus_aureus	8156340	5062881	5063977	1096	1096	0	NM:i:0	ms:i:1096	AS:i:1096	nn:i:0	tp:A:P	cm:i:188	s1:i:1084	s2:i:1084	de:f:0	rl:i:0	cs:Z::1096
+Contig_6465_3.62732	1096	0	1096	-	Staphylococcus_aureus	8156340	2344101	2345197	1096	1096	0	NM:i:0	ms:i:1096	AS:i:1096	nn:i:0	tp:A:S	cm:i:188	s1:i:1084	de:f:0	rl:i:0	cs:Z::1096
+Contig_6465_3.62732	1096	0	1096	-	Staphylococcus_aureus	8156340	7781661	7782757	1096	1096	0	NM:i:0	ms:i:1096	AS:i:1096	nn:i:0	tp:A:S	cm:i:188	s1:i:1084	de:f:0	rl:i:0	cs:Z::1096
+Contig_6607_3.54167	1052	0	1052	-	Bacillus_subtilis	12137031	1266667	1267719	1052	1052	0	NM:i:0	ms:i:1052	AS:i:1052	nn:i:0	tp:A:P	cm:i:196	s1:i:1044	s2:i:1044	de:f:0	rl:i:0	cs:Z::1052
+Contig_6607_3.54167	1052	0	1052	-	Bacillus_subtilis	12137031	9358021	9359073	1052	1052	0	NM:i:0	ms:i:1052	AS:i:1052	nn:i:0	tp:A:S	cm:i:196	s1:i:1044	de:f:0	rl:i:0	cs:Z::1052
+Contig_6607_3.54167	1052	0	1052	-	Bacillus_subtilis	12137031	5312344	5313396	1052	1052	0	NM:i:0	ms:i:1052	AS:i:1052	nn:i:0	tp:A:S	cm:i:196	s1:i:1044	de:f:0	rl:i:0	cs:Z::1052
+Contig_6643_4.35167	1220	0	1220	-	Bacillus_subtilis	12137031	2109553	2110773	1220	1220	0	NM:i:0	ms:i:1220	AS:i:1220	nn:i:0	tp:A:P	cm:i:211	s1:i:1207	s2:i:1207	de:f:0	rl:i:0	cs:Z::1220
+Contig_6643_4.35167	1220	0	1220	-	Bacillus_subtilis	12137031	6155230	6156450	1220	1220	0	NM:i:0	ms:i:1220	AS:i:1220	nn:i:0	tp:A:S	cm:i:211	s1:i:1207	de:f:0	rl:i:0	cs:Z::1220
+Contig_6643_4.35167	1220	0	1220	-	Bacillus_subtilis	12137031	10200907	10202127	1220	1220	0	NM:i:0	ms:i:1220	AS:i:1220	nn:i:0	tp:A:S	cm:i:211	s1:i:1207	de:f:0	rl:i:0	cs:Z::1220
+Contig_6645_3.91187	1098	0	1098	+	Staphylococcus_aureus	8156340	2873548	2874646	1098	1098	0	NM:i:0	ms:i:1098	AS:i:1098	nn:i:0	tp:A:P	cm:i:199	s1:i:1093	s2:i:1093	de:f:0	rl:i:0	cs:Z::1098
+Contig_6645_3.91187	1098	0	1098	+	Staphylococcus_aureus	8156340	5592328	5593426	1098	1098	0	NM:i:0	ms:i:1098	AS:i:1098	nn:i:0	tp:A:S	cm:i:199	s1:i:1093	de:f:0	rl:i:0	cs:Z::1098
+Contig_6645_3.91187	1098	0	1098	+	Staphylococcus_aureus	8156340	154768	155866	1098	1098	0	NM:i:0	ms:i:1098	AS:i:1098	nn:i:0	tp:A:S	cm:i:199	s1:i:1093	de:f:0	rl:i:0	cs:Z::1098
+Contig_6710_4.36742	1174	0	1174	-	Staphylococcus_aureus	8156340	775200	776374	1174	1174	0	NM:i:0	ms:i:1174	AS:i:1174	nn:i:0	tp:A:P	cm:i:217	s1:i:1169	s2:i:1169	de:f:0	rl:i:0	cs:Z::1174
+Contig_6710_4.36742	1174	0	1174	-	Staphylococcus_aureus	8156340	3493980	3495154	1174	1174	0	NM:i:0	ms:i:1174	AS:i:1174	nn:i:0	tp:A:S	cm:i:217	s1:i:1169	de:f:0	rl:i:0	cs:Z::1174
+Contig_6710_4.36742	1174	0	1174	-	Staphylococcus_aureus	8156340	6212760	6213934	1174	1174	0	NM:i:0	ms:i:1174	AS:i:1174	nn:i:0	tp:A:S	cm:i:217	s1:i:1169	de:f:0	rl:i:0	cs:Z::1174
+Contig_6734_4.70048	1686	0	1686	-	Bacillus_subtilis	12137031	5618212	5619898	1686	1686	0	NM:i:0	ms:i:1686	AS:i:1686	nn:i:0	tp:A:P	cm:i:299	s1:i:1675	s2:i:1675	de:f:0	rl:i:0	cs:Z::1686
+Contig_6734_4.70048	1686	0	1686	-	Bacillus_subtilis	12137031	9663889	9665575	1686	1686	0	NM:i:0	ms:i:1686	AS:i:1686	nn:i:0	tp:A:S	cm:i:299	s1:i:1675	de:f:0	rl:i:0	cs:Z::1686
+Contig_6734_4.70048	1686	0	1686	-	Bacillus_subtilis	12137031	1572535	1574221	1686	1686	0	NM:i:0	ms:i:1686	AS:i:1686	nn:i:0	tp:A:S	cm:i:299	s1:i:1675	de:f:0	rl:i:0	cs:Z::1686
+Contig_6840_3.77376	1125	0	1125	+	Bacillus_subtilis	12137031	3499714	3500839	1125	1125	0	NM:i:0	ms:i:1125	AS:i:1125	nn:i:0	tp:A:P	cm:i:197	s1:i:1115	s2:i:1115	de:f:0	rl:i:0	cs:Z::1125
+Contig_6840_3.77376	1125	0	1125	+	Bacillus_subtilis	12137031	11591068	11592193	1125	1125	0	NM:i:0	ms:i:1125	AS:i:1125	nn:i:0	tp:A:S	cm:i:197	s1:i:1115	de:f:0	rl:i:0	cs:Z::1125
+Contig_6840_3.77376	1125	0	1125	+	Bacillus_subtilis	12137031	7545391	7546516	1125	1125	0	NM:i:0	ms:i:1125	AS:i:1125	nn:i:0	tp:A:S	cm:i:197	s1:i:1115	de:f:0	rl:i:0	cs:Z::1125
+Contig_6841_4.27273	1043	0	1043	-	Staphylococcus_aureus	8156340	7260267	7261310	1043	1043	0	NM:i:0	ms:i:1043	AS:i:1043	nn:i:0	tp:A:P	cm:i:181	s1:i:1028	s2:i:1028	de:f:0	rl:i:0	cs:Z::1043
+Contig_6841_4.27273	1043	0	1043	-	Staphylococcus_aureus	8156340	1822707	1823750	1043	1043	0	NM:i:0	ms:i:1043	AS:i:1043	nn:i:0	tp:A:S	cm:i:181	s1:i:1028	de:f:0	rl:i:0	cs:Z::1043
+Contig_6841_4.27273	1043	0	1043	-	Staphylococcus_aureus	8156340	4541487	4542530	1043	1043	0	NM:i:0	ms:i:1043	AS:i:1043	nn:i:0	tp:A:S	cm:i:181	s1:i:1028	de:f:0	rl:i:0	cs:Z::1043
+Contig_6894_4.22284	1097	0	1097	-	Bacillus_subtilis	12137031	5338248	5339345	1097	1097	0	NM:i:0	ms:i:1097	AS:i:1097	nn:i:0	tp:A:P	cm:i:198	s1:i:1094	s2:i:1094	de:f:0	rl:i:0	cs:Z::1097
+Contig_6894_4.22284	1097	0	1097	-	Bacillus_subtilis	12137031	9383925	9385022	1097	1097	0	NM:i:0	ms:i:1097	AS:i:1097	nn:i:0	tp:A:S	cm:i:198	s1:i:1094	de:f:0	rl:i:0	cs:Z::1097
+Contig_6894_4.22284	1097	0	1097	-	Bacillus_subtilis	12137031	1292571	1293668	1097	1097	0	NM:i:0	ms:i:1097	AS:i:1097	nn:i:0	tp:A:S	cm:i:198	s1:i:1094	de:f:0	rl:i:0	cs:Z::1097
+Contig_7102_4.35804	1140	0	1140	+	Bacillus_subtilis	12137031	2404329	2405469	1140	1140	0	NM:i:0	ms:i:1140	AS:i:1140	nn:i:0	tp:A:P	cm:i:196	s1:i:1127	s2:i:1127	de:f:0	rl:i:0	cs:Z::1140
+Contig_7102_4.35804	1140	0	1140	+	Bacillus_subtilis	12137031	6450006	6451146	1140	1140	0	NM:i:0	ms:i:1140	AS:i:1140	nn:i:0	tp:A:S	cm:i:196	s1:i:1127	de:f:0	rl:i:0	cs:Z::1140
+Contig_7102_4.35804	1140	0	1140	+	Bacillus_subtilis	12137031	10495683	10496823	1140	1140	0	NM:i:0	ms:i:1140	AS:i:1140	nn:i:0	tp:A:S	cm:i:196	s1:i:1127	de:f:0	rl:i:0	cs:Z::1140
+Contig_7255_4.17677	1191	0	1191	-	Bacillus_subtilis	12137031	7233253	7234444	1191	1191	0	NM:i:0	ms:i:1191	AS:i:1191	nn:i:0	tp:A:P	cm:i:210	s1:i:1179	s2:i:1179	de:f:0	rl:i:0	cs:Z::1191
+Contig_7255_4.17677	1191	0	1191	-	Bacillus_subtilis	12137031	3187576	3188767	1191	1191	0	NM:i:0	ms:i:1191	AS:i:1191	nn:i:0	tp:A:S	cm:i:210	s1:i:1179	de:f:0	rl:i:0	cs:Z::1191
+Contig_7255_4.17677	1191	0	1191	-	Bacillus_subtilis	12137031	11278930	11280121	1191	1191	0	NM:i:0	ms:i:1191	AS:i:1191	nn:i:0	tp:A:S	cm:i:210	s1:i:1179	de:f:0	rl:i:0	cs:Z::1191
+Contig_7324_4.41842	1160	0	1160	-	Staphylococcus_aureus	8156340	8112046	8113206	1160	1160	0	NM:i:0	ms:i:1160	AS:i:1160	nn:i:0	tp:A:P	cm:i:202	s1:i:1151	s2:i:1151	de:f:0	rl:i:0	cs:Z::1160
+Contig_7324_4.41842	1160	0	1160	-	Staphylococcus_aureus	8156340	2674486	2675646	1160	1160	0	NM:i:0	ms:i:1160	AS:i:1160	nn:i:0	tp:A:S	cm:i:202	s1:i:1151	de:f:0	rl:i:0	cs:Z::1160
+Contig_7324_4.41842	1160	0	1160	-	Staphylococcus_aureus	8156340	5393266	5394426	1160	1160	0	NM:i:0	ms:i:1160	AS:i:1160	nn:i:0	tp:A:S	cm:i:202	s1:i:1151	de:f:0	rl:i:0	cs:Z::1160
+Contig_7338_3.95443	1227	0	1227	-	Bacillus_subtilis	12137031	4777169	4778396	1227	1227	0	NM:i:0	ms:i:1227	AS:i:1227	nn:i:0	tp:A:P	cm:i:208	s1:i:1217	s2:i:1217	de:f:0	rl:i:0	cs:Z::1227
+Contig_7338_3.95443	1227	0	1227	-	Bacillus_subtilis	12137031	731492	732719	1227	1227	0	NM:i:0	ms:i:1227	AS:i:1227	nn:i:0	tp:A:S	cm:i:208	s1:i:1217	de:f:0	rl:i:0	cs:Z::1227
+Contig_7338_3.95443	1227	0	1227	-	Bacillus_subtilis	12137031	8822846	8824073	1227	1227	0	NM:i:0	ms:i:1227	AS:i:1227	nn:i:0	tp:A:S	cm:i:208	s1:i:1217	de:f:0	rl:i:0	cs:Z::1227
+Contig_7370_4.72458	1033	0	1033	-	Staphylococcus_aureus	8156340	7875249	7876282	1033	1033	0	NM:i:0	ms:i:1033	AS:i:1033	nn:i:0	tp:A:P	cm:i:182	s1:i:1027	s2:i:1027	de:f:0	rl:i:0	cs:Z::1033
+Contig_7370_4.72458	1033	0	1033	-	Staphylococcus_aureus	8156340	5156469	5157502	1033	1033	0	NM:i:0	ms:i:1033	AS:i:1033	nn:i:0	tp:A:S	cm:i:182	s1:i:1027	de:f:0	rl:i:0	cs:Z::1033
+Contig_7370_4.72458	1033	0	1033	-	Staphylococcus_aureus	8156340	2437689	2438722	1033	1033	0	NM:i:0	ms:i:1033	AS:i:1033	nn:i:0	tp:A:S	cm:i:182	s1:i:1027	de:f:0	rl:i:0	cs:Z::1033
+Contig_7575_4.56611	1094	0	1094	+	Bacillus_subtilis	12137031	3291627	3292721	1094	1094	0	NM:i:0	ms:i:1094	AS:i:1094	nn:i:0	tp:A:P	cm:i:195	s1:i:1078	s2:i:1078	de:f:0	rl:i:0	cs:Z::1094
+Contig_7575_4.56611	1094	0	1094	+	Bacillus_subtilis	12137031	11382981	11384075	1094	1094	0	NM:i:0	ms:i:1094	AS:i:1094	nn:i:0	tp:A:S	cm:i:195	s1:i:1078	de:f:0	rl:i:0	cs:Z::1094
+Contig_7575_4.56611	1094	0	1094	+	Bacillus_subtilis	12137031	7337304	7338398	1094	1094	0	NM:i:0	ms:i:1094	AS:i:1094	nn:i:0	tp:A:S	cm:i:195	s1:i:1078	de:f:0	rl:i:0	cs:Z::1094
+Contig_7576_4.08524	1111	0	1111	-	Bacillus_subtilis	12137031	10635426	10636537	1111	1111	0	NM:i:0	ms:i:1111	AS:i:1111	nn:i:0	tp:A:P	cm:i:196	s1:i:1101	s2:i:1101	de:f:0	rl:i:0	cs:Z::1111
+Contig_7576_4.08524	1111	0	1111	-	Bacillus_subtilis	12137031	2544072	2545183	1111	1111	0	NM:i:0	ms:i:1111	AS:i:1111	nn:i:0	tp:A:S	cm:i:196	s1:i:1101	de:f:0	rl:i:0	cs:Z::1111
+Contig_7576_4.08524	1111	0	1111	-	Bacillus_subtilis	12137031	6589749	6590860	1111	1111	0	NM:i:0	ms:i:1111	AS:i:1111	nn:i:0	tp:A:S	cm:i:196	s1:i:1101	de:f:0	rl:i:0	cs:Z::1111
+Contig_7787_4.38125	1321	0	1321	-	Bacillus_subtilis	12137031	5583375	5584696	1321	1321	0	NM:i:0	ms:i:1321	AS:i:1321	nn:i:0	tp:A:P	cm:i:234	s1:i:1307	s2:i:1307	de:f:0	rl:i:0	cs:Z::1321
+Contig_7787_4.38125	1321	0	1321	-	Bacillus_subtilis	12137031	9629052	9630373	1321	1321	0	NM:i:0	ms:i:1321	AS:i:1321	nn:i:0	tp:A:S	cm:i:234	s1:i:1307	de:f:0	rl:i:0	cs:Z::1321
+Contig_7787_4.38125	1321	0	1321	-	Bacillus_subtilis	12137031	1537698	1539019	1321	1321	0	NM:i:0	ms:i:1321	AS:i:1321	nn:i:0	tp:A:S	cm:i:234	s1:i:1307	de:f:0	rl:i:0	cs:Z::1321
+Contig_7865_4.34725	1313	0	1313	-	Staphylococcus_aureus	8156340	6599115	6600428	1313	1313	0	NM:i:0	ms:i:1313	AS:i:1313	nn:i:0	tp:A:P	cm:i:232	s1:i:1304	s2:i:1304	de:f:0	rl:i:0	cs:Z::1313
+Contig_7865_4.34725	1313	0	1313	-	Staphylococcus_aureus	8156340	1161555	1162868	1313	1313	0	NM:i:0	ms:i:1313	AS:i:1313	nn:i:0	tp:A:S	cm:i:232	s1:i:1304	de:f:0	rl:i:0	cs:Z::1313
+Contig_7865_4.34725	1313	0	1313	-	Staphylococcus_aureus	8156340	3880335	3881648	1313	1313	0	NM:i:0	ms:i:1313	AS:i:1313	nn:i:0	tp:A:S	cm:i:232	s1:i:1304	de:f:0	rl:i:0	cs:Z::1313
+Contig_7970_3.89865	1500	0	1500	+	Bacillus_subtilis	12137031	1156724	1158224	1500	1500	0	NM:i:0	ms:i:1500	AS:i:1500	nn:i:0	tp:A:P	cm:i:268	s1:i:1491	s2:i:1491	de:f:0	rl:i:0	cs:Z::1500
+Contig_7970_3.89865	1500	0	1500	+	Bacillus_subtilis	12137031	5202401	5203901	1500	1500	0	NM:i:0	ms:i:1500	AS:i:1500	nn:i:0	tp:A:S	cm:i:268	s1:i:1491	de:f:0	rl:i:0	cs:Z::1500
+Contig_7970_3.89865	1500	0	1500	+	Bacillus_subtilis	12137031	9248078	9249578	1500	1500	0	NM:i:0	ms:i:1500	AS:i:1500	nn:i:0	tp:A:S	cm:i:268	s1:i:1491	de:f:0	rl:i:0	cs:Z::1500
+Contig_8005_4.58143	1377	0	1377	-	Bacillus_subtilis	12137031	5355344	5356721	1377	1377	0	NM:i:0	ms:i:1377	AS:i:1377	nn:i:0	tp:A:P	cm:i:258	s1:i:1372	s2:i:1372	de:f:0	rl:i:0	cs:Z::1377
+Contig_8005_4.58143	1377	0	1377	-	Bacillus_subtilis	12137031	1309667	1311044	1377	1377	0	NM:i:0	ms:i:1377	AS:i:1377	nn:i:0	tp:A:S	cm:i:258	s1:i:1372	de:f:0	rl:i:0	cs:Z::1377
+Contig_8005_4.58143	1377	0	1377	-	Bacillus_subtilis	12137031	9401021	9402398	1377	1377	0	NM:i:0	ms:i:1377	AS:i:1377	nn:i:0	tp:A:S	cm:i:258	s1:i:1372	de:f:0	rl:i:0	cs:Z::1377

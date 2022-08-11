@@ -65,10 +65,16 @@ def main(dataframes):
     frame = pd.concat(li, ignore_index=True)
 
     report_dict = {}
-    samples = sorted(frame['Sample'].unique())
+    try:
+        samples = sorted(frame['Sample'].unique())
+    except TypeError:
+        samples = frame['Sample'].unique()
     for sample in samples:
         report_dict[sample] = {"PlotData": {}}
-        references = sorted(frame['Reference'].unique())
+        try:
+            references = sorted(frame['Reference'].unique())
+        except TypeError:
+            references = frame['Reference'].unique()
         for reference in references:
             fig = make_subplots(rows=2, cols=1,
                                 row_heights=[0.2, 0.8],
@@ -138,7 +144,7 @@ def main(dataframes):
 
 
             html_filename = '{0}_{1}_snps.html'.format(
-                sample, reference.replace(' ', '_'))
+                sample, str(reference).replace(' ', '_'))
             plot(fig, filename=html_filename, auto_open=False)
 
             plot_json = fig.to_json()

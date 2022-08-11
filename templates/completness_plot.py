@@ -54,7 +54,7 @@ def plot_data(species_data, sample_id):
     """
     interpolation_xvalues = [0, 40, 80, 160, 320, 640, 1280, 2560]
     interpolation_function = interpolate.interp1d(
-        interpolation_xvalues, np.arange(len(interpolation_xvalues)))
+        interpolation_xvalues, np.arange(len(interpolation_xvalues)), fill_value="extrapolate")
 
     # create a tracer for each assembler data point
     # simpler to manage colors and legends
