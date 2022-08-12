@@ -155,6 +155,7 @@ process SNP_ASSESSMENT {
 
     tag { assembler }
     label 'process_script'
+    publishDir "results/$sample_id/stats/", pattern: '*.csv'
 
     input:
     tuple val(sample_id), val(assembler), path(assembly), path(mapping) 
