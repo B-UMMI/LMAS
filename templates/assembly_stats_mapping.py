@@ -245,7 +245,8 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
             # TODO: Sometimes this value is > 1.....
             alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
                 alignment_dict['Contigs'][contig]['Length']
-            n_identity.append(alignment_dict['Contigs'][contig]['Identity'])
+            if alignment_dict['Contigs'][contig]['Identity'] <= 1: # sanity test
+                n_identity.append(alignment_dict['Contigs'][contig]['Identity'])
 
             alignment_dict['Contigs'][contig]['Phred'] = get_phred_quality_score(
                 alignment_dict['Contigs'][contig]['Identity'])
