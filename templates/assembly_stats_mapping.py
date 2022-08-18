@@ -114,7 +114,10 @@ def get_covered_bases(covered_bases_list, ref_len):
         for base in range(start, stop):
             covered_bases.add(utils.adjust_reference_coord(base, ref_len))
 
-    return len(covered_bases) - 1 #0 based index
+    if len(covered_bases) == 0:
+        return 0 
+    else: 
+        return len(covered_bases) - 1 #0 based index
 
 
 def get_aligned_bases(alignment_coods):
