@@ -306,7 +306,7 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
             "identity": identity,
             "lowest_identity": lowest_identity,
             "breadth_of_coverage": coverage,
-            "L90": l90 if l90 is not None else 0,
+            "L90": l90,
             "aligned_contigs": len(mapped_contigs),
             "NA50": na50,
             "NG50": ng50,
