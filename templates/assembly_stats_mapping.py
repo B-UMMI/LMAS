@@ -242,11 +242,14 @@ def mapping_stats(sample_id, assembler, df, mapping_list, n_target, l_target):
         for contig in alignment_dict['Contigs'].keys():
             sum_contig_length += alignment_dict['Contigs'][contig]['Length']
 
-            # TODO: Sometimes this value is > 1.....
+            # Sometimes this value is > 1 when a contig is split into multiple alignment blocks
+            # that overlap
             alignment_dict['Contigs'][contig]['Identity'] = alignment_dict['Contigs'][contig]['Base_Matches'] / \
                 alignment_dict['Contigs'][contig]['Length']
             if alignment_dict['Contigs'][contig]['Identity'] <= 1: # sanity test
                 n_identity.append(alignment_dict['Contigs'][contig]['Identity'])
+            else: # in case of an overlap, consider identity as 1 as all bases match the reference
+                n_identity.append(1)
 
             alignment_dict['Contigs'][contig]['Phred'] = get_phred_quality_score(
                 alignment_dict['Contigs'][contig]['Identity'])
