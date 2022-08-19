@@ -41,6 +41,7 @@ if __file__.endswith(".command.sh"):
     ABOUT_MD = "$about_md"
     CONTAINERS = "$containers_config"
     PLOT_MISASSEMBLY_PER_REFERENCE = "$plot_misassembly_per_ref"
+    SNP_REPORT_REFERENCE = "$snp_report_json"
 
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
@@ -69,6 +70,7 @@ if __file__.endswith(".command.sh"):
     logger.debug("ABOUT_MD: {}".format(ABOUT_MD))
     logger.debug("CONTAINERS: {}".format(CONTAINERS))
     logger.debug("CONTAINERS: {}".format(PLOT_MISASSEMBLY_PER_REFERENCE))
+    logger.debug("SNP_REPORT_REFERENCE: {}".format(SNP_REPORT_REFERENCE))
 
 
 html_template = """
@@ -327,7 +329,7 @@ def process_sample_reads(reads_jsons):
 def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapping_stats_report, completness_plot,
          lmas_logo, reference_file, lx_json, shrimp_json, gap_reference_json, gap_histogram, plot_misassembly, misassembly_report,
          min_contig_size, nax_json, ngx_json, reads_json, snp_reference_json, versions_json, misassembly_per_ref, about_md,
-         containers_config, plot_misassembly_per_reference_json):
+         containers_config, plot_misassembly_per_reference_json, snp_per_ref):
 
     metadata = {
         "nfMetadata": {
@@ -433,6 +435,29 @@ def main(main_js, pipeline_stats, assembly_stats_report, contig_size_plots, mapp
                         except KeyError:
                             item['misassembled_contigs'] = 0
                             item['misassembly_events'] = 0
+    
+    # add snp stats
+    with open(snp_per_ref) as snp_fh:
+        snp_stats = json.load(snp_fh)
+        for sample_id in main_data_tables_js.keys():
+            for reference in main_data_tables_js[sample_id]["ReferenceTables"].keys():
+                for item_row in main_data_tables_js[sample_id]["ReferenceTables"][reference]:
+                    for item in item_row:
+                        assembler = item['assembler']
+                        try:
+                            references = list(
+                                snp_stats[sample_id][assembler][0].keys())
+                            if reference in references:
+                                index = references.index(reference)
+                                ref_name = references[index]
+                                try:
+                                    item['snps'] = snp_stats[sample_id][assembler][0][ref_name]["snps"]
+                                except KeyError:
+                                    item['snps'] = 0
+                            else:
+                                item['snps'] = 0
+                        except KeyError:
+                            item['snps'] = 0
 
     for sample_id in main_data_tables_js.keys():
         main_data_plots_js[sample_id] = {}
@@ -628,5 +653,5 @@ if __name__ == "__main__":
     main(MAIN_JS, PIPELINE_STATS, ASSEMBLY_STATS_REPORT, CONTIG_SIZE_DISTRIBUTION, MAPPING_STATS_REPORT,
          COMPLETNESS_JSON, LMAS_LOGO, REFERENCE_FILE, LX_JSON, SHRIMP_JSON, GAP_REFERENCE_JSON, GAP_HISTOGRAM,
          MISASSEMBLY_PLOT, MISASSEMBLY_REPORT, MIN_CONTIG_SIZE, NAX_JSON, NGX_JSON, READS_NUMBER, SNP_REFERENCE_JSON,
-         VERSIONS_JSON, MISASSEMBLY_PER_REF, ABOUT_MD, CONTAINERS, PLOT_MISASSEMBLY_PER_REFERENCE)
+         VERSIONS_JSON, MISASSEMBLY_PER_REF, ABOUT_MD, CONTAINERS, PLOT_MISASSEMBLY_PER_REFERENCE, SNP_REPORT_REFERENCE)
 
