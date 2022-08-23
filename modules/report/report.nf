@@ -44,6 +44,7 @@ process COMPILE_REPORT {
     file plot_misassembly_per_ref 
     file about_md 
     file containers_config 
+    file snp_report_json
 
     output:
     path('pipeline_report*.json')
@@ -84,9 +85,10 @@ workflow report_wf {
     misassembly_reference
     plot_misassembly
     version_file
+    snp_report_json
 
     main:
     COMPILE_VERSIONS(version_file)
-    COMPILE_REPORT(reads_info, stats_global, pipeline_stats, js, lmas_png, reference, plot_contig_distribution, stats_mapping, plot_completness, plot_lx, plot_phred, plot_gap_reference, plot_snp_reference, plot_gap_boxplot, misassembly_info, misassembly_report, plot_nax, plot_ngx, COMPILE_VERSIONS.out, misassembly_reference, plot_misassembly, IN_MD, containers_config)
+    COMPILE_REPORT(reads_info, stats_global, pipeline_stats, js, lmas_png, reference, plot_contig_distribution, stats_mapping, plot_completness, plot_lx, plot_phred, plot_gap_reference, plot_snp_reference, plot_gap_boxplot, misassembly_info, misassembly_report, plot_nax, plot_ngx, COMPILE_VERSIONS.out, misassembly_reference, plot_misassembly, IN_MD, containers_config, snp_report_json)
 
 }

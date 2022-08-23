@@ -98,7 +98,8 @@ workflow {
               postprocessing_wf.out.ngx_json, 
               postprocessing_wf.out.misassembly_reference_json, 
               postprocessing_wf.out.misassembly_plot_json, 
-              assembly_wf.out.all_versions)
+              assembly_wf.out.all_versions,
+              postprocessing_wf.out.snp_report_json)
 }
 
 workflow.onComplete {

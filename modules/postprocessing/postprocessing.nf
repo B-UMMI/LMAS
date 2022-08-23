@@ -164,6 +164,7 @@ process SNP_ASSESSMENT {
     output:
     path('*.tsv'), emit: tsv
     path('*_snps.csv'), emit: csv
+    path('*_snps.json'), emit: json
 
     script:
     template "snp_assessment.py"
@@ -176,10 +177,12 @@ process PLOT_SNP_REFERENCE {
 
     input:
     path snp_coords_dataframes 
+    path snps_jsons
 
     output:
     path('*.html') optional true
-    path('*.json'), emit: json
+    path('snps_in_reference.json'), emit: json
+    path('snps_report_per_ref.json'), emit: reference_snps_json
 
     script:
     template "plot_snp.py"
@@ -278,7 +281,7 @@ workflow postprocessing_wf {
     PLOT_GAP_BOXPLOT(GAP_ASSESSMENT.out.json | collect)
     PLOT_GAP_REFERENCE(GAP_ASSESSMENT.out.csv | collect)
     SNP_ASSESSMENT(paf, triple_reference)
-    PLOT_SNP_REFERENCE(SNP_ASSESSMENT.out.csv | collect)
+    PLOT_SNP_REFERENCE(SNP_ASSESSMENT.out.csv | collect, SNP_ASSESSMENT.out.json | collect)
     MISASSEMBLY(misassembly_paf)
     PROCESS_MISASSEMBLY(MISASSEMBLY.out.trace_pkl | collect, MISASSEMBLY.out.contig_length_pkl | collect, MISASSEMBLY.out.misassembly_json | collect, MISASSEMBLY.out.misassembled_reference_json | collect)
     PLOT_MISASSEMBLY(MISASSEMBLY.out.csv | collect)
@@ -290,6 +293,7 @@ workflow postprocessing_wf {
     phred_json = PROCESS_SHRIMP_PLOT.out.json
     gap_reference_json = PLOT_GAP_REFERENCE.out.json
     snp_reference_json = PLOT_SNP_REFERENCE.out.json
+    snp_report_json = PLOT_SNP_REFERENCE.out.reference_snps_json
     gap_boxplot_json = PLOT_GAP_BOXPLOT.out.json
     misassembly_json = PROCESS_MISASSEMBLY.out.json
     misassembly_report_json = PROCESS_MISASSEMBLY.out.report_json
