@@ -64,18 +64,34 @@ Java 8 (or higher) to be installed. More instructions are available [here](https
 
 You can clone this repository with `git clone git@github.com:cimendes/LMAS.git`, and all files will be in your local machine.
 
+##### Download all containers
+
+This is usually handled by Nextflow during its execution, but if for whatever reason you require the images to be downloaded before you run LMAS, the `pull_images.sh` script will do that for you!
+
+To download all images required to run LMAS simply run:
+
+```bash
+sh pull_images.sh
+```
+
+This script supports `shifter`, `singularity` and `docker`, recognizing the available software without needing user input.
+
 ## Running LMAS
 
 To run LMAS you can simply call it with:
+
 ```bash
-   LMAS <options>
-```   
+LMAS <options>
+```
+
 If no option or `--help` is provided, LMAS will display its help message. Otherwise, the `--fastq` and `--reference` options are mandatory. By default they are set to `'data/fastq/*_{1,2}.*'` and `'data/reference/*.fasta'` respectively.
 
 Alternatively you can call LMAS directly with Nextflow:
+
 ```bash
-   nextflow run main.nf <options>
+nextflow run main.nf <options>
 ```
+
 To use LMAS the following options are available:
 
 
