@@ -148,7 +148,7 @@ def get_identity(n_identity):
     identity = (sum(n_identity)/len(n_identity)
                 ) if len(n_identity) > 0 else 0
     lowest_identity = min(n_identity) if len(n_identity) > 0 else 0
-    return identity, lowest_identity
+    return identity, abs(lowest_identity)
 
 
 def get_phred_quality_score(identity):
