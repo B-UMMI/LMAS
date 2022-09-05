@@ -81,7 +81,7 @@ workflow {
                       mapping_wf.out.paf,
                       mapping_wf.out.misassembly_paf)
  
-    report_wf(preprocessing_wf.out.reads_info, 
+    report_wf(preprocessing_wf.out.reads_info | collect, 
               mapping_wf.out.stats_global, 
               IN_reference_raw, 
               postprocessing_wf.out.contig_distribution_json, 
