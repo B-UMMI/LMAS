@@ -110,7 +110,6 @@ def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
                 if len(re.findall(r'\\*', cigar)) > 0:
                     snps_iterator = get_position(start, end, cigar)
                     for snp in snps_iterator:
-                        print(snp)
                         tsv_report.write('\\t'.join([str(utils.adjust_reference_coord(snp[0], ref_len)), str(snp[1][0]), str(snp[1][1])]) + '\\n')
                         snps.append((utils.adjust_reference_coord(snp[0], ref_len), snp[1]))
                 else:
