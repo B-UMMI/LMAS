@@ -50,12 +50,37 @@ logger = utils.get_logger(__file__)
 
 if __file__.endswith(".command.sh"):
     DATAFRAME_LIST = '$snp_coords_dataframes'.split()
+    JSON_LIST = '$snps_jsons'.split()
     logger.debug("Running {} with parameters:".format(
         os.path.basename(__file__)))
     logger.debug("DATAFRAME_LIST: {}".format(DATAFRAME_LIST))
+    logger.debug("JSON_LIST: {}".format(JSON_LIST))
 
+def snps_per_ref(report_per_reference):
+    """
+    """
+    master_report_data_per_reference = {}
+    for report_reference in report_per_reference:
+        with open(report_reference) as json_fh:
+            data_json = json.load(json_fh)
+            print(data_json)
+            if data_json["sample"] not in master_report_data_per_reference.keys():
+                master_report_data_per_reference[data_json["sample"]] = {
+                    data_json["assembler"]: [data_json["reference"]]}
+            elif data_json["assembler"] not in master_report_data_per_reference[data_json["sample"]].keys():
+                master_report_data_per_reference[data_json["sample"]][data_json["assembler"]] = [
+                    data_json["reference"]]
+            else:
+                master_report_data_per_reference[data_json["sample"]][data_json["assembler"]].append(
+                    data_json["reference"])
 
-def main(dataframes):
+    logger.debug("Global report data: {}". format(master_report_data_per_reference))
+
+    with open("snps_report_per_ref.json", "w") as json_report:
+        json_report.write(json.dumps(
+            master_report_data_per_reference, separators=(",", ":")))
+
+def main(dataframes, jsons):
 
     li = []
     for filename in dataframes:
@@ -154,7 +179,10 @@ def main(dataframes):
 
     with open('snps_in_reference.json', 'w') as json_report:
         json_report.write(json.dumps(report_dict, separators=(",", ":")))
+    
+    # SNPS STATS PER REF
+    snps_per_ref(jsons)
 
 
 if __name__ == '__main__':
-    main(DATAFRAME_LIST)
+    main(DATAFRAME_LIST, JSON_LIST)

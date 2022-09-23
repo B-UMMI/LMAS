@@ -33,6 +33,7 @@ import re
 from itertools import groupby
 from numpy.lib.function_base import append
 import pandas as pd
+import json
 try:
     import utils
 except ImportError:
@@ -109,7 +110,6 @@ def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
                 if len(re.findall(r'\\*', cigar)) > 0:
                     snps_iterator = get_position(start, end, cigar)
                     for snp in snps_iterator:
-                        print(snp)
                         tsv_report.write('\\t'.join([str(utils.adjust_reference_coord(snp[0], ref_len)), str(snp[1][0]), str(snp[1][1])]) + '\\n')
                         snps.append((utils.adjust_reference_coord(snp[0], ref_len), snp[1]))
                 else:
@@ -122,6 +122,9 @@ def get_snps(paf_file, ref_name, ref_len, sample_id, assembler):
 def main(sample_id, assembler, assembly, mapping, reference):
 
     df = pd.DataFrame(columns=COLUMNS)
+
+    reference_report = {"sample": sample_id,
+                    "assembler": assembler, "reference": {}}
 
     # iterator for reference files (sequence length is needed)
     references = (x[1] for x in groupby(open(reference, "r"), lambda line: line[0] == ">"))
@@ -139,7 +142,16 @@ def main(sample_id, assembler, assembly, mapping, reference):
             #print(coord, substitution)
             df = df.append({'Sample': sample_id, 'Assembler': assembler, 'Reference': reference_name,
                             'Reference Length': len(seq)/3, 'SNP Location': coord, 'Substitution Type': substitution}, ignore_index=True)
+            
+            if reference_name not in reference_report['reference'].keys():
+                reference_report['reference'][reference_name] = {"snps": 1}
+            else:
+                reference_report['reference'][reference_name]["snps"] += 1
 
+    # Write files for report
+    with open("{}_{}_snps.json".format(sample_id, assembler), "w") as json_report:
+        json_report.write(json.dumps(reference_report, separators=(",", ":")))
+    
     df.to_csv(sample_id + '_' + assembler + '_snps.csv')
 
 
