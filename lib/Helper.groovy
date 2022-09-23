@@ -103,6 +103,8 @@ class Help {
         println "                               (default $params.spadesKmerSize)"
         println "    --skesa                    Boolean controling the execution of the SKESA assembler."
         println "                               (default $params.skesa)"
+        println "    --strainxpress             Boolean controling the execution of the StrainXpress assembler."
+        println "                               (default $params.strainxpress)"
         println "    --unicycler                Boolean controling the execution of the Unicycler assembler."
         println "                               (default $params.unicycler)"
         println "    --velvetoptimiser          Boolean controling the execution of the VelvetOptimiser assembler."
