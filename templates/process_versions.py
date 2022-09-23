@@ -45,6 +45,7 @@ ASSEMBLER_PROCESS_DICT = {
     "Unicycler": "UNICYCLER",
     "SPAdes": "SPADES",
     "SKESA": "SKESA",
+    "strainxpress": "StrainXpress",
     "VelvetOptimiser": "VELVETOPTIMISER",
     "IDBA": "IDBA"}
 
