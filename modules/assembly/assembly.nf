@@ -7,7 +7,7 @@ process REFORMAT {
     label 'process_assembly'
 
     when:
-    params.idba || params.metahipmer2 || params.strainxpress
+    params.idba || params.metahipmer2
 
     input:
     tuple val(sample_id), path(fastq_pair)
@@ -17,6 +17,24 @@ process REFORMAT {
 
     script:
     "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fasta"
+}
+
+process REFORMAT_FASTQ {
+
+    tag { sample_id }
+    label 'process_assembly'
+
+    when:
+    params.strainxpress
+
+    input:
+    tuple val(sample_id), path(fastq_pair)
+
+    output:
+    tuple val(sample_id), file('*_reads.fq') 
+
+    script:
+    "reformat.sh in=${fastq_pair[0]} in2=${fastq_pair[1]} out=${sample_id}_reads.fq"
 }
 
 process ABYSS {
@@ -451,6 +469,7 @@ workflow assembly_wf {
 
     main:
     REFORMAT(IN_fastq_raw)
+    REFORMAT_FASTQ(IN_fastq_raw)
     ABYSS(IN_fastq_raw, abyssKmerSize, abyssBloomSize)
     GATBMINIAPIPELINE(IN_fastq_raw, gatbKmerSize, GATB_error_correction, gatb_besst_iter)
     IDBA(REFORMAT.out)
@@ -460,7 +479,7 @@ workflow assembly_wf {
     MINIA(IN_fastq_raw, miniaKmerSize)
     SKESA(IN_fastq_raw)
     SPADES(IN_fastq_raw, spadesKmerSize)
-    STRAINXPRESS(REFORMAT.out)
+    STRAINXPRESS(REFORMAT_FASTQ.out)
     UNICYCLER(IN_fastq_raw)
     VELVETOPTIMISER(IN_fastq_raw)
 
