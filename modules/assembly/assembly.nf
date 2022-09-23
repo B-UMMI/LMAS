@@ -7,7 +7,7 @@ process REFORMAT {
     label 'process_assembly'
 
     when:
-    params.idba || params.metahipmer2
+    params.idba || params.metahipmer2 || params.strainxpress
 
     input:
     tuple val(sample_id), path(fastq_pair)
@@ -334,6 +334,38 @@ process SPADES {
     """
 }
 
+process STRAINXPRESS {
+
+    tag { sample_id }
+    label 'process_assembly'
+    publishDir "results/$sample_id/assembly/strainxpress"
+
+    when:
+    params.strainxpress
+
+    input: 
+    tuple val(sample_id), path(fasta_reads_single)
+
+    output:
+    tuple val(sample_id), val('StrainXpress'), path('*_strainxpress.fasta'), emit: assembly
+    path('.*version'), emit: version
+
+    script:
+    """
+    echo '' > .${sample_id}_strainxpress_version
+    {
+        python3 /NGStools/StrainXpress/scripts/strainxpress.py -fq $fasta_reads_single -t $task.cpus
+
+        mv all.contigs_*.fasta ${sample_id}_strainxpress.fasta
+        echo pass > .status
+    } || {
+        echo fail > .status
+        :> ${sample_id}_strainxpress.fasta
+    }
+    """
+
+}
+
 process UNICYCLER {
 
     tag { sample_id }
@@ -428,6 +460,7 @@ workflow assembly_wf {
     MINIA(IN_fastq_raw, miniaKmerSize)
     SKESA(IN_fastq_raw)
     SPADES(IN_fastq_raw, spadesKmerSize)
+    STRAINXPRESS(REFORMAT.out)
     UNICYCLER(IN_fastq_raw)
     VELVETOPTIMISER(IN_fastq_raw)
 
@@ -440,6 +473,7 @@ workflow assembly_wf {
                                               MINIA.out.assembly,
                                               SKESA.out.assembly,
                                               SPADES.out.assembly,
+                                              STRAINXPRESS.out.assembly,
                                               UNICYCLER.out.assembly,
                                               VELVETOPTIMISER.out.assembly)
     all_versions = ABYSS.out.version | mix(GATBMINIAPIPELINE.out.version,
@@ -450,6 +484,7 @@ workflow assembly_wf {
                                            MINIA.out.version,
                                            SKESA.out.version,
                                            SPADES.out.version,
+                                           STRAINXPRESS.out.version,
                                            UNICYCLER.out.version,
                                            VELVETOPTIMISER.out.version) | collect
 
