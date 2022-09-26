@@ -173,6 +173,8 @@ To use LMAS the following options are available:
                                     (default auto)
          --skesa                    Boolean controling the execution of the SKESA assembler.
                                     (default true)
+         --strainxpress             Boolean controling the execution of the StrainXpress assembler.
+                                    (default true)
          --unicycler                Boolean controling the execution of the Unicycler assembler.
                                     (default true)
          --velvetoptimiser          Boolean controling the execution of the VelvetOptimiser assembler.
