@@ -373,11 +373,13 @@ process STRAINXPRESS {
     echo '' > .${sample_id}_strainxpress_version
     {
         python3 /NGStools/StrainXpress/scripts/strainxpress.py -fq $fasta_reads_single -t $task.cpus
-
-        mv all.contigs_*.fasta ${sample_id}_strainxpress.fasta
         echo pass > .status
     } || {
         echo fail > .status
+    }
+    {
+        mv stageb/final_contigs.fasta ${sample_id}_strainxpress.fasta
+    } || {
         :> ${sample_id}_strainxpress.fasta
     }
     """
