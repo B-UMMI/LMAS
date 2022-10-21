@@ -372,7 +372,8 @@ process STRAINXPRESS {
     """
     echo '' > .${sample_id}_strainxpress_version
     {
-        python3 /NGStools/StrainXpress/scripts/strainxpress.py -fq $fasta_reads_single -t $task.cpus
+        sed 's/ //g' $fasta_reads_single > nospaces_${sample_id}.fq
+        python3 /NGStools/StrainXpress/scripts/strainxpress.py -fq nospaces_${sample_id}.fq -t $task.cpus
         echo pass > .status
     } || {
         echo fail > .status
