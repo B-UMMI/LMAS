@@ -13,7 +13,7 @@ jobs:
       matrix:
         nxf_ver: ['21.04.1', '']
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v3
       - name: Install Nextflow
         run: |
           export NXF_VER=${{ matrix.nxf_ver }}
