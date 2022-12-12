@@ -47,7 +47,12 @@ ASSEMBLER_PROCESS_DICT = {
     "SKESA": "SKESA",
     "strainxpress": "StrainXpress",
     "VelvetOptimiser": "VELVETOPTIMISER",
-    "IDBA": "IDBA"}
+    "IDBA": "IDBA",
+    "RAVEN": "RAVEN",
+    "FLYE": "FLYE",
+    "METAFLYE": "METAFLYE",
+    "RA": "RA",
+    "WTDBG2": "WTDBG2"}
 
 
 def main(versions):
