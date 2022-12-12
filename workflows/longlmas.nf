@@ -37,7 +37,8 @@ workflow LONGLMAS {
                       long_mapping_wf.out.ngx_csv,
                       long_mapping_wf.out.phred_csv,
                       long_mapping_wf.out.df_csv,
-                      long_mapping_wf.out.paf)
+                      long_mapping_wf.out.paf,
+                      long_mapping_wf.out.misassembly_paf)
 
     report_wf(preprocessing_wf.out.reads_info, 
             long_mapping_wf.out.stats_global, 
@@ -56,6 +57,7 @@ workflow LONGLMAS {
             postprocessing_wf.out.ngx_json, 
             postprocessing_wf.out.misassembly_reference_json, 
             postprocessing_wf.out.misassembly_plot_json, 
-            longassembly_wf.out.all_versions)
+            longassembly_wf.out.all_versions,
+            postprocessing_wf.out.snp_report_json)
 
 }
