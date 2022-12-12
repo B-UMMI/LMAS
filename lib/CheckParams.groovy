@@ -1,6 +1,14 @@
 class Params {
 
     static void check(Map params) {
+
+        // mode
+        if (!params.wf) {print_error("'--wf' parameter missing")}
+        def allowed_modes = ["default", "Illumina", "illumina", "hybrid", "Hybrid", "ont", "ONT"] as Set
+        def mode_parameter_diff = allowed_modes - params.wf
+        if (mode_parameter_diff.size() > 6){
+                print_error("[Pipeline warning] Parameter --wf $params.wf is not valid in the pipeline! Allowed values: 'default', 'long', 'hybrid', 'all'")
+    }
         
         // input
         if (!params.reference) {print_error("'--reference' parameter missing")}
