@@ -28,6 +28,7 @@ jobs:
           --velvetoptimiser false
           FILE=report/index.html 
           if [ ! -f "$FILE" ]; then echo "Run failed!"; exit 1; else echo "Run successful!"; fi
+          rm -r work/ results/ report/ .nextflow.log pipeline_stats.txt
       - name: Basic workflow tests - long 
         run: |
           nextflow run ${GITHUB_WORKSPACE} -profile docker --fastq "test/data/tinyont.fastq.gz" \
@@ -35,6 +36,7 @@ jobs:
           --wf ont --flye false --metaflye false --ra false --wtdbg2 false --canu false
           FILE=report/index.html 
           if [ ! -f "$FILE" ]; then echo "Run failed!"; exit 1; else echo "Run successful!"; fi
+          rm -r work/ results/ report/ .nextflow.log pipeline_stats.txt
 
   singularity:
     runs-on: ubuntu-latest
@@ -62,6 +64,7 @@ jobs:
           --velvetoptimiser false
           FILE=report/index.html 
           if [ ! -f "$FILE" ]; then echo "Run failed!"; exit 1; else echo "Run successful!"; fi
+          rm -r work/ results/ report/ .nextflow.log pipeline_stats.txt
       - name: Basic workflow tests - long 
         run: |
           nextflow run ${GITHUB_WORKSPACE} -profile singularity --fastq "test/data/tinyont.fastq.gz" \
@@ -69,3 +72,4 @@ jobs:
           --wf ont --flye false --metaflye false --ra false --wtdbg2 false --canu false
           FILE=report/index.html 
           if [ ! -f "$FILE" ]; then echo "Run failed!"; exit 1; else echo "Run successful!"; fi
+          rm -r work/ results/ report/ .nextflow.log pipeline_stats.txt
