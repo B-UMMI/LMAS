@@ -38,6 +38,10 @@ Params.check(params)
 def infoMap = [:]
 if (params.containsKey('fastq')) {
     infoMap.put('fastq', file(params.fastq).size())
+} else {
+    if (params.containsKey('ont')) {
+        infoMap.put('ont', file(params.ont).size())
+    }
 }
 
 Help.start_info(infoMap, "$workflow.start", "$workflow.profile", "$workflow.manifest.version")
